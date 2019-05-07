@@ -1,0 +1,11 @@
+{
+    "name": "",
+    "version": "1.0.0",
+    "dependencies": {
+        "react": "^16.8.3"
+   },
+    "manifest": {
+        "name": "",
+        "resources": []
+    }
+}

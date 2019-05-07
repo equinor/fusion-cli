@@ -1,0 +1,20 @@
+{
+    "name": "",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "icon": "icon.js",
+    "scripts": {
+      "start": ""
+    },
+    "author": "",
+    "license": "ISC",
+    "manifest": {
+      "name": "",
+      "shortName": ""
+    },
+    "dependencies": {
+         "react": "^16.8.3"
+    }
+  }
+  
