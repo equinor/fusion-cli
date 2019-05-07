@@ -19,7 +19,7 @@ $ npm install -g @equinor/fusion-cli
 $ fusion COMMAND
 running command...
 $ fusion (-v|--version|version)
-@equinor/fusion-cli/0.0.0 win32-x64 node-v8.11.3
+@equinor/fusion-cli/0.0.1 win32-x64 node-v8.11.3
 $ fusion --help [COMMAND]
 USAGE
   $ fusion COMMAND
@@ -29,7 +29,8 @@ USAGE
 # Commands
 <!-- commands -->
 * [`fusion create-app`](#fusion-create-app)
-* [`fusion start-app`](#fusion-start-app-file)
+* [`fusion help [COMMAND]`](#fusion-help-command)
+* [`fusion start-app`](#fusion-start-app)
 
 ## `fusion create-app`
 
@@ -49,22 +50,39 @@ OPTIONS
   -n, --name=name                Name for app/tile(use quotes for spaces)
 ```
 
-_See code: [src\commands\create-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.0/src\commands\create-app.ts)_
+_See code: [src\commands\create-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.1/src\commands\create-app.ts)_
+
+## `fusion help [COMMAND]`
+
+display help for fusion
+
+```
+USAGE
+  $ fusion help [COMMAND]
+
+ARGUMENTS
+  COMMAND  command to show help for
+
+OPTIONS
+  --all  see all commands in CLI
+```
+
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
 
 ## `fusion start-app`
 
-Starts fusion apps
+Start a fusion app
 
 ```
 USAGE
   $ fusion start-app
 
 OPTIONS
-  -h, --help            show CLI help
-  -a, --apps            Compile one or more fusion apps. E.g. --apps AppKey1 AppKey2 AppKey3
-  -p, --progress        Display build progress
-  -P, --production      Use production config
+  -P, --production  Use production config
+  -a, --apps=apps   Compile one or more fusion apps. E.g. --apps AppKey1 AppKey2 AppKey3
+  -h, --help        show CLI help
+  -p, --progress    Display build progress
 ```
 
-_See code: [src\commands\start-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.0/src\commands\start-app.ts)_
+_See code: [src\commands\start-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.1/src\commands\start-app.ts)_
 <!-- commandsstop -->
