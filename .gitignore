@@ -5,5 +5,5 @@
 /lib
 /tmp
 /yarn.lock
-/oclif.manifest.json
 node_modules
+oclif.manifest.json
