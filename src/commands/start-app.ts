@@ -1,46 +1,47 @@
-import { Command, flags } from "@oclif/command";
-import * as inquirer from "inquirer";
+import { Command, flags } from '@oclif/command';
+import * as inquirer from 'inquirer';
 
-interface StartAppOptions {
+interface IStartAppOptions {
     apps?: string[];
     progress?: boolean;
     production?: boolean;
 }
 
 export default class StartApp extends Command {
-    static description = "Start a fusion app";
+    public static description = 'Start a fusion app';
 
-    static flags = {
-        help: flags.help({ char: "h" }),
+    public static flags = {
         apps: flags.string({
-            char: "a",
-            description: "Compile one or more fusion apps. E.g. --apps AppKey1 AppKey2 AppKey3",
+            char: 'a',
+            description: 'Compile one or more fusion apps. E.g. --apps AppKey1 AppKey2 AppKey3',
             multiple: true,
         }),
-        progress: flags.boolean({ char: "p", description: "Display build progress" }),
-        production: flags.boolean({ char: "P", description: "Use production config" }),
+        help: flags.help({ char: 'h' }),
+        production: flags.boolean({ char: 'P', description: 'Use production config' }),
+        progress: flags.boolean({ char: 'p', description: 'Display build progress' }),
     };
 
-    async run() {
-        const { flags } = this.parse(StartApp);
-        const options = await promptForMissingOptions(flags);
-        console.log("Starting apps...");
+    public async run() {
+        const {flags: appFlags} = this.parse(StartApp);
+        await promptForMissingOptions(appFlags);
+        // tslint:disable-next-line:no-console
+        console.log('Starting apps...');
     }
 }
 
-const promptForMissingOptions = async (options: StartAppOptions): Promise<object> => {
+const promptForMissingOptions = async (options: IStartAppOptions): Promise<object> => {
     const questions = [];
     if (!options.apps) {
         questions.push({
-            type: "input",
-            name: "apps",
-            message: "Please enter a apps to start. E.g. AppKey1 AppKey2 AppKey3",
+            message: 'Please enter a apps to start. E.g. AppKey1 AppKey2 AppKey3',
+            name: 'apps',
+            type: 'input',
         });
     }
     const answers: any = await inquirer.prompt(questions);
 
     return {
         ...options,
-        apps: options.apps || answers.apps.split(" "),
+        apps: options.apps || answers.apps.split(' '),
     };
 };

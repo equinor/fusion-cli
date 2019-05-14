@@ -1,3 +1,12 @@
 {
-  "extends": "@oclif/tslint"
+  "extends": [
+    "@oclif/tslint",
+    "tslint:latest",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "file-name-casing": [true, {"index.tsx": "camel-case", ".tsx": "pascal-case", ".ts": "kebab-case"}],
+    "no-console": false,
+    "no-implicit-dependencies": [true, "dev"]
+  }
 }

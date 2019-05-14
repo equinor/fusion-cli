@@ -2,13 +2,15 @@
   "compilerOptions": {
     "declaration": true,
     "importHelpers": true,
+    "sourceMap": true,
     "module": "commonjs",
     "outDir": "lib",
     "rootDir": "src",
     "strict": true,
     "target": "es2017",
     "composite": false,
-    "allowSyntheticDefaultImports": true
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
   },
   "include": [
     "src/**/*"

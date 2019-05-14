@@ -19,7 +19,7 @@ $ npm install -g @equinor/fusion-cli
 $ fusion COMMAND
 running command...
 $ fusion (-v|--version|version)
-@equinor/fusion-cli/0.0.1 win32-x64 node-v8.11.3
+@equinor/fusion-cli/0.0.0 darwin-x64 node-v10.11.0
 $ fusion --help [COMMAND]
 USAGE
   $ fusion COMMAND
