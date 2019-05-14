@@ -1,7 +1,7 @@
 {
   "name": "@equinor/fusion-cli",
   "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-  "version": "0.0.0",
+  "version": "0.0.2",
   "author": "Fusion Core",
   "bin": {
     "fusion": "./bin/run"
@@ -92,11 +92,14 @@
   "repository": "equinor/fusion-cli",
   "scripts": {
     "build:start-app-bundle": "webpack --config ./src/start-app/webpack.config.js",
+    "copy": "cp -r src/templates/ lib/",
     "postpack": "rimraf oclif.manifest.json",
     "posttest": "tslint -p test -t stylish",
-    "prepack": "rimraf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
-    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif-dev readme && git add README.md"
+    "prepack": "rimraf lib && tsc -b && npm run copy && oclif-dev manifest",
+    "test": "echo \"No test specified\""
   },
-  "types": "lib/index.d.ts"
+  "types": "lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  }
 }

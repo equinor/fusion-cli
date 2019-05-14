@@ -50,7 +50,7 @@ OPTIONS
   -n, --name=name                Name for app/tile(use quotes for spaces)
 ```
 
-_See code: [src/commands/create-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.0/src/commands/create-app.ts)_
+_See code: [src\commands\create-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.1/src\commands\create-app.ts)_
 
 ## `fusion help [COMMAND]`
 
@@ -67,7 +67,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
 
 ## `fusion start-app`
 
@@ -84,5 +84,5 @@ OPTIONS
   -p, --progress    Display build progress
 ```
 
-_See code: [src/commands/start-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.0/src/commands/start-app.ts)_
+_See code: [src\commands\start-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.1/src\commands\start-app.ts)_
 <!-- commandsstop -->
