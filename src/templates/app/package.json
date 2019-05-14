@@ -1,20 +1,22 @@
 {
+  "name": "fusion-app-js-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "icon": "icon.js",
+  "scripts": {
+    "start": ".node ../lib/commands/start-app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "manifest": {
     "name": "",
-    "version": "1.0.0",
-    "description": "",
-    "main": "index.js",
-    "icon": "icon.js",
-    "scripts": {
-      "start": ""
-    },
-    "author": "",
-    "license": "ISC",
-    "manifest": {
-      "name": "",
-      "shortName": ""
-    },
-    "dependencies": {
-         "react": "^16.8.3"
-    }
+    "shortName": ""
+  },
+  "dependencies": {
+    "react": "^16.8.3"
+  },
+  "devDependencies": {
+    "react-hot-loader": "^4.8.4"
   }
-  
+}
