@@ -6,6 +6,7 @@ import * as webpack from 'webpack';
 import * as devMiddleware from 'webpack-dev-middleware';
 import * as hotMiddleware from 'webpack-hot-middleware';
 import * as merge from 'webpack-merge';
+import * as open from 'open';
 
 import babel from '../parts/babel';
 import entry from '../parts/entry';
@@ -14,10 +15,16 @@ import mode from '../parts/mode';
 import output from '../parts/output';
 import externals from '../parts/externals';
 
-export default () => {
+const openBrowser = async (port: number) => {
+    await open(`https://localhost:${port}`);
+};
+
+export default async () => {
     const compiler = webpack(merge(babel, mode, entry, output, hmr, externals));
 
     const app = express();
+    const port = 3000;
+
     app.use(
         devMiddleware(compiler, {
             publicPath: '/',
@@ -42,7 +49,9 @@ export default () => {
             },
             app
         )
-        .listen(3000, () => {
-            console.log('Fusion App listening on port 3000!');
+        .listen(port, () => {
+            console.log(`Fusion App listening on port ${port}!`);
         });
+
+    await openBrowser(port);
 };
