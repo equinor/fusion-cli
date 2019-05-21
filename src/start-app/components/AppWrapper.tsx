@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from 'react';
+// tslint:disable-next-line:no-submodule-imports
+import { hot } from 'react-hot-loader/root';
+import * as React from 'react';
 
-import { registerAppListener } from '../scripts/register';
+import { registerAppListener } from '@equinor/fusion';
 import { IManifest } from '../typings';
 
 const AppWrapper: React.FC = () => {
-  const [appKey] = useState('hello-world');
-  const [manifest, setManifest] = useState({});
+  const [appKey] = React.useState('hello-world');
+  const [manifest, setManifest] = React.useState({});
 
-  useEffect(() => {
+  React.useEffect(() => {
       const unregisterAppListener = registerAppListener((registeredAppKey, appManifest) => {
           updateManifest(registeredAppKey, {
               ...appManifest,
@@ -48,7 +50,7 @@ const AppWrapper: React.FC = () => {
           return null;
       }
 
-      return currentManifest.AppComponent;
+      return hot(currentManifest.AppComponent);
   };
 
   const AppComponent: React.ComponentType | null = getCurrentAppComponent();

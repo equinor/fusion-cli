@@ -1,11 +1,13 @@
 import { Command, flags } from '@oclif/command';
-import * as inquirer from 'inquirer';
+// import * as inquirer from 'inquirer';
 
-interface IStartAppOptions {
-    apps?: string[];
-    progress?: boolean;
-    production?: boolean;
-}
+import start from '../start-app/scripts/start';
+
+// interface IStartAppOptions {
+//     apps?: string[];
+//     progress?: boolean;
+//     production?: boolean;
+// }
 
 export default class StartApp extends Command {
     public static description = 'Start a fusion app';
@@ -22,26 +24,25 @@ export default class StartApp extends Command {
     };
 
     public async run() {
-        const {flags: appFlags} = this.parse(StartApp);
-        await promptForMissingOptions(appFlags);
         // tslint:disable-next-line:no-console
         console.log('Starting apps...');
+        start();
     }
 }
 
-const promptForMissingOptions = async (options: IStartAppOptions): Promise<object> => {
-    const questions = [];
-    if (!options.apps) {
-        questions.push({
-            message: 'Please enter a apps to start. E.g. AppKey1 AppKey2 AppKey3',
-            name: 'apps',
-            type: 'input',
-        });
-    }
-    const answers: any = await inquirer.prompt(questions);
+// const promptForMissingOptions = async (options: IStartAppOptions): Promise<object> => {
+//     const questions = [];
+//     if (!options.apps) {
+//         questions.push({
+//             message: 'Please enter a apps to start. E.g. AppKey1 AppKey2 AppKey3',
+//             name: 'apps',
+//             type: 'input',
+//         });
+//     }
+//     const answers: any = await inquirer.prompt(questions);
 
-    return {
-        ...options,
-        apps: options.apps || answers.apps.split(' '),
-    };
-};
+//     return {
+//         ...options,
+//         apps: options.apps || answers.apps.split(' '),
+//     };
+// };
