@@ -43,7 +43,6 @@ export default () => {
             app
         )
         .listen(3000, () => {
-            // tslint:disable-next-line:no-console
             console.log('Fusion App listening on port 3000!');
         });
 };
