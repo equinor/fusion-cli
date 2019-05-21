@@ -1,24 +1,40 @@
-import * as presetEnv from '@babel/preset-env';
-import * as presetReact from '@babel/preset-react';
+import * as path from 'path';
 
-// const reactHotLoader = require(path.resolve(
-//     __dirname,
-//     '..',
-//     '..',
-//     '..',
-//     '..',
-//     'node_modules',
-//     'react-hot-loader',
-//     'babel'
-// ));
+const reactHotLoaderBabel = path.resolve(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    'node_modules',
+    'react-hot-loader/babel'
+);
+
+const babelLoader = path.resolve(__dirname, '..', '..', '..', 'node_modules', 'babel-loader');
+const presetEnv = path.resolve(__dirname, '..', '..', '..', 'node_modules', '@babel/preset-env');
+const presetTypeScript = path.resolve(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    'node_modules',
+    '@babel/preset-typescript'
+);
+const presetReact = path.resolve(
+    __dirname,
+    '..',
+    '..',
+    '..',
+    'node_modules',
+    '@babel/preset-react'
+);
 
 export default {
-    loader: 'babel-loader',
+    loader: babelLoader,
     options: {
-        plugins: ['react-hot-loader'],
+        plugins: [reactHotLoaderBabel],
         presets: [
             [
-                presetEnv.default,
+                presetEnv,
                 {
                     loose: false,
                     modules: false,
@@ -28,7 +44,8 @@ export default {
                     },
                 },
             ],
-            presetReact.default,
+            presetTypeScript,
+            presetReact,
         ],
     },
 };

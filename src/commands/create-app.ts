@@ -175,7 +175,7 @@ const updatePackageConfig = async (options: ICreateAppOptions) => {
     config.manifest.shortName = options.shortName;
     config.scripts = {
         ...config.scripts,
-        start: `fusion start-app --apps ${options.name}`,
+        start: `fusion start-app`,
     };
 
     fs.writeFileSync(configPath, JSON.stringify(config));
