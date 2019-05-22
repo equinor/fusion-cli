@@ -14,13 +14,14 @@ import hmr from '../parts/hmr';
 import mode from '../parts/mode';
 import output from '../parts/output';
 import externals from '../parts/externals';
+import styles from '../parts/styles';
 
 const openBrowser = async (port: number) => {
     await open(`https://localhost:${port}`);
 };
 
 export default async () => {
-    const compiler = webpack(merge(babel, mode, entry, output, hmr, externals));
+    const compiler = webpack(merge(babel, mode, entry, output, hmr, externals, styles));
 
     const app = express();
     const port = 3000;

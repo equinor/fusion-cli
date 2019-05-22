@@ -1,6 +1,8 @@
 import React from 'react';
 import { registerApp, useCurrentUser } from '@equinor/fusion';
 
+import styles from './styles.css';
+
 const FusionApp = () => {
     const currentUser = useCurrentUser();
 
@@ -8,7 +10,7 @@ const FusionApp = () => {
         return null;
     }
 
-    return <h1>Hello, {currentUser.fullName}</h1>;
+    return <h1 className={styles.hello}>Hello, {currentUser.fullName}</h1>;
 };
 
 registerApp('hello-world', {
