@@ -161,6 +161,17 @@ function _objectWithoutPropertiesLoose(source, excluded) {
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion-components/dist/index.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@equinor/fusion-components/dist/index.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+!function(e,t){ true?module.exports=t(__webpack_require__(/*! react */ "./node_modules/react/index.js-exposed"),__webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed")):undefined}(window,function(e,t){return function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}return n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=7)}([function(t,n){t.exports=e},function(e,t,n){var r=n(3);"string"==typeof r&&(r=[[e.i,r,""]]);var o={hmr:!0,transform:void 0,insertInto:void 0};n(5)(r,o);r.locals&&(e.exports=r.locals)},function(e,n){e.exports=t},function(e,t,n){(t=e.exports=n(4)(!1)).push([e.i,'.fc--container--1Uw6t {\n  display: grid;\n  grid-template-columns: calc(var(--grid-unit) * 15px) auto max-content;\n  grid-template-rows: 100%;\n  grid-template-areas: "logo context user";\n  padding: 0 calc(var(--grid-unit) * 2px);\n  height: calc(var(--grid-unit) * 10px);\n  align-items: center;\n  background: white;\n  border-bottom: 2px solid var(--color-black-alt4);\n}\n.fc--fusionTitleContainer--1LCP7 {\n  grid-area: "logo";\n}\n.fc--fusionTitleContainer--1LCP7,\n.fc--fusionTitleContainer--1LCP7:visited,\n.fc--fusionLogo--3DJPi,\n.fc--fusionTitle--3SEw7 {\n  margin: 0;\n  padding: 0;\n  height: 100%;\n  display: flex;\n  align-items: center;\n  text-decoration: none;\n  font-size: 15px;\n  color: black;\n}\n.fc--fusionLogo--3DJPi {\n  margin-right: calc(var(--grid-unit) * 2px);\n}\n.fc--contextContainer--32sfF {\n  flex-grow: 2;\n}\n.fc--tempCurrentUser--1ncJN {\n  grid-area: "user";\n}\n',""]),t.locals={container:"fc--container--1Uw6t",fusionTitleContainer:"fc--fusionTitleContainer--1LCP7",fusionLogo:"fc--fusionLogo--3DJPi",fusionTitle:"fc--fusionTitle--3SEw7",contextContainer:"fc--contextContainer--32sfF",tempCurrentUser:"fc--tempCurrentUser--1ncJN"}},function(e,t,n){"use strict";e.exports=function(e){var t=[];return t.toString=function(){return this.map(function(t){var n=function(e,t){var n=e[1]||"",r=e[3];if(!r)return n;if(t&&"function"==typeof btoa){var o=(a=r,"/*# sourceMappingURL=data:application/json;charset=utf-8;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(a))))+" */"),i=r.sources.map(function(e){return"/*# sourceURL="+r.sourceRoot+e+" */"});return[n].concat(i).concat([o]).join("\n")}var a;return[n].join("\n")}(t,e);return t[2]?"@media "+t[2]+"{"+n+"}":n}).join("")},t.i=function(e,n){"string"==typeof e&&(e=[[null,e,""]]);for(var r={},o=0;o<this.length;o++){var i=this[o][0];null!=i&&(r[i]=!0)}for(o=0;o<e.length;o++){var a=e[o];null!=a[0]&&r[a[0]]||(n&&!a[2]?a[2]=n:n&&(a[2]="("+a[2]+") and ("+n+")"),t.push(a))}},t}},function(e,t,n){var r,o,i={},a=(r=function(){return window&&document&&document.all&&!window.atob},function(){return void 0===o&&(o=r.apply(this,arguments)),o}),s=function(e){var t={};return function(e,n){if("function"==typeof e)return e();if(void 0===t[e]){var r=function(e,t){return t?t.querySelector(e):document.querySelector(e)}.call(this,e,n);if(window.HTMLIFrameElement&&r instanceof window.HTMLIFrameElement)try{r=r.contentDocument.head}catch(e){r=null}t[e]=r}return t[e]}}(),c=null,l=0,f=[],u=n(6);function p(e,t){for(var n=0;n<e.length;n++){var r=e[n],o=i[r.id];if(o){o.refs++;for(var a=0;a<o.parts.length;a++)o.parts[a](r.parts[a]);for(;a<r.parts.length;a++)o.parts.push(b(r.parts[a],t))}else{var s=[];for(a=0;a<r.parts.length;a++)s.push(b(r.parts[a],t));i[r.id]={id:r.id,refs:1,parts:s}}}}function d(e,t){for(var n=[],r={},o=0;o<e.length;o++){var i=e[o],a=t.base?i[0]+t.base:i[0],s={css:i[1],media:i[2],sourceMap:i[3]};r[a]?r[a].parts.push(s):n.push(r[a]={id:a,parts:[s]})}return n}function m(e,t){var n=s(e.insertInto);if(!n)throw new Error("Couldn't find a style target. This probably means that the value for the 'insertInto' parameter is invalid.");var r=f[f.length-1];if("top"===e.insertAt)r?r.nextSibling?n.insertBefore(t,r.nextSibling):n.appendChild(t):n.insertBefore(t,n.firstChild),f.push(t);else if("bottom"===e.insertAt)n.appendChild(t);else{if("object"!=typeof e.insertAt||!e.insertAt.before)throw new Error("[Style Loader]\n\n Invalid value for parameter 'insertAt' ('options.insertAt') found.\n Must be 'top', 'bottom', or Object.\n (https://github.com/webpack-contrib/style-loader#insertat)\n");var o=s(e.insertAt.before,n);n.insertBefore(t,o)}}function v(e){if(null===e.parentNode)return!1;e.parentNode.removeChild(e);var t=f.indexOf(e);t>=0&&f.splice(t,1)}function h(e){var t=document.createElement("style");if(void 0===e.attrs.type&&(e.attrs.type="text/css"),void 0===e.attrs.nonce){var r=function(){0;return n.nc}();r&&(e.attrs.nonce=r)}return g(t,e.attrs),m(e,t),t}function g(e,t){Object.keys(t).forEach(function(n){e.setAttribute(n,t[n])})}function b(e,t){var n,r,o,i;if(t.transform&&e.css){if(!(i="function"==typeof t.transform?t.transform(e.css):t.transform.default(e.css)))return function(){};e.css=i}if(t.singleton){var a=l++;n=c||(c=h(t)),r=L.bind(null,n,a,!1),o=L.bind(null,n,a,!0)}else e.sourceMap&&"function"==typeof URL&&"function"==typeof URL.createObjectURL&&"function"==typeof URL.revokeObjectURL&&"function"==typeof Blob&&"function"==typeof btoa?(n=function(e){var t=document.createElement("link");return void 0===e.attrs.type&&(e.attrs.type="text/css"),e.attrs.rel="stylesheet",g(t,e.attrs),m(e,t),t}(t),r=function(e,t,n){var r=n.css,o=n.sourceMap,i=void 0===t.convertToAbsoluteUrls&&o;(t.convertToAbsoluteUrls||i)&&(r=u(r));o&&(r+="\n/*# sourceMappingURL=data:application/json;base64,"+btoa(unescape(encodeURIComponent(JSON.stringify(o))))+" */");var a=new Blob([r],{type:"text/css"}),s=e.href;e.href=URL.createObjectURL(a),s&&URL.revokeObjectURL(s)}.bind(null,n,t),o=function(){v(n),n.href&&URL.revokeObjectURL(n.href)}):(n=h(t),r=function(e,t){var n=t.css,r=t.media;r&&e.setAttribute("media",r);if(e.styleSheet)e.styleSheet.cssText=n;else{for(;e.firstChild;)e.removeChild(e.firstChild);e.appendChild(document.createTextNode(n))}}.bind(null,n),o=function(){v(n)});return r(e),function(t){if(t){if(t.css===e.css&&t.media===e.media&&t.sourceMap===e.sourceMap)return;r(e=t)}else o()}}e.exports=function(e,t){if("undefined"!=typeof DEBUG&&DEBUG&&"object"!=typeof document)throw new Error("The style-loader cannot be used in a non-browser environment");(t=t||{}).attrs="object"==typeof t.attrs?t.attrs:{},t.singleton||"boolean"==typeof t.singleton||(t.singleton=a()),t.insertInto||(t.insertInto="head"),t.insertAt||(t.insertAt="bottom");var n=d(e,t);return p(n,t),function(e){for(var r=[],o=0;o<n.length;o++){var a=n[o];(s=i[a.id]).refs--,r.push(s)}e&&p(d(e,t),t);for(o=0;o<r.length;o++){var s;if(0===(s=r[o]).refs){for(var c=0;c<s.parts.length;c++)s.parts[c]();delete i[s.id]}}}};var y,x=(y=[],function(e,t){return y[e]=t,y.filter(Boolean).join("\n")});function L(e,t,n,r){var o=n?"":r.css;if(e.styleSheet)e.styleSheet.cssText=x(t,o);else{var i=document.createTextNode(o),a=e.childNodes;a[t]&&e.removeChild(a[t]),a.length?e.insertBefore(i,a[t]):e.appendChild(i)}}},function(e,t){e.exports=function(e){var t="undefined"!=typeof window&&window.location;if(!t)throw new Error("fixUrls requires window.location");if(!e||"string"!=typeof e)return e;var n=t.protocol+"//"+t.host,r=n+t.pathname.replace(/\/[^\/]*$/,"/");return e.replace(/url\s*\(((?:[^)(]|\((?:[^)(]+|\([^)(]*\))*\))*)\)/gi,function(e,t){var o,i=t.trim().replace(/^"(.*)"$/,function(e,t){return t}).replace(/^'(.*)'$/,function(e,t){return t});return/^(#|data:|http:\/\/|https:\/\/|file:\/\/\/|\s*$)/i.test(i)?e:(o=0===i.indexOf("//")?i:0===i.indexOf("/")?n+i:r+i.replace(/^\.\//,""),"url("+JSON.stringify(o)+")")})}},function(e,t,n){"use strict";n.r(t);var r=n(0),o=n(2);var i=({scale:e=1})=>r.createElement("svg",{width:"50",height:"35",viewBox:"0 0 50 35",fill:"none",xmlns:"http://www.w3.org/2000/svg",style:{transform:`scale(${e})`}},r.createElement("path",{d:"M0 2V23.1776L7.05405 16.1235V7.05405H16.1235L23.1776 0H2C0.895431 0 0 0.89543 0 2Z",transform:"translate(50 17.5) scale(0.92727 1.06779) rotate(135)",fill:"url(#paint0_linear)"}),r.createElement("path",{d:"M0 2V23.1776L7.05405 16.1235V7.05405H16.1235L23.1776 0H2C0.895431 0 0 0.89543 0 2Z",transform:"translate(0 17.5) scale(0.92727 1.06779) rotate(-45)",fill:"url(#paint1_linear)"}),r.createElement("path",{d:"M9.61965 36.6972L2.60087 29.6784L1.96135 22.3809L8.42623 22.9069L9.61965 36.6972Z",transform:"translate(33.8887 34.9863) scale(0.92727 -1.06779) rotate(45)",fill:"#990025"}),r.createElement("path",{d:"M7.05434 7.05434L0 0L1.21096 13.8183L7.68846 14.3818L7.05434 7.05434Z",transform:"translate(33.8887 34.9863) scale(0.92727 -1.06779) rotate(45)",fill:"#990025"}),r.createElement("path",{d:"M0 0L2.49398 29.5715L9.61965 36.6972L7.01878 7.01878L0 0Z",transform:"translate(33.8887 0.015625) scale(0.92727 1.06779) rotate(45)",fill:"#FF1243"}),r.createElement("defs",null,r.createElement("linearGradient",{id:"paint0_linear",x2:"1",gradientUnits:"userSpaceOnUse",gradientTransform:"matrix(-13.5478 9.01983 -12.9578 -13.5478 18.0677 6.77391)"},r.createElement("stop",{offset:"0.508287",stopColor:"#DC002E"}),r.createElement("stop",{offset:"0.508387",stopColor:"#FF1243"})),r.createElement("linearGradient",{id:"paint1_linear",x2:"1",gradientUnits:"userSpaceOnUse",gradientTransform:"matrix(-13.5478 9.01983 -12.9578 -13.5478 18.0677 6.77391)"},r.createElement("stop",{offset:"0.508287",stopColor:"#DC002E"}),r.createElement("stop",{offset:"0.508387",stopColor:"#FF1243"})))),a=n(1);var s=()=>{const e=Object(o.useCurrentUser)();return r.createElement("header",{className:a.container},r.createElement("a",{href:"/",className:a.fusionTitleContainer},r.createElement("span",{className:a.fusionLogo},r.createElement(i,{scale:.8})),r.createElement("span",{className:a.fusionTitle},"fusion")),r.createElement("div",{className:a.contextContainer}),r.createElement("div",{className:a.tempCurrentUser},e?e.givenName:null))};n.d(t,"FusionHeader",function(){return s})}])});
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/app/AppContext.js":
 /*!************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/app/AppContext.js ***!
@@ -1205,12 +1216,11 @@ const createApiClients = (httpClient, resources) => ({
 /*!******************************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js ***!
   \******************************************************************************/
-/*! exports provided: useHandover, useHandoverMcpkgs, useHandoverWorkOrders, useHandoverUnsignedTasks, useHandoverUnsignedActions, useHandoverPunch, useHandoverSWCR, useHandoverDetails, useHandoverNCR, useHandoverQuery */
+/*! exports provided: default, useHandoverMcpkgs, useHandoverWorkOrders, useHandoverUnsignedTasks, useHandoverUnsignedActions, useHandoverPunch, useHandoverSWCR, useHandoverDetails, useHandoverNCR, useHandoverQuery */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return useHandover; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandoverMcpkgs", function() { return useHandoverMcpkgs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandoverWorkOrders", function() { return useHandoverWorkOrders; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandoverUnsignedTasks", function() { return useHandoverUnsignedTasks; });
@@ -1222,134 +1232,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandoverQuery", function() { return useHandoverQuery; });
 /* harmony import */ var _useApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../useApiClient */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClient.js");
 
-const useHandover = (siteCode, projectIdentifier) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverAsync(
-                siteCode,
-                projectIdentifier
-            );
-            return response.data;
-        },
-        [siteCode, projectIdentifier]
-    );
-};
+/* harmony default export */ __webpack_exports__["default"] = ((siteCode, projectIdentifier) => {
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverAsync(siteCode, projectIdentifier);
+        return response.data;
+    }, [siteCode, projectIdentifier]);
+});
 const useHandoverMcpkgs = (siteCode, projectIdentifier, commpkgId) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverMcpkgAsync(
-                siteCode,
-                projectIdentifier,
-                commpkgId
-            );
-            return response.data;
-        },
-        [siteCode, projectIdentifier]
-    );
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverMcpkgAsync(siteCode, projectIdentifier, commpkgId);
+        return response.data;
+    }, [siteCode, projectIdentifier]);
 };
 const useHandoverWorkOrders = (siteCode, projectIdentifier, commpkgId) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverWorkOrdersAsync(
-                siteCode,
-                projectIdentifier,
-                commpkgId
-            );
-            return response.data;
-        },
-        [siteCode, projectIdentifier]
-    );
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverWorkOrdersAsync(siteCode, projectIdentifier, commpkgId);
+        return response.data;
+    }, [siteCode, projectIdentifier]);
 };
 const useHandoverUnsignedTasks = (siteCode, projectIdentifier, commpkgId) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverUnsignedTasksAsync(
-                siteCode,
-                projectIdentifier,
-                commpkgId
-            );
-            return response.data;
-        },
-        [siteCode, projectIdentifier]
-    );
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverUnsignedTasksAsync(siteCode, projectIdentifier, commpkgId);
+        return response.data;
+    }, [siteCode, projectIdentifier]);
 };
 const useHandoverUnsignedActions = (siteCode, projectIdentifier, commpkgId) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverUnsignedActionsAsync(
-                siteCode,
-                projectIdentifier,
-                commpkgId
-            );
-            return response.data;
-        },
-        [siteCode, projectIdentifier]
-    );
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverUnsignedActionsAsync(siteCode, projectIdentifier, commpkgId);
+        return response.data;
+    }, [siteCode, projectIdentifier]);
 };
 const useHandoverPunch = (siteCode, projectIdentifier, commpkgId) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverPunchAsync(
-                siteCode,
-                projectIdentifier,
-                commpkgId
-            );
-            return response.data;
-        },
-        [siteCode, projectIdentifier]
-    );
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverPunchAsync(siteCode, projectIdentifier, commpkgId);
+        return response.data;
+    }, [siteCode, projectIdentifier]);
 };
 const useHandoverSWCR = (siteCode, projectIdentifier, commpkgId) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverSWCRAsync(
-                siteCode,
-                projectIdentifier,
-                commpkgId
-            );
-            return response.data;
-        },
-        [siteCode, projectIdentifier]
-    );
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverSWCRAsync(siteCode, projectIdentifier, commpkgId);
+        return response.data;
+    }, [siteCode, projectIdentifier]);
 };
 const useHandoverDetails = (siteCode, projectIdentifier, commpkgId) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverDetailsAsync(
-                siteCode,
-                projectIdentifier,
-                commpkgId
-            );
-            return response.data[0];
-        },
-        [siteCode, projectIdentifier]
-    );
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverDetailsAsync(siteCode, projectIdentifier, commpkgId);
+        return response.data[0];
+    }, [siteCode, projectIdentifier]);
 };
 const useHandoverNCR = (siteCode, projectIdentifier, commpkgId) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverNCRAsync(
-                siteCode,
-                projectIdentifier,
-                commpkgId
-            );
-            return response.data;
-        },
-        [siteCode, projectIdentifier]
-    );
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverNCRAsync(siteCode, projectIdentifier, commpkgId);
+        return response.data;
+    }, [siteCode, projectIdentifier]);
 };
 const useHandoverQuery = (siteCode, projectIdentifier, commpkgId) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(
-        async apiClients => {
-            const response = await apiClients.dataProxy.getHandoverQueryAsync(
-                siteCode,
-                projectIdentifier,
-                commpkgId
-            );
-            return response.data;
-        },
-        [siteCode, projectIdentifier]
-    );
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.dataProxy.getHandoverQueryAsync(siteCode, projectIdentifier, commpkgId);
+        return response.data;
+    }, [siteCode, projectIdentifier]);
 };
 
 
@@ -1479,7 +1420,7 @@ const createResourceCollections = (serviceResolver) => ({
 /*!***************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/index.js ***!
   \***************************************************/
-/*! exports provided: AuthContainer, useCurrentUser, registerApp, registerAppListener, AppContext, AppRoute, AppLink, AppSwitch, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, useHandover */
+/*! exports provided: AuthContainer, useCurrentUser, registerApp, registerAppListener, AppContext, AppRoute, AppLink, AppSwitch, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, useHandoverMcpkgs, useHandoverWorkOrders, useHandoverUnsignedTasks, useHandoverUnsignedActions, useHandoverPunch, useHandoverSWCR, useHandoverDetails, useHandoverNCR, useHandoverQuery */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1528,7 +1469,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAppSettings", function() { return _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
 /* harmony import */ var _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./http/hooks/dataProxy/useHandover */ "./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandover"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverMcpkgs", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverMcpkgs"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverWorkOrders", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverWorkOrders"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverUnsignedTasks", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverUnsignedTasks"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverUnsignedActions", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverUnsignedActions"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverPunch", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverPunch"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverSWCR", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverSWCR"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverDetails", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverDetails"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverNCR", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverNCR"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverQuery", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverQuery"]; });
 
 
 
@@ -30966,10 +30923,12 @@ const react_dom_1 = __webpack_require__(/*! @hot-loader/react-dom */ "./node_mod
 const fusion_1 = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 const react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+const fusion_components_1 = __webpack_require__(/*! @equinor/fusion-components */ "./node_modules/@equinor/fusion-components/dist/index.js");
 const AppWrapper_1 = __webpack_require__(/*! ./components/AppWrapper */ "./src/start-app/components/AppWrapper.tsx");
 const serviceResolver = {
     getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
 };
+console.log("HEADER", fusion_components_1.FusionHeader);
 const start = async () => {
     const authContainer = new fusion_1.AuthContainer();
     await authContainer.handleWindowCallbackAsync();
@@ -30991,6 +30950,7 @@ const start = async () => {
             return (React.createElement(react_router_1.Router, { history: fusionContext.history },
                 React.createElement(fusion_1.FusionContext.Provider, { value: fusionContext },
                     React.createElement("div", { id: "fusion-root", ref: root },
+                        React.createElement(fusion_components_1.FusionHeader, null),
                         React.createElement(AppWrapper_1.default, null)),
                     React.createElement("div", { id: "overlay-container", ref: overlay }))));
         };

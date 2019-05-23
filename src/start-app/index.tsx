@@ -8,13 +8,14 @@ import {
 
 import * as React from 'react';
 import { Router } from 'react-router';
-
+import {FusionHeader} from '@equinor/fusion-components';
 import AppWrapper from './components/AppWrapper';
 
 const serviceResolver: ServiceResolver = {
     getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
 };
 
+console.log("HEADER", FusionHeader);
 const start = async () => {
     const authContainer = new AuthContainer();
     await authContainer.handleWindowCallbackAsync();
@@ -40,6 +41,7 @@ const start = async () => {
                 <Router history={fusionContext.history}>
                     <FusionContext.Provider value={fusionContext}>
                         <div id="fusion-root" ref={root}>
+                            <FusionHeader />
                             <AppWrapper />
                         </div>
                         <div id="overlay-container" ref={overlay} />
