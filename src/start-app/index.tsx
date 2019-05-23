@@ -15,7 +15,6 @@ const serviceResolver: ServiceResolver = {
     getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
 };
 
-console.log("HEADER", FusionHeader);
 const start = async () => {
     const authContainer = new AuthContainer();
     await authContainer.handleWindowCallbackAsync();
