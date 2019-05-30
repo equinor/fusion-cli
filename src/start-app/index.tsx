@@ -4,15 +4,16 @@ import {
     FusionContext,
     ServiceResolver,
     createFusionContext,
+    AppWrapper,
 } from '@equinor/fusion';
 
 import * as React from 'react';
 import { Router } from 'react-router';
 import { FusionHeader, FusionRoot, FusionContent } from '@equinor/fusion-components';
-import AppWrapper from './components/AppWrapper';
 
 const serviceResolver: ServiceResolver = {
     getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
+    getFusionBaseUrl: () => "https://pro-s-portal-ci.azurewebsites.net",
 };
 
 const start = async () => {
@@ -28,6 +29,7 @@ const start = async () => {
         authContainer.login(coreAppClientId);
     } else {
         const Root = () => {
+            const [appKey, setAppKey] = React.useState("app-key");
             const root = React.useRef(document.createElement('div'));
             const overlay = React.useRef(document.createElement('div'));
 
@@ -36,13 +38,17 @@ const start = async () => {
                 root,
             });
 
+            fusionContext.app.container.on("update", app => {
+                setAppKey(app.appKey);
+            });
+
             return (
                 <Router history={fusionContext.history}>
                     <FusionContext.Provider value={fusionContext}>
                         <FusionRoot ref={root}>
                             <FusionHeader />
                             <FusionContent>
-                                <AppWrapper />
+                                <AppWrapper appKey={appKey} />
                             </FusionContent>
                         </FusionRoot>
                         <div id="overlay-container" ref={overlay} />

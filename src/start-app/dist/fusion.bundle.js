@@ -219,6 +219,50 @@ and limitations under the License.
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion/lib/app/AppContainer.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/app/AppContainer.js ***!
+  \**************************************************************/
+/*! exports provided: default, registerApp, appContainer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AppContainer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerApp", function() { return registerApp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appContainer", function() { return appContainer; });
+/* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
+
+class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.apps = [];
+    }
+    updateManifest(appKey, manifest) {
+        const existingApp = this.get(appKey);
+        if (existingApp === null) {
+            const newApp = { appKey, manifest };
+            this.apps.push(newApp);
+            this.emit("update", newApp);
+        }
+        else {
+            existingApp.manifest = Object.assign({}, existingApp.manifest, manifest);
+        }
+    }
+    get(appKey) {
+        return this.apps.find(app => app.appKey === appKey) || null;
+    }
+    getAll() {
+        return this.apps;
+    }
+}
+const appContainer = new AppContainer();
+const registerApp = (appKey, manifest) => appContainer.updateManifest(appKey, manifest);
+
+
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/app/AppContext.js":
 /*!************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/app/AppContext.js ***!
@@ -239,69 +283,6 @@ const AppContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({
 });
 const useAppContext = () => Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(AppContext);
 /* harmony default export */ __webpack_exports__["default"] = (AppContext);
-
-
-/***/ }),
-
-/***/ "./node_modules/@equinor/fusion/lib/app/AppRegistrationContainer.js":
-/*!**************************************************************************!*\
-  !*** ./node_modules/@equinor/fusion/lib/app/AppRegistrationContainer.js ***!
-  \**************************************************************************/
-/*! exports provided: default, registerApp, registerAppListener */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AppRegistrationContainer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerApp", function() { return registerApp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerAppListener", function() { return registerAppListener; });
-/* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/uuid/v1.js");
-/* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v1__WEBPACK_IMPORTED_MODULE_0__);
-
-const REGISTER_FUSION_APP = "REGISTER_FUSION_APP";
-class AppRegistrationContainer {
-    constructor() {
-        this.listeners = [];
-        this.registeredApps = [];
-    }
-    registerApp(appKey, manifest) {
-        const tempManifestKey = uuid_v1__WEBPACK_IMPORTED_MODULE_0__();
-        window[tempManifestKey] = manifest;
-        const message = {
-            type: REGISTER_FUSION_APP,
-            appKey,
-            tempManifestKey,
-        };
-        window.postMessage(message, window.location.href);
-    }
-    registerAppListener(listner) {
-        this.listeners.push(listner);
-        this.registeredApps.forEach(app => listner(app.appKey, app.manifest));
-        return () => this.listeners.splice(this.listeners.indexOf(listner), 1);
-    }
-    notifyListeners(appKey, manifest) {
-        this.listeners.forEach(listener => listener(appKey, manifest));
-        this.registeredApps.push({
-            appKey,
-            manifest,
-        });
-    }
-}
-const singleton = new AppRegistrationContainer();
-window.addEventListener("message", e => {
-    if (e.data && e.data.type === REGISTER_FUSION_APP && e.origin === window.location.origin) {
-        const { appKey, tempManifestKey } = e.data;
-        const manifest = window[tempManifestKey];
-        if (typeof manifest === "undefined" || !manifest) {
-            return;
-        }
-        delete window[tempManifestKey];
-        singleton.notifyListeners(appKey, manifest);
-    }
-});
-const registerApp = singleton.registerApp.bind(singleton);
-const registerAppListener = singleton.registerAppListener.bind(singleton);
-
 
 
 /***/ }),
@@ -376,6 +357,64 @@ const AppSwitch = props => {
     return (react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Switch"], Object.assign({}, props, { location: createLocationDescriptorFromContext(appContext) }), props.children));
 };
 
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/app/AppWrapper.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/app/AppWrapper.js ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
+
+
+const AppWrapper = ({ appKey }) => {
+    const { app: { container: appContainer }, http: { apiClients }, } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
+    const [isFetching, setIsFetching] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
+    const currentApp = appContainer.get(appKey);
+    const [, forceUpdate] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])();
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+        // If the app has been registered between rendering the app and useEffect
+        if (appKey && !currentApp && appContainer.get(appKey)) {
+            forceUpdate(null);
+        }
+        return appContainer.on("update", app => {
+            if (app.appKey === appKey) {
+                forceUpdate(null);
+            }
+        });
+    }, [appKey]);
+    const loadAppAsync = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(async () => {
+        const app = appContainer.get(appKey);
+        if (app && app.manifest && app.manifest.AppComponent) {
+            return;
+        }
+        setIsFetching(true);
+        const { data: manifest } = await apiClients.fusion.getAppManifestAsync(appKey);
+        appContainer.updateManifest(appKey, manifest);
+        await apiClients.fusion.loadAppScriptAsync(appKey);
+        setIsFetching(false);
+    }, [appKey]);
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+        loadAppAsync();
+    }, [appKey]);
+    if (currentApp === null && isFetching) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Is fetching");
+    }
+    if (currentApp === null) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "Unable to find app");
+    }
+    const AppComponent = currentApp.manifest.AppComponent;
+    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(AppComponent, null);
+};
+/* harmony default export */ __webpack_exports__["default"] = (AppWrapper);
 
 
 /***/ }),
@@ -870,15 +909,42 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./node_modules/@equinor/fusion/lib/core/FusionContext.js":
-/*!****************************************************************!*\
-  !*** ./node_modules/@equinor/fusion/lib/core/FusionContext.js ***!
-  \****************************************************************/
-/*! exports provided: createFusionContext, useFusionContext, default */
+/***/ "./node_modules/@equinor/fusion/lib/core/ComponentDisplayType.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/core/ComponentDisplayType.js ***!
+  \***********************************************************************/
+/*! exports provided: ComponentDisplayType, useComponentDisplayType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ComponentDisplayType", function() { return ComponentDisplayType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayType", function() { return useComponentDisplayType; });
+/* harmony import */ var _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../settings/useCoreSettings */ "./node_modules/@equinor/fusion/lib/settings/useCoreSettings.js");
+
+var ComponentDisplayType;
+(function (ComponentDisplayType) {
+    ComponentDisplayType["Comforable"] = "Comforable";
+    ComponentDisplayType["Compact"] = "Compact";
+})(ComponentDisplayType || (ComponentDisplayType = {}));
+const useComponentDisplayType = () => {
+    const coreSettings = Object(_settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    return coreSettings.componentDisplayType;
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/core/FusionContext.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/core/FusionContext.js ***!
+  \****************************************************************/
+/*! exports provided: defaultSettings, createFusionContext, useFusionContext, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultSettings", function() { return defaultSettings; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createFusionContext", function() { return createFusionContext; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useFusionContext", function() { return useFusionContext; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
@@ -887,31 +953,50 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _http_resourceCollections__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../http/resourceCollections */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/index.js");
 /* harmony import */ var _http_apiClients__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../http/apiClients */ "./node_modules/@equinor/fusion/lib/http/apiClients/index.js");
 /* harmony import */ var _http_HttpClient__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../http/HttpClient */ "./node_modules/@equinor/fusion/lib/http/HttpClient/index.js");
-/* harmony import */ var _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../settings/SettingsContainer */ "./node_modules/@equinor/fusion/lib/settings/SettingsContainer.js");
+/* harmony import */ var _http_ResourceCache__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../http/ResourceCache */ "./node_modules/@equinor/fusion/lib/http/ResourceCache/index.js");
+/* harmony import */ var _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../settings/SettingsContainer */ "./node_modules/@equinor/fusion/lib/settings/SettingsContainer.js");
+/* harmony import */ var _app_AppContainer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../app/AppContainer */ "./node_modules/@equinor/fusion/lib/app/AppContainer.js");
+/* harmony import */ var _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../core/ComponentDisplayType */ "./node_modules/@equinor/fusion/lib/core/ComponentDisplayType.js");
 
 
 
 
 
 
+
+
+
+const defaultSettings = {
+    componentDisplayType: _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_8__["ComponentDisplayType"].Comforable,
+};
 const FusionContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});
 const createFusionContext = (authContainer, serviceResolver, refs) => {
     const resourceCollections = Object(_http_resourceCollections__WEBPACK_IMPORTED_MODULE_2__["createResourceCollections"])(serviceResolver);
-    const httpClient = new _http_HttpClient__WEBPACK_IMPORTED_MODULE_4__["default"](authContainer);
+    const resourceCache = new _http_ResourceCache__WEBPACK_IMPORTED_MODULE_5__["default"]();
+    const httpClient = new _http_HttpClient__WEBPACK_IMPORTED_MODULE_4__["default"](authContainer, resourceCache);
     const apiClients = Object(_http_apiClients__WEBPACK_IMPORTED_MODULE_3__["createApiClients"])(httpClient, resourceCollections);
     const history = Object(history__WEBPACK_IMPORTED_MODULE_1__["createBrowserHistory"])();
-    const coreSettings = new _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_5__["default"]("core");
+    const coreSettings = new _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_6__["default"]("core", defaultSettings);
     return {
         auth: { container: authContainer },
         http: {
             resourceCollections,
             apiClients,
+            resourceCache,
         },
         refs,
         history,
         settings: {
             core: coreSettings,
             apps: {},
+        },
+        app: {
+            container: _app_AppContainer__WEBPACK_IMPORTED_MODULE_7__["appContainer"],
+            currentApp: {
+                appKey: "",
+                appPath: "/",
+                manifest: null,
+            },
         },
     };
 };
@@ -1061,10 +1146,11 @@ __webpack_require__.r(__webpack_exports__);
 // Export interface, response and error types
 
 class HttpClient {
-    constructor(authContainer) {
+    constructor(authContainer, resourceCache) {
         this.requestsInProgress = {};
         this.sessionId = uuid_v1__WEBPACK_IMPORTED_MODULE_0___default()();
         this.authContainer = authContainer;
+        this.resourceCache = resourceCache;
     }
     async getAsync(url, init) {
         // Reuse GET requests in progress
@@ -1072,11 +1158,13 @@ class HttpClient {
         if (requestInProgress) {
             return await requestInProgress;
         }
+        await this.resourceCache.setIsFetchingAsync(url);
         init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: "GET" })));
         const request = this.performFetchAsync(url, init);
         this.requestsInProgress[url] = request;
         const response = await request;
         delete this.requestsInProgress[url];
+        await this.resourceCache.updateAsync(url, response);
         return response;
     }
     async postAsync(url, body, init) {
@@ -1087,22 +1175,26 @@ class HttpClient {
         init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: "PUT", body: JSON.stringify(body) })));
         return await this.performFetchAsync(url, init);
     }
+    transformHeaders(init, transform) {
+        const headers = new Headers(init.headers);
+        transform(headers);
+        return Object.assign({}, init, { headers });
+    }
     getRequestInProgress(url) {
         return this.requestsInProgress[url];
     }
     addSessionIdHeader(init) {
-        return Object.assign({}, init, { headers: new Headers(Object.assign({}, init.headers, { "X-Session-Id": this.sessionId })) });
+        return this.transformHeaders(init, headers => headers.append("X-Session-Id", this.sessionId));
     }
     addAcceptJsonHeader(init) {
-        return Object.assign({}, init, { headers: new Headers(Object.assign({}, init.headers, { Accept: "application/json" })) });
+        return this.transformHeaders(init, headers => headers.append("Accept", "application/json"));
     }
     addRefreshHeader(init) {
-        return Object.assign({}, init, { headers: new Headers(Object.assign({}, init.headers, { "x-pp-refresh": "application/json" })) });
+        return this.transformHeaders(init, headers => headers.append("x-pp-refresh", "true"));
     }
     async addAuthHeaderAsync(url, init) {
         const token = await this.authContainer.acquireTokenAsync(url);
-        const headers = new Headers(Object.assign({}, init.headers, { Authorization: "Bearer " + token }));
-        return Object.assign({}, init, { headers });
+        return this.transformHeaders(init, headers => headers.append("Authorization", "Bearer " + token));
     }
     async transformRequestAsync(url, init) {
         const requestWithSessionId = this.addSessionIdHeader(init);
@@ -1154,8 +1246,65 @@ class HttpClient {
                 throw error;
             }
             // Add more info
-            throw new _HttpClientError__WEBPACK_IMPORTED_MODULE_1__["HttpClientError"]();
+            throw error;
         }
+    }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/http/ResourceCache/index.js":
+/*!**********************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/ResourceCache/index.js ***!
+  \**********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ResourceCache; });
+/* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
+
+class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor() {
+        super(...arguments);
+        this.cachedResources = {};
+    }
+    async setIsFetchingAsync(resource) {
+        const cachedResource = await this.getAsync(resource);
+        await this.setResourceAsync(resource, Object.assign({}, cachedResource, { isFetching: true }));
+    }
+    async updateAsync(resource, response) {
+        const cachedResource = await this.getAsync(resource);
+        const cacheAgeHeader = response.headers.get("x-pp-cache-age");
+        const age = cacheAgeHeader !== null ? new Date(cacheAgeHeader) : null;
+        const cacheDurationHeader = response.headers.get("x-pp-cache-duration-minutes");
+        const duration = cacheDurationHeader !== null ? parseInt(cacheDurationHeader, 10) : -1;
+        const source = response.headers.get("x-pp-cache-source");
+        const updatedResource = Object.assign({}, cachedResource, { data: response.data, isFetching: false, cacheStatus: Object.assign({}, cachedResource.cacheStatus, { age,
+                duration,
+                source }) });
+        await this.setResourceAsync(resource, updatedResource);
+    }
+    async getAsync(resource) {
+        if (typeof this.cachedResources[resource] === "undefined") {
+            await this.setResourceAsync(resource, {
+                resource,
+                data: null,
+                isFetching: false,
+                cacheStatus: {
+                    age: null,
+                    duration: null,
+                    source: null,
+                },
+            });
+        }
+        return this.cachedResources[resource];
+    }
+    async setResourceAsync(resource, updatedResource) {
+        this.cachedResources[resource] = updatedResource;
+        this.emit("update", updatedResource);
     }
 }
 
@@ -1240,6 +1389,38 @@ class DataProxyClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["defau
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion/lib/http/apiClients/FusionClient.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/apiClients/FusionClient.js ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FusionClient; });
+/* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
+/* harmony import */ var _utils_getScript__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/getScript */ "./node_modules/@equinor/fusion/lib/utils/getScript.js");
+
+
+class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    async getAppsAsync() {
+        const url = this.resourceCollections.fusion.apps();
+        return await this.httpClient.getAsync(url);
+    }
+    async getAppManifestAsync(appKey) {
+        const url = this.resourceCollections.fusion.appManifest(appKey);
+        return await this.httpClient.getAsync(url);
+    }
+    async loadAppScriptAsync(appKey) {
+        const url = this.resourceCollections.fusion.appScript(appKey);
+        return await Object(_utils_getScript__WEBPACK_IMPORTED_MODULE_1__["default"])(url);
+    }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/http/apiClients/index.js":
 /*!*******************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/index.js ***!
@@ -1251,9 +1432,12 @@ class DataProxyClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["defau
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createApiClients", function() { return createApiClients; });
 /* harmony import */ var _DataProxyClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataProxyClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/DataProxyClient.js");
+/* harmony import */ var _FusionClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FusionClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/FusionClient.js");
+
 
 const createApiClients = (httpClient, resources) => ({
     dataProxy: new _DataProxyClient__WEBPACK_IMPORTED_MODULE_0__["default"](httpClient, resources),
+    fusion: new _FusionClient__WEBPACK_IMPORTED_MODULE_1__["default"](httpClient, resources),
 });
 
 
@@ -1263,11 +1447,12 @@ const createApiClients = (httpClient, resources) => ({
 /*!******************************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js ***!
   \******************************************************************************/
-/*! exports provided: default, useHandoverMcpkgs, useHandoverWorkOrders, useHandoverUnsignedTasks, useHandoverUnsignedActions, useHandoverPunch, useHandoverSWCR, useHandoverDetails, useHandoverNCR, useHandoverQuery */
+/*! exports provided: useHandover, useHandoverMcpkgs, useHandoverWorkOrders, useHandoverUnsignedTasks, useHandoverUnsignedActions, useHandoverPunch, useHandoverSWCR, useHandoverDetails, useHandoverNCR, useHandoverQuery */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return useHandover; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandoverMcpkgs", function() { return useHandoverMcpkgs; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandoverWorkOrders", function() { return useHandoverWorkOrders; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandoverUnsignedTasks", function() { return useHandoverUnsignedTasks; });
@@ -1279,12 +1464,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandoverQuery", function() { return useHandoverQuery; });
 /* harmony import */ var _useApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../useApiClient */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClient.js");
 
-/* harmony default export */ __webpack_exports__["default"] = ((siteCode, projectIdentifier) => {
+const useHandover = (siteCode, projectIdentifier) => {
     return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
         const response = await apiClients.dataProxy.getHandoverAsync(siteCode, projectIdentifier);
         return response.data;
     }, [siteCode, projectIdentifier]);
-});
+};
 const useHandoverMcpkgs = (siteCode, projectIdentifier, commpkgId) => {
     return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
         const response = await apiClients.dataProxy.getHandoverMcpkgAsync(siteCode, projectIdentifier, commpkgId);
@@ -1441,6 +1626,38 @@ class DataProxyResourceCollection extends _BaseResourceCollection__WEBPACK_IMPOR
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion/lib/http/resourceCollections/FusionResourceCollection.js":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/FusionResourceCollection.js ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FusionResourceCollection; });
+/* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
+/* harmony import */ var _utils_combineUrls__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/combineUrls */ "./node_modules/@equinor/fusion/lib/utils/combineUrls.js");
+
+
+class FusionResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    getBaseUrl() {
+        return this.serviceResolver.getFusionBaseUrl();
+    }
+    apps() {
+        return Object(_utils_combineUrls__WEBPACK_IMPORTED_MODULE_1__["default"])(this.getBaseUrl(), "bundles", "apps");
+    }
+    appManifest(appKey) {
+        return Object(_utils_combineUrls__WEBPACK_IMPORTED_MODULE_1__["default"])(this.apps(), appKey);
+    }
+    appScript(appKey) {
+        return this.appManifest(appKey) + ".js";
+    }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/http/resourceCollections/index.js":
 /*!****************************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/index.js ***!
@@ -1454,10 +1671,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _DataProxyResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataProxyResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/DataProxyResourceCollection.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DataProxyResourceCollection", function() { return _DataProxyResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
+/* harmony import */ var _FusionResourceCollection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FusionResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/FusionResourceCollection.js");
+
 
 
 const createResourceCollections = (serviceResolver) => ({
     dataProxy: new _DataProxyResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"](serviceResolver),
+    fusion: new _FusionResourceCollection__WEBPACK_IMPORTED_MODULE_1__["default"](serviceResolver),
 });
 
 
@@ -1467,7 +1687,7 @@ const createResourceCollections = (serviceResolver) => ({
 /*!***************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/index.js ***!
   \***************************************************/
-/*! exports provided: AuthContainer, useCurrentUser, registerApp, registerAppListener, AppContext, AppRoute, AppLink, AppSwitch, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, useHandoverMcpkgs, useHandoverWorkOrders, useHandoverUnsignedTasks, useHandoverUnsignedActions, useHandoverPunch, useHandoverSWCR, useHandoverDetails, useHandoverNCR, useHandoverQuery */
+/*! exports provided: AuthContainer, useCurrentUser, registerApp, appContainer, AppWrapper, AppContext, AppRoute, AppLink, AppSwitch, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, useHandover, useHandoverMcpkgs, useHandoverWorkOrders, useHandoverUnsignedTasks, useHandoverUnsignedActions, useHandoverPunch, useHandoverSWCR, useHandoverDetails, useHandoverNCR, useHandoverQuery */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1478,61 +1698,67 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth/useCurrentUser */ "./node_modules/@equinor/fusion/lib/auth/useCurrentUser.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentUser", function() { return _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _app_AppRegistrationContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/AppRegistrationContainer */ "./node_modules/@equinor/fusion/lib/app/AppRegistrationContainer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerApp", function() { return _app_AppRegistrationContainer__WEBPACK_IMPORTED_MODULE_2__["registerApp"]; });
+/* harmony import */ var _app_AppContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/AppContainer */ "./node_modules/@equinor/fusion/lib/app/AppContainer.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerApp", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_2__["registerApp"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerAppListener", function() { return _app_AppRegistrationContainer__WEBPACK_IMPORTED_MODULE_2__["registerAppListener"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "appContainer", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_2__["appContainer"]; });
 
-/* harmony import */ var _app_AppContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app/AppContext */ "./node_modules/@equinor/fusion/lib/app/AppContext.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AppContext", function() { return _app_AppContext__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+/* harmony import */ var _app_AppWrapper__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app/AppWrapper */ "./node_modules/@equinor/fusion/lib/app/AppWrapper.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AppWrapper", function() { return _app_AppWrapper__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _app_AppRouter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app/AppRouter */ "./node_modules/@equinor/fusion/lib/app/AppRouter.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AppRoute", function() { return _app_AppRouter__WEBPACK_IMPORTED_MODULE_4__["AppRoute"]; });
+/* harmony import */ var _app_AppContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app/AppContext */ "./node_modules/@equinor/fusion/lib/app/AppContext.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AppContext", function() { return _app_AppContext__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AppLink", function() { return _app_AppRouter__WEBPACK_IMPORTED_MODULE_4__["AppLink"]; });
+/* harmony import */ var _app_AppRouter__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app/AppRouter */ "./node_modules/@equinor/fusion/lib/app/AppRouter.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AppRoute", function() { return _app_AppRouter__WEBPACK_IMPORTED_MODULE_5__["AppRoute"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AppSwitch", function() { return _app_AppRouter__WEBPACK_IMPORTED_MODULE_4__["AppSwitch"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AppLink", function() { return _app_AppRouter__WEBPACK_IMPORTED_MODULE_5__["AppLink"]; });
 
-/* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AppSwitch", function() { return _app_AppRouter__WEBPACK_IMPORTED_MODULE_5__["AppSwitch"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_5__["useFusionContext"]; });
+/* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_6__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_5__["createFusionContext"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_6__["useFusionContext"]; });
 
-/* harmony import */ var _http_HttpClient__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./http/HttpClient */ "./node_modules/@equinor/fusion/lib/http/HttpClient/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClient", function() { return _http_HttpClient__WEBPACK_IMPORTED_MODULE_6__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_6__["createFusionContext"]; });
 
-/* harmony import */ var _http_resourceCollections__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./http/resourceCollections */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createResourceCollections", function() { return _http_resourceCollections__WEBPACK_IMPORTED_MODULE_7__["createResourceCollections"]; });
+/* harmony import */ var _http_HttpClient__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./http/HttpClient */ "./node_modules/@equinor/fusion/lib/http/HttpClient/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClient", function() { return _http_HttpClient__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _http_apiClients__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./http/apiClients */ "./node_modules/@equinor/fusion/lib/http/apiClients/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createApiClients", function() { return _http_apiClients__WEBPACK_IMPORTED_MODULE_8__["createApiClients"]; });
+/* harmony import */ var _http_resourceCollections__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./http/resourceCollections */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createResourceCollections", function() { return _http_resourceCollections__WEBPACK_IMPORTED_MODULE_8__["createResourceCollections"]; });
 
-/* harmony import */ var _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./settings/useCoreSettings */ "./node_modules/@equinor/fusion/lib/settings/useCoreSettings.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCoreSettings", function() { return _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_9__["default"]; });
+/* harmony import */ var _http_apiClients__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./http/apiClients */ "./node_modules/@equinor/fusion/lib/http/apiClients/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createApiClients", function() { return _http_apiClients__WEBPACK_IMPORTED_MODULE_9__["createApiClients"]; });
 
-/* harmony import */ var _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./settings/useAppSettings */ "./node_modules/@equinor/fusion/lib/settings/useAppSettings.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAppSettings", function() { return _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_10__["default"]; });
+/* harmony import */ var _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./settings/useCoreSettings */ "./node_modules/@equinor/fusion/lib/settings/useCoreSettings.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCoreSettings", function() { return _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_10__["default"]; });
 
-/* harmony import */ var _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./http/hooks/dataProxy/useHandover */ "./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverMcpkgs", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverMcpkgs"]; });
+/* harmony import */ var _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./settings/useAppSettings */ "./node_modules/@equinor/fusion/lib/settings/useAppSettings.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAppSettings", function() { return _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_11__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverWorkOrders", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverWorkOrders"]; });
+/* harmony import */ var _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./http/hooks/dataProxy/useHandover */ "./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandover"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverUnsignedTasks", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverUnsignedTasks"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverMcpkgs", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandoverMcpkgs"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverUnsignedActions", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverUnsignedActions"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverWorkOrders", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandoverWorkOrders"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverPunch", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverPunch"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverUnsignedTasks", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandoverUnsignedTasks"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverSWCR", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverSWCR"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverUnsignedActions", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandoverUnsignedActions"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverDetails", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverDetails"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverPunch", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandoverPunch"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverNCR", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverNCR"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverSWCR", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandoverSWCR"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverQuery", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_11__["useHandoverQuery"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverDetails", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandoverDetails"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverNCR", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandoverNCR"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandoverQuery", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_12__["useHandoverQuery"]; });
+
 
 
 
@@ -1575,8 +1801,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
 
 class SettingsContainer extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__["default"] {
-    constructor(baseKey) {
-        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__["LocalStorageProvider"](`FUSION_SETTINGS_CACHE:${baseKey}`));
+    constructor(baseKey, defaultSettings) {
+        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__["LocalStorageProvider"](`FUSION_SETTINGS_CACHE:${baseKey}`, defaultSettings));
     }
     async toObjectAsync() {
         const value = await this.provider.toObjectAsync();
@@ -1605,19 +1831,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const ensureAppSettings = (settings, appKey) => {
+const ensureAppSettings = (settings, appKey, defaultSettings) => {
     if (typeof settings.apps[appKey] === "undefined") {
-        const appSettings = new _SettingsContainer__WEBPACK_IMPORTED_MODULE_3__["default"](appKey);
+        const appSettings = new _SettingsContainer__WEBPACK_IMPORTED_MODULE_3__["default"](appKey, defaultSettings);
         settings.apps[appKey] = appSettings;
         return appSettings;
     }
     return settings.apps[appKey];
 };
-/* harmony default export */ __webpack_exports__["default"] = (() => {
+/* harmony default export */ __webpack_exports__["default"] = ((defaultSettings) => {
     const { settings } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
     const { appKey } = Object(_app_AppContext__WEBPACK_IMPORTED_MODULE_2__["useAppContext"])();
     let appSettings = ensureAppSettings(settings, appKey);
-    const [localAppSettings, setLocalAppsettings] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({});
+    const [localAppSettings, setLocalAppsettings] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(appSettings.toObject() || {});
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
         appSettings.toObjectAsync().then(setLocalAppsettings);
         return appSettings.on("change", setLocalAppsettings);
@@ -1648,11 +1874,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ __webpack_exports__["default"] = (() => {
-    const [coreSettings, setCoreSettings] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])({});
     const { settings } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
+    const [coreSettings, setCoreSettings] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(settings.core.toObject() || _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["defaultSettings"]);
+    const setSettings = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])((settings) => {
+        setCoreSettings(settings);
+    }, []);
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
-        settings.core.toObjectAsync().then(setCoreSettings);
-        return settings.core.on("change", setCoreSettings);
+        settings.core.toObjectAsync().then(setSettings);
+        return settings.core.on("change", setSettings);
     }, []);
     return coreSettings;
 });
@@ -1709,9 +1938,12 @@ class EventEmitter {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LocalStorageProvider; });
 class LocalStorageProvider {
-    constructor(baseKey) {
+    constructor(baseKey, defaultValue) {
         this.localCache = null;
         this.baseKey = baseKey;
+        if (defaultValue) {
+            this.localCache = defaultValue;
+        }
     }
     async getItemAsync(key) {
         const localCache = await this.toObjectAsync();
@@ -1740,6 +1972,9 @@ class LocalStorageProvider {
             const cachedValue = cachedJson ? JSON.parse(cachedJson) : {};
             this.localCache = cachedValue;
         }
+        return this.localCache;
+    }
+    toObject() {
         return this.localCache;
     }
     async persistAsync() {
@@ -1832,6 +2067,9 @@ class ReliableDictionary extends _EventEmitter__WEBPACK_IMPORTED_MODULE_0__["def
     async toObjectAsync() {
         return await this.provider.toObjectAsync();
     }
+    toObject() {
+        return this.provider.toObject();
+    }
     async emitChangesAsync() {
         const dictionary = await this.toObjectAsync();
         this.emit("change", dictionary);
@@ -1859,6 +2097,30 @@ const seperator = "/";
         .toString()
         .replace(/^\/+/, "")
         .replace(/\/+$/, ""), base || ""));
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/utils/getScript.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/utils/getScript.js ***!
+  \*************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ((source) => {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.async = true;
+        document.head.appendChild(script);
+        script.addEventListener("load", () => resolve());
+        script.addEventListener("abort", () => reject());
+        script.addEventListener("error", () => reject());
+        script.src = source;
+    });
+});
 
 
 /***/ }),
@@ -25573,23 +25835,6 @@ if (true) {
 
 /***/ }),
 
-/***/ "./node_modules/react-hot-loader/root.js":
-/*!***********************************************!*\
-  !*** ./node_modules/react-hot-loader/root.js ***!
-  \***********************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-if (false) { var parent, cache, hot; } else {
-  // prod mode
-  exports.hot = function(a) {
-    return a;
-  };
-}
-
-
-/***/ }),
-
 /***/ "./node_modules/react-is/cjs/react-is.development.js":
 /*!***********************************************************!*\
   !*** ./node_modules/react-is/cjs/react-is.development.js ***!
@@ -30903,59 +31148,6 @@ module.exports = g;
 
 /***/ }),
 
-/***/ "./src/start-app/components/AppWrapper.tsx":
-/*!*************************************************!*\
-  !*** ./src/start-app/components/AppWrapper.tsx ***!
-  \*************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-// tslint:disable-next-line:no-submodule-imports
-const root_1 = __webpack_require__(/*! react-hot-loader/root */ "./node_modules/react-hot-loader/root.js");
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
-const fusion_1 = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
-const AppWrapper = () => {
-    const [appKey] = React.useState('hello-world');
-    const [manifest, setManifest] = React.useState({});
-    React.useEffect(() => {
-        const unregisterAppListener = fusion_1.registerAppListener((registeredAppKey, appManifest) => {
-            updateManifest(registeredAppKey, Object.assign({}, appManifest, { failedToLoadAppBundle: false, isLoading: false }));
-        });
-        return () => {
-            unregisterAppListener();
-        };
-    }, [appKey]);
-    const updateManifest = (key, appManifest) => {
-        const existingManifest = getManifest(key);
-        setManifest(prevManifest => (Object.assign({}, prevManifest, { [key]: Object.assign({}, (existingManifest || {}), appManifest) })));
-    };
-    const getManifest = (key) => {
-        return manifest[key];
-    };
-    const getCurrentManifest = () => {
-        return getManifest(appKey);
-    };
-    const getCurrentAppComponent = () => {
-        const currentManifest = getCurrentManifest();
-        if (!currentManifest) {
-            return null;
-        }
-        return root_1.hot(currentManifest.AppComponent);
-    };
-    const AppComponent = getCurrentAppComponent();
-    if (!AppComponent) {
-        return null;
-    }
-    return React.createElement(AppComponent, null);
-};
-exports.default = AppWrapper;
-
-
-/***/ }),
-
 /***/ "./src/start-app/index.tsx":
 /*!*********************************!*\
   !*** ./src/start-app/index.tsx ***!
@@ -30971,9 +31163,9 @@ const fusion_1 = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equ
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 const react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
 const fusion_components_1 = __webpack_require__(/*! @equinor/fusion-components */ "./node_modules/@equinor/fusion-components/dist/index.js");
-const AppWrapper_1 = __webpack_require__(/*! ./components/AppWrapper */ "./src/start-app/components/AppWrapper.tsx");
 const serviceResolver = {
     getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
+    getFusionBaseUrl: () => "https://pro-s-portal-ci.azurewebsites.net",
 };
 const start = async () => {
     const authContainer = new fusion_1.AuthContainer();
@@ -30987,18 +31179,22 @@ const start = async () => {
     }
     else {
         const Root = () => {
+            const [appKey, setAppKey] = React.useState("app-key");
             const root = React.useRef(document.createElement('div'));
             const overlay = React.useRef(document.createElement('div'));
             const fusionContext = fusion_1.createFusionContext(authContainer, serviceResolver, {
                 overlay,
                 root,
             });
+            fusionContext.app.container.on("update", app => {
+                setAppKey(app.appKey);
+            });
             return (React.createElement(react_router_1.Router, { history: fusionContext.history },
                 React.createElement(fusion_1.FusionContext.Provider, { value: fusionContext },
                     React.createElement(fusion_components_1.FusionRoot, { ref: root },
                         React.createElement(fusion_components_1.FusionHeader, null),
                         React.createElement(fusion_components_1.FusionContent, null,
-                            React.createElement(AppWrapper_1.default, null))),
+                            React.createElement(fusion_1.AppWrapper, { appKey: appKey }))),
                     React.createElement("div", { id: "overlay-container", ref: overlay }))));
         };
         react_dom_1.render(React.createElement(Root, null), document.getElementById('fusion-app'));
