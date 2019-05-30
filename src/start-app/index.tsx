@@ -8,7 +8,7 @@ import {
 
 import * as React from 'react';
 import { Router } from 'react-router';
-import {FusionHeader} from '@equinor/fusion-components';
+import { FusionHeader, FusionRoot, FusionContent } from '@equinor/fusion-components';
 import AppWrapper from './components/AppWrapper';
 
 const serviceResolver: ServiceResolver = {
@@ -39,10 +39,12 @@ const start = async () => {
             return (
                 <Router history={fusionContext.history}>
                     <FusionContext.Provider value={fusionContext}>
-                        <div id="fusion-root" ref={root}>
+                        <FusionRoot ref={root}>
                             <FusionHeader />
-                            <AppWrapper />
-                        </div>
+                            <FusionContent>
+                                <AppWrapper />
+                            </FusionContent>
+                        </FusionRoot>
                         <div id="overlay-container" ref={overlay} />
                     </FusionContext.Provider>
                 </Router>
