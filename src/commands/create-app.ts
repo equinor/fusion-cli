@@ -182,9 +182,17 @@ const updatePackageConfig = async (options: ICreateAppOptions) => {
 };
 
 const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> => {
-    return copy(options.templateDirectory, options.targetDirectory, {
+    const success = await copy(options.templateDirectory, options.targetDirectory, {
         clobber: false,
     });
+
+    const indexJsPath = path.join(options.targetDirectory || '', 'index.js');
+    const indexJsContent = fs.readFileSync(indexJsPath).toString();
+
+    const indexJsContentReplaced = indexJsContent.replace("{appKey}", options.key || "app-key");
+    fs.writeFileSync(indexJsPath, indexJsContentReplaced);
+
+    return success;
 };
 
 const createProject = async (options: ICreateAppOptions) => {

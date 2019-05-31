@@ -3,7 +3,7 @@ import { registerApp, useCurrentUser } from '@equinor/fusion';
 
 import styles from './styles.css';
 
-const FusionApp = () => {
+const App = () => {
     const currentUser = useCurrentUser();
 
     if (!currentUser) {
@@ -13,8 +13,8 @@ const FusionApp = () => {
     return <h1 className={styles.hello}>Hello, {currentUser.fullName}</h1>;
 };
 
-registerApp('hello-world', {
-    AppComponent: FusionApp,
+registerApp('{appKey}', {
+    AppComponent: App,
 });
 
 if (module.hot) {
