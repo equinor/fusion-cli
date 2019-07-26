@@ -8,7 +8,7 @@
   },
   "bugs": "https://github.com/equinor/fusion-cli/issues",
   "dependencies": {
-    "@equinor/fusion": "^0.1.7",
+    "@equinor/fusion": "^0.1.86",
     "@hot-loader/react-dom": "^16.8.6",
     "@oclif/command": "^1.5.13",
     "@oclif/config": "^1.13.0",
@@ -45,7 +45,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "@equinor/fusion-components": "0.0.4",
+    "@equinor/fusion-components": "0.0.33",
     "@oclif/dev-cli": "^1.22.0",
     "@oclif/test": "^1.2.4",
     "@oclif/tslint": "^3.1.1",

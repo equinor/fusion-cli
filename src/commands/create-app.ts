@@ -186,7 +186,7 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
         clobber: false,
     });
 
-    const indexJsPath = path.join(options.targetDirectory || '', 'index.js');
+    const indexJsPath = path.join(options.targetDirectory || '', 'src', 'index.tsx');
     const indexJsContent = fs.readFileSync(indexJsPath).toString();
 
     const indexJsContentReplaced = indexJsContent.replace("{appKey}", options.key || "app-key");

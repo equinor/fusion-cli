@@ -8,6 +8,7 @@
     "file-name-casing": [true, {"index.tsx": "camel-case", ".tsx": "pascal-case", ".ts": "kebab-case"}],
     "no-console": false,
     "no-implicit-dependencies": [true, "dev"],
-    "ordered-imports": false
+    "ordered-imports": false,
+    "no-floating-promises": false
   }
 }

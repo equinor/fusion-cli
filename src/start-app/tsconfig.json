@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "importHelpers": true,
+    "sourceMap": true,
+    "module": "esnext",
+    "outDir": "lib",
+    "rootDir": "./",
+    "strict": true,
+    "target": "es2017",
+    "composite": false,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node"
+  }
+}
