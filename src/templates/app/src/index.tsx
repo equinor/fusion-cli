@@ -16,7 +16,7 @@ const App: React.FC = () => {
         await sendNotification({
             id: "This is a unique id which means the notification will only be shown once",
             level: "medium",
-            title: "Welcome to your new fusion app! Open up index.js to start building your app!",
+            title: "Welcome to your new fusion app! Open up src/index.tsx to start building your app!",
         });
     };
 
