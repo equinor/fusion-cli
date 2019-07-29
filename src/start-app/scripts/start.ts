@@ -1,6 +1,4 @@
 import * as express from 'express';
-import * as fs from 'fs';
-import * as https from 'https';
 import * as path from 'path';
 import * as webpack from 'webpack';
 import * as devMiddleware from 'webpack-dev-middleware';
@@ -15,16 +13,17 @@ import mode from '../parts/mode';
 import output from '../parts/output';
 import externals from '../parts/externals';
 import styles from '../parts/styles';
+import typescript from '../parts/typescript';
 
 const openBrowser = async (port: number) => {
-    await open(`https://localhost:${port}`);
+    await open(`http://localhost:${port}`);
 };
 
 export default async () => {
-    const compiler = webpack(merge(babel, mode, entry, output, hmr, externals, styles));
+    const compiler = webpack(merge(babel, mode, entry, output, hmr, externals, styles, typescript));
 
     const app = express();
-    const port = 3000;
+    const port = 3007;
 
     app.use(
         devMiddleware(compiler, {
@@ -42,17 +41,7 @@ export default async () => {
         res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
     });
 
-    https
-        .createServer(
-            {
-                cert: fs.readFileSync(path.resolve(__dirname, '..', 'keys', 'server.cert')),
-                key: fs.readFileSync(path.resolve(__dirname, '..', 'keys', 'server.key')),
-            },
-            app
-        )
-        .listen(port, () => {
-            console.log(`Fusion App listening on port ${port}!`);
-        });
+    app.listen(port, () => console.log(`Fusion App listening on port ${port}!`));
 
     await openBrowser(port);
 };

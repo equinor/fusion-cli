@@ -29,7 +29,12 @@ export default {
                             modules: true,
                         },
                     },
-                    lessLoader,
+                    {
+                        loader: lessLoader,
+                        options: {
+                            noIeCompat: true,
+                        },
+                    },
                 ],
             },
         ],

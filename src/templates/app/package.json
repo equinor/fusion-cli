@@ -14,11 +14,18 @@
     "shortName": ""
   },
   "dependencies": {
-    "react": "^16.8.3",
-    "@equinor/fusion": "^0.1.7",
-    "@equinor/fusion-components": "^0.0.4"
+    "@equinor/fusion": "^0.1.86",
+    "@equinor/fusion-components": "^0.0.33",
+    "react": "^16.8.6"
   },
   "devDependencies": {
-    "react-hot-loader": "^4.8.4"
+    "@types/history": "^4.7.2",
+    "@types/react": "^16.8.23",
+    "@types/react-router-dom": "^4.3.4",
+    "@types/webpack-env": "^1.14.0",
+    "history": "^4.9.0",
+    "react-hot-loader": "^4.8.4",
+    "react-router-dom": "^5.0.1",
+    "typescript": "^3.5.3"
   }
 }

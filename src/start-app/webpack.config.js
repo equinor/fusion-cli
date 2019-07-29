@@ -50,7 +50,7 @@ module.exports = {
                 use: [
                     {
                         loader: 'expose-loader',
-                        options: 'FusionSDK',
+                        options: 'FusionAPI',
                     },
                 ],
             },

@@ -10,5 +10,5 @@ const webpackHotMiddlewareClient = path.resolve(
 );
 
 export default {
-    entry: [path.resolve(process.cwd(), 'index.js'), webpackHotMiddlewareClient],
+    entry: [path.resolve(process.cwd(), 'src', 'index.tsx'), webpackHotMiddlewareClient],
 };

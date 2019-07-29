@@ -1,6 +1,6 @@
 export default {
     externals: {
-        '@equinor/fusion': 'FusionSDK',
+        '@equinor/fusion': 'FusionAPI',
         react: 'FusionReact',
         'react-dom': 'FusionReactDOM',
     },

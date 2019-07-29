@@ -8,11 +8,13 @@
   },
   "bugs": "https://github.com/equinor/fusion-cli/issues",
   "dependencies": {
-    "@equinor/fusion": "^0.1.7",
+    "@equinor/fusion": "^0.1.86",
     "@hot-loader/react-dom": "^16.8.6",
     "@oclif/command": "^1.5.13",
     "@oclif/config": "^1.13.0",
+    "@oclif/plugin-autocomplete": "^0.1.2",
     "@oclif/plugin-help": "^2.1.6",
+    "@oclif/plugin-not-found": "^1.2.2",
     "@types/execa": "^0.9.0",
     "@types/inquirer": "^6.0.2",
     "@types/listr": "^0.14.0",
@@ -45,7 +47,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "@equinor/fusion-components": "0.0.4",
+    "@equinor/fusion-components": "0.0.33",
     "@oclif/dev-cli": "^1.22.0",
     "@oclif/test": "^1.2.4",
     "@oclif/tslint": "^3.1.1",
@@ -100,7 +102,9 @@
     "commands": "./lib/commands",
     "bin": "fusion",
     "plugins": [
-      "@oclif/plugin-help"
+      "@oclif/plugin-help",
+      "@oclif/plugin-not-found",
+      "@oclif/plugin-autocomplete"
     ]
   },
   "repository": "equinor/fusion-cli",
