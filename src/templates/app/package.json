@@ -25,6 +25,7 @@
     "history": "^4.9.0",
     "react-hot-loader": "^4.8.4",
     "react-router-dom": "^5.0.1",
-    "typescript": "^3.5.3"
+    "typescript": "^3.5.3",
+    "tslib": "^1.9.3"
   }
 }
