@@ -112,10 +112,10 @@
   "repository": "equinor/fusion-cli",
   "scripts": {
     "build:start-app-bundle": "webpack --config ./src/start-app/webpack.config.js",
-    "copy": "cp -r src/templates/ lib/",
-    "postpack": "rimraf oclif.manifest.json",
+    "copy": "cp -r src/templates/ lib/ && cp -r src/start-app/dist lib/start-app/",
+    "postpack": "rm oclif.manifest.json",
     "posttest": "tslint -p test -t stylish",
-    "prepack": "rimraf lib && tsc -b && npm run copy && oclif-dev manifest",
+    "prepack": "rm -rf lib && tsc -b && npm run copy && oclif-dev manifest",
     "test": "echo \"No test specified\""
   },
   "types": "lib/index.d.ts",
