@@ -17,6 +17,9 @@ export default {
                 use: [
                     {
                         loader: typescriptLoader,
+                        options: {
+                            silent: true,
+                        },
                     },
                 ],
             },
@@ -25,6 +28,9 @@ export default {
                 use: [
                     {
                         loader: typescriptLoader,
+                        options: {
+                            silent: true,
+                        },
                     },
                 ],
             },

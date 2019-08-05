@@ -19,7 +19,7 @@ $ npm install -g @equinor/fusion-cli
 $ fusion COMMAND
 running command...
 $ fusion (-v|--version|version)
-@equinor/fusion-cli/0.0.0 darwin-x64 node-v10.11.0
+@equinor/fusion-cli/0.0.8 linux-x64 node-v11.1.0
 $ fusion --help [COMMAND]
 USAGE
   $ fusion COMMAND
@@ -28,9 +28,50 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
+* [`fusion autocomplete [SHELL]`](#fusion-autocomplete-shell)
+* [`fusion build-app`](#fusion-build-app)
 * [`fusion create-app`](#fusion-create-app)
 * [`fusion help [COMMAND]`](#fusion-help-command)
 * [`fusion start-app`](#fusion-start-app)
+
+## `fusion autocomplete [SHELL]`
+
+display autocomplete installation instructions
+
+```
+USAGE
+  $ fusion autocomplete [SHELL]
+
+ARGUMENTS
+  SHELL  shell type
+
+OPTIONS
+  -r, --refresh-cache  Refresh cache (ignores displaying instructions)
+
+EXAMPLES
+  $ fusion autocomplete
+  $ fusion autocomplete bash
+  $ fusion autocomplete zsh
+  $ fusion autocomplete --refresh-cache
+```
+
+_See code: [@oclif/plugin-autocomplete](https://github.com/oclif/plugin-autocomplete/blob/v0.1.2/src/commands/autocomplete/index.ts)_
+
+## `fusion build-app`
+
+Build the app as a ready-to-deply zip bundle
+
+```
+USAGE
+  $ fusion build-app
+
+OPTIONS
+  -o, --out=out   [default: ./out] Output path
+  -s, --silent    No console output
+  -z, --[no-]zip  Generate zip
+```
+
+_See code: [src/commands/build-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.8/src/commands/build-app.ts)_
 
 ## `fusion create-app`
 
@@ -50,7 +91,7 @@ OPTIONS
   -n, --name=name                Name for app/tile(use quotes for spaces)
 ```
 
-_See code: [src\commands\create-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.1/src\commands\create-app.ts)_
+_See code: [src/commands/create-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.8/src/commands/create-app.ts)_
 
 ## `fusion help [COMMAND]`
 
@@ -67,7 +108,7 @@ OPTIONS
   --all  see all commands in CLI
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src\commands\help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.1.6/src/commands/help.ts)_
 
 ## `fusion start-app`
 
@@ -84,5 +125,5 @@ OPTIONS
   -p, --progress    Display build progress
 ```
 
-_See code: [src\commands\start-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.1/src\commands\start-app.ts)_
+_See code: [src/commands/start-app.ts](https://github.com/equinor/fusion-cli/blob/v0.0.8/src/commands/start-app.ts)_
 <!-- commandsstop -->
