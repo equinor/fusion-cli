@@ -13,7 +13,15 @@ export default {
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
+                test: /\.ts$/,
+                use: [
+                    {
+                        loader: typescriptLoader,
+                    },
+                ],
+            },
+            {
+                test: /\.tsx$/,
                 use: [
                     {
                         loader: typescriptLoader,

@@ -2,8 +2,7 @@
   "name": "fusion-app-js-template",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "icon": "icon.js",
+  "main": "src/index.tsx",
   "scripts": {
     "start": "fusion start-app"
   },
@@ -14,8 +13,8 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^0.1.86",
-    "@equinor/fusion-components": "^0.0.33",
+    "@equinor/fusion": "^0.1.97",
+    "@equinor/fusion-components": "^0.0.39",
     "react": "^16.8.6"
   },
   "devDependencies": {

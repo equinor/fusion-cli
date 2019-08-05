@@ -54,6 +54,15 @@ module.exports = {
                     },
                 ],
             },
+            {
+                test: require.resolve('@equinor/fusion-components'),
+                use: [
+                    {
+                        loader: 'expose-loader',
+                        options: 'FusionComponents',
+                    },
+                ],
+            },
         ],
     },
     plugins: [
