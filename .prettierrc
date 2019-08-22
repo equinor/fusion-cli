@@ -4,6 +4,6 @@
     "trailingComma": "es5",
     "semi": true,
     "endOfLine": "crlf",
-    "parser": "flow",
+    "parser": "typescript",
     "tabWidth": 4
 }

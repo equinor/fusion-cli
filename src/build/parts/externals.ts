@@ -1,3 +1,6 @@
+import webpack from 'webpack';
+import IDependencyList from '../DependencyList';
+
 /**
  * Strip non-numeric characters from version string (e.g '^1.0.7' > '1.0.7')
  * @param version version string
@@ -10,10 +13,7 @@ const parseVersion = (version?: string | null) =>
               .join('.')
         : '';
 
-export default (
-    cliDependencies: Record<string, string>,
-    moduleDependencies: Record<string, string>
-) => {
+export default (cliDependencies: IDependencyList, moduleDependencies: IDependencyList): webpack.Configuration => {
     const externals: Record<string, string> = {};
 
     const addIfVersionsMatch = (key: string, value: string) => {

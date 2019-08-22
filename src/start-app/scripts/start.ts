@@ -1,54 +1,49 @@
 import * as express from 'express';
 import * as compression from 'compression';
 import * as path from 'path';
-import * as fs from 'fs';
-import * as util from 'util';
 import * as webpack from 'webpack';
 import * as devMiddleware from 'webpack-dev-middleware';
 import * as hotMiddleware from 'webpack-hot-middleware';
 import * as merge from 'webpack-merge';
 import * as open from 'open';
+import * as getPort from 'get-port';
 
-import babel from '../parts/babel';
-import entry from '../parts/entry';
-import hmr from '../parts/hmr';
-import mode from '../parts/mode';
-import output from '../parts/output';
-import externals from '../parts/externals';
-import styles from '../parts/styles';
-import typescript from '../parts/typescript';
+import babel from '../../build/parts/babel';
+import entry from '../../build/parts/entry';
+import hmr from '../../build/parts/hmr';
+import mode from '../../build/parts/mode';
+import output from '../../build/parts/output';
+import externals from '../../build/parts/externals';
+import styles from '../../build/parts/styles';
+import typescript from '../../build/parts/typescript';
+import getPackageAsync from '../../build/getPackageAsync';
+import getPackageDependencies from '../../build/getPackageDependencies';
 
 const openBrowser = async (port: number) => {
     await open(`http://localhost:${port}`);
 };
 
-const readFile = util.promisify(fs.readFile);
-
-const getDependencies = async (rootDir: string) => {
-    const appPackageContent = await readFile(path.resolve(rootDir, 'package.json'));
-    const appPackage = JSON.parse(appPackageContent.toString());
-    return { ...appPackage.dependencies, ...appPackage.devDependencies };
-};
-
 export default async () => {
-    const cliDependencies = await getDependencies(path.resolve(__dirname, '..', '..', '..'));
-    const moduleDependencies = await getDependencies(process.cwd());
+    const appPackage = await getPackageAsync(path.resolve(process.cwd()));
+    const cliPackage = await getPackageAsync(path.resolve(__dirname, '..', '..', '..'));
+    const cliDependencies = await getPackageDependencies(cliPackage);
+    const moduleDependencies = await getPackageDependencies(appPackage);
 
     const compiler = webpack(
         merge(
             babel,
-            mode,
-            entry,
-            output,
+            mode(false),
+            entry(appPackage),
+            output('app.bundle.js'),
             hmr,
             externals(cliDependencies, moduleDependencies),
             styles,
-            typescript
+            typescript('', false)
         )
     );
 
     const app = express();
-    const port = 3007;
+    const port = await getPort({ port: getPort.makeRange(3000, 3100) });
 
     app.use(compression());
 
@@ -57,12 +52,14 @@ export default async () => {
             publicPath: '/',
         })
     );
+
     app.use(hotMiddleware(compiler));
 
     // tslint:disable-next-line:variable-name
     app.get('/fusion.bundle.js', (_req, res) => {
         res.sendFile(path.resolve(__dirname, '..', 'dist', 'fusion.bundle.js'));
     });
+
     // tslint:disable-next-line:variable-name
     app.get('/', (_req, res) => {
         res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));

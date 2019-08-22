@@ -1,8 +1,8 @@
-import * as path from 'path';
+import resolveCliDependency from '../resolveCliDependency';
 
-const styleLoader = path.resolve(__dirname, '..', '..', '..', 'node_modules', 'style-loader');
-const cssLoader = path.resolve(__dirname, '..', '..', '..', 'node_modules', 'css-loader');
-const lessLoader = path.resolve(__dirname, '..', '..', '..', 'node_modules', 'less-loader');
+const styleLoader = resolveCliDependency('style-loader');
+const cssLoader = resolveCliDependency('css-loader');
+const lessLoader = resolveCliDependency('less-loader');
 
 export default {
     module: {

@@ -1,14 +1,15 @@
 import * as path from 'path';
+import IPackage from '../Package';
 
-export default {
-    entry: [path.resolve(process.cwd(), 'src', 'index.tsx'), 'webpack-hot-middleware/client'],
+export default (modulePackage: IPackage) => ({
+    entry: [path.resolve(process.cwd(), modulePackage.main), 'webpack-hot-middleware/client'],
 
     resolve: {
         extensions: ['.ts', '.js', '.tsx', '.jsx'],
         modules: [
             path.resolve(process.cwd(), 'node_modules'),
-            path.resolve(process.cwd(), 'src'),
+            path.dirname(path.resolve(process.cwd(), modulePackage.main)),
             path.resolve(__dirname, '..', '..', '..', 'node_modules'),
         ],
     },
-};
+});

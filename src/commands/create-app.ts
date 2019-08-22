@@ -189,7 +189,7 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
     const indexJsPath = path.join(options.targetDirectory || '', 'src', 'index.tsx');
     const indexJsContent = fs.readFileSync(indexJsPath).toString();
 
-    const indexJsContentReplaced = indexJsContent.replace("{appKey}", options.key || "app-key");
+    const indexJsContentReplaced = indexJsContent.replace('{appKey}', options.key || 'app-key');
     fs.writeFileSync(indexJsPath, indexJsContentReplaced);
 
     return success;
@@ -235,9 +235,9 @@ const createProject = async (options: ICreateAppOptions) => {
                     ? 'Pass --install to automatically install dependencies'
                     : undefined,
             task: () =>
-            projectInstall({
-                cwd: options.targetDirectory,
-            }),
+                projectInstall({
+                    cwd: options.targetDirectory,
+                }),
             title: 'Install dependencies',
         },
     ]);
