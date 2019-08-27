@@ -1,0 +1,18 @@
+{
+  "name": "hans",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@equinor/fusion-cli": "^0.2.2",
+    "vsts-task-lib": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.1"
+  }
+}
