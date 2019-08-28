@@ -1,13 +1,13 @@
 import { render } from '@hot-loader/react-dom';
 import {
     FusionContext,
+    AuthContainer,
     ServiceResolver,
     createFusionContext,
 } from '@equinor/fusion';
 import * as React from 'react';
 import { Router } from 'react-router';
 import { FusionHeader, FusionRoot, FusionContent } from '@equinor/fusion-components';
-import AppAuthContainer from './AppAuthContainer';
 import HotAppWrapper from "./HotAppWrapper";
 
 const serviceResolver: ServiceResolver = {
@@ -23,7 +23,7 @@ const serviceResolver: ServiceResolver = {
 };
 
 const start = async () => {
-    const authContainer = new AppAuthContainer();
+    const authContainer = new AuthContainer();
     await authContainer.handleWindowCallbackAsync();
 
     const coreAppClientId = '5a842df8-3238-415d-b168-9f16a6a6031b';
@@ -36,6 +36,7 @@ const start = async () => {
         serviceResolver.getPowerBiBaseUrl(),
         serviceResolver.getProjectsBaseUrl(),
         serviceResolver.getTasksBaseUrl(),
+        serviceResolver.getPeopleBaseUrl(),
     ]);
 
     if (!coreAppRegistered) {

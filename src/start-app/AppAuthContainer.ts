@@ -11,7 +11,6 @@ export default class AppAuthContainer extends AuthContainer {
         const params: any = {
             ...customParams,
             client_id: app.clientId,
-            domain_hint: "@equinor.com",
             nonce: nonce.getKey(),
             redirect_uri: window.location.href,
             response_type: "id_token",
