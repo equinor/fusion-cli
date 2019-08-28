@@ -13,18 +13,18 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^0.1.97",
-    "@equinor/fusion-components": "^0.0.39",
-    "react": "^16.8.6"
+    "@equinor/fusion": "^0.3.2",
+    "@equinor/fusion-components": "^0.0.43",
+    "react": "^16.9.0"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^0.2.0",
+    "@equinor/fusion-cli": "^0.2.3",
     "@types/history": "^4.7.2",
-    "@types/react": "^16.8.23",
+    "@types/react": "^16.9.2",
     "@types/react-router-dom": "^4.3.4",
     "@types/webpack-env": "^1.14.0",
     "history": "^4.9.0",
-    "react-hot-loader": "^4.8.4",
+    "react-hot-loader": "^4.12.12",
     "react-router-dom": "^5.0.1",
     "typescript": "^3.5.3",
     "tslib": "^1.9.3"
