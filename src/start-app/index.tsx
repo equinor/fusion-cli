@@ -19,6 +19,7 @@ const serviceResolver: ServiceResolver = {
     getPowerBiBaseUrl: () => 'https://pro-s-powerbi-ci.azurewebsites.net',
     getProjectsBaseUrl: () => 'https://pro-s-projects-ci.azurewebsites.net',
     getTasksBaseUrl: () => 'https://pro-s-tasks-ci.azurewebsites.net',
+    getPeopleBaseUrl: () => 'https://pro-s-people-ci.azurewebsites.net',
 };
 
 const start = async () => {
@@ -38,7 +39,7 @@ const start = async () => {
     ]);
 
     if (!coreAppRegistered) {
-        authContainer.login(coreAppClientId);
+        await authContainer.loginAsync(coreAppClientId);
     } else {
         const Root = () => {
             const root = React.useRef(document.createElement('div'));

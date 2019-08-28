@@ -489,7 +489,7 @@ class AuthContainer {
             const app = new _AuthApp__WEBPACK_IMPORTED_MODULE_0__["default"](clientId, []);
             this.apps.push(app);
             await this.updateTokenForAppAsync(app, token);
-            window.location.hash = "";
+            window.location.hash = '';
         }
         catch (e) {
             throw new FusionAuthLoginError();
@@ -515,7 +515,7 @@ class AuthContainer {
     async refreshTokenAsync(resource) {
         // TODO: This should refresh the token instead of logging in
         // For now this is not possible because of iframes and crazy stuff
-        this.login(resource);
+        await this.loginAsync(resource);
         return null;
     }
     async registerAppAsync(clientId, resources) {
@@ -532,7 +532,7 @@ class AuthContainer {
         }
         return false;
     }
-    login(clientId) {
+    async loginAsync(clientId) {
         const app = this.resolveApp(clientId);
         if (app === null) {
             throw new FusionAuthAppNotFoundError(clientId);
@@ -541,7 +541,7 @@ class AuthContainer {
         // Store redirect url
         // Login page cannot be displayed within a frame
         // Get the top level window and redirect there
-        getTopLevelWindow(window).location.href = this.buildLoginUrl(app, nonce);
+        getTopLevelWindow(window).location.href = await this.buildLoginUrlAsync(app, nonce);
     }
     async logoutAsync(clientId) {
         if (clientId) {
@@ -580,29 +580,32 @@ class AuthContainer {
             return Object(_utils_url__WEBPACK_IMPORTED_MODULE_5__["trimTrailingSlash"])(url.origin.toLowerCase());
         }
         catch (_a) {
-            return "";
+            return '';
         }
     }
     static getTokenFromHash(hash) {
-        const parts = hash.substr(1).split("&");
-        const tokenPart = parts.find(part => part.indexOf("id_token=") === 0);
-        if (typeof tokenPart === "undefined") {
+        const parts = hash.substr(1).split('&');
+        const tokenPart = parts.find(part => part.indexOf('id_token=') === 0);
+        if (typeof tokenPart === 'undefined') {
             return null;
         }
-        return tokenPart.replace("id_token=", "");
+        return tokenPart.replace('id_token=', '');
     }
-    buildLoginUrl(app, nonce, customParams = {}) {
-        const base = "https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/authorize";
-        const params = Object.assign({}, customParams, { client_id: app.clientId, response_type: "id_token", redirect_uri: getTopLevelWindow(window).location.href, login_hint: window["currentUpn"], domain_hint: "@equinor.com", nonce: nonce.getKey() });
-        const queryString = Object.keys(params).reduce((query, key) => query + `${query ? "&" : ""}${key}=${encodeURIComponent(params[key])}`, "");
-        return base + "?" + queryString;
+    async buildLoginUrlAsync(app, nonce, customParams = {}) {
+        const cachedUser = await this.getCachedUserAsync();
+        const base = 'https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/authorize';
+        const params = Object.assign({}, customParams, { client_id: app.clientId, response_type: 'id_token', redirect_uri: getTopLevelWindow(window).location.href, nonce: nonce.getKey(), login_hint: cachedUser ? cachedUser.upn : null });
+        const queryString = Object.keys(params)
+            .filter(key => params[key])
+            .reduce((query, key) => query + `${query ? '&' : ''}${key}=${encodeURIComponent(params[key])}`, '');
+        return base + '?' + queryString;
     }
     resolveApp(resource) {
         const resourceOrigin = AuthContainer.getResourceOrigin(resource);
         const app = this.apps.find(app => app.resources.indexOf(resourceOrigin) !== -1 ||
             app.clientId === resourceOrigin ||
             app.clientId === resource);
-        if (typeof app === "undefined") {
+        if (typeof app === 'undefined') {
             return null;
         }
         return app;
@@ -623,7 +626,7 @@ class AuthContainer {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FusionNonceNotFoundError", function() { return FusionNonceNotFoundError; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthNonce; });
-/* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/uuid/v1.js");
+/* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/@equinor/fusion/node_modules/uuid/v1.js");
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v1__WEBPACK_IMPORTED_MODULE_0__);
 
 class FusionNonceNotFoundError extends Error {
@@ -680,6 +683,8 @@ class AuthNonce {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FusionAuthTokenParseError", function() { return FusionAuthTokenParseError; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthToken; });
+/* harmony import */ var _utils_JSON__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/JSON */ "./node_modules/@equinor/fusion/lib/utils/JSON.js");
+
 const b64DecodeUnicode = (str) => decodeURIComponent(Array.prototype.map
     .call(atob(str), (c) => "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2))
     .join(""));
@@ -691,7 +696,7 @@ class FusionAuthTokenParseError extends Error {
 class AuthToken {
     static parse(token) {
         const userPart = token.split(".")[1];
-        const parsedToken = JSON.parse(b64DecodeUnicode(userPart));
+        const parsedToken = _utils_JSON__WEBPACK_IMPORTED_MODULE_0__["default"].parse(b64DecodeUnicode(userPart));
         if (!parsedToken) {
             throw new FusionAuthTokenParseError(token);
         }
@@ -777,6 +782,8 @@ class AuthToken {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthUser; });
+/* harmony import */ var _utils_JSON__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/JSON */ "./node_modules/@equinor/fusion/lib/utils/JSON.js");
+
 class UserTokenMissmatchError extends Error {
 }
 class AuthUser {
@@ -846,7 +853,7 @@ class AuthUser {
         };
     }
     toString() {
-        return JSON.stringify(this.toObject());
+        return _utils_JSON__WEBPACK_IMPORTED_MODULE_0__["default"].stringify(this.toObject());
     }
 }
 
@@ -1235,7 +1242,7 @@ const useFusionContext = () => Object(react__WEBPACK_IMPORTED_MODULE_0__["useCon
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NotificationCenter; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useNotificationCenter", function() { return useNotificationCenter; });
-/* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/uuid/v1.js");
+/* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/@equinor/fusion/node_modules/uuid/v1.js");
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v1__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
 /* harmony import */ var _FusionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
@@ -1788,13 +1795,16 @@ class HttpClientRequestFailedError extends HttpClientError {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../version */ "./node_modules/@equinor/fusion/lib/version.js");
+
+const defaultHeaders = new Headers({
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-fusion-api-version': _version__WEBPACK_IMPORTED_MODULE_0__["default"],
+});
 /* harmony default export */ __webpack_exports__["default"] = ((init, transform) => {
     init = Object.assign({}, init, { headers: new Headers(init
-            ? init.headers
-            : {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            }) });
+            ? Object.assign({}, defaultHeaders, init.headers) : Object.assign({}, defaultHeaders)) });
     if (typeof transform === 'undefined') {
         return init;
     }
@@ -1815,7 +1825,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HttpClient; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHttpClient", function() { return useHttpClient; });
-/* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/uuid/v1.js");
+/* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/@equinor/fusion/node_modules/uuid/v1.js");
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v1__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _HttpClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HttpClientError */ "./node_modules/@equinor/fusion/lib/http/HttpClient/HttpClientError.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClientError", function() { return _HttpClientError__WEBPACK_IMPORTED_MODULE_1__["HttpClientError"]; });
@@ -1826,6 +1836,8 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony import */ var _ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ensureRequestInit */ "./node_modules/@equinor/fusion/lib/http/HttpClient/ensureRequestInit.js");
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
+/* harmony import */ var _utils_JSON__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/JSON */ "./node_modules/@equinor/fusion/lib/utils/JSON.js");
+
 
 
 
@@ -1856,17 +1868,17 @@ class HttpClient {
         });
     }
     async postAsync(url, body, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'POST', body: JSON.stringify(body) })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'POST', body: this.createRequestBody(body) })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
     async putAsync(url, body, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'PUT', body: JSON.stringify(body) })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'PUT', body: this.createRequestBody(body) })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
     async patchAsync(url, body, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'PATCH', body: JSON.stringify(body) })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'PATCH', body: this.createRequestBody(body) })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
@@ -1921,7 +1933,8 @@ class HttpClient {
     // Response parsers
     async parseResponseJSONAsync(response) {
         try {
-            const json = await response.json();
+            const text = await response.text();
+            const json = _utils_JSON__WEBPACK_IMPORTED_MODULE_4__["default"].parse(text);
             return json;
         }
         catch (parseError) {
@@ -1988,6 +2001,13 @@ class HttpClient {
     // Utils
     getRequestInProgress(url) {
         return this.requestsInProgress[url];
+    }
+    createRequestBody(body) {
+        if (typeof body === 'function') {
+            const bodyFactory = body;
+            return bodyFactory();
+        }
+        return _utils_JSON__WEBPACK_IMPORTED_MODULE_4__["default"].stringify(body);
     }
 }
 const useHttpClient = () => {
@@ -2185,6 +2205,70 @@ class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion/lib/http/apiClients/OrgClient.js":
+/*!***********************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/apiClients/OrgClient.js ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OrgClient; });
+/* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
+
+class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    async getPositionsAsync(projectId) {
+        const url = this.resourceCollections.org.positions(projectId);
+        return this.httpClient.getAsync(url);
+    }
+    async getPositionAsync(projectId, positionId) {
+        const url = this.resourceCollections.org.position(projectId, positionId);
+        return this.httpClient.getAsync(url);
+    }
+    async getJobDescriptionAsync(projectId, positionId) {
+        const url = this.resourceCollections.org.jobDescription(projectId, positionId);
+        return this.httpClient.getAsync(url, null, async (response) => {
+            return await response.text();
+        });
+    }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/http/apiClients/PeopleClient.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/apiClients/PeopleClient.js ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PeopleClient; });
+/* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
+
+class PeopleClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    constructor(httpClient, resourceCollection) {
+        super(httpClient, resourceCollection);
+        httpClient.getAsync(resourceCollection.people.apiSignin(), { credentials: 'include' });
+    }
+    async getPersonDetailsAsync(id, oDataExpand) {
+        const url = this.resourceCollections.people.getPersonDetails(id, oDataExpand);
+        return await this.httpClient.getAsync(url, {
+            headers: { 'api-version': '3.0' },
+        });
+    }
+    async searchPersons(query) {
+        const url = this.resourceCollections.people.searchPersons(query);
+        return await this.httpClient.getAsync(url);
+    }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/http/apiClients/TasksClient.js":
 /*!*************************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/TasksClient.js ***!
@@ -2248,6 +2332,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FusionClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FusionClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/FusionClient.js");
 /* harmony import */ var _ContextClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContextClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/ContextClient.js");
 /* harmony import */ var _TasksClient__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TasksClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/TasksClient.js");
+/* harmony import */ var _PeopleClient__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PeopleClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/PeopleClient.js");
+/* harmony import */ var _OrgClient__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./OrgClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/OrgClient.js");
+
+
 
 
 
@@ -2257,6 +2345,8 @@ const createApiClients = (httpClient, resources) => ({
     fusion: new _FusionClient__WEBPACK_IMPORTED_MODULE_1__["default"](httpClient, resources),
     context: new _ContextClient__WEBPACK_IMPORTED_MODULE_2__["default"](httpClient, resources),
     tasks: new _TasksClient__WEBPACK_IMPORTED_MODULE_3__["default"](httpClient, resources),
+    people: new _PeopleClient__WEBPACK_IMPORTED_MODULE_4__["default"](httpClient, resources),
+    org: new _OrgClient__WEBPACK_IMPORTED_MODULE_5__["default"](httpClient, resources),
 });
 
 
@@ -2401,6 +2491,28 @@ function useHanoverChild(siteCode, projectIdentifier, commpkgId, action) {
         return response.data;
     }, [siteCode, projectIdentifier]);
 }
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/http/hooks/people/usePersonDetails.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/hooks/people/usePersonDetails.js ***!
+  \********************************************************************************/
+/*! exports provided: usePersonDetails */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "usePersonDetails", function() { return usePersonDetails; });
+/* harmony import */ var _useApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../useApiClient */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClient.js");
+
+const usePersonDetails = (personId, expand) => {
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+        const response = await apiClients.people.getPersonDetailsAsync(personId, expand);
+        return response.data;
+    }, [personId, expand]);
+};
 
 
 /***/ }),
@@ -2607,6 +2719,86 @@ class FusionResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion/lib/http/resourceCollections/OrgResourceCollection.js":
+/*!********************************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/OrgResourceCollection.js ***!
+  \********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OrgResourceCollection; });
+/* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
+/* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
+
+
+class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    getBaseUrl() {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.serviceResolver.getOrgBaseUrl());
+    }
+    positions(projectId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'projects', projectId, 'positions');
+    }
+    position(projectId, positionId) {
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.positions(projectId), positionId);
+        const query = `?$expand=taskOwners.instances, reportsTo.instances, parentPosition, project, contract`;
+        return `${url}${query}`;
+    }
+    jobDescription(projectId, positionId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.position(projectId, positionId), 'jobDescription');
+    }
+    reportsTo(projectId, positionId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.position(projectId, positionId), 'reportsTo');
+    }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/http/resourceCollections/PeopleResourceCollection.js":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/PeopleResourceCollection.js ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PeopleResourceCollection; });
+/* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
+/* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
+/* harmony import */ var odata_query__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! odata-query */ "./node_modules/odata-query/dist/index.js");
+/* harmony import */ var odata_query__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(odata_query__WEBPACK_IMPORTED_MODULE_2__);
+
+
+
+class PeopleResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"] {
+    getBaseUrl() {
+        return this.serviceResolver.getPeopleBaseUrl();
+    }
+    apiSignin() {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'api-signin');
+    }
+    getPersonDetails(id, oDataExpand) {
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'persons', id);
+        if (!oDataExpand)
+            return url;
+        const expand = oDataExpand ? oDataExpand.map(s => s) : [];
+        const oDataQuery = odata_query__WEBPACK_IMPORTED_MODULE_2___default()({ expand });
+        return `${url}${oDataQuery}`;
+    }
+    getPersonPhoto(id) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'persons', id, 'photo');
+    }
+    searchPersons(query) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), `persons?query=${query}`);
+    }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/http/resourceCollections/TasksResourceCollection.js":
 /*!**********************************************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/TasksResourceCollection.js ***!
@@ -2667,6 +2859,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _FusionResourceCollection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FusionResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/FusionResourceCollection.js");
 /* harmony import */ var _ContextResourceCollection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContextResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/ContextResourceCollection.js");
 /* harmony import */ var _TasksResourceCollection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TasksResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/TasksResourceCollection.js");
+/* harmony import */ var _PeopleResourceCollection__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PeopleResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/PeopleResourceCollection.js");
+/* harmony import */ var _OrgResourceCollection__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./OrgResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/OrgResourceCollection.js");
+
+
 
 
 
@@ -2677,6 +2873,8 @@ const createResourceCollections = (serviceResolver, options) => ({
     fusion: new _FusionResourceCollection__WEBPACK_IMPORTED_MODULE_1__["default"](serviceResolver, options),
     context: new _ContextResourceCollection__WEBPACK_IMPORTED_MODULE_2__["default"](serviceResolver),
     tasks: new _TasksResourceCollection__WEBPACK_IMPORTED_MODULE_3__["default"](serviceResolver),
+    people: new _PeopleResourceCollection__WEBPACK_IMPORTED_MODULE_4__["default"](serviceResolver),
+    org: new _OrgResourceCollection__WEBPACK_IMPORTED_MODULE_5__["default"](serviceResolver),
 });
 
 
@@ -2686,7 +2884,7 @@ const createResourceCollections = (serviceResolver, options) => ({
 /*!***************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/index.js ***!
   \***************************************************/
-/*! exports provided: AuthContainer, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, TaskTypes, TaskSourceSystems, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild */
+/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, TaskTypes, TaskSourceSystems, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, useDebouncedAbortable, createCalendar, isSameDate, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild, usePersonDetails */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2694,123 +2892,167 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_AuthContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth/AuthContainer */ "./node_modules/@equinor/fusion/lib/auth/AuthContainer.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthContainer", function() { return _auth_AuthContainer__WEBPACK_IMPORTED_MODULE_0__["default"]; });
 
-/* harmony import */ var _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth/useCurrentUser */ "./node_modules/@equinor/fusion/lib/auth/useCurrentUser.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentUser", function() { return _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+/* harmony import */ var _auth_AuthApp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth/AuthApp */ "./node_modules/@equinor/fusion/lib/auth/AuthApp.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthApp", function() { return _auth_AuthApp__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _app_AppContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/AppContainer */ "./node_modules/@equinor/fusion/lib/app/AppContainer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerApp", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_2__["registerApp"]; });
+/* harmony import */ var _auth_AuthNonce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth/AuthNonce */ "./node_modules/@equinor/fusion/lib/auth/AuthNonce.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthNonce", function() { return _auth_AuthNonce__WEBPACK_IMPORTED_MODULE_2__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentApp", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_2__["useCurrentApp"]; });
+/* harmony import */ var _auth_AuthUser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./auth/AuthUser */ "./node_modules/@equinor/fusion/lib/auth/AuthUser.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthUser", function() { return _auth_AuthUser__WEBPACK_IMPORTED_MODULE_3__["default"]; });
 
-/* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+/* harmony import */ var _auth_AuthToken__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./auth/AuthToken */ "./node_modules/@equinor/fusion/lib/auth/AuthToken.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthToken", function() { return _auth_AuthToken__WEBPACK_IMPORTED_MODULE_4__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_3__["useFusionContext"]; });
+/* harmony import */ var _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./auth/useCurrentUser */ "./node_modules/@equinor/fusion/lib/auth/useCurrentUser.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentUser", function() { return _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_3__["createFusionContext"]; });
+/* harmony import */ var _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app/AppContainer */ "./node_modules/@equinor/fusion/lib/app/AppContainer.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerApp", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__["registerApp"]; });
 
-/* harmony import */ var _http_HttpClient__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./http/HttpClient */ "./node_modules/@equinor/fusion/lib/http/HttpClient/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClient", function() { return _http_HttpClient__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentApp", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__["useCurrentApp"]; });
 
-/* harmony import */ var _http_resourceCollections__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./http/resourceCollections */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createResourceCollections", function() { return _http_resourceCollections__WEBPACK_IMPORTED_MODULE_5__["createResourceCollections"]; });
+/* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__["default"]; });
 
-/* harmony import */ var _http_apiClients__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./http/apiClients */ "./node_modules/@equinor/fusion/lib/http/apiClients/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createApiClients", function() { return _http_apiClients__WEBPACK_IMPORTED_MODULE_6__["createApiClients"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__["useFusionContext"]; });
 
-/* harmony import */ var _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./settings/useCoreSettings */ "./node_modules/@equinor/fusion/lib/settings/useCoreSettings.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCoreSettings", function() { return _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__["createFusionContext"]; });
 
-/* harmony import */ var _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./settings/useAppSettings */ "./node_modules/@equinor/fusion/lib/settings/useAppSettings.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAppSettings", function() { return _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony import */ var _http_HttpClient__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./http/HttpClient */ "./node_modules/@equinor/fusion/lib/http/HttpClient/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClient", function() { return _http_HttpClient__WEBPACK_IMPORTED_MODULE_8__["default"]; });
 
-/* harmony import */ var _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./http/apiClients/models/context */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/context/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextType", function() { return _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_9__["ContextType"]; });
+/* harmony import */ var _http_resourceCollections__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./http/resourceCollections */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createResourceCollections", function() { return _http_resourceCollections__WEBPACK_IMPORTED_MODULE_9__["createResourceCollections"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextTypes", function() { return _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_9__["ContextTypes"]; });
+/* harmony import */ var _http_apiClients__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./http/apiClients */ "./node_modules/@equinor/fusion/lib/http/apiClients/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createApiClients", function() { return _http_apiClients__WEBPACK_IMPORTED_MODULE_10__["createApiClients"]; });
 
-/* harmony import */ var _core_ContextManager__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./core/ContextManager */ "./node_modules/@equinor/fusion/lib/core/ContextManager.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useContextManager", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_10__["useContextManager"]; });
+/* harmony import */ var _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./settings/useCoreSettings */ "./node_modules/@equinor/fusion/lib/settings/useCoreSettings.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCoreSettings", function() { return _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_11__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentContext", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_10__["useCurrentContext"]; });
+/* harmony import */ var _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./settings/useAppSettings */ "./node_modules/@equinor/fusion/lib/settings/useAppSettings.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAppSettings", function() { return _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_12__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useContextQuery", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_10__["useContextQuery"]; });
+/* harmony import */ var _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./http/apiClients/models/context */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/context/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextType", function() { return _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_13__["ContextType"]; });
 
-/* harmony import */ var _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./utils/AbortControllerManager */ "./node_modules/@equinor/fusion/lib/utils/AbortControllerManager.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withAbortController", function() { return _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__["withAbortController"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextTypes", function() { return _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_13__["ContextTypes"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAbortControllerManager", function() { return _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__["useAbortControllerManager"]; });
+/* harmony import */ var _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/ContextManager */ "./node_modules/@equinor/fusion/lib/core/ContextManager.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useContextManager", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__["useContextManager"]; });
 
-/* harmony import */ var _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./core/ComponentDisplayType */ "./node_modules/@equinor/fusion/lib/core/ComponentDisplayType.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayType", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_12__["useComponentDisplayType"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentContext", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__["useCurrentContext"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayClassNames", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_12__["useComponentDisplayClassNames"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useContextQuery", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__["useContextQuery"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ComponentDisplayType", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_12__["ComponentDisplayType"]; });
+/* harmony import */ var _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./utils/AbortControllerManager */ "./node_modules/@equinor/fusion/lib/utils/AbortControllerManager.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withAbortController", function() { return _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_15__["withAbortController"]; });
 
-/* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "trimTrailingSlash", function() { return _utils_url__WEBPACK_IMPORTED_MODULE_13__["trimTrailingSlash"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAbortControllerManager", function() { return _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_15__["useAbortControllerManager"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "combineUrls", function() { return _utils_url__WEBPACK_IMPORTED_MODULE_13__["combineUrls"]; });
+/* harmony import */ var _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/ComponentDisplayType */ "./node_modules/@equinor/fusion/lib/core/ComponentDisplayType.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayType", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__["useComponentDisplayType"]; });
 
-/* harmony import */ var _hooks_useHistory__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./hooks/useHistory */ "./node_modules/@equinor/fusion/lib/hooks/useHistory.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHistory", function() { return _hooks_useHistory__WEBPACK_IMPORTED_MODULE_14__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayClassNames", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__["useComponentDisplayClassNames"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HistoryContext", function() { return _hooks_useHistory__WEBPACK_IMPORTED_MODULE_14__["HistoryContext"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ComponentDisplayType", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__["ComponentDisplayType"]; });
 
-/* harmony import */ var _core_TasksContainer__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./core/TasksContainer */ "./node_modules/@equinor/fusion/lib/core/TasksContainer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTasksContainer", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_15__["useTasksContainer"]; });
+/* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "trimTrailingSlash", function() { return _utils_url__WEBPACK_IMPORTED_MODULE_17__["trimTrailingSlash"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTasks", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_15__["useTasks"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "combineUrls", function() { return _utils_url__WEBPACK_IMPORTED_MODULE_17__["combineUrls"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskSourceSystems", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_15__["useTaskSourceSystems"]; });
+/* harmony import */ var _hooks_useHistory__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./hooks/useHistory */ "./node_modules/@equinor/fusion/lib/hooks/useHistory.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHistory", function() { return _hooks_useHistory__WEBPACK_IMPORTED_MODULE_18__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskTypes", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_15__["useTaskTypes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HistoryContext", function() { return _hooks_useHistory__WEBPACK_IMPORTED_MODULE_18__["HistoryContext"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskPrioritySetter", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_15__["useTaskPrioritySetter"]; });
+/* harmony import */ var _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/TasksContainer */ "./node_modules/@equinor/fusion/lib/core/TasksContainer.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTasksContainer", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTasksContainer"]; });
 
-/* harmony import */ var _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./http/apiClients/models/tasks/Task */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/tasks/Task.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskTypes", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_16__["TaskTypes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTasks", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTasks"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskSourceSystems", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_16__["TaskSourceSystems"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskSourceSystems", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTaskSourceSystems"]; });
 
-/* harmony import */ var _utils_Pagination__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./utils/Pagination */ "./node_modules/@equinor/fusion/lib/utils/Pagination.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_17__["createPagination"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskTypes", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTaskTypes"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_17__["applyPagination"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskPrioritySetter", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTaskPrioritySetter"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_17__["usePagination"]; });
+/* harmony import */ var _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./http/apiClients/models/tasks/Task */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/tasks/Task.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskTypes", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_20__["TaskTypes"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAsyncPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_17__["useAsyncPagination"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskSourceSystems", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_20__["TaskSourceSystems"]; });
 
-/* harmony import */ var _hooks_useSorting__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./hooks/useSorting */ "./node_modules/@equinor/fusion/lib/hooks/useSorting.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useSorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_18__["useSorting"]; });
+/* harmony import */ var _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./utils/Pagination */ "./node_modules/@equinor/fusion/lib/utils/Pagination.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__["createPagination"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applySorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_18__["applySorting"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__["applyPagination"]; });
 
-/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/NotificationCenter */ "./node_modules/@equinor/fusion/lib/core/NotificationCenter.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_19__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__["usePagination"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useNotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_19__["useNotificationCenter"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAsyncPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__["useAsyncPagination"]; });
 
-/* harmony import */ var _intl_DateTime__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./intl/DateTime */ "./node_modules/@equinor/fusion/lib/intl/DateTime.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_20__["formatDateTime"]; });
+/* harmony import */ var _hooks_useSorting__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./hooks/useSorting */ "./node_modules/@equinor/fusion/lib/hooks/useSorting.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useSorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_22__["useSorting"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_20__["formatDate"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applySorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_22__["applySorting"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_20__["formatTime"]; });
+/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./core/NotificationCenter */ "./node_modules/@equinor/fusion/lib/core/NotificationCenter.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_23__["default"]; });
 
-/* harmony import */ var _intl_Number__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./intl/Number */ "./node_modules/@equinor/fusion/lib/intl/Number.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatNumber", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_21__["formatNumber"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useNotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_23__["useNotificationCenter"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatPercentage", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_21__["formatPercentage"]; });
+/* harmony import */ var _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./hooks/useDebouncedAbortable */ "./node_modules/@equinor/fusion/lib/hooks/useDebouncedAbortable.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useDebouncedAbortable", function() { return _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_24__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatCurrency", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_21__["formatCurrency"]; });
+/* harmony import */ var _utils_Calendar__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./utils/Calendar */ "./node_modules/@equinor/fusion/lib/utils/Calendar.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createCalendar", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_25__["createCalendar"]; });
 
-/* harmony import */ var _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./http/hooks/dataProxy/useHandover */ "./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_22__["useHandover"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSameDate", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_25__["isSameDate"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHanoverChild", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_22__["useHanoverChild"]; });
+/* harmony import */ var _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./intl/DateTime */ "./node_modules/@equinor/fusion/lib/intl/DateTime.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatDateTime"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatDate"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatTime"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatWeekDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatWeekDay"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatDay"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["parseDate"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["parseDateTime"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["dateMask"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "timeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["timeMask"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateTimeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["dateTimeMask"]; });
+
+/* harmony import */ var _intl_Number__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./intl/Number */ "./node_modules/@equinor/fusion/lib/intl/Number.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatNumber", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_27__["formatNumber"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatPercentage", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_27__["formatPercentage"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatCurrency", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_27__["formatCurrency"]; });
+
+/* harmony import */ var _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./http/hooks/dataProxy/useHandover */ "./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_28__["useHandover"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHanoverChild", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_28__["useHanoverChild"]; });
+
+/* harmony import */ var _http_hooks_people_usePersonDetails__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./http/hooks/people/usePersonDetails */ "./node_modules/@equinor/fusion/lib/http/hooks/people/usePersonDetails.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePersonDetails", function() { return _http_hooks_people_usePersonDetails__WEBPACK_IMPORTED_MODULE_29__["usePersonDetails"]; });
+
+
+
+
+
+
+
 
 
 
@@ -2855,7 +3097,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!***********************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/intl/DateTime.js ***!
   \***********************************************************/
-/*! exports provided: formatDateTime, formatDate, formatTime */
+/*! exports provided: formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2863,22 +3105,32 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return formatDateTime; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return formatDate; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return formatTime; });
-const dateTimeFormatter = new Intl.DateTimeFormat('en-GB', {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatWeekDay", function() { return formatWeekDay; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDay", function() { return formatDay; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return parseDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseDateTime", function() { return parseDateTime; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateMask", function() { return dateMask; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timeMask", function() { return timeMask; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateTimeMask", function() { return dateTimeMask; });
+const locale = 'en-GB';
+const dateTimeFormatter = new Intl.DateTimeFormat(locale, {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
 });
-const dateFormatter = new Intl.DateTimeFormat('en-GB', {
+const dateFormatter = new Intl.DateTimeFormat(locale, {
     year: 'numeric',
     month: 'numeric',
     day: 'numeric',
 });
-const timeFormatter = new Intl.DateTimeFormat('en-GB', {
+const timeFormatter = new Intl.DateTimeFormat(locale, {
     hour: 'numeric',
     minute: 'numeric',
 });
+const weekDayFormatter = new Intl.DateTimeFormat(locale, { weekday: 'short' });
+const dayFormatter = new Intl.DateTimeFormat(locale, { day: '2-digit' });
 const formatDateTime = (date) => {
     const parsedDate = new Date(date);
     return dateTimeFormatter.format(parsedDate);
@@ -2891,6 +3143,35 @@ const formatTime = (date) => {
     const parsedDate = new Date(date);
     return timeFormatter.format(parsedDate);
 };
+const formatWeekDay = (date) => {
+    const parsedDate = new Date(date);
+    return weekDayFormatter.format(parsedDate);
+};
+const formatDay = (date) => {
+    const parsedDate = new Date(date);
+    return dayFormatter.format(parsedDate);
+};
+/**
+ * Parse a date string to Date
+ * @param dateString Expected format: dd/mm/yyyy
+ */
+const parseDate = (dateString) => {
+    const parts = dateString.split('/').map(part => parseInt(part, 10));
+    return new Date(parts[2], parts[1] - 1, parts[0]);
+};
+/**
+ * Parse a date time string to Date
+ * @param dateTimeString Expected format: dd/mm/yyyy, hh:mm
+ */
+const parseDateTime = (dateTimeString) => {
+    const parts = dateTimeString.split(', ');
+    const dateParts = parts[0].split('/').map(part => parseInt(part, 10));
+    const timeParts = parts[1].split(':').map(part => parseInt(part, 10));
+    return new Date(dateParts[2], dateParts[1] - 1, dateParts[0], timeParts[0], timeParts[1]);
+};
+const dateMask = '39/19/9999';
+const timeMask = '29:69';
+const dateTimeMask = `${dateMask}, ${timeMask}`;
 
 
 /***/ }),
@@ -3084,6 +3365,72 @@ const withAbortController = () => {
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion/lib/utils/Calendar.js":
+/*!************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/utils/Calendar.js ***!
+  \************************************************************/
+/*! exports provided: isSameDate, createCalendar */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSameDate", function() { return isSameDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCalendar", function() { return createCalendar; });
+/* harmony import */ var _intl_DateTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../intl/DateTime */ "./node_modules/@equinor/fusion/lib/intl/DateTime.js");
+
+const isSameDate = (a, b) => {
+    return (a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate());
+};
+const createCalendarDate = (date, month) => {
+    const today = new Date();
+    return {
+        index: date.getDate() - 1,
+        value: Object(_intl_DateTime__WEBPACK_IMPORTED_MODULE_0__["formatDay"])(date),
+        weekDay: Object(_intl_DateTime__WEBPACK_IMPORTED_MODULE_0__["formatWeekDay"])(date),
+        day: date.getDay(),
+        isToday: isSameDate(date, today),
+        month: date.getMonth(),
+        year: date.getFullYear(),
+        isSelectedMonth: date.getMonth() === month,
+        date: new Date(date),
+    };
+};
+const createCalendar = (year, month) => {
+    const today = new Date();
+    const isCurrentMonth = today.getMonth() === month && today.getFullYear() === year;
+    const dateInSelectedMonth = new Date(year, month, 1);
+    const dates = [];
+    while (dateInSelectedMonth.getMonth() === month) {
+        dates.push(createCalendarDate(dateInSelectedMonth, month));
+        dateInSelectedMonth.setDate(dateInSelectedMonth.getDate() + 1);
+    }
+    // First day in month is not monday
+    if (dates[0].day !== 1) {
+        const dateInPreviousMonth = new Date(year, month, 0);
+        while (dateInPreviousMonth.getDay() >= 1) {
+            dates.unshift(createCalendarDate(dateInPreviousMonth, month));
+            dateInPreviousMonth.setDate(dateInPreviousMonth.getDate() - 1);
+        }
+    }
+    // Last day in month is not sunday
+    const dateInNextMonth = new Date(year, month, dates[dates.length - 1].index + 1);
+    while (dates[dates.length - 1].day !== 0) {
+        dateInNextMonth.setDate(dateInNextMonth.getDate() + 1);
+        dates.push(createCalendarDate(dateInNextMonth, month));
+    }
+    return {
+        year,
+        month,
+        isCurrentMonth,
+        dates,
+    };
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js":
 /*!**********************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js ***!
@@ -3129,6 +3476,45 @@ const useEventEmitterValue = (emitter, event, transform = value => value, defaul
     }, [emitter, event]);
     return [value, setValue];
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/utils/JSON.js":
+/*!********************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/utils/JSON.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}[a-zA-Z]{1}[0-9]{2}:[0-9]{2}:[0-9]{2}/igm;
+const revivers = [
+    (key, value) => {
+        if (typeof value === 'string' && dateRegex.test(value)) {
+            const parsedDate = new Date(value);
+            if (parsedDate.getTime() !== NaN) {
+                return parsedDate;
+            }
+        }
+        return value;
+    },
+];
+const replacers = [];
+const combine = (parsers) => (key, value) => {
+    return parsers.reduce((val, parser) => parser(key, val), value);
+};
+const reviver = combine(revivers);
+const replacer = combine(replacers);
+const parse = (value) => {
+    const parsed = JSON.parse(value, reviver);
+    return parsed;
+};
+const stringify = (data) => {
+    return JSON.stringify(data, replacer);
+};
+/* harmony default export */ __webpack_exports__["default"] = ({ parse, stringify });
 
 
 /***/ }),
@@ -3376,12 +3762,14 @@ const useAsyncPagination = (applyAsync, initialPerPage, initialCurrentPageIndex 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LocalStorageProvider; });
+/* harmony import */ var _JSON__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../JSON */ "./node_modules/@equinor/fusion/lib/utils/JSON.js");
+
 class LocalStorageProvider {
     constructor(baseKey, defaultValue) {
         this.localCache = null;
         this.baseKey = baseKey;
         const cachedJson = localStorage.getItem(this.baseKey);
-        const cachedValue = cachedJson ? JSON.parse(cachedJson) : null;
+        const cachedValue = cachedJson ? _JSON__WEBPACK_IMPORTED_MODULE_0__["default"].parse(cachedJson) : null;
         this.localCache = cachedValue;
         if (!cachedValue && defaultValue) {
             this.localCache = defaultValue;
@@ -3413,7 +3801,7 @@ class LocalStorageProvider {
     async toObjectAsync() {
         if (this.localCache === null) {
             const cachedJson = localStorage.getItem(this.baseKey);
-            const cachedValue = cachedJson ? JSON.parse(cachedJson) : {};
+            const cachedValue = cachedJson ? _JSON__WEBPACK_IMPORTED_MODULE_0__["default"].parse(cachedJson) : {};
             this.localCache = cachedValue;
         }
         return this.localCache;
@@ -3422,7 +3810,7 @@ class LocalStorageProvider {
         return this.localCache;
     }
     async persistAsync() {
-        const json = JSON.stringify(await this.toObjectAsync());
+        const json = _JSON__WEBPACK_IMPORTED_MODULE_0__["default"].stringify(await this.toObjectAsync());
         localStorage.setItem(this.baseKey, json);
     }
 }
@@ -3571,6 +3959,220 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
         .replace(/^\/+/, "")
         .replace(/\/+$/, "")
         .replace(/\/\//gm, seperator), base || ""));
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/version.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/version.js ***!
+  \*****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ('0.3.4');
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/node_modules/uuid/lib/bytesToUuid.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/node_modules/uuid/lib/bytesToUuid.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+}
+
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
+  return ([bth[buf[i++]], bth[buf[i++]], 
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]]]).join('');
+}
+
+module.exports = bytesToUuid;
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/node_modules/uuid/lib/rng-browser.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/node_modules/uuid/lib/rng-browser.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// Unique ID creation requires a high quality random # generator.  In the
+// browser this is a little complicated due to unknown quality of Math.random()
+// and inconsistent support for the `crypto` API.  We do the best we can via
+// feature-detection
+
+// getRandomValues needs to be invoked in a context where "this" is a Crypto
+// implementation. Also, find the complete implementation of crypto on IE11.
+var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
+                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
+
+if (getRandomValues) {
+  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
+
+  module.exports = function whatwgRNG() {
+    getRandomValues(rnds8);
+    return rnds8;
+  };
+} else {
+  // Math.random()-based (RNG)
+  //
+  // If all else fails, use Math.random().  It's fast, but is of unspecified
+  // quality.
+  var rnds = new Array(16);
+
+  module.exports = function mathRNG() {
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return rnds;
+  };
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/node_modules/uuid/v1.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/node_modules/uuid/v1.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var rng = __webpack_require__(/*! ./lib/rng */ "./node_modules/@equinor/fusion/node_modules/uuid/lib/rng-browser.js");
+var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ "./node_modules/@equinor/fusion/node_modules/uuid/lib/bytesToUuid.js");
+
+// **`v1()` - Generate time-based UUID**
+//
+// Inspired by https://github.com/LiosK/UUID.js
+// and http://docs.python.org/library/uuid.html
+
+var _nodeId;
+var _clockseq;
+
+// Previous uuid creation time
+var _lastMSecs = 0;
+var _lastNSecs = 0;
+
+// See https://github.com/broofa/node-uuid for API details
+function v1(options, buf, offset) {
+  var i = buf && offset || 0;
+  var b = buf || [];
+
+  options = options || {};
+  var node = options.node || _nodeId;
+  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
+
+  // node and clockseq need to be initialized to random values if they're not
+  // specified.  We do this lazily to minimize issues related to insufficient
+  // system entropy.  See #189
+  if (node == null || clockseq == null) {
+    var seedBytes = rng();
+    if (node == null) {
+      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
+      node = _nodeId = [
+        seedBytes[0] | 0x01,
+        seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]
+      ];
+    }
+    if (clockseq == null) {
+      // Per 4.2.2, randomize (14 bit) clockseq
+      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
+    }
+  }
+
+  // UUID timestamps are 100 nano-second units since the Gregorian epoch,
+  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
+  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
+  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
+  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
+
+  // Per 4.2.1.2, use count of uuid's generated during the current clock
+  // cycle to simulate higher resolution clock
+  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
+
+  // Time since last uuid creation (in msecs)
+  var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
+
+  // Per 4.2.1.2, Bump clockseq on clock regression
+  if (dt < 0 && options.clockseq === undefined) {
+    clockseq = clockseq + 1 & 0x3fff;
+  }
+
+  // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
+  // time interval
+  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
+    nsecs = 0;
+  }
+
+  // Per 4.2.1.2 Throw error if too many uuids are requested
+  if (nsecs >= 10000) {
+    throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
+  }
+
+  _lastMSecs = msecs;
+  _lastNSecs = nsecs;
+  _clockseq = clockseq;
+
+  // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+  msecs += 12219292800000;
+
+  // `time_low`
+  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+  b[i++] = tl >>> 24 & 0xff;
+  b[i++] = tl >>> 16 & 0xff;
+  b[i++] = tl >>> 8 & 0xff;
+  b[i++] = tl & 0xff;
+
+  // `time_mid`
+  var tmh = (msecs / 0x100000000 * 10000) & 0xfffffff;
+  b[i++] = tmh >>> 8 & 0xff;
+  b[i++] = tmh & 0xff;
+
+  // `time_high_and_version`
+  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
+  b[i++] = tmh >>> 16 & 0xff;
+
+  // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
+  b[i++] = clockseq >>> 8 | 0x80;
+
+  // `clock_seq_low`
+  b[i++] = clockseq & 0xff;
+
+  // `node`
+  for (var n = 0; n < 6; ++n) {
+    b[i + n] = node[n];
+  }
+
+  return buf ? buf : bytesToUuid(b);
+}
+
+module.exports = v1;
 
 
 /***/ }),
@@ -49071,7 +49673,7 @@ if (false) {} else {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-function _interopDefault(e){return e&&"object"==typeof e&&"default"in e?e.default:e}Object.defineProperty(exports,"__esModule",{value:!0});var React=_interopDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js-exposed"));function AppContainer(e){return React.Children.only(e.children)}var hot_prod=function(){return function(e){return e}},areComponentsEqual=function(e,n){return e===n},setConfig=function(){},cold=function(e){return e},configureComponent=function(){};exports.AppContainer=AppContainer,exports.hot=hot_prod,exports.areComponentsEqual=areComponentsEqual,exports.setConfig=setConfig,exports.cold=cold,exports.configureComponent=configureComponent;
+function _interopDefault(e){return e&&"object"==typeof e&&"default"in e?e.default:e}Object.defineProperty(exports,"__esModule",{value:!0});var React=_interopDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js-exposed"));function AppContainer(e){return AppContainer.warnAboutHMRDisabled&&(AppContainer.warnAboutHMRDisabled=!0,console.error("React-Hot-Loader: misconfiguration detected, using production version in non-production environment."),console.error("React-Hot-Loader: Hot Module Replacement is not enabled.")),React.Children.only(e.children)}AppContainer.warnAboutHMRDisabled=!1;var hot=function e(){return e.shouldWrapWithAppContainer?function(e){return function(n){return React.createElement(AppContainer,null,React.createElement(e,n))}}:function(e){return e}};hot.shouldWrapWithAppContainer=!1;var areComponentsEqual=function(e,n){return e===n},setConfig=function(){},cold=function(e){return e},configureComponent=function(){};exports.AppContainer=AppContainer,exports.hot=hot,exports.areComponentsEqual=areComponentsEqual,exports.setConfig=setConfig,exports.cold=cold,exports.configureComponent=configureComponent;
 
 
 /***/ }),
@@ -54125,206 +54727,6 @@ function warning(condition, message) {
 
 /***/ }),
 
-/***/ "./node_modules/uuid/lib/bytesToUuid.js":
-/*!**********************************************!*\
-  !*** ./node_modules/uuid/lib/bytesToUuid.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-/**
- * Convert array of 16 byte values to UUID string format of the form:
- * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
- */
-var byteToHex = [];
-for (var i = 0; i < 256; ++i) {
-  byteToHex[i] = (i + 0x100).toString(16).substr(1);
-}
-
-function bytesToUuid(buf, offset) {
-  var i = offset || 0;
-  var bth = byteToHex;
-  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
-  return ([bth[buf[i++]], bth[buf[i++]], 
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]], '-',
-	bth[buf[i++]], bth[buf[i++]],
-	bth[buf[i++]], bth[buf[i++]],
-	bth[buf[i++]], bth[buf[i++]]]).join('');
-}
-
-module.exports = bytesToUuid;
-
-
-/***/ }),
-
-/***/ "./node_modules/uuid/lib/rng-browser.js":
-/*!**********************************************!*\
-  !*** ./node_modules/uuid/lib/rng-browser.js ***!
-  \**********************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// Unique ID creation requires a high quality random # generator.  In the
-// browser this is a little complicated due to unknown quality of Math.random()
-// and inconsistent support for the `crypto` API.  We do the best we can via
-// feature-detection
-
-// getRandomValues needs to be invoked in a context where "this" is a Crypto
-// implementation. Also, find the complete implementation of crypto on IE11.
-var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
-                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
-
-if (getRandomValues) {
-  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
-  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
-
-  module.exports = function whatwgRNG() {
-    getRandomValues(rnds8);
-    return rnds8;
-  };
-} else {
-  // Math.random()-based (RNG)
-  //
-  // If all else fails, use Math.random().  It's fast, but is of unspecified
-  // quality.
-  var rnds = new Array(16);
-
-  module.exports = function mathRNG() {
-    for (var i = 0, r; i < 16; i++) {
-      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
-      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
-    }
-
-    return rnds;
-  };
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/uuid/v1.js":
-/*!*********************************!*\
-  !*** ./node_modules/uuid/v1.js ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var rng = __webpack_require__(/*! ./lib/rng */ "./node_modules/uuid/lib/rng-browser.js");
-var bytesToUuid = __webpack_require__(/*! ./lib/bytesToUuid */ "./node_modules/uuid/lib/bytesToUuid.js");
-
-// **`v1()` - Generate time-based UUID**
-//
-// Inspired by https://github.com/LiosK/UUID.js
-// and http://docs.python.org/library/uuid.html
-
-var _nodeId;
-var _clockseq;
-
-// Previous uuid creation time
-var _lastMSecs = 0;
-var _lastNSecs = 0;
-
-// See https://github.com/broofa/node-uuid for API details
-function v1(options, buf, offset) {
-  var i = buf && offset || 0;
-  var b = buf || [];
-
-  options = options || {};
-  var node = options.node || _nodeId;
-  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
-
-  // node and clockseq need to be initialized to random values if they're not
-  // specified.  We do this lazily to minimize issues related to insufficient
-  // system entropy.  See #189
-  if (node == null || clockseq == null) {
-    var seedBytes = rng();
-    if (node == null) {
-      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
-      node = _nodeId = [
-        seedBytes[0] | 0x01,
-        seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]
-      ];
-    }
-    if (clockseq == null) {
-      // Per 4.2.2, randomize (14 bit) clockseq
-      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
-    }
-  }
-
-  // UUID timestamps are 100 nano-second units since the Gregorian epoch,
-  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
-  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
-  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
-  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
-
-  // Per 4.2.1.2, use count of uuid's generated during the current clock
-  // cycle to simulate higher resolution clock
-  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
-
-  // Time since last uuid creation (in msecs)
-  var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
-
-  // Per 4.2.1.2, Bump clockseq on clock regression
-  if (dt < 0 && options.clockseq === undefined) {
-    clockseq = clockseq + 1 & 0x3fff;
-  }
-
-  // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
-  // time interval
-  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
-    nsecs = 0;
-  }
-
-  // Per 4.2.1.2 Throw error if too many uuids are requested
-  if (nsecs >= 10000) {
-    throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
-  }
-
-  _lastMSecs = msecs;
-  _lastNSecs = nsecs;
-  _clockseq = clockseq;
-
-  // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
-  msecs += 12219292800000;
-
-  // `time_low`
-  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
-  b[i++] = tl >>> 24 & 0xff;
-  b[i++] = tl >>> 16 & 0xff;
-  b[i++] = tl >>> 8 & 0xff;
-  b[i++] = tl & 0xff;
-
-  // `time_mid`
-  var tmh = (msecs / 0x100000000 * 10000) & 0xfffffff;
-  b[i++] = tmh >>> 8 & 0xff;
-  b[i++] = tmh & 0xff;
-
-  // `time_high_and_version`
-  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
-  b[i++] = tmh >>> 16 & 0xff;
-
-  // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
-  b[i++] = clockseq >>> 8 | 0x80;
-
-  // `clock_seq_low`
-  b[i++] = clockseq & 0xff;
-
-  // `node`
-  for (var n = 0; n < 6; ++n) {
-    b[i + n] = node[n];
-  }
-
-  return buf ? buf : bytesToUuid(b);
-}
-
-module.exports = v1;
-
-
-/***/ }),
-
 /***/ "./node_modules/value-equal/index.js":
 /*!*******************************************!*\
   !*** ./node_modules/value-equal/index.js ***!
@@ -54501,6 +54903,7 @@ const serviceResolver = {
     getPowerBiBaseUrl: () => 'https://pro-s-powerbi-ci.azurewebsites.net',
     getProjectsBaseUrl: () => 'https://pro-s-projects-ci.azurewebsites.net',
     getTasksBaseUrl: () => 'https://pro-s-tasks-ci.azurewebsites.net',
+    getPeopleBaseUrl: () => 'https://pro-s-people-ci.azurewebsites.net',
 };
 const start = async () => {
     const authContainer = new AppAuthContainer_1.default();
@@ -54517,7 +54920,7 @@ const start = async () => {
         serviceResolver.getTasksBaseUrl(),
     ]);
     if (!coreAppRegistered) {
-        authContainer.login(coreAppClientId);
+        await authContainer.loginAsync(coreAppClientId);
     }
     else {
         const Root = () => {
