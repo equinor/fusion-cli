@@ -61,7 +61,7 @@ export default async () => {
     });
 
     // tslint:disable-next-line:variable-name
-    app.get('/', (_req, res) => {
+    app.get(['/', '/*', '*'], (_req, res) => {
         res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
     });
 

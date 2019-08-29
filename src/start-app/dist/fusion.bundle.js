@@ -1226,6 +1226,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
             resourceCollections,
             apiClients,
             resourceCache,
+            serviceResolver,
         },
         refs,
         history,
@@ -1573,6 +1574,32 @@ __webpack_require__.r(__webpack_exports__);
         setIsFetching(false);
     }, dependencies);
     return [error, isFeching, data];
+});
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/hooks/useDebounce.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/hooks/useDebounce.js ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ __webpack_exports__["default"] = ((value, delay = 300) => {
+    const [debouncedValue, setDebouncedValue] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(value);
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+        const timer = setTimeout(() => {
+            setDebouncedValue(value);
+        });
+        return () => clearTimeout(timer);
+    }, [value, delay]);
+    return debouncedValue;
 });
 
 
@@ -2237,11 +2264,19 @@ __webpack_require__.r(__webpack_exports__);
 class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
     async getPositionsAsync(projectId) {
         const url = this.resourceCollections.org.positions(projectId);
-        return this.httpClient.getAsync(url);
+        return this.httpClient.getAsync(url, {
+            headers: {
+                'api-version': '2.0',
+            },
+        });
     }
     async getPositionAsync(projectId, positionId) {
         const url = this.resourceCollections.org.position(projectId, positionId);
-        return this.httpClient.getAsync(url);
+        return this.httpClient.getAsync(url, {
+            headers: {
+                'api-version': '2.0',
+            },
+        });
     }
     async getJobDescriptionAsync(projectId, positionId) {
         const url = this.resourceCollections.org.jobDescription(projectId, positionId);
@@ -2279,7 +2314,9 @@ class PeopleClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"
     }
     async searchPersons(query) {
         const url = this.resourceCollections.people.searchPersons(query);
-        return await this.httpClient.getAsync(url);
+        return await this.httpClient.getAsync(url, {
+            headers: { 'api-version': '2.0' },
+        });
     }
 }
 
@@ -2809,7 +2846,9 @@ class PeopleResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'persons', id, 'photo');
     }
     searchPersons(query) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), `persons?query=${query}`);
+        const oDataQuery = odata_query__WEBPACK_IMPORTED_MODULE_2___default()({ search: query });
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'persons');
+        return `${url}${oDataQuery}`;
     }
 }
 
@@ -2901,7 +2940,7 @@ const createResourceCollections = (serviceResolver, options) => ({
 /*!***************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/index.js ***!
   \***************************************************/
-/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, TaskTypes, TaskSourceSystems, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, useDebouncedAbortable, createCalendar, isSameDate, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild, usePersonDetails */
+/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, createCalendar, isSameDate, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild, usePersonDetails */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3001,68 +3040,88 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskSourceSystems", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_20__["TaskSourceSystems"]; });
 
-/* harmony import */ var _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./utils/Pagination */ "./node_modules/@equinor/fusion/lib/utils/Pagination.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__["createPagination"]; });
+/* harmony import */ var _http_hooks_useApiClient__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./http/hooks/useApiClient */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClient.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useApiClient", function() { return _http_hooks_useApiClient__WEBPACK_IMPORTED_MODULE_21__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__["applyPagination"]; });
+/* harmony import */ var _http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./http/hooks/useApiClients */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClients.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useApiClients", function() { return _http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_22__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__["usePagination"]; });
+/* harmony import */ var _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./utils/Pagination */ "./node_modules/@equinor/fusion/lib/utils/Pagination.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["createPagination"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAsyncPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_21__["useAsyncPagination"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["applyPagination"]; });
 
-/* harmony import */ var _hooks_useSorting__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./hooks/useSorting */ "./node_modules/@equinor/fusion/lib/hooks/useSorting.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useSorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_22__["useSorting"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["usePagination"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applySorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_22__["applySorting"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAsyncPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["useAsyncPagination"]; });
 
-/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./core/NotificationCenter */ "./node_modules/@equinor/fusion/lib/core/NotificationCenter.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_23__["default"]; });
+/* harmony import */ var _hooks_useSorting__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./hooks/useSorting */ "./node_modules/@equinor/fusion/lib/hooks/useSorting.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useSorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_24__["useSorting"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useNotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_23__["useNotificationCenter"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applySorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_24__["applySorting"]; });
 
-/* harmony import */ var _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./hooks/useDebouncedAbortable */ "./node_modules/@equinor/fusion/lib/hooks/useDebouncedAbortable.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useDebouncedAbortable", function() { return _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_24__["default"]; });
+/* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./core/NotificationCenter */ "./node_modules/@equinor/fusion/lib/core/NotificationCenter.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_25__["default"]; });
 
-/* harmony import */ var _utils_Calendar__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./utils/Calendar */ "./node_modules/@equinor/fusion/lib/utils/Calendar.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createCalendar", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_25__["createCalendar"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useNotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_25__["useNotificationCenter"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSameDate", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_25__["isSameDate"]; });
+/* harmony import */ var _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./hooks/useDebouncedAbortable */ "./node_modules/@equinor/fusion/lib/hooks/useDebouncedAbortable.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useDebouncedAbortable", function() { return _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_26__["default"]; });
 
-/* harmony import */ var _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./intl/DateTime */ "./node_modules/@equinor/fusion/lib/intl/DateTime.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatDateTime"]; });
+/* harmony import */ var _hooks_useDebounce__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./hooks/useDebounce */ "./node_modules/@equinor/fusion/lib/hooks/useDebounce.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useDebounce", function() { return _hooks_useDebounce__WEBPACK_IMPORTED_MODULE_27__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatDate"]; });
+/* harmony import */ var _hooks_useEffectAsync__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./hooks/useEffectAsync */ "./node_modules/@equinor/fusion/lib/hooks/useEffectAsync.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEffectAsync", function() { return _hooks_useEffectAsync__WEBPACK_IMPORTED_MODULE_28__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatTime"]; });
+/* harmony import */ var _hooks_useAsyncData__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./hooks/useAsyncData */ "./node_modules/@equinor/fusion/lib/hooks/useAsyncData.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAsyncData", function() { return _hooks_useAsyncData__WEBPACK_IMPORTED_MODULE_29__["default"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatWeekDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatWeekDay"]; });
+/* harmony import */ var _utils_Calendar__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./utils/Calendar */ "./node_modules/@equinor/fusion/lib/utils/Calendar.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createCalendar", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_30__["createCalendar"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["formatDay"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSameDate", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_30__["isSameDate"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["parseDate"]; });
+/* harmony import */ var _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./intl/DateTime */ "./node_modules/@equinor/fusion/lib/intl/DateTime.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatDateTime"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["parseDateTime"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatDate"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["dateMask"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatTime"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "timeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["timeMask"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatWeekDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatWeekDay"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateTimeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_26__["dateTimeMask"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatDay"]; });
 
-/* harmony import */ var _intl_Number__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./intl/Number */ "./node_modules/@equinor/fusion/lib/intl/Number.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatNumber", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_27__["formatNumber"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["parseDate"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatPercentage", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_27__["formatPercentage"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["parseDateTime"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatCurrency", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_27__["formatCurrency"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["dateMask"]; });
 
-/* harmony import */ var _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./http/hooks/dataProxy/useHandover */ "./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_28__["useHandover"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "timeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["timeMask"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHanoverChild", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_28__["useHanoverChild"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateTimeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["dateTimeMask"]; });
 
-/* harmony import */ var _http_hooks_people_usePersonDetails__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./http/hooks/people/usePersonDetails */ "./node_modules/@equinor/fusion/lib/http/hooks/people/usePersonDetails.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePersonDetails", function() { return _http_hooks_people_usePersonDetails__WEBPACK_IMPORTED_MODULE_29__["usePersonDetails"]; });
+/* harmony import */ var _intl_Number__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./intl/Number */ "./node_modules/@equinor/fusion/lib/intl/Number.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatNumber", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_32__["formatNumber"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatPercentage", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_32__["formatPercentage"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatCurrency", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_32__["formatCurrency"]; });
+
+/* harmony import */ var _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./http/hooks/dataProxy/useHandover */ "./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_33__["useHandover"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHanoverChild", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_33__["useHanoverChild"]; });
+
+/* harmony import */ var _http_hooks_people_usePersonDetails__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./http/hooks/people/usePersonDetails */ "./node_modules/@equinor/fusion/lib/http/hooks/people/usePersonDetails.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePersonDetails", function() { return _http_hooks_people_usePersonDetails__WEBPACK_IMPORTED_MODULE_34__["usePersonDetails"]; });
+
+
+
+
+
 
 
 
@@ -3989,7 +4048,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ('0.3.4');
+/* harmony default export */ __webpack_exports__["default"] = ('0.3.7');
 
 
 /***/ }),
