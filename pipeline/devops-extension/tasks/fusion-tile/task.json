@@ -1,0 +1,94 @@
+{
+    "$schema": "https://raw.githubusercontent.com/AArnott/vso-agent-tasks/9b41d803a/tasks.schema.json",
+    "id": "99b7f8dd-82d1-4638-805c-2a59e703b6af",
+    "name": "FusionTile",
+    "friendlyName": "Fusion Tile Management",
+    "description": "",
+    "category": "Deploy",
+    "visibility": [ 
+        "Build",
+        "Release"
+    ],
+    "runsOn": [
+        "Agent",
+        "MachineGroup"
+    ],
+    "author": "Fusion Team",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 0
+    },
+    "demands": [
+    ],
+    "minimumAgentVersion": "1.92.0",
+    "groups": [
+    ],
+    "inputs": [
+        {
+            "name": "fusionAppConnection",
+            "aliases": [
+                "fusionCredentials"
+            ],
+            "type": "connectedService:fusionAppSP",
+            "label": "Fusion App Service principal",
+            "required": true,
+            "helpMarkDown": "Select an Fusion App publisher service principal",
+            "properties": {                
+            }
+        },
+        {
+            "name": "portalUrl",
+            "type": "string",
+            "required": true,
+            "label": "Portal URL"
+        },
+        {
+            "name": "action",
+            "label": "Action",
+            "type": "pickList",
+            "required": true,
+            "defaultValue": "Deploy",
+            "options": {
+                "Deploy": "Deploy",
+                "Publish": "Publish"
+            },
+            "helpMarkDown": "Action to perform. <br>**Deploy**<br>Upload a bundle<br>**Publish**<br>Publish the current preview framework."
+        },
+        {
+            "name": "bundlePath",
+            "type": "filePath",
+            "required": true,
+            "label": "Bundle file",
+            "helpMarkDown": "Zip bundle to deploy",
+            "visibleRule": "action = Deploy"
+        },
+        {
+            "name": "tileKey",
+            "label": "Tile key",
+            "type": "string",
+            "required": true,
+            "visibleRule": "action = Publish"
+        },
+        {
+            "name": "tokenResource",
+            "aliases": [
+                "environment"
+            ],
+            "type": "pickList",
+            "required": true,
+            "label": "Fusion environment",
+            "options": {
+                "5a842df8-3238-415d-b168-9f16a6a6031b": "Test"
+            }
+        }
+    ],
+    "instanceNameFormat": "Fusion Tile Management",
+    "execution": {
+        "Node": {
+            "target": "built/fusion-tile/index.js",
+            "argumentFormat": ""
+        }
+    },
+    "messages": { }
+}

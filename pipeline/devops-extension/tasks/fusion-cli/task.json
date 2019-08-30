@@ -1,0 +1,68 @@
+{
+    "$schema": "https://raw.githubusercontent.com/AArnott/vso-agent-tasks/9b41d803a/tasks.schema.json",
+    "id": "d7aee194-1a9a-42c2-9937-642dcf919396",
+    "name": "FusionCLI",
+    "friendlyName": "Fusion CLI",
+    "description": "Execute fusion cli command with authorized context. The secret param is appended to arguments.",
+    "category": "Utility",
+    "visibility": [
+        "Build",
+        "Release"
+    ],
+    "runsOn": [
+        "Agent",
+        "MachineGroup"
+    ],
+    "author": "Fusion Team",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 0
+    },
+    "demands": [
+        "npm"
+    ],
+    "minimumAgentVersion": "1.92.0",
+    "groups": [
+    ],
+    "inputs": [
+        {
+            "name": "connectedServiceNameARM",
+            "aliases": [
+                "azureSubscription"
+            ],
+            "type": "connectedService:AzureRM",
+            "label": "Azure subscription",
+            "required": false,
+            "helpMarkDown": "Select an Azure resource manager subscription for the deployment",
+            "properties": {
+                "EndpointFilterRule": "ScopeLevel != ManagementGroup"
+            }
+        },
+        {
+            "name": "appFolder",
+            "type": "filePath",
+            "required": true,
+            "label": "App folder",
+            "helpMarkDown": "The folder where the app exists. The task will execute the cli command from there."
+        },
+        {
+            "name": "arguments",
+            "aliases": [
+                "command"
+            ],
+            "type": "string",
+            "required": true,
+            "label": "Arguments",
+            "helpMarkDown": "Arguments for the command"
+        }
+    ],
+    "instanceNameFormat": "Fusion CLI",
+    "execution": {
+        "Node": {
+            "target": "built/index.js",
+            "argumentFormat": ""
+        }
+    },
+    "messages": { }
+}

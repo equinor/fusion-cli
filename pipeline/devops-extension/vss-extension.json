@@ -1,0 +1,125 @@
+{
+    "manifestVersion": 1,
+      "id": "fusion-app-management",
+      "version": "1.0.2",
+      "name": "Extension to manage fusion apps",
+      "description": "Tasks and service connection to faciliate app deployment, publishing and other management tasks through DevOps pipelines.",
+      "publisher": "EquinorFusion",
+      "targets": [
+        {
+          "id": "Microsoft.VisualStudio.Services"
+        }
+      ],  
+      "icons": {
+        "default": "images/extension-icon-120x120.png"
+      },
+      "content": {
+        "details": {
+            "path": "README.md"
+        }
+      },
+      "categories": [
+        "Azure Pipelines"
+      ],
+      "files": [
+        {
+          "path": "tasks/fusion-cli"
+        },
+        {
+          "path": "tasks/fusion-framework"
+        },
+        {
+          "path": "tasks/fusion-app"
+        },
+        {
+          "path": "tasks/fusion-tile"
+        }
+      ],
+      "contributions": [
+        {
+          "id": "fusion-cli-task",
+          "type": "ms.vss-distributed-task.task",
+          "targets": [
+              "ms.vss-distributed-task.tasks"
+          ],
+          "properties": {
+              "name": "tasks/fusion-cli"
+          }
+        },
+        {
+          "id": "fusion-framework-task",
+          "type":"ms.vss-distributed-task.task",
+          "targets": [
+            "ms.vss-distributed-task.tasks"
+          ],
+          "properties": {
+            "name": "tasks/fusion-framework"
+          }
+        },
+        {
+          "id": "fusion-app-task",
+          "type":"ms.vss-distributed-task.task",
+          "targets": [
+            "ms.vss-distributed-task.tasks"
+          ],
+          "properties": {
+            "name": "tasks/fusion-app"
+          }
+        },
+        {
+          "id": "fusion-tile-task",
+          "type":"ms.vss-distributed-task.task",
+          "targets": [
+            "ms.vss-distributed-task.tasks"
+          ],
+          "properties": {
+            "name": "tasks/fusion-tile"
+          }
+        },
+        {
+          "id": "service-endpoint",
+          "description": "Service endpoint for Fusion App management",
+          "type": "ms.vss-endpoint.service-endpoint-type",
+          "targets": [ "ms.vss-endpoint.endpoint-types" ],
+          "properties": {
+            "name": "fusionAppSP",
+            "displayName": "Fusion App Management",
+            "url": {
+              "displayName": "Server Url",
+              "value": "https://fusion.equinor.com",
+              "isVisible": "false"
+            },
+            "authenticationSchemes": [
+              {
+                "type": "ms.vss-endpoint.endpoint-auth-scheme-basic",
+                "inputDescriptors": [
+                  {
+                    "id": "username",
+                    "name": "ClientId",
+                    "description": "Client ID for the app with management permissions",
+                    "inputMode": "textbox",
+                    "validation": {
+                      "isRequired": true,
+                      "dataType": "string"
+                    }
+                  },
+                  {
+                    "id": "password",
+                    "name": "ClientSecret",
+                    "description": "Client Secret",
+                    "inputMode": "passwordbox",
+                    "isConfidential": true,
+                    "validation": {
+                      "isRequired": true,
+                      "dataType": "string"
+                    }
+                  }
+                ]
+              }
+    
+            ],
+            "helpMarkDown": "<a href=\"url-to-documentation\" target=\"_blank\"><b>Learn More</b></a>"
+          }
+        }
+      ]
+    }

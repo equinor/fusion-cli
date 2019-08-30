@@ -1,0 +1,4 @@
+node_modules
+test-credentials.json
+*.js
+built

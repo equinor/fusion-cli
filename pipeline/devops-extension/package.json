@@ -1,0 +1,37 @@
+{
+  "name": "devops-extension",
+  "version": "1.0.0",
+  "description": "Tasks for managing fusion bundles in Azure Pipelines",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/equinor/fusion-cli.git"
+  },
+  "author": "Fusion Team by handah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/equinor/fusion-cli/issues"
+  },
+  "homepage": "https://github.com/equinor/fusion-cli#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-install": "^1.1.0",
+    "gulp-typescript": "^5.0.1",
+    "merge2": "^1.2.4",
+    "require-dir": "^1.2.0"
+  },
+  "ignore": {
+    "@types/node": "^10.1.0",
+    "@types/samchon-framework": "^2.0.21",
+    "fs": "0.0.1-security",
+    "gulp": "^3.9.1",
+    "gulp-install": "^1.1.0",
+    "gulp-typescript": "^4.0.2",
+    "require-dir": "^1.0.0",
+    "typescript": "^2.8.3"
+  }
+}

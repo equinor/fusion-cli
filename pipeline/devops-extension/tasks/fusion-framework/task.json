@@ -1,0 +1,87 @@
+{
+    "$schema": "https://raw.githubusercontent.com/AArnott/vso-agent-tasks/9b41d803a/tasks.schema.json",
+    "id": "9e1c5576-bedf-40f2-80f8-a4e2a652a901",
+    "name": "FusionFramework",
+    "friendlyName": "Fusion Framework Management",
+    "description": "",
+    "category": "Deploy",
+    "visibility": [ 
+        "Build",
+        "Release"
+    ],
+    "runsOn": [
+        "Agent",
+        "MachineGroup"
+    ],
+    "author": "Fusion Team",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 0
+    },
+    "demands": [
+    ],
+    "minimumAgentVersion": "1.92.0",
+    "groups": [
+    ],
+    "inputs": [
+        {
+            "name": "fusionAppConnection",
+            "aliases": [
+                "fusionCredentials"
+            ],
+            "type": "connectedService:fusionAppSP",
+            "label": "Fusion App Service principal",
+            "required": true,
+            "helpMarkDown": "Select an Fusion App publisher service principal",
+            "properties": {                
+            }
+        },
+        {
+            "name": "portalUrl",
+            "type": "string",
+            "required": true,
+            "label": "Portal URL"
+        },
+        {
+            "name": "action",
+            "label": "Action",
+            "type": "pickList",
+            "required": true,
+            "defaultValue": "Deploy",
+            "options": {
+                "Deploy": "Deploy",
+                "Publish": "Publish"
+            },
+            "helpMarkDown": "Action to perform. <br>**Deploy**<br>Upload a bundle<br>**Publish**<br>Publish the current preview framework."
+        },
+        {
+            "name": "bundlePath",
+            "type": "filePath",
+            "required": true,
+            "label": "Bundle file",
+            "helpMarkDown": "Zip bundle to deploy",
+            "visibleRule": "action = Deploy"
+        },
+        {
+            "name": "tokenResource",
+            "aliases": [
+                "environment"
+            ],
+            "type": "pickList",
+            "required": true,
+            "label": "Fusion environment",
+            "options": {
+                "5a842df8-3238-415d-b168-9f16a6a6031b": "Test"
+            }
+        }
+    ],
+    "instanceNameFormat": "Fusion Framework Management",
+    "execution": {
+        "Node": {
+            "target": "built/fusion-framework/index.js",
+            "argumentFormat": ""
+        }
+    },
+    "messages": { }
+}
