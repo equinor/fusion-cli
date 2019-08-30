@@ -1,5 +1,5 @@
 {
-  "name": "hans",
+  "name": "fusion-cli",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,10 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@equinor/fusion-cli": "^0.2.2",
-    "vsts-task-lib": "^2.7.0"
+    "azure-pipelines-task-lib": "^2.8.0"
   },
   "devDependencies": {
-    "@types/node": "^12.7.1"
+    "@types/node": "^12.7.1",
+    "@types/q": "^1.5.2"
   }
 }

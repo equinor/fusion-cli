@@ -1,0 +1,22 @@
+{
+  "name": "fusion-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.8.0",
+    "request": "^2.88.0",
+    "request-promise-native": "^1.0.7",
+    "util": "^0.12.1"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.2",
+    "@types/q": "^1.5.2",
+    "@types/request-promise-native": "^1.0.16"
+  }
+}

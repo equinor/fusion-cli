@@ -15,9 +15,9 @@
     ],
     "author": "Fusion Team",
     "version": {
-        "Major": 0,
+        "Major": 1,
         "Minor": 0,
-        "Patch": 1
+        "Patch": 0
     },
     "demands": [
         "npm"
@@ -40,6 +40,13 @@
             }
         },
         {
+            "name": "appFolder",
+            "type": "filePath",
+            "required": true,
+            "label": "App folder",
+            "helpMarkDown": "The folder where the app exists. The task will execute the cli command from there."
+        },
+        {
             "name": "arguments",
             "aliases": [
                 "command"
@@ -53,7 +60,7 @@
     "instanceNameFormat": "Fusion CLI",
     "execution": {
         "Node": {
-            "target": "index.js",
+            "target": "built/index.js",
             "argumentFormat": ""
         }
     },
