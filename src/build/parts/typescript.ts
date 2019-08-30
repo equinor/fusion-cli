@@ -16,7 +16,7 @@ export default (outDir?: string, silent = false): webpack.Configuration => ({
                             outDir,
                             silent,
                             useBabel: true,
-                            useCache: true,
+                            useCache: false,
                         },
                     },
                 ],
