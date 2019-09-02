@@ -60,6 +60,14 @@ export default async () => {
         res.sendFile(path.resolve(__dirname, '..', 'dist', 'fusion.bundle.js'));
     });
 
+    app.get('/favicon-16x16.png', (_req, res) => {
+        res.sendFile(path.resolve(__dirname, '..', 'dist', 'favicon-16x16.png'));
+    });
+
+    app.get('/favicon-32x32.png', (_req, res) => {
+        res.sendFile(path.resolve(__dirname, '..', 'dist', 'favicon-32x32.png'));
+    });
+
     // tslint:disable-next-line:variable-name
     app.get(['/', '/*', '*'], (_req, res) => {
         res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
