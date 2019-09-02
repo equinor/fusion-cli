@@ -62,7 +62,7 @@
     "webpack-merge": "^4.2.1"
   },
   "devDependencies": {
-    "@equinor/fusion-components": "0.0.45",
+    "@equinor/fusion-components": "0.0.52",
     "@oclif/dev-cli": "^1.22.0",
     "@oclif/test": "^1.2.4",
     "@oclif/tslint": "^3.1.1",
