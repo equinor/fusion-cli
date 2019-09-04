@@ -57564,7 +57564,7 @@ if (false) {} else {
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
+/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -63262,7 +63262,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_dom_1 = __webpack_require__(/*! @hot-loader/react-dom */ "./node_modules/@hot-loader/react-dom/index.js-exposed");
 const fusion_1 = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
-const react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 const fusion_components_1 = __webpack_require__(/*! @equinor/fusion-components */ "./node_modules/@equinor/fusion-components/dist/index.js-exposed");
 const HotAppWrapper_1 = __webpack_require__(/*! ./HotAppWrapper */ "./src/start-app/HotAppWrapper.tsx");
 const serviceResolver = {
@@ -63302,7 +63302,7 @@ const start = async () => {
                 overlay,
                 root,
             });
-            return (React.createElement(react_router_1.Router, { history: fusionContext.history },
+            return (React.createElement(react_router_dom_1.Router, { history: fusionContext.history },
                 React.createElement(fusion_1.FusionContext.Provider, { value: fusionContext },
                     React.createElement(fusion_components_1.FusionRoot, { rootRef: root, overlayRef: overlay },
                         React.createElement(fusion_components_1.FusionHeader, { aside: null, content: null, start: null }),
