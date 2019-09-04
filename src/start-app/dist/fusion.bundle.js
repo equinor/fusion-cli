@@ -2272,8 +2272,8 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
             },
         });
     }
-    async getJobDescriptionAsync(projectId, positionId) {
-        const url = this.resourceCollections.org.jobDescription(projectId, positionId);
+    async getRoleDescriptionAsync(projectId, positionId) {
+        const url = this.resourceCollections.org.roleDescription(projectId, positionId);
         return this.httpClient.getAsync(url, null, async (response) => {
             return await response.text();
         });
@@ -2796,8 +2796,8 @@ class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MO
         const query = `?$expand=taskOwners.instances, reportsTo.instances, parentPosition, project, contract`;
         return `${url}${query}`;
     }
-    jobDescription(projectId, positionId) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.position(projectId, positionId, false), 'jobDescription', 'content');
+    roleDescription(projectId, positionId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.position(projectId, positionId, false), 'roleDescription', 'content');
     }
     reportsTo(projectId, positionId) {
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.position(projectId, positionId, false), 'reportsTo');
@@ -4045,7 +4045,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ('0.4.4');
+/* harmony default export */ __webpack_exports__["default"] = ('0.4.5');
 
 
 /***/ }),
