@@ -6,7 +6,7 @@ import {
     createFusionContext,
 } from '@equinor/fusion';
 import * as React from 'react';
-import { Router } from 'react-router';
+import { Router } from 'react-router-dom';
 import { FusionHeader, FusionRoot, FusionContent } from '@equinor/fusion-components';
 import HotAppWrapper from "./HotAppWrapper";
 
