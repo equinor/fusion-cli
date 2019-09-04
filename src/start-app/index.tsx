@@ -6,7 +6,7 @@ import {
     createFusionContext,
 } from '@equinor/fusion';
 import * as React from 'react';
-import ReactRouterDom from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { FusionHeader, FusionRoot, FusionContent } from '@equinor/fusion-components';
 import HotAppWrapper from "./HotAppWrapper";
 
@@ -52,7 +52,7 @@ const start = async () => {
             });
 
             return (
-                <ReactRouterDom.Router history={fusionContext.history}>
+                <Router history={fusionContext.history}>
                     <FusionContext.Provider value={fusionContext}>
                         <FusionRoot rootRef={root} overlayRef={overlay}>
                             <FusionHeader aside={null} content={null} start={null} />
@@ -61,7 +61,7 @@ const start = async () => {
                             </FusionContent>
                         </FusionRoot>
                     </FusionContext.Provider>
-                </ReactRouterDom.Router>
+                </Router>
             );
         };
 
