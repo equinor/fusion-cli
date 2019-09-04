@@ -123,7 +123,8 @@
     "postpack": "rm oclif.manifest.json",
     "posttest": "tslint -p test -t stylish",
     "prepack": "rm -rf lib && tsc -b && npm run copy && oclif-dev manifest",
-    "test": "echo \"No test specified\""
+    "test": "echo \"No test specified\"",
+    "build": "npm run postpack && npm run build:start-app-bundle && npm run prepack"
   },
   "types": "lib/index.d.ts",
   "publishConfig": {
