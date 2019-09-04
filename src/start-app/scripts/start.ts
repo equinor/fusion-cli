@@ -11,6 +11,7 @@ import * as getPort from 'get-port';
 import babel from '../../build/parts/babel';
 import entry from '../../build/parts/entry';
 import hmr from '../../build/parts/hmr';
+import images from '../../build/parts/images';
 import mode from '../../build/parts/mode';
 import output from '../../build/parts/output';
 import externals from '../../build/parts/externals';
@@ -36,6 +37,7 @@ export default async () => {
             entry(appPackage),
             output('app.bundle.js'),
             hmr,
+            images(),
             externals(cliDependencies, moduleDependencies),
             styles,
             typescript('', false)
