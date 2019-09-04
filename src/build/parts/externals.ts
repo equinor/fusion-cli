@@ -33,6 +33,7 @@ export default (cliDependencies: IDependencyList, moduleDependencies: IDependenc
     addIfVersionsMatch('@equinor/fusion-components', 'FusionComponents');
     addIfVersionsMatch('react', 'FusionReact');
     addIfVersionsMatch('react-dom', 'FusionReactDOM');
+    addIfVersionsMatch('react-router-dom', 'FusionReactRouterDOM');
 
     return {
         externals,

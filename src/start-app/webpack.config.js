@@ -37,6 +37,24 @@ module.exports = {
                 ],
             },
             {
+                test: require.resolve('react-router-dom'),
+                use: [
+                    {
+                        loader: 'expose-loader',
+                        options: 'FusionReactRouterDOM',
+                    },
+                ],
+            },
+            {
+                test: require.resolve('react-dom'),
+                use: [
+                    {
+                        loader: 'expose-loader',
+                        options: 'FusionReactDOM',
+                    },
+                ],
+            },
+            {
                 test: require.resolve('@hot-loader/react-dom'),
                 use: [
                     {

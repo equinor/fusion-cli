@@ -185,7 +185,7 @@ module.exports = _inheritsLoose;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-!function(e,n){ true?module.exports=n(__webpack_require__(/*! react */ "./node_modules/react/index.js-exposed"),__webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed"),__webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js"),__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js"),__webpack_require__(/*! history */ "./node_modules/history/esm/history.js")):undefined}(window,function(e,n,t,a,r){return function(e){var n={};function t(a){if(n[a])return n[a].exports;var r=n[a]={i:a,l:!1,exports:{}};return e[a].call(r.exports,r,r.exports,t),r.l=!0,r.exports}return t.m=e,t.c=n,t.d=function(e,n,a){t.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:a})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,n){if(1&n&&(e=t(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var a=Object.create(null);if(t.r(a),Object.defineProperty(a,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var r in e)t.d(a,r,function(n){return e[n]}.bind(null,r));return a},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},t.p="",t(t.s=86)}([function(n,t){n.exports=e},function(e,t){e.exports=n},function(e,n,t){var a;
+!function(e,n){ true?module.exports=n(__webpack_require__(/*! react */ "./node_modules/react/index.js-exposed"),__webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed"),__webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js"),__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed"),__webpack_require__(/*! history */ "./node_modules/history/esm/history.js")):undefined}(window,function(e,n,t,a,r){return function(e){var n={};function t(a){if(n[a])return n[a].exports;var r=n[a]={i:a,l:!1,exports:{}};return e[a].call(r.exports,r,r.exports,t),r.l=!0,r.exports}return t.m=e,t.c=n,t.d=function(e,n,a){t.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:a})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,n){if(1&n&&(e=t(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var a=Object.create(null);if(t.r(a),Object.defineProperty(a,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var r in e)t.d(a,r,function(n){return e[n]}.bind(null,r));return a},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},t.p="",t(t.s=86)}([function(n,t){n.exports=e},function(e,t){e.exports=n},function(e,n,t){var a;
 /*!
   Copyright (c) 2017 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -57254,6 +57254,18 @@ if (false) {} else {
   module.exports = __webpack_require__(/*! ./cjs/react-dom.development.js */ "./node_modules/react-dom/cjs/react-dom.development.js");
 }
 
+
+/***/ }),
+
+/***/ "./node_modules/react-dom/index.js-exposed":
+/*!*************************************************!*\
+  !*** ./node_modules/react-dom/index.js-exposed ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["FusionReactDOM"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react-dom/index.js");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
 
 /***/ }),
 

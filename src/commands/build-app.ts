@@ -302,7 +302,6 @@ export default class BuildApp extends Command {
             babel,
             mode(true),
             entry(context.package),
-            hmr,
             externals(cliDependencies, moduleDependencies),
             styles,
             typescript(context.appOutputDir, true),
