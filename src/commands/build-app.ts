@@ -301,7 +301,7 @@ export default class BuildApp extends Command {
         return merge(
             babel,
             mode(true),
-            entry(context.package),
+            entry(context.package, true),
             externals(cliDependencies, moduleDependencies),
             styles,
             typescript(context.appOutputDir, true),

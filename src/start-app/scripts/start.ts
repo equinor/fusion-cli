@@ -34,7 +34,7 @@ export default async () => {
         merge(
             babel,
             mode(false),
-            entry(appPackage),
+            entry(appPackage, false),
             output('app.bundle.js'),
             hmr,
             images(),
