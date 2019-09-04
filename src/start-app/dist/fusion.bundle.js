@@ -91,11 +91,11 @@
   !*** ./node_modules/@babel/runtime/helpers/esm/extends.js ***!
   \************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _extends; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _extends; });
 function _extends() {
   _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -121,11 +121,11 @@ function _extends() {
   !*** ./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js ***!
   \******************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _inheritsLoose; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _inheritsLoose; });
 function _inheritsLoose(subClass, superClass) {
   subClass.prototype = Object.create(superClass.prototype);
   subClass.prototype.constructor = subClass;
@@ -139,11 +139,11 @@ function _inheritsLoose(subClass, superClass) {
   !*** ./node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js ***!
   \*********************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutPropertiesLoose; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _objectWithoutPropertiesLoose; });
 function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
   var target = {};
@@ -166,6 +166,7 @@ function _objectWithoutPropertiesLoose(source, excluded) {
   !*** ./node_modules/@babel/runtime/helpers/inheritsLoose.js ***!
   \**************************************************************/
 /*! no static exports found */
+/*! exports used: default */
 /***/ (function(module, exports) {
 
 function _inheritsLoose(subClass, superClass) {
@@ -183,9 +184,10 @@ module.exports = _inheritsLoose;
   !*** ./node_modules/@equinor/fusion-components/dist/index.js ***!
   \***************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
-!function(e,n){ true?module.exports=n(__webpack_require__(/*! react */ "./node_modules/react/index.js-exposed"),__webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed"),__webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js"),__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed"),__webpack_require__(/*! history */ "./node_modules/history/esm/history.js")):undefined}(window,function(e,n,t,a,r){return function(e){var n={};function t(a){if(n[a])return n[a].exports;var r=n[a]={i:a,l:!1,exports:{}};return e[a].call(r.exports,r,r.exports,t),r.l=!0,r.exports}return t.m=e,t.c=n,t.d=function(e,n,a){t.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:a})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,n){if(1&n&&(e=t(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var a=Object.create(null);if(t.r(a),Object.defineProperty(a,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var r in e)t.d(a,r,function(n){return e[n]}.bind(null,r));return a},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},t.p="",t(t.s=86)}([function(n,t){n.exports=e},function(e,t){e.exports=n},function(e,n,t){var a;
+!function(e,n){ true?module.exports=n(__webpack_require__(/*! react */ "./node_modules/react/index.js-exposed"),__webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed"),__webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js-exposed"),__webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js-exposed"),__webpack_require__(/*! history */ "./node_modules/history/esm/history.js")):undefined}(window,function(e,n,t,a,r){return function(e){var n={};function t(a){if(n[a])return n[a].exports;var r=n[a]={i:a,l:!1,exports:{}};return e[a].call(r.exports,r,r.exports,t),r.l=!0,r.exports}return t.m=e,t.c=n,t.d=function(e,n,a){t.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:a})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,n){if(1&n&&(e=t(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var a=Object.create(null);if(t.r(a),Object.defineProperty(a,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var r in e)t.d(a,r,function(n){return e[n]}.bind(null,r));return a},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},t.p="",t(t.s=86)}([function(n,t){n.exports=e},function(e,t){e.exports=n},function(e,n,t){var a;
 /*!
   Copyright (c) 2017 Jed Watson.
   Licensed under the MIT License (MIT), see
@@ -199,6 +201,7 @@ module.exports = _inheritsLoose;
   !*** ./node_modules/@equinor/fusion-components/dist/index.js-exposed ***!
   \***********************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {module.exports = global["FusionComponents"] = __webpack_require__(/*! -!./index.js */ "./node_modules/@equinor/fusion-components/dist/index.js");
@@ -211,15 +214,15 @@ module.exports = _inheritsLoose;
   !*** ./node_modules/@equinor/fusion/lib/app/AppContainer.js ***!
   \**************************************************************/
 /*! exports provided: default, registerApp, appContainerFactory, useCurrentApp, useApps */
+/*! exports used: appContainerFactory, default, registerApp, useCurrentApp */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AppContainer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "registerApp", function() { return registerApp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "appContainerFactory", function() { return appContainerFactory; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useCurrentApp", function() { return useCurrentApp; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useApps", function() { return useApps; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return AppContainer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return registerApp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return appContainerFactory; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return useCurrentApp; });
+/* unused harmony export useApps */
 /* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
@@ -227,7 +230,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     constructor(apiClients) {
         super();
         this.currentApp = null;
@@ -325,12 +328,12 @@ const registerApp = (appKey, manifest) => {
     getAppContainer().then(appContainer => appContainer.updateManifest(appKey, manifest));
 };
 const useCurrentApp = () => {
-    const { app } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
-    const [currentApp] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["useEventEmitterValue"])(app.container, "change");
+    const { app } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
+    const [currentApp] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* useEventEmitterValue */ "b"])(app.container, "change");
     return currentApp;
 };
 const useApps = () => {
-    const { app } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
+    const { app } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
     const [apps, setApps] = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])([]);
     const [error, setError] = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(null);
     const [isFetching, setIsFetching] = Object(react__WEBPACK_IMPORTED_MODULE_2__["useState"])(false);
@@ -361,11 +364,11 @@ const useApps = () => {
   !*** ./node_modules/@equinor/fusion/lib/auth/AuthApp.js ***!
   \**********************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthApp; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthApp; });
 /* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
 
 class AuthApp {
@@ -376,7 +379,7 @@ class AuthApp {
     }
     updateResources(resources) {
         resources
-            .map(resource => Object(_utils_url__WEBPACK_IMPORTED_MODULE_0__["trimTrailingSlash"])(resource.toLowerCase()))
+            .map(resource => Object(_utils_url__WEBPACK_IMPORTED_MODULE_0__[/* trimTrailingSlash */ "b"])(resource.toLowerCase()))
             .forEach(resource => {
             if (this.resources.indexOf(resource) === -1) {
                 this.resources.push(resource);
@@ -393,11 +396,11 @@ class AuthApp {
   !*** ./node_modules/@equinor/fusion/lib/auth/AuthCache.js ***!
   \************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthCache; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthCache; });
 /* harmony import */ var _AuthToken__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthToken */ "./node_modules/@equinor/fusion/lib/auth/AuthToken.js");
 /* harmony import */ var _AuthUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthUser */ "./node_modules/@equinor/fusion/lib/auth/AuthUser.js");
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
@@ -410,9 +413,9 @@ var TokenCacheKey;
     TokenCacheKey["USER"] = "USER";
 })(TokenCacheKey || (TokenCacheKey = {}));
 ;
-class AuthCache extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__["default"] {
+class AuthCache extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* default */ "b"] {
     constructor() {
-        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__["LocalStorageProvider"]("FUSION_AUTH_CACHE"));
+        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* LocalStorageProvider */ "a"]("FUSION_AUTH_CACHE"));
     }
     static createAppCacheKey(app, key) {
         return `FUSION_AUTH_CACHE:${app.clientId}:${key}`;
@@ -425,7 +428,7 @@ class AuthCache extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__["
         if (!originalToken) {
             return null;
         }
-        return _AuthToken__WEBPACK_IMPORTED_MODULE_0__["default"].parse(originalToken);
+        return _AuthToken__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].parse(originalToken);
     }
     async clearTokenAsync(app) {
         await this.removeAsync(AuthCache.createAppCacheKey(app, TokenCacheKey.TOKEN));
@@ -438,7 +441,7 @@ class AuthCache extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__["
         if (cachedUser === null) {
             return null;
         }
-        return _AuthUser__WEBPACK_IMPORTED_MODULE_1__["default"].fromJSON(cachedUser);
+        return _AuthUser__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].fromJSON(cachedUser);
     }
 }
 
@@ -450,13 +453,13 @@ class AuthCache extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__["
   !*** ./node_modules/@equinor/fusion/lib/auth/AuthContainer.js ***!
   \****************************************************************/
 /*! exports provided: FusionAuthAppNotFoundError, FusionAuthLoginError, default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FusionAuthAppNotFoundError", function() { return FusionAuthAppNotFoundError; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FusionAuthLoginError", function() { return FusionAuthLoginError; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthContainer; });
+/* unused harmony export FusionAuthAppNotFoundError */
+/* unused harmony export FusionAuthLoginError */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthContainer; });
 /* harmony import */ var _AuthApp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthApp */ "./node_modules/@equinor/fusion/lib/auth/AuthApp.js");
 /* harmony import */ var _AuthToken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthToken */ "./node_modules/@equinor/fusion/lib/auth/AuthToken.js");
 /* harmony import */ var _AuthNonce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./AuthNonce */ "./node_modules/@equinor/fusion/lib/auth/AuthNonce.js");
@@ -486,7 +489,7 @@ class AuthContainer {
     constructor() {
         this.cachedUser = null;
         this.apps = [];
-        this.cache = new _AuthCache__WEBPACK_IMPORTED_MODULE_3__["default"]();
+        this.cache = new _AuthCache__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]();
     }
     async handleWindowCallbackAsync() {
         const token = AuthContainer.getTokenFromHash(window.location.hash);
@@ -494,10 +497,10 @@ class AuthContainer {
             return;
         }
         try {
-            const parsedToken = _AuthToken__WEBPACK_IMPORTED_MODULE_1__["default"].parse(token);
-            const nonce = _AuthNonce__WEBPACK_IMPORTED_MODULE_2__["default"].resolve(parsedToken.nonce);
+            const parsedToken = _AuthToken__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].parse(token);
+            const nonce = _AuthNonce__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"].resolve(parsedToken.nonce);
             const clientId = nonce.toString();
-            const app = new _AuthApp__WEBPACK_IMPORTED_MODULE_0__["default"](clientId, []);
+            const app = new _AuthApp__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"](clientId, []);
             this.apps.push(app);
             await this.updateTokenForAppAsync(app, token);
             window.location.hash = '';
@@ -535,7 +538,7 @@ class AuthContainer {
             existingApp.updateResources(resources);
             return (await this.cache.getTokenAsync(existingApp)) !== null;
         }
-        const newApp = new _AuthApp__WEBPACK_IMPORTED_MODULE_0__["default"](clientId, resources);
+        const newApp = new _AuthApp__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"](clientId, resources);
         this.apps.push(newApp);
         const cachedToken = await this.cache.getTokenAsync(newApp);
         if (cachedToken !== null) {
@@ -548,7 +551,7 @@ class AuthContainer {
         if (app === null) {
             throw new FusionAuthAppNotFoundError(clientId);
         }
-        const nonce = _AuthNonce__WEBPACK_IMPORTED_MODULE_2__["default"].createNew(app);
+        const nonce = _AuthNonce__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"].createNew(app);
         // Store redirect url
         // Login page cannot be displayed within a frame
         // Get the top level window and redirect there
@@ -575,9 +578,9 @@ class AuthContainer {
         return this.cachedUser || null;
     }
     async updateTokenForAppAsync(app, token) {
-        const parsedToken = _AuthToken__WEBPACK_IMPORTED_MODULE_1__["default"].parse(token);
+        const parsedToken = _AuthToken__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].parse(token);
         await this.cache.storeTokenAsync(app, parsedToken);
-        const cachedUser = (await this.getCachedUserAsync()) || _AuthUser__WEBPACK_IMPORTED_MODULE_4__["default"].createFromToken(parsedToken);
+        const cachedUser = (await this.getCachedUserAsync()) || _AuthUser__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"].createFromToken(parsedToken);
         cachedUser.mergeWithToken(parsedToken);
         await this.cacheUserAsync(cachedUser);
     }
@@ -588,7 +591,7 @@ class AuthContainer {
     static getResourceOrigin(resource) {
         try {
             const url = new URL(resource);
-            return Object(_utils_url__WEBPACK_IMPORTED_MODULE_5__["trimTrailingSlash"])(url.origin.toLowerCase());
+            return Object(_utils_url__WEBPACK_IMPORTED_MODULE_5__[/* trimTrailingSlash */ "b"])(url.origin.toLowerCase());
         }
         catch (_a) {
             return '';
@@ -631,12 +634,12 @@ class AuthContainer {
   !*** ./node_modules/@equinor/fusion/lib/auth/AuthNonce.js ***!
   \************************************************************/
 /*! exports provided: FusionNonceNotFoundError, default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FusionNonceNotFoundError", function() { return FusionNonceNotFoundError; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthNonce; });
+/* unused harmony export FusionNonceNotFoundError */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthNonce; });
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/uuid/v1.js");
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v1__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -688,12 +691,12 @@ class AuthNonce {
   !*** ./node_modules/@equinor/fusion/lib/auth/AuthToken.js ***!
   \************************************************************/
 /*! exports provided: FusionAuthTokenParseError, default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FusionAuthTokenParseError", function() { return FusionAuthTokenParseError; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthToken; });
+/* unused harmony export FusionAuthTokenParseError */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthToken; });
 /* harmony import */ var _utils_JSON__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/JSON */ "./node_modules/@equinor/fusion/lib/utils/JSON.js");
 
 const b64DecodeUnicode = (str) => decodeURIComponent(Array.prototype.map
@@ -707,7 +710,7 @@ class FusionAuthTokenParseError extends Error {
 class AuthToken {
     static parse(token) {
         const userPart = token.split(".")[1];
-        const parsedToken = _utils_JSON__WEBPACK_IMPORTED_MODULE_0__["default"].parse(b64DecodeUnicode(userPart));
+        const parsedToken = _utils_JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].parse(b64DecodeUnicode(userPart));
         if (!parsedToken) {
             throw new FusionAuthTokenParseError(token);
         }
@@ -788,11 +791,11 @@ class AuthToken {
   !*** ./node_modules/@equinor/fusion/lib/auth/AuthUser.js ***!
   \***********************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AuthUser; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthUser; });
 /* harmony import */ var _utils_JSON__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/JSON */ "./node_modules/@equinor/fusion/lib/utils/JSON.js");
 
 class UserTokenMissmatchError extends Error {
@@ -864,7 +867,7 @@ class AuthUser {
         };
     }
     toString() {
-        return _utils_JSON__WEBPACK_IMPORTED_MODULE_0__["default"].stringify(this.toObject());
+        return _utils_JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].stringify(this.toObject());
     }
 }
 
@@ -876,17 +879,17 @@ class AuthUser {
   !*** ./node_modules/@equinor/fusion/lib/auth/useCurrentUser.js ***!
   \*****************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 
 
-/* harmony default export */ __webpack_exports__["default"] = (() => {
-    const fusionContext = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
+/* harmony default export */ __webpack_exports__["a"] = (() => {
+    const fusionContext = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
     const [currentUser, setCurrentUser] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(fusionContext.auth.container.getCachedUser());
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
         fusionContext.auth.container.getCachedUserAsync().then(setCurrentUser);
@@ -902,13 +905,13 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/core/ComponentDisplayType.js ***!
   \***********************************************************************/
 /*! exports provided: ComponentDisplayType, useComponentDisplayType, useComponentDisplayClassNames */
+/*! exports used: ComponentDisplayType, useComponentDisplayClassNames, useComponentDisplayType */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ComponentDisplayType", function() { return ComponentDisplayType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayType", function() { return useComponentDisplayType; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayClassNames", function() { return useComponentDisplayClassNames; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ComponentDisplayType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return useComponentDisplayType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useComponentDisplayClassNames; });
 /* harmony import */ var _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../settings/useCoreSettings */ "./node_modules/@equinor/fusion/lib/settings/useCoreSettings.js");
 
 var ComponentDisplayType;
@@ -917,7 +920,7 @@ var ComponentDisplayType;
     ComponentDisplayType["Compact"] = "Compact";
 })(ComponentDisplayType || (ComponentDisplayType = {}));
 const useComponentDisplayType = () => {
-    const coreSettings = Object(_settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_0__["default"])();
+    const coreSettings = Object(_settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])();
     return coreSettings.componentDisplayType;
 };
 const useComponentDisplayClassNames = (styles) => {
@@ -936,14 +939,14 @@ const useComponentDisplayClassNames = (styles) => {
   !*** ./node_modules/@equinor/fusion/lib/core/ContextManager.js ***!
   \*****************************************************************/
 /*! exports provided: default, useContextManager, useCurrentContext, useContextQuery */
+/*! exports used: default, useContextManager, useContextQuery, useCurrentContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ContextManager; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useContextManager", function() { return useContextManager; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useCurrentContext", function() { return useCurrentContext; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useContextQuery", function() { return useContextQuery; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextManager; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useContextManager; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return useCurrentContext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return useContextQuery; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
@@ -955,9 +958,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ContextManager extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__["default"] {
+class ContextManager extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* default */ "b"] {
     constructor(apiClients, contextId) {
-        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__["LocalStorageProvider"](`FUSION_CURRENT_CONTEXT`));
+        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* LocalStorageProvider */ "a"](`FUSION_CURRENT_CONTEXT`));
         this.isSettingFromRoute = false;
         this.contextClient = apiClients.context;
         if (contextId) {
@@ -1060,7 +1063,7 @@ class ContextManager extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_
     }
 }
 const useContextManager = () => {
-    const fusionContext = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
+    const fusionContext = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
     return fusionContext.contextManager;
 };
 const useContextHistory = () => {
@@ -1111,7 +1114,7 @@ const useContextQuery = (...types) => {
     const [queryText, setQueryText] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])("");
     const [isQuerying, setIsQuerying] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
     const [error, setError] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
-    const apiClients = Object(_http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_4__["default"])();
+    const apiClients = Object(_http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])();
     const canQueryWithText = (text) => !!text && text.length > 2;
     const fetchContexts = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(async (query) => {
         if (canQueryWithText(query)) {
@@ -1128,7 +1131,7 @@ const useContextQuery = (...types) => {
             }
         }
     }, []);
-    Object(_hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_3__["default"])(fetchContexts, queryText);
+    Object(_hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(fetchContexts, queryText);
     const search = (query) => {
         setIsQuerying(canQueryWithText(query));
         setQueryText(query);
@@ -1145,13 +1148,13 @@ const useContextQuery = (...types) => {
   !*** ./node_modules/@equinor/fusion/lib/core/FusionContext.js ***!
   \****************************************************************/
 /*! exports provided: defaultSettings, createFusionContext, useFusionContext, default */
+/*! exports used: createFusionContext, default, defaultSettings, useFusionContext */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "defaultSettings", function() { return defaultSettings; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createFusionContext", function() { return createFusionContext; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useFusionContext", function() { return useFusionContext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return defaultSettings; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createFusionContext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return useFusionContext; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var history__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! history */ "./node_modules/history/esm/history.js");
@@ -1182,7 +1185,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const defaultSettings = {
-    componentDisplayType: _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_9__["ComponentDisplayType"].Comfortable,
+    componentDisplayType: _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_9__[/* ComponentDisplayType */ "a"].Comfortable,
 };
 const ensureGlobalFusionContextType = () => {
     const win = window;
@@ -1196,23 +1199,23 @@ const ensureGlobalFusionContextType = () => {
 };
 const FusionContext = ensureGlobalFusionContextType();
 const createFusionContext = (authContainer, serviceResolver, refs, options) => {
-    const abortControllerManager = new _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__["default"]();
-    const resourceCollections = Object(_http_resourceCollections__WEBPACK_IMPORTED_MODULE_3__["createResourceCollections"])(serviceResolver, options);
-    const resourceCache = new _http_ResourceCache__WEBPACK_IMPORTED_MODULE_6__["default"]();
-    const httpClient = new _http_HttpClient__WEBPACK_IMPORTED_MODULE_5__["default"](authContainer, resourceCache, abortControllerManager);
-    const apiClients = Object(_http_apiClients__WEBPACK_IMPORTED_MODULE_4__["createApiClients"])(httpClient, resourceCollections);
+    const abortControllerManager = new _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"]();
+    const resourceCollections = Object(_http_resourceCollections__WEBPACK_IMPORTED_MODULE_3__[/* createResourceCollections */ "a"])(serviceResolver, options);
+    const resourceCache = new _http_ResourceCache__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"]();
+    const httpClient = new _http_HttpClient__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](authContainer, resourceCache, abortControllerManager);
+    const apiClients = Object(_http_apiClients__WEBPACK_IMPORTED_MODULE_4__[/* createApiClients */ "a"])(httpClient, resourceCollections);
     const history = Object(history__WEBPACK_IMPORTED_MODULE_1__["createBrowserHistory"])();
-    const coreSettings = new _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_7__["default"]('core', authContainer.getCachedUser(), defaultSettings);
-    const appContainer = new _app_AppContainer__WEBPACK_IMPORTED_MODULE_8__["default"](apiClients);
-    Object(_app_AppContainer__WEBPACK_IMPORTED_MODULE_8__["appContainerFactory"])(appContainer);
+    const coreSettings = new _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]('core', authContainer.getCachedUser(), defaultSettings);
+    const appContainer = new _app_AppContainer__WEBPACK_IMPORTED_MODULE_8__[/* default */ "b"](apiClients);
+    Object(_app_AppContainer__WEBPACK_IMPORTED_MODULE_8__[/* appContainerFactory */ "a"])(appContainer);
     // Try to get the current context id from the current route if a user navigates directly to the app/context
-    const contextRouteMatch = Object(react_router__WEBPACK_IMPORTED_MODULE_2__["matchPath"])('apps/:appKey/:contextId', {
+    const contextRouteMatch = Object(react_router__WEBPACK_IMPORTED_MODULE_2__[/* matchPath */ "j"])('apps/:appKey/:contextId', {
         path: history.location.pathname,
     });
     const contextId = contextRouteMatch && contextRouteMatch.params ? contextRouteMatch.params.contextId : null;
-    const contextManager = new _ContextManager__WEBPACK_IMPORTED_MODULE_10__["default"](apiClients, contextId);
-    const tasksContainer = new _TasksContainer__WEBPACK_IMPORTED_MODULE_12__["default"](apiClients);
-    const notificationCenter = new _NotificationCenter__WEBPACK_IMPORTED_MODULE_13__["default"]();
+    const contextManager = new _ContextManager__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"](apiClients, contextId);
+    const tasksContainer = new _TasksContainer__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"](apiClients);
+    const notificationCenter = new _NotificationCenter__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]();
     return {
         auth: { container: authContainer },
         http: {
@@ -1238,7 +1241,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
     };
 };
 const useFusionContext = () => Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(FusionContext);
-/* harmony default export */ __webpack_exports__["default"] = (FusionContext);
+/* harmony default export */ __webpack_exports__["b"] = (FusionContext);
 
 
 /***/ }),
@@ -1248,12 +1251,12 @@ const useFusionContext = () => Object(react__WEBPACK_IMPORTED_MODULE_0__["useCon
   !*** ./node_modules/@equinor/fusion/lib/core/NotificationCenter.js ***!
   \*********************************************************************/
 /*! exports provided: default, useNotificationCenter */
+/*! exports used: default, useNotificationCenter */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return NotificationCenter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useNotificationCenter", function() { return useNotificationCenter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return NotificationCenter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useNotificationCenter; });
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/uuid/v1.js");
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v1__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
@@ -1261,9 +1264,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__[/* default */ "b"] {
     constructor() {
-        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__["LocalStorageProvider"]('NOTIFICATION_CENTER', { notifications: [] }));
+        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__[/* LocalStorageProvider */ "a"]('NOTIFICATION_CENTER', { notifications: [] }));
         this.presenters = [];
     }
     async sendAsync(notificationRequest) {
@@ -1364,7 +1367,7 @@ class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MOD
     }
 }
 const useNotificationCenter = () => {
-    const { notificationCenter } = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_2__["useFusionContext"])();
+    const { notificationCenter } = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_2__[/* useFusionContext */ "d"])();
     return (notificationRequest) => notificationCenter.sendAsync(notificationRequest);
 };
 
@@ -1376,16 +1379,16 @@ const useNotificationCenter = () => {
   !*** ./node_modules/@equinor/fusion/lib/core/TasksContainer.js ***!
   \*****************************************************************/
 /*! exports provided: default, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter */
+/*! exports used: default, useTaskPrioritySetter, useTaskSourceSystems, useTaskTypes, useTasks, useTasksContainer */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TasksContainer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useTasksContainer", function() { return useTasksContainer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useTasks", function() { return useTasks; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useTaskSourceSystems", function() { return useTaskSourceSystems; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useTaskTypes", function() { return useTaskTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useTaskPrioritySetter", function() { return useTaskPrioritySetter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TasksContainer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return useTasksContainer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return useTasks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return useTaskSourceSystems; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return useTaskTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useTaskPrioritySetter; });
 /* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
@@ -1393,7 +1396,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class TasksContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class TasksContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     constructor(apiClients) {
         super();
         this.tasks = [];
@@ -1479,7 +1482,7 @@ class TasksContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["d
     }
 }
 const useTasksContainer = () => {
-    const { tasksContainer } = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_2__["useFusionContext"])();
+    const { tasksContainer } = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_2__[/* useFusionContext */ "d"])();
     return tasksContainer;
 };
 const useTasksData = (event, fetchAsync, defaultData) => {
@@ -1487,7 +1490,7 @@ const useTasksData = (event, fetchAsync, defaultData) => {
     const [error, setError] = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null);
     const [isFetching, setIsFetching] = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
     const [defaultDataState] = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(defaultData);
-    const [data, setData] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["useEventEmitterValue"])(tasksContainer, event, t => t, defaultDataState);
+    const [data, setData] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* useEventEmitterValue */ "b"])(tasksContainer, event, t => t, defaultDataState);
     const fetch = async () => {
         setIsFetching(true);
         try {
@@ -1511,7 +1514,7 @@ const useTaskTypes = () => {
     return useTasksData('task-types-updated', async (tasksContainer) => await tasksContainer.getTaskTypesAsync(), useTasksContainer().getTaskTypes());
 };
 const useTaskPrioritySetter = () => {
-    const { tasksContainer } = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_2__["useFusionContext"])();
+    const { tasksContainer } = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_2__[/* useFusionContext */ "d"])();
     return async (id, priority) => {
         await tasksContainer.setTaskPriorityAsync(id, priority);
     };
@@ -1542,20 +1545,20 @@ const useTasks = () => {
   !*** ./node_modules/@equinor/fusion/lib/hooks/useAsyncData.js ***!
   \****************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _useEffectAsync__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useEffectAsync */ "./node_modules/@equinor/fusion/lib/hooks/useEffectAsync.js");
 
 
-/* harmony default export */ __webpack_exports__["default"] = ((invoke, dependencies) => {
+/* harmony default export */ __webpack_exports__["a"] = ((invoke, dependencies) => {
     const [error, setError] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
     const [isFeching, setIsFetching] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
     const [data, setData] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
-    Object(_useEffectAsync__WEBPACK_IMPORTED_MODULE_1__["default"])(async (signal) => {
+    Object(_useEffectAsync__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(async (signal) => {
         setIsFetching(true);
         try {
             const result = await invoke(signal);
@@ -1578,14 +1581,14 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/hooks/useDebounce.js ***!
   \***************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-/* harmony default export */ __webpack_exports__["default"] = ((value, delay = 300) => {
+/* harmony default export */ __webpack_exports__["a"] = ((value, delay = 300) => {
     const [debouncedValue, setDebouncedValue] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(value);
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
         const timer = setTimeout(() => {
@@ -1604,17 +1607,17 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/hooks/useDebouncedAbortable.js ***!
   \*************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/AbortControllerManager */ "./node_modules/@equinor/fusion/lib/utils/AbortControllerManager.js");
 
 
-/* harmony default export */ __webpack_exports__["default"] = ((abortableAction, value, delay = 300) => {
-    const abortable = Object(_utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_1__["withAbortController"])();
+/* harmony default export */ __webpack_exports__["a"] = ((abortableAction, value, delay = 300) => {
+    const abortable = Object(_utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_1__[/* withAbortController */ "c"])();
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
         let abort = null;
         const timer = setTimeout(() => {
@@ -1637,14 +1640,14 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/hooks/useEffectAsync.js ***!
   \******************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
-/* harmony default export */ __webpack_exports__["default"] = ((effect, dependencies) => {
+/* harmony default export */ __webpack_exports__["a"] = ((effect, dependencies) => {
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
         const abortController = new AbortController();
         effect(abortController.signal);
@@ -1660,19 +1663,19 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/hooks/useHistory.js ***!
   \**************************************************************/
 /*! exports provided: HistoryContext, default */
+/*! exports used: HistoryContext, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HistoryContext", function() { return HistoryContext; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HistoryContext; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 
 
 const HistoryContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({ history: null });
-/* harmony default export */ __webpack_exports__["default"] = (() => {
-    const fusionContext = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
+/* harmony default export */ __webpack_exports__["b"] = (() => {
+    const fusionContext = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
     const historyContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(HistoryContext);
     return historyContext.history || fusionContext.history;
 });
@@ -1685,12 +1688,12 @@ const HistoryContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"
   !*** ./node_modules/@equinor/fusion/lib/hooks/useSorting.js ***!
   \**************************************************************/
 /*! exports provided: applySorting, useSorting */
+/*! exports used: applySorting, useSorting */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applySorting", function() { return applySorting; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useSorting", function() { return useSorting; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return applySorting; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useSorting; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -1794,13 +1797,13 @@ const useSorting = (data, defaultSortBy = null, defaultDirection = null) => {
   !*** ./node_modules/@equinor/fusion/lib/http/HttpClient/HttpClientError.js ***!
   \*****************************************************************************/
 /*! exports provided: HttpClientError, HttpClientParseError, HttpClientRequestFailedError */
+/*! exports used: HttpClientParseError, HttpClientRequestFailedError */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpClientError", function() { return HttpClientError; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpClientParseError", function() { return HttpClientParseError; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HttpClientRequestFailedError", function() { return HttpClientRequestFailedError; });
+/* unused harmony export HttpClientError */
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HttpClientParseError; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return HttpClientRequestFailedError; });
 class HttpClientError extends Error {
 }
 class HttpClientParseError extends HttpClientError {
@@ -1829,18 +1832,18 @@ class HttpClientRequestFailedError extends HttpClientError {
   !*** ./node_modules/@equinor/fusion/lib/http/HttpClient/ensureRequestInit.js ***!
   \*******************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../version */ "./node_modules/@equinor/fusion/lib/version.js");
 
 const defaultHeaders = new Headers({
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    'x-fusion-api-version': _version__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'x-fusion-api-version': _version__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"],
 });
-/* harmony default export */ __webpack_exports__["default"] = ((init, transform) => {
+/* harmony default export */ __webpack_exports__["a"] = ((init, transform) => {
     init = Object.assign({}, init, { headers: new Headers(init
             ? Object.assign({}, defaultHeaders, init.headers) : Object.assign({}, defaultHeaders)) });
     if (typeof transform === 'undefined') {
@@ -1857,21 +1860,15 @@ const defaultHeaders = new Headers({
   !*** ./node_modules/@equinor/fusion/lib/http/HttpClient/index.js ***!
   \*******************************************************************/
 /*! exports provided: HttpClientError, HttpClientParseError, HttpClientRequestFailedError, default, useHttpClient */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return HttpClient; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHttpClient", function() { return useHttpClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HttpClient; });
+/* unused harmony export useHttpClient */
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! uuid/v1 */ "./node_modules/uuid/v1.js");
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v1__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _HttpClientError__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./HttpClientError */ "./node_modules/@equinor/fusion/lib/http/HttpClient/HttpClientError.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClientError", function() { return _HttpClientError__WEBPACK_IMPORTED_MODULE_1__["HttpClientError"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClientParseError", function() { return _HttpClientError__WEBPACK_IMPORTED_MODULE_1__["HttpClientParseError"]; });
-
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClientRequestFailedError", function() { return _HttpClientError__WEBPACK_IMPORTED_MODULE_1__["HttpClientRequestFailedError"]; });
-
 /* harmony import */ var _ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ensureRequestInit */ "./node_modules/@equinor/fusion/lib/http/HttpClient/ensureRequestInit.js");
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 /* harmony import */ var _utils_JSON__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../utils/JSON */ "./node_modules/@equinor/fusion/lib/utils/JSON.js");
@@ -1898,7 +1895,7 @@ class HttpClient {
         }
         return this.performReusableRequest(url, async () => {
             await this.resourceCache.setIsFetchingAsync(url);
-            init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'GET' })));
+            init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'GET' })));
             const response = await this.performFetchAsync(url, init);
             const data = await this.parseResponseAsync(init, response, responseParser);
             await this.resourceCache.updateAsync(url, data);
@@ -1906,22 +1903,22 @@ class HttpClient {
         });
     }
     async postAsync(url, body, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'POST', body: this.createRequestBody(body) })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'POST', body: this.createRequestBody(body) })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
     async putAsync(url, body, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'PUT', body: this.createRequestBody(body) })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'PUT', body: this.createRequestBody(body) })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
     async patchAsync(url, body, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'PATCH', body: this.createRequestBody(body) })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'PATCH', body: this.createRequestBody(body) })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
     async deleteAsync(url, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__["default"])(init, init => (Object.assign({}, init, { method: 'DELETE' })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'DELETE' })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
@@ -1933,12 +1930,12 @@ class HttpClient {
             if (!response.ok) {
                 // Add more info
                 const errorResponse = await this.parseResponseJSONAsync(response);
-                throw new _HttpClientError__WEBPACK_IMPORTED_MODULE_1__["HttpClientRequestFailedError"](url, response.status, errorResponse);
+                throw new _HttpClientError__WEBPACK_IMPORTED_MODULE_1__[/* HttpClientRequestFailedError */ "b"](url, response.status, errorResponse);
             }
             return response;
         }
         catch (error) {
-            if (error instanceof _HttpClientError__WEBPACK_IMPORTED_MODULE_1__["HttpClientRequestFailedError"]) {
+            if (error instanceof _HttpClientError__WEBPACK_IMPORTED_MODULE_1__[/* HttpClientRequestFailedError */ "b"]) {
                 // TODO: Add to notification center?
                 // TODO: Update cache status?
                 throw error;
@@ -1972,12 +1969,12 @@ class HttpClient {
     async parseResponseJSONAsync(response) {
         try {
             const text = await response.text();
-            const json = _utils_JSON__WEBPACK_IMPORTED_MODULE_4__["default"].parse(text);
+            const json = _utils_JSON__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"].parse(text);
             return json;
         }
         catch (parseError) {
             // Add more info
-            throw new _HttpClientError__WEBPACK_IMPORTED_MODULE_1__["HttpClientParseError"](response);
+            throw new _HttpClientError__WEBPACK_IMPORTED_MODULE_1__[/* HttpClientParseError */ "a"](response);
         }
     }
     async parseResponseAsync(request, response, responseParser) {
@@ -2045,11 +2042,11 @@ class HttpClient {
             const bodyFactory = body;
             return bodyFactory();
         }
-        return _utils_JSON__WEBPACK_IMPORTED_MODULE_4__["default"].stringify(body);
+        return _utils_JSON__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"].stringify(body);
     }
 }
 const useHttpClient = () => {
-    const { http } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_3__["useFusionContext"])();
+    const { http } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_3__[/* useFusionContext */ "d"])();
     return http.client;
 };
 
@@ -2061,14 +2058,14 @@ const useHttpClient = () => {
   !*** ./node_modules/@equinor/fusion/lib/http/ResourceCache/index.js ***!
   \**********************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ResourceCache; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ResourceCache; });
 /* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
 
-class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     constructor() {
         super(...arguments);
         this.cachedResources = {};
@@ -2118,11 +2115,11 @@ class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__["de
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js ***!
   \***************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BaseApiClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BaseApiClient; });
 class BaseApiClient {
     constructor(httpClient, resourceCollection) {
         this.httpClient = httpClient;
@@ -2138,14 +2135,14 @@ class BaseApiClient {
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/ContextClient.js ***!
   \***************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ContextClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextClient; });
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
-class ContextClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class ContextClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     async getContextsAsync() {
         const url = this.resourceCollections.context.contexts();
         return await this.httpClient.getAsync(url);
@@ -2180,14 +2177,14 @@ class ContextClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/DataProxyClient.js ***!
   \*****************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DataProxyClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DataProxyClient; });
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
-class DataProxyClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class DataProxyClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     async getHandoverAsync(siteCode, projectIdentifier) {
         const url = this.resourceCollections.dataProxy.handover(siteCode, projectIdentifier);
         return await this.httpClient.getAsync(url);
@@ -2210,16 +2207,16 @@ class DataProxyClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["defau
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/FusionClient.js ***!
   \**************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FusionClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FusionClient; });
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 /* harmony import */ var _utils_getScript__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/getScript */ "./node_modules/@equinor/fusion/lib/utils/getScript.js");
 
 
-class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     async getAppsAsync() {
         const url = this.resourceCollections.fusion.apps();
         return await this.httpClient.getAsync(url);
@@ -2230,7 +2227,7 @@ class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"
     }
     async loadAppScriptAsync(appKey) {
         const url = this.resourceCollections.fusion.appScript(appKey);
-        return await Object(_utils_getScript__WEBPACK_IMPORTED_MODULE_1__["default"])(url);
+        return await Object(_utils_getScript__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(url);
     }
     async getAppIconAsync(appKey) {
         const url = this.resourceCollections.fusion.appIcon(appKey);
@@ -2248,14 +2245,14 @@ class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/OrgClient.js ***!
   \***********************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OrgClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrgClient; });
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
-class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     async getPositionsAsync(projectId) {
         const url = this.resourceCollections.org.positions(projectId);
         return this.httpClient.getAsync(url, {
@@ -2288,14 +2285,14 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/PeopleClient.js ***!
   \**************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PeopleClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PeopleClient; });
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
-class PeopleClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class PeopleClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     constructor(httpClient, resourceCollection) {
         super(httpClient, resourceCollection);
         httpClient.getAsync(resourceCollection.people.apiSignin(), { credentials: 'include' });
@@ -2322,14 +2319,14 @@ class PeopleClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/TasksClient.js ***!
   \*************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TasksClient; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TasksClient; });
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
-class TasksClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class TasksClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     async getSourceSystemsAsync() {
         const url = this.resourceCollections.tasks.sourceSystems();
         return this.httpClient.getAsync(url);
@@ -2371,11 +2368,11 @@ class TasksClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__["default"]
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/index.js ***!
   \*******************************************************************/
 /*! exports provided: createApiClients */
+/*! exports used: createApiClients */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createApiClients", function() { return createApiClients; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createApiClients; });
 /* harmony import */ var _DataProxyClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataProxyClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/DataProxyClient.js");
 /* harmony import */ var _FusionClient__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FusionClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/FusionClient.js");
 /* harmony import */ var _ContextClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContextClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/ContextClient.js");
@@ -2389,12 +2386,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const createApiClients = (httpClient, resources) => ({
-    dataProxy: new _DataProxyClient__WEBPACK_IMPORTED_MODULE_0__["default"](httpClient, resources),
-    fusion: new _FusionClient__WEBPACK_IMPORTED_MODULE_1__["default"](httpClient, resources),
-    context: new _ContextClient__WEBPACK_IMPORTED_MODULE_2__["default"](httpClient, resources),
-    tasks: new _TasksClient__WEBPACK_IMPORTED_MODULE_3__["default"](httpClient, resources),
-    people: new _PeopleClient__WEBPACK_IMPORTED_MODULE_4__["default"](httpClient, resources),
-    org: new _OrgClient__WEBPACK_IMPORTED_MODULE_5__["default"](httpClient, resources),
+    dataProxy: new _DataProxyClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"](httpClient, resources),
+    fusion: new _FusionClient__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"](httpClient, resources),
+    context: new _ContextClient__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"](httpClient, resources),
+    tasks: new _TasksClient__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](httpClient, resources),
+    people: new _PeopleClient__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"](httpClient, resources),
+    org: new _OrgClient__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](httpClient, resources),
 });
 
 
@@ -2405,12 +2402,12 @@ const createApiClients = (httpClient, resources) => ({
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/models/context/ContextTypes.js ***!
   \*****************************************************************************************/
 /*! exports provided: ContextTypes, ContextType */
+/*! exports used: ContextType, ContextTypes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ContextTypes", function() { return ContextTypes; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ContextType", function() { return ContextType; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ContextTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextType; });
 var ContextTypes;
 (function (ContextTypes) {
     ContextTypes["Contract"] = "Contract";
@@ -2436,14 +2433,14 @@ class ContextType {
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/models/context/index.js ***!
   \**********************************************************************************/
 /*! exports provided: ContextType, ContextTypes */
+/*! exports used: ContextType, ContextTypes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ContextTypes__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ContextTypes */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/context/ContextTypes.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextType", function() { return _ContextTypes__WEBPACK_IMPORTED_MODULE_0__["ContextType"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _ContextTypes__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextTypes", function() { return _ContextTypes__WEBPACK_IMPORTED_MODULE_0__["ContextTypes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _ContextTypes__WEBPACK_IMPORTED_MODULE_0__["b"]; });
 
 
 
@@ -2455,11 +2452,11 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/models/tasks/SourceSystem.js ***!
   \***************************************************************************************/
 /*! exports provided: TaskSourceSystems */
+/*! exports used: TaskSourceSystems */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TaskSourceSystems", function() { return TaskSourceSystems; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TaskSourceSystems; });
 var TaskSourceSystems;
 (function (TaskSourceSystems) {
     TaskSourceSystems[TaskSourceSystems["PimsDC"] = 0] = "PimsDC";
@@ -2476,15 +2473,15 @@ var TaskSourceSystems;
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/models/tasks/Task.js ***!
   \*******************************************************************************/
 /*! exports provided: TaskTypes, TaskSourceSystems */
+/*! exports used: TaskSourceSystems, TaskTypes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TaskType__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TaskType */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/tasks/TaskType.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskTypes", function() { return _TaskType__WEBPACK_IMPORTED_MODULE_0__["TaskTypes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _TaskType__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony import */ var _SourceSystem__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SourceSystem */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/tasks/SourceSystem.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskSourceSystems", function() { return _SourceSystem__WEBPACK_IMPORTED_MODULE_1__["TaskSourceSystems"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _SourceSystem__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
 
 
@@ -2498,11 +2495,11 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/http/apiClients/models/tasks/TaskType.js ***!
   \***********************************************************************************/
 /*! exports provided: TaskTypes */
+/*! exports used: TaskTypes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TaskTypes", function() { return TaskTypes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TaskTypes; });
 var TaskTypes;
 (function (TaskTypes) {
     TaskTypes["MeetingAction"] = "MeetingAction";
@@ -2519,22 +2516,22 @@ var TaskTypes;
   !*** ./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js ***!
   \******************************************************************************/
 /*! exports provided: useHandover, useHanoverChild */
+/*! exports used: useHandover, useHanoverChild */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return useHandover; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useHanoverChild", function() { return useHanoverChild; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return useHandover; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useHanoverChild; });
 /* harmony import */ var _useApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../useApiClient */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClient.js");
 
 const useHandover = (siteCode, projectIdentifier) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(async (apiClients) => {
         const response = await apiClients.dataProxy.getHandoverAsync(siteCode, projectIdentifier);
         return response.data;
     }, [siteCode, projectIdentifier]);
 };
 function useHanoverChild(siteCode, projectIdentifier, commpkgId, action) {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(async (apiClients) => {
         const response = await apiClients.dataProxy.getHandoverChildrenAsync(siteCode, projectIdentifier, commpkgId, action);
         return response.data;
     }, [siteCode, projectIdentifier]);
@@ -2548,15 +2545,15 @@ function useHanoverChild(siteCode, projectIdentifier, commpkgId, action) {
   !*** ./node_modules/@equinor/fusion/lib/http/hooks/people/usePersonDetails.js ***!
   \********************************************************************************/
 /*! exports provided: usePersonDetails */
+/*! exports used: usePersonDetails */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "usePersonDetails", function() { return usePersonDetails; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return usePersonDetails; });
 /* harmony import */ var _useApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../useApiClient */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClient.js");
 
 const usePersonDetails = (personId, expand) => {
-    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__["default"])(async (apiClients) => {
+    return Object(_useApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(async (apiClients) => {
         const response = await apiClients.people.getPersonDetailsAsync(personId, expand);
         return response.data;
     }, [personId, expand]);
@@ -2570,17 +2567,17 @@ const usePersonDetails = (personId, expand) => {
   !*** ./node_modules/@equinor/fusion/lib/http/hooks/useApiClient.js ***!
   \*********************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _hooks_useAsyncData__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../hooks/useAsyncData */ "./node_modules/@equinor/fusion/lib/hooks/useAsyncData.js");
 /* harmony import */ var _useApiClients__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./useApiClients */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClients.js");
 
 
-/* harmony default export */ __webpack_exports__["default"] = ((invoke, dependencies) => {
-    const apiClients = Object(_useApiClients__WEBPACK_IMPORTED_MODULE_1__["default"])();
-    return Object(_hooks_useAsyncData__WEBPACK_IMPORTED_MODULE_0__["default"])(async (signal) => {
+/* harmony default export */ __webpack_exports__["a"] = ((invoke, dependencies) => {
+    const apiClients = Object(_useApiClients__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])();
+    return Object(_hooks_useAsyncData__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(async (signal) => {
         return await invoke(apiClients, signal);
     }, dependencies);
 });
@@ -2593,14 +2590,14 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/http/hooks/useApiClients.js ***!
   \**********************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 
-/* harmony default export */ __webpack_exports__["default"] = (() => {
-    const { http } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_0__["useFusionContext"])();
+/* harmony default export */ __webpack_exports__["a"] = (() => {
+    const { http } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_0__[/* useFusionContext */ "d"])();
     return http.apiClients;
 });
 
@@ -2612,11 +2609,11 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js ***!
   \*********************************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return BaseResourceCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BaseResourceCollection; });
 /* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
 
 class BaseResourceCollection {
@@ -2624,7 +2621,7 @@ class BaseResourceCollection {
         this.serviceResolver = serviceResolver;
     }
     getSiteAndProjectUrl(siteCode, projectIdentifier, action) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_0__["combineUrls"])(this.getBaseUrl(), "/api/sites", siteCode, "projects", projectIdentifier, action);
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_0__[/* combineUrls */ "a"])(this.getBaseUrl(), "/api/sites", siteCode, "projects", projectIdentifier, action);
     }
 }
 
@@ -2636,11 +2633,11 @@ class BaseResourceCollection {
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/ContextResourceCollection.js ***!
   \************************************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ContextResourceCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ContextResourceCollection; });
 /* harmony import */ var odata_query__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! odata-query */ "./node_modules/odata-query/dist/index.js");
 /* harmony import */ var odata_query__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(odata_query__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
@@ -2648,15 +2645,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class ContextResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_1__["default"] {
+class ContextResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"] {
     getBaseUrl() {
         return this.serviceResolver.getContextBaseUrl();
     }
     contexts() {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_2__["combineUrls"])(this.getBaseUrl(), "contexts");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_2__[/* combineUrls */ "a"])(this.getBaseUrl(), "contexts");
     }
     context(id) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_2__["combineUrls"])(this.contexts(), id);
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_2__[/* combineUrls */ "a"])(this.contexts(), id);
     }
     queryContexts(query, ...types) {
         const baseUrl = this.contexts();
@@ -2674,7 +2671,7 @@ class ContextResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTE
                 "type.id": { in: types },
             },
         });
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_2__["combineUrls"])(this.context(id), `relations${oDataQuery}`);
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_2__[/* combineUrls */ "a"])(this.context(id), `relations${oDataQuery}`);
     }
 }
 
@@ -2686,14 +2683,14 @@ class ContextResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTE
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/DataProxyResourceCollection.js ***!
   \**************************************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return DataProxyResourceCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DataProxyResourceCollection; });
 /* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
 
-class DataProxyResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class DataProxyResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     getBaseUrl() {
         return this.serviceResolver.getDataProxyBaseUrl();
     }
@@ -2716,16 +2713,16 @@ class DataProxyResourceCollection extends _BaseResourceCollection__WEBPACK_IMPOR
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/FusionResourceCollection.js ***!
   \***********************************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return FusionResourceCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FusionResourceCollection; });
 /* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
 /* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
 
 
-class FusionResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class FusionResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     constructor(serviceResolver, options) {
         super(serviceResolver);
         this.options = options;
@@ -2734,22 +2731,22 @@ class FusionResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED
         return this.serviceResolver.getFusionBaseUrl();
     }
     apps() {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), "bundles", "apps");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), "bundles", "apps");
     }
     app(appKey) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), this.getBundlesPath(), "apps", appKey);
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), this.getBundlesPath(), "apps", appKey);
     }
     appManifest(appKey) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.app(appKey), this.getAppManifestFileName());
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.app(appKey), this.getAppManifestFileName());
     }
     appScript(appKey) {
         if (this.options && this.options.loadBundlesFromDisk) {
-            return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.app(appKey), `app-bundle.js?v=${+new Date()}`);
+            return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.app(appKey), `app-bundle.js?v=${+new Date()}`);
         }
         return this.app(appKey) + ".js";
     }
     appIcon(appKey) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.app(appKey), this.getResourcesPath(), "app-icon.svg");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.app(appKey), this.getResourcesPath(), "app-icon.svg");
     }
     getBundlesPath() {
         return this.options && this.options.loadBundlesFromDisk ? "js" : "bundles";
@@ -2772,24 +2769,24 @@ class FusionResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/OrgResourceCollection.js ***!
   \********************************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return OrgResourceCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrgResourceCollection; });
 /* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
 /* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
 
 
-class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     getBaseUrl() {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.serviceResolver.getOrgBaseUrl());
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.serviceResolver.getOrgBaseUrl());
     }
     positions(projectId) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'projects', projectId, 'positions');
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'projects', projectId, 'positions');
     }
     position(projectId, positionId, expand = true) {
-        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.positions(projectId), positionId);
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.positions(projectId), positionId);
         if (!expand) {
             return url;
         }
@@ -2797,10 +2794,10 @@ class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MO
         return `${url}${query}`;
     }
     roleDescription(projectId, positionId) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.position(projectId, positionId, false), 'roleDescription', 'content');
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.position(projectId, positionId, false), 'roleDescription', 'content');
     }
     reportsTo(projectId, positionId) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.position(projectId, positionId, false), 'reportsTo');
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.position(projectId, positionId, false), 'reportsTo');
     }
 }
 
@@ -2812,11 +2809,11 @@ class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MO
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/PeopleResourceCollection.js ***!
   \***********************************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return PeopleResourceCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PeopleResourceCollection; });
 /* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
 /* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
 /* harmony import */ var odata_query__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! odata-query */ "./node_modules/odata-query/dist/index.js");
@@ -2824,15 +2821,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-class PeopleResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class PeopleResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     getBaseUrl() {
         return this.serviceResolver.getPeopleBaseUrl();
     }
     apiSignin() {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'api-signin');
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'api-signin');
     }
     getPersonDetails(id, oDataExpand) {
-        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'persons', id);
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'persons', id);
         if (!oDataExpand)
             return url;
         const expand = oDataExpand ? oDataExpand.map(s => s) : [];
@@ -2840,11 +2837,11 @@ class PeopleResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED
         return `${url}${oDataQuery}`;
     }
     getPersonPhoto(id) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'persons', id, 'photo');
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'persons', id, 'photo');
     }
     searchPersons(query) {
         const oDataQuery = odata_query__WEBPACK_IMPORTED_MODULE_2___default()({ search: query });
-        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), 'persons');
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'persons');
         return `${url}${oDataQuery}`;
     }
 }
@@ -2857,39 +2854,39 @@ class PeopleResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/TasksResourceCollection.js ***!
   \**********************************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return TasksResourceCollection; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TasksResourceCollection; });
 /* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
 /* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
 
 
-class TasksResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class TasksResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     getBaseUrl() {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.serviceResolver.getTasksBaseUrl(), "tasks");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.serviceResolver.getTasksBaseUrl(), "tasks");
     }
     taskTypes() {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), "types");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), "types");
     }
     sourceSystems() {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), "source-systems");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), "source-systems");
     }
     tasks(type) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.taskTypes(), type, "all");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.taskTypes(), type, "all");
     }
     task(id) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.getBaseUrl(), id);
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), id);
     }
     count(type) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.taskTypes(), type, "count");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.taskTypes(), type, "count");
     }
     query(queryText) {
         return this.getBaseUrl() + `?${queryText}`;
     }
     priority(id) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__["combineUrls"])(this.task(id), "priority");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.task(id), "priority");
     }
 }
 
@@ -2901,14 +2898,12 @@ class TasksResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/index.js ***!
   \****************************************************************************/
 /*! exports provided: DataProxyResourceCollection, createResourceCollections */
+/*! exports used: createResourceCollections */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createResourceCollections", function() { return createResourceCollections; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createResourceCollections; });
 /* harmony import */ var _DataProxyResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DataProxyResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/DataProxyResourceCollection.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DataProxyResourceCollection", function() { return _DataProxyResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
 /* harmony import */ var _FusionResourceCollection__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FusionResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/FusionResourceCollection.js");
 /* harmony import */ var _ContextResourceCollection__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ContextResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/ContextResourceCollection.js");
 /* harmony import */ var _TasksResourceCollection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TasksResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/TasksResourceCollection.js");
@@ -2922,12 +2917,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const createResourceCollections = (serviceResolver, options) => ({
-    dataProxy: new _DataProxyResourceCollection__WEBPACK_IMPORTED_MODULE_0__["default"](serviceResolver),
-    fusion: new _FusionResourceCollection__WEBPACK_IMPORTED_MODULE_1__["default"](serviceResolver, options),
-    context: new _ContextResourceCollection__WEBPACK_IMPORTED_MODULE_2__["default"](serviceResolver),
-    tasks: new _TasksResourceCollection__WEBPACK_IMPORTED_MODULE_3__["default"](serviceResolver),
-    people: new _PeopleResourceCollection__WEBPACK_IMPORTED_MODULE_4__["default"](serviceResolver),
-    org: new _OrgResourceCollection__WEBPACK_IMPORTED_MODULE_5__["default"](serviceResolver),
+    dataProxy: new _DataProxyResourceCollection__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"](serviceResolver),
+    fusion: new _FusionResourceCollection__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"](serviceResolver, options),
+    context: new _ContextResourceCollection__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"](serviceResolver),
+    tasks: new _TasksResourceCollection__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](serviceResolver),
+    people: new _PeopleResourceCollection__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"](serviceResolver),
+    org: new _OrgResourceCollection__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](serviceResolver),
 });
 
 
@@ -2938,182 +2933,183 @@ const createResourceCollections = (serviceResolver, options) => ({
   !*** ./node_modules/@equinor/fusion/lib/index.js ***!
   \***************************************************/
 /*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, createCalendar, isSameDate, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild, usePersonDetails */
+/*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_AuthContainer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./auth/AuthContainer */ "./node_modules/@equinor/fusion/lib/auth/AuthContainer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthContainer", function() { return _auth_AuthContainer__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthContainer", function() { return _auth_AuthContainer__WEBPACK_IMPORTED_MODULE_0__["a"]; });
 
 /* harmony import */ var _auth_AuthApp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./auth/AuthApp */ "./node_modules/@equinor/fusion/lib/auth/AuthApp.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthApp", function() { return _auth_AuthApp__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthApp", function() { return _auth_AuthApp__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
 /* harmony import */ var _auth_AuthNonce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./auth/AuthNonce */ "./node_modules/@equinor/fusion/lib/auth/AuthNonce.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthNonce", function() { return _auth_AuthNonce__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthNonce", function() { return _auth_AuthNonce__WEBPACK_IMPORTED_MODULE_2__["a"]; });
 
 /* harmony import */ var _auth_AuthUser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./auth/AuthUser */ "./node_modules/@equinor/fusion/lib/auth/AuthUser.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthUser", function() { return _auth_AuthUser__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthUser", function() { return _auth_AuthUser__WEBPACK_IMPORTED_MODULE_3__["a"]; });
 
 /* harmony import */ var _auth_AuthToken__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./auth/AuthToken */ "./node_modules/@equinor/fusion/lib/auth/AuthToken.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthToken", function() { return _auth_AuthToken__WEBPACK_IMPORTED_MODULE_4__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "AuthToken", function() { return _auth_AuthToken__WEBPACK_IMPORTED_MODULE_4__["a"]; });
 
 /* harmony import */ var _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./auth/useCurrentUser */ "./node_modules/@equinor/fusion/lib/auth/useCurrentUser.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentUser", function() { return _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentUser", function() { return _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_5__["a"]; });
 
 /* harmony import */ var _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app/AppContainer */ "./node_modules/@equinor/fusion/lib/app/AppContainer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerApp", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__["registerApp"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "registerApp", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentApp", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__["useCurrentApp"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentApp", function() { return _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__["d"]; });
 
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "FusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__["useFusionContext"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__["createFusionContext"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createFusionContext", function() { return _core_FusionContext__WEBPACK_IMPORTED_MODULE_7__["a"]; });
 
 /* harmony import */ var _http_HttpClient__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./http/HttpClient */ "./node_modules/@equinor/fusion/lib/http/HttpClient/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClient", function() { return _http_HttpClient__WEBPACK_IMPORTED_MODULE_8__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HttpClient", function() { return _http_HttpClient__WEBPACK_IMPORTED_MODULE_8__["a"]; });
 
 /* harmony import */ var _http_resourceCollections__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./http/resourceCollections */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createResourceCollections", function() { return _http_resourceCollections__WEBPACK_IMPORTED_MODULE_9__["createResourceCollections"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createResourceCollections", function() { return _http_resourceCollections__WEBPACK_IMPORTED_MODULE_9__["a"]; });
 
 /* harmony import */ var _http_apiClients__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./http/apiClients */ "./node_modules/@equinor/fusion/lib/http/apiClients/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createApiClients", function() { return _http_apiClients__WEBPACK_IMPORTED_MODULE_10__["createApiClients"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createApiClients", function() { return _http_apiClients__WEBPACK_IMPORTED_MODULE_10__["a"]; });
 
 /* harmony import */ var _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./settings/useCoreSettings */ "./node_modules/@equinor/fusion/lib/settings/useCoreSettings.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCoreSettings", function() { return _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_11__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCoreSettings", function() { return _settings_useCoreSettings__WEBPACK_IMPORTED_MODULE_11__["a"]; });
 
 /* harmony import */ var _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./settings/useAppSettings */ "./node_modules/@equinor/fusion/lib/settings/useAppSettings.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAppSettings", function() { return _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_12__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAppSettings", function() { return _settings_useAppSettings__WEBPACK_IMPORTED_MODULE_12__["a"]; });
 
 /* harmony import */ var _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./http/apiClients/models/context */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/context/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextType", function() { return _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_13__["ContextType"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextType", function() { return _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_13__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextTypes", function() { return _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_13__["ContextTypes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ContextTypes", function() { return _http_apiClients_models_context__WEBPACK_IMPORTED_MODULE_13__["b"]; });
 
 /* harmony import */ var _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./core/ContextManager */ "./node_modules/@equinor/fusion/lib/core/ContextManager.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useContextManager", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__["useContextManager"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useContextManager", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentContext", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__["useCurrentContext"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentContext", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useContextQuery", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__["useContextQuery"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useContextQuery", function() { return _core_ContextManager__WEBPACK_IMPORTED_MODULE_14__["c"]; });
 
 /* harmony import */ var _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./utils/AbortControllerManager */ "./node_modules/@equinor/fusion/lib/utils/AbortControllerManager.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withAbortController", function() { return _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_15__["withAbortController"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withAbortController", function() { return _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_15__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAbortControllerManager", function() { return _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_15__["useAbortControllerManager"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAbortControllerManager", function() { return _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_15__["b"]; });
 
 /* harmony import */ var _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./core/ComponentDisplayType */ "./node_modules/@equinor/fusion/lib/core/ComponentDisplayType.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayType", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__["useComponentDisplayType"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayType", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayClassNames", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__["useComponentDisplayClassNames"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useComponentDisplayClassNames", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ComponentDisplayType", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__["ComponentDisplayType"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ComponentDisplayType", function() { return _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_16__["a"]; });
 
 /* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "trimTrailingSlash", function() { return _utils_url__WEBPACK_IMPORTED_MODULE_17__["trimTrailingSlash"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "trimTrailingSlash", function() { return _utils_url__WEBPACK_IMPORTED_MODULE_17__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "combineUrls", function() { return _utils_url__WEBPACK_IMPORTED_MODULE_17__["combineUrls"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "combineUrls", function() { return _utils_url__WEBPACK_IMPORTED_MODULE_17__["a"]; });
 
 /* harmony import */ var _hooks_useHistory__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./hooks/useHistory */ "./node_modules/@equinor/fusion/lib/hooks/useHistory.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHistory", function() { return _hooks_useHistory__WEBPACK_IMPORTED_MODULE_18__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHistory", function() { return _hooks_useHistory__WEBPACK_IMPORTED_MODULE_18__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HistoryContext", function() { return _hooks_useHistory__WEBPACK_IMPORTED_MODULE_18__["HistoryContext"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "HistoryContext", function() { return _hooks_useHistory__WEBPACK_IMPORTED_MODULE_18__["a"]; });
 
 /* harmony import */ var _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./core/TasksContainer */ "./node_modules/@equinor/fusion/lib/core/TasksContainer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTasksContainer", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTasksContainer"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTasksContainer", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["f"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTasks", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTasks"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTasks", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskSourceSystems", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTaskSourceSystems"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskSourceSystems", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskTypes", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTaskTypes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskTypes", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskPrioritySetter", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["useTaskPrioritySetter"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskPrioritySetter", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["b"]; });
 
 /* harmony import */ var _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./http/apiClients/models/tasks/Task */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/tasks/Task.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskTypes", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_20__["TaskTypes"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskTypes", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_20__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskSourceSystems", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_20__["TaskSourceSystems"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskSourceSystems", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_20__["a"]; });
 
 /* harmony import */ var _http_hooks_useApiClient__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./http/hooks/useApiClient */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClient.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useApiClient", function() { return _http_hooks_useApiClient__WEBPACK_IMPORTED_MODULE_21__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useApiClient", function() { return _http_hooks_useApiClient__WEBPACK_IMPORTED_MODULE_21__["a"]; });
 
 /* harmony import */ var _http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./http/hooks/useApiClients */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClients.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useApiClients", function() { return _http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_22__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useApiClients", function() { return _http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_22__["a"]; });
 
 /* harmony import */ var _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./utils/Pagination */ "./node_modules/@equinor/fusion/lib/utils/Pagination.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["createPagination"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["applyPagination"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applyPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["usePagination"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAsyncPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["useAsyncPagination"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAsyncPagination", function() { return _utils_Pagination__WEBPACK_IMPORTED_MODULE_23__["c"]; });
 
 /* harmony import */ var _hooks_useSorting__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./hooks/useSorting */ "./node_modules/@equinor/fusion/lib/hooks/useSorting.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useSorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_24__["useSorting"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useSorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_24__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applySorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_24__["applySorting"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "applySorting", function() { return _hooks_useSorting__WEBPACK_IMPORTED_MODULE_24__["a"]; });
 
 /* harmony import */ var _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./core/NotificationCenter */ "./node_modules/@equinor/fusion/lib/core/NotificationCenter.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_25__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "NotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_25__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useNotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_25__["useNotificationCenter"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useNotificationCenter", function() { return _core_NotificationCenter__WEBPACK_IMPORTED_MODULE_25__["b"]; });
 
 /* harmony import */ var _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./hooks/useDebouncedAbortable */ "./node_modules/@equinor/fusion/lib/hooks/useDebouncedAbortable.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useDebouncedAbortable", function() { return _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_26__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useDebouncedAbortable", function() { return _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_26__["a"]; });
 
 /* harmony import */ var _hooks_useDebounce__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./hooks/useDebounce */ "./node_modules/@equinor/fusion/lib/hooks/useDebounce.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useDebounce", function() { return _hooks_useDebounce__WEBPACK_IMPORTED_MODULE_27__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useDebounce", function() { return _hooks_useDebounce__WEBPACK_IMPORTED_MODULE_27__["a"]; });
 
 /* harmony import */ var _hooks_useEffectAsync__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./hooks/useEffectAsync */ "./node_modules/@equinor/fusion/lib/hooks/useEffectAsync.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEffectAsync", function() { return _hooks_useEffectAsync__WEBPACK_IMPORTED_MODULE_28__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEffectAsync", function() { return _hooks_useEffectAsync__WEBPACK_IMPORTED_MODULE_28__["a"]; });
 
 /* harmony import */ var _hooks_useAsyncData__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./hooks/useAsyncData */ "./node_modules/@equinor/fusion/lib/hooks/useAsyncData.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAsyncData", function() { return _hooks_useAsyncData__WEBPACK_IMPORTED_MODULE_29__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useAsyncData", function() { return _hooks_useAsyncData__WEBPACK_IMPORTED_MODULE_29__["a"]; });
 
 /* harmony import */ var _utils_Calendar__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./utils/Calendar */ "./node_modules/@equinor/fusion/lib/utils/Calendar.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createCalendar", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_30__["createCalendar"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createCalendar", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_30__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSameDate", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_30__["isSameDate"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSameDate", function() { return _utils_Calendar__WEBPACK_IMPORTED_MODULE_30__["b"]; });
 
 /* harmony import */ var _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./intl/DateTime */ "./node_modules/@equinor/fusion/lib/intl/DateTime.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatDateTime"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatDate"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatTime"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["f"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatWeekDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatWeekDay"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatWeekDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["g"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["formatDay"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatDay", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["parseDate"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["h"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["parseDateTime"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "parseDateTime", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["i"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["dateMask"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "timeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["timeMask"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "timeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["j"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateTimeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["dateTimeMask"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "dateTimeMask", function() { return _intl_DateTime__WEBPACK_IMPORTED_MODULE_31__["b"]; });
 
 /* harmony import */ var _intl_Number__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./intl/Number */ "./node_modules/@equinor/fusion/lib/intl/Number.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatNumber", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_32__["formatNumber"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatNumber", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_32__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatPercentage", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_32__["formatPercentage"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatPercentage", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_32__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatCurrency", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_32__["formatCurrency"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "formatCurrency", function() { return _intl_Number__WEBPACK_IMPORTED_MODULE_32__["a"]; });
 
 /* harmony import */ var _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./http/hooks/dataProxy/useHandover */ "./node_modules/@equinor/fusion/lib/http/hooks/dataProxy/useHandover.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_33__["useHandover"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_33__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHanoverChild", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_33__["useHanoverChild"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHanoverChild", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_33__["b"]; });
 
 /* harmony import */ var _http_hooks_people_usePersonDetails__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./http/hooks/people/usePersonDetails */ "./node_modules/@equinor/fusion/lib/http/hooks/people/usePersonDetails.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePersonDetails", function() { return _http_hooks_people_usePersonDetails__WEBPACK_IMPORTED_MODULE_34__["usePersonDetails"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePersonDetails", function() { return _http_hooks_people_usePersonDetails__WEBPACK_IMPORTED_MODULE_34__["a"]; });
 
 
 
@@ -3159,6 +3155,7 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/index.js-exposed ***!
   \***********************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {module.exports = global["FusionAPI"] = __webpack_require__(/*! -!./index.js */ "./node_modules/@equinor/fusion/lib/index.js");
@@ -3171,20 +3168,20 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/intl/DateTime.js ***!
   \***********************************************************/
 /*! exports provided: formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask */
+/*! exports used: dateMask, dateTimeMask, formatDate, formatDateTime, formatDay, formatTime, formatWeekDay, parseDate, parseDateTime, timeMask */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDateTime", function() { return formatDateTime; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDate", function() { return formatDate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatTime", function() { return formatTime; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatWeekDay", function() { return formatWeekDay; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatDay", function() { return formatDay; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseDate", function() { return parseDate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseDateTime", function() { return parseDateTime; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateMask", function() { return dateMask; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timeMask", function() { return timeMask; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "dateTimeMask", function() { return dateTimeMask; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return formatDateTime; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return formatDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return formatTime; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return formatWeekDay; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return formatDay; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return parseDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return parseDateTime; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return dateMask; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return timeMask; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return dateTimeMask; });
 const locale = 'en-GB';
 const dateTimeFormatter = new Intl.DateTimeFormat(locale, {
     year: 'numeric',
@@ -3254,13 +3251,13 @@ const dateTimeMask = `${dateMask}, ${timeMask}`;
   !*** ./node_modules/@equinor/fusion/lib/intl/Number.js ***!
   \*********************************************************/
 /*! exports provided: formatNumber, formatPercentage, formatCurrency */
+/*! exports used: formatCurrency, formatNumber, formatPercentage */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatNumber", function() { return formatNumber; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatPercentage", function() { return formatPercentage; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "formatCurrency", function() { return formatCurrency; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return formatNumber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return formatPercentage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return formatCurrency; });
 const formatNumber = (number, fractionDigits = 2) => {
     const parsedNumber = typeof number === 'number' ? number : parseFloat(number);
     return new Intl.NumberFormat('en-GB', {
@@ -3295,16 +3292,16 @@ const formatCurrency = (number, currency = 'NOK', fractionDigits = 2) => {
   !*** ./node_modules/@equinor/fusion/lib/settings/SettingsContainer.js ***!
   \************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return SettingsContainer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return SettingsContainer; });
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
 
-class SettingsContainer extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class SettingsContainer extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__[/* default */ "b"] {
     constructor(baseKey, user, defaultSettings) {
-        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__["LocalStorageProvider"](`FUSION_SETTINGS_CACHE:${baseKey}:${user ? user.id : "global"}`, defaultSettings));
+        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__[/* LocalStorageProvider */ "a"](`FUSION_SETTINGS_CACHE:${baseKey}:${user ? user.id : "global"}`, defaultSettings));
     }
 }
 
@@ -3316,10 +3313,10 @@ class SettingsContainer extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODU
   !*** ./node_modules/@equinor/fusion/lib/settings/useAppSettings.js ***!
   \*********************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
@@ -3332,17 +3329,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const ensureAppSettings = (settings, appKey, defaultSettings) => {
-    const currentUser = Object(_auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_4__["default"])();
+    const currentUser = Object(_auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])();
     if (typeof settings.apps[appKey] === "undefined") {
-        const appSettings = new _SettingsContainer__WEBPACK_IMPORTED_MODULE_3__["default"](appKey, currentUser, defaultSettings);
+        const appSettings = new _SettingsContainer__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](appKey, currentUser, defaultSettings);
         settings.apps[appKey] = appSettings;
         return appSettings;
     }
     return settings.apps[appKey];
 };
-/* harmony default export */ __webpack_exports__["default"] = ((defaultSettings) => {
-    const { settings } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
-    const currentApp = Object(_app_AppContainer__WEBPACK_IMPORTED_MODULE_2__["useCurrentApp"])();
+/* harmony default export */ __webpack_exports__["a"] = ((defaultSettings) => {
+    const { settings } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
+    const currentApp = Object(_app_AppContainer__WEBPACK_IMPORTED_MODULE_2__[/* useCurrentApp */ "d"])();
     let appSettings = ensureAppSettings(settings, currentApp ? currentApp.key : "");
     const [localAppSettings, setLocalAppsettings] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(appSettings.toObject() || {});
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
@@ -3365,18 +3362,18 @@ const ensureAppSettings = (settings, appKey, defaultSettings) => {
   !*** ./node_modules/@equinor/fusion/lib/settings/useCoreSettings.js ***!
   \**********************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 
 
-/* harmony default export */ __webpack_exports__["default"] = (() => {
-    const { settings } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
-    const [coreSettings, setCoreSettings] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(settings.core.toObject() || _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__["defaultSettings"]);
+/* harmony default export */ __webpack_exports__["a"] = (() => {
+    const { settings } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
+    const [coreSettings, setCoreSettings] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(settings.core.toObject() || _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* defaultSettings */ "c"]);
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
         settings.core.toObjectAsync().then(setCoreSettings);
         return settings.core.on("change", setCoreSettings);
@@ -3392,13 +3389,13 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/utils/AbortControllerManager.js ***!
   \**************************************************************************/
 /*! exports provided: default, useAbortControllerManager, withAbortController */
+/*! exports used: default, useAbortControllerManager, withAbortController */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return AbortControllerManager; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useAbortControllerManager", function() { return useAbortControllerManager; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withAbortController", function() { return withAbortController; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AbortControllerManager; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useAbortControllerManager; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return withAbortController; });
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 
 class AbortControllerManager {
@@ -3421,7 +3418,7 @@ class AbortControllerManager {
     }
 }
 const useAbortControllerManager = () => {
-    const { abortControllerManager } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_0__["useFusionContext"])();
+    const { abortControllerManager } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_0__[/* useFusionContext */ "d"])();
     return abortControllerManager;
 };
 /**
@@ -3443,12 +3440,12 @@ const withAbortController = () => {
   !*** ./node_modules/@equinor/fusion/lib/utils/Calendar.js ***!
   \************************************************************/
 /*! exports provided: isSameDate, createCalendar */
+/*! exports used: createCalendar, isSameDate */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSameDate", function() { return isSameDate; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createCalendar", function() { return createCalendar; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return isSameDate; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return createCalendar; });
 /* harmony import */ var _intl_DateTime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../intl/DateTime */ "./node_modules/@equinor/fusion/lib/intl/DateTime.js");
 
 const isSameDate = (a, b) => {
@@ -3460,8 +3457,8 @@ const createCalendarDate = (date, month) => {
     const today = new Date();
     return {
         index: date.getDate() - 1,
-        value: Object(_intl_DateTime__WEBPACK_IMPORTED_MODULE_0__["formatDay"])(date),
-        weekDay: Object(_intl_DateTime__WEBPACK_IMPORTED_MODULE_0__["formatWeekDay"])(date),
+        value: Object(_intl_DateTime__WEBPACK_IMPORTED_MODULE_0__[/* formatDay */ "e"])(date),
+        weekDay: Object(_intl_DateTime__WEBPACK_IMPORTED_MODULE_0__[/* formatWeekDay */ "g"])(date),
         day: date.getDay(),
         isToday: isSameDate(date, today),
         month: date.getMonth(),
@@ -3509,12 +3506,12 @@ const createCalendar = (year, month) => {
   !*** ./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js ***!
   \**********************************************************************/
 /*! exports provided: default, useEventEmitterValue */
+/*! exports used: default, useEventEmitterValue */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return EventEmitter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useEventEmitterValue", function() { return useEventEmitterValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EventEmitter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useEventEmitterValue; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -3558,10 +3555,10 @@ const useEventEmitterValue = (emitter, event, transform = value => value, defaul
   !*** ./node_modules/@equinor/fusion/lib/utils/JSON.js ***!
   \********************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 const dateRegex = /[0-9]{4}-[0-9]{2}-[0-9]{2}[a-zA-Z]{1}[0-9]{2}:[0-9]{2}:[0-9]{2}/im;
 const revivers = [
     (key, value) => {
@@ -3587,7 +3584,7 @@ const parse = (value) => {
 const stringify = (data) => {
     return JSON.stringify(data, replacer);
 };
-/* harmony default export */ __webpack_exports__["default"] = ({ parse, stringify });
+/* harmony default export */ __webpack_exports__["a"] = ({ parse, stringify });
 
 
 /***/ }),
@@ -3597,14 +3594,14 @@ const stringify = (data) => {
   !*** ./node_modules/@equinor/fusion/lib/utils/Pagination.js ***!
   \**************************************************************/
 /*! exports provided: applyPagination, createPagination, usePagination, useAsyncPagination */
+/*! exports used: applyPagination, createPagination, useAsyncPagination, usePagination */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "applyPagination", function() { return applyPagination; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createPagination", function() { return createPagination; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "usePagination", function() { return usePagination; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "useAsyncPagination", function() { return useAsyncPagination; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return applyPagination; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return createPagination; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return usePagination; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return useAsyncPagination; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _AbortControllerManager__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AbortControllerManager */ "./node_modules/@equinor/fusion/lib/utils/AbortControllerManager.js");
@@ -3781,7 +3778,7 @@ const useAsyncPagination = (applyAsync, initialPerPage, initialCurrentPageIndex 
     const [error, setError] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
     const [pagedData, setPagedData] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])([]);
     const [pagination, setPagination] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(createPagination(0, perPage, currentPageIndex, padding));
-    const abortable = Object(_AbortControllerManager__WEBPACK_IMPORTED_MODULE_1__["withAbortController"])();
+    const abortable = Object(_AbortControllerManager__WEBPACK_IMPORTED_MODULE_1__[/* withAbortController */ "c"])();
     const applyPaginationAsync = (pagination) => {
         setIsFetching(true);
         // Wrap the applyAsync function in abortable to allow the pagination to be changed
@@ -3830,11 +3827,11 @@ const useAsyncPagination = (applyAsync, initialPerPage, initialCurrentPageIndex 
   !*** ./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/LocalStorageProvider.js ***!
   \*******************************************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return LocalStorageProvider; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalStorageProvider; });
 /* harmony import */ var _JSON__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../JSON */ "./node_modules/@equinor/fusion/lib/utils/JSON.js");
 
 class LocalStorageProvider {
@@ -3842,7 +3839,7 @@ class LocalStorageProvider {
         this.localCache = null;
         this.baseKey = baseKey;
         const cachedJson = localStorage.getItem(this.baseKey);
-        const cachedValue = cachedJson ? _JSON__WEBPACK_IMPORTED_MODULE_0__["default"].parse(cachedJson) : null;
+        const cachedValue = cachedJson ? _JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].parse(cachedJson) : null;
         this.localCache = cachedValue;
         if (!cachedValue && defaultValue) {
             this.localCache = defaultValue;
@@ -3874,7 +3871,7 @@ class LocalStorageProvider {
     async toObjectAsync() {
         if (this.localCache === null) {
             const cachedJson = localStorage.getItem(this.baseKey);
-            const cachedValue = cachedJson ? _JSON__WEBPACK_IMPORTED_MODULE_0__["default"].parse(cachedJson) : {};
+            const cachedValue = cachedJson ? _JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].parse(cachedJson) : {};
             this.localCache = cachedValue;
         }
         return this.localCache;
@@ -3883,7 +3880,7 @@ class LocalStorageProvider {
         return this.localCache;
     }
     async persistAsync() {
-        const json = _JSON__WEBPACK_IMPORTED_MODULE_0__["default"].stringify(await this.toObjectAsync());
+        const json = _JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].stringify(await this.toObjectAsync());
         localStorage.setItem(this.baseKey, json);
     }
 }
@@ -3899,11 +3896,8 @@ class LocalStorageProvider {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ReadonlyReliableDictionary; });
+/* unused harmony export default */
 /* harmony import */ var _LocalStorageProvider__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LocalStorageProvider */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/LocalStorageProvider.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LocalStorageProvider", function() { return _LocalStorageProvider__WEBPACK_IMPORTED_MODULE_0__["default"]; });
-
 
 class ReadonlyReliableDictionary {
     constructor(provider) {
@@ -3935,22 +3929,20 @@ class ReadonlyReliableDictionary {
   !*** ./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js ***!
   \****************************************************************************/
 /*! exports provided: LocalStorageProvider, ReadOnlyReliableDictionary, default */
+/*! exports used: LocalStorageProvider, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ReliableDictionary; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return ReliableDictionary; });
 /* harmony import */ var _EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
 /* harmony import */ var _LocalStorageProvider__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LocalStorageProvider */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/LocalStorageProvider.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "LocalStorageProvider", function() { return _LocalStorageProvider__WEBPACK_IMPORTED_MODULE_1__["default"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "a", function() { return _LocalStorageProvider__WEBPACK_IMPORTED_MODULE_1__["a"]; });
 
 /* harmony import */ var _ReadonlyReliableDictionary__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ReadonlyReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/ReadonlyReliableDictionary.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ReadOnlyReliableDictionary", function() { return _ReadonlyReliableDictionary__WEBPACK_IMPORTED_MODULE_2__["default"]; });
 
 
 
-
-class ReliableDictionary extends _EventEmitter__WEBPACK_IMPORTED_MODULE_0__["default"] {
+class ReliableDictionary extends _EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     constructor(provider) {
         super();
         this.provider = provider;
@@ -3991,11 +3983,11 @@ class ReliableDictionary extends _EventEmitter__WEBPACK_IMPORTED_MODULE_0__["def
   !*** ./node_modules/@equinor/fusion/lib/utils/getScript.js ***!
   \*************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ((source) => {
+/* harmony default export */ __webpack_exports__["a"] = ((source) => {
     return new Promise((resolve, reject) => {
         const script = document.createElement("script");
         script.async = true;
@@ -4015,12 +4007,12 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@equinor/fusion/lib/utils/url.js ***!
   \*******************************************************/
 /*! exports provided: trimTrailingSlash, combineUrls */
+/*! exports used: combineUrls, trimTrailingSlash */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "trimTrailingSlash", function() { return trimTrailingSlash; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combineUrls", function() { return combineUrls; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return trimTrailingSlash; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return combineUrls; });
 const seperator = "/";
 const trimTrailingSlash = (url) => url.replace(/\/$/, "");
 const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
@@ -4041,11 +4033,11 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
   !*** ./node_modules/@equinor/fusion/lib/version.js ***!
   \*****************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ('0.4.5');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.5');
 
 
 /***/ }),
@@ -4055,6 +4047,7 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/@hot-loader/react-dom/cjs/react-dom.development.js ***!
   \*************************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29329,6 +29322,7 @@ module.exports = reactDom;
   !*** ./node_modules/@hot-loader/react-dom/index.js ***!
   \*****************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29374,6 +29368,7 @@ if (false) {} else {
   !*** ./node_modules/@hot-loader/react-dom/index.js-exposed ***!
   \*************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {module.exports = global["FusionReactDOM"] = __webpack_require__(/*! -!./index.js */ "./node_modules/@hot-loader/react-dom/index.js");
@@ -29386,6 +29381,7 @@ if (false) {} else {
   !*** ./node_modules/gud/index.js ***!
   \***********************************/
 /*! no static exports found */
+/*! exports used: default */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29407,6 +29403,7 @@ module.exports = function() {
   !*** ./node_modules/history/esm/history.js ***!
   \*********************************************/
 /*! exports provided: createBrowserHistory, createHashHistory, createMemoryHistory, createLocation, locationsAreEqual, parsePath, createPath */
+/*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -29487,7 +29484,7 @@ function createLocation(path, state, key, currentLocation) {
     location.state = state;
   } else {
     // One-arg form: push(location)
-    location = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])({}, path);
+    location = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])({}, path);
     if (location.pathname === undefined) location.pathname = '';
 
     if (location.search) {
@@ -29522,7 +29519,7 @@ function createLocation(path, state, key, currentLocation) {
     if (!location.pathname) {
       location.pathname = currentLocation.pathname;
     } else if (location.pathname.charAt(0) !== '/') {
-      location.pathname = Object(resolve_pathname__WEBPACK_IMPORTED_MODULE_1__["default"])(location.pathname, currentLocation.pathname);
+      location.pathname = Object(resolve_pathname__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(location.pathname, currentLocation.pathname);
     }
   } else {
     // When there is no prior location and pathname is empty, set it to /
@@ -29534,14 +29531,14 @@ function createLocation(path, state, key, currentLocation) {
   return location;
 }
 function locationsAreEqual(a, b) {
-  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && a.key === b.key && Object(value_equal__WEBPACK_IMPORTED_MODULE_2__["default"])(a.state, b.state);
+  return a.pathname === b.pathname && a.search === b.search && a.hash === b.hash && a.key === b.key && Object(value_equal__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(a.state, b.state);
 }
 
 function createTransitionManager() {
   var prompt = null;
 
   function setPrompt(nextPrompt) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(prompt == null, 'A history supports only one prompt at a time') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(prompt == null, 'A history supports only one prompt at a time') : undefined;
     prompt = nextPrompt;
     return function () {
       if (prompt === nextPrompt) prompt = null;
@@ -29559,7 +29556,7 @@ function createTransitionManager() {
         if (typeof getUserConfirmation === 'function') {
           getUserConfirmation(result, callback);
         } else {
-           true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(false, 'A history needs a getUserConfirmation function in order to use a prompt message') : undefined;
+           true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(false, 'A history needs a getUserConfirmation function in order to use a prompt message') : undefined;
           callback(true);
         }
       } else {
@@ -29672,7 +29669,7 @@ function createBrowserHistory(props) {
     props = {};
   }
 
-  !canUseDOM ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Browser history needs a DOM') : undefined : void 0;
+  !canUseDOM ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(false, 'Browser history needs a DOM') : undefined : void 0;
   var globalHistory = window.history;
   var canUseHistory = supportsHistory();
   var needsHashChangeListener = !supportsPopStateOnHashChange();
@@ -29695,7 +29692,7 @@ function createBrowserHistory(props) {
         search = _window$location.search,
         hash = _window$location.hash;
     var path = pathname + search + hash;
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(!basename || hasBasename(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(!basename || hasBasename(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".') : undefined;
     if (basename) path = stripBasename(path, basename);
     return createLocation(path, state, key);
   }
@@ -29707,7 +29704,7 @@ function createBrowserHistory(props) {
   var transitionManager = createTransitionManager();
 
   function setState(nextState) {
-    Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])(history, nextState);
+    Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(history, nextState);
 
     history.length = globalHistory.length;
     transitionManager.notifyListeners(history.location, history.action);
@@ -29769,7 +29766,7 @@ function createBrowserHistory(props) {
   }
 
   function push(path, state) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(!(typeof path === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(!(typeof path === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : undefined;
     var action = 'PUSH';
     var location = createLocation(path, state, createKey(), history.location);
     transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
@@ -29797,14 +29794,14 @@ function createBrowserHistory(props) {
           });
         }
       } else {
-         true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(state === undefined, 'Browser history cannot push state in browsers that do not support HTML5 history') : undefined;
+         true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(state === undefined, 'Browser history cannot push state in browsers that do not support HTML5 history') : undefined;
         window.location.href = href;
       }
     });
   }
 
   function replace(path, state) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(!(typeof path === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(!(typeof path === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : undefined;
     var action = 'REPLACE';
     var location = createLocation(path, state, createKey(), history.location);
     transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
@@ -29830,7 +29827,7 @@ function createBrowserHistory(props) {
           });
         }
       } else {
-         true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(state === undefined, 'Browser history cannot replace state in browsers that do not support HTML5 history') : undefined;
+         true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(state === undefined, 'Browser history cannot replace state in browsers that do not support HTML5 history') : undefined;
         window.location.replace(href);
       }
     });
@@ -29953,7 +29950,7 @@ function createHashHistory(props) {
     props = {};
   }
 
-  !canUseDOM ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__["default"])(false, 'Hash history needs a DOM') : undefined : void 0;
+  !canUseDOM ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(false, 'Hash history needs a DOM') : undefined : void 0;
   var globalHistory = window.history;
   var canGoWithoutReload = supportsGoWithoutReloadUsingHash();
   var _props = props,
@@ -29968,7 +29965,7 @@ function createHashHistory(props) {
 
   function getDOMLocation() {
     var path = decodePath(getHashPath());
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(!basename || hasBasename(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(!basename || hasBasename(path, basename), 'You are attempting to use a basename on a page whose URL path does not begin ' + 'with the basename. Expected path "' + path + '" to begin with "' + basename + '".') : undefined;
     if (basename) path = stripBasename(path, basename);
     return createLocation(path);
   }
@@ -29976,7 +29973,7 @@ function createHashHistory(props) {
   var transitionManager = createTransitionManager();
 
   function setState(nextState) {
-    Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])(history, nextState);
+    Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(history, nextState);
 
     history.length = globalHistory.length;
     transitionManager.notifyListeners(history.location, history.action);
@@ -30052,7 +30049,7 @@ function createHashHistory(props) {
   }
 
   function push(path, state) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(state === undefined, 'Hash history cannot push state; it is ignored') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(state === undefined, 'Hash history cannot push state; it is ignored') : undefined;
     var action = 'PUSH';
     var location = createLocation(path, undefined, undefined, history.location);
     transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
@@ -30076,14 +30073,14 @@ function createHashHistory(props) {
           location: location
         });
       } else {
-         true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(false, 'Hash history cannot PUSH the same path; a new entry will not be added to the history stack') : undefined;
+         true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(false, 'Hash history cannot PUSH the same path; a new entry will not be added to the history stack') : undefined;
         setState();
       }
     });
   }
 
   function replace(path, state) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(state === undefined, 'Hash history cannot replace state; it is ignored') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(state === undefined, 'Hash history cannot replace state; it is ignored') : undefined;
     var action = 'REPLACE';
     var location = createLocation(path, undefined, undefined, history.location);
     transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
@@ -30110,7 +30107,7 @@ function createHashHistory(props) {
   }
 
   function go(n) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(canGoWithoutReload, 'Hash history go(n) causes a full page reload in this browser') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(canGoWithoutReload, 'Hash history go(n) causes a full page reload in this browser') : undefined;
     globalHistory.go(n);
   }
 
@@ -30207,7 +30204,7 @@ function createMemoryHistory(props) {
   var transitionManager = createTransitionManager();
 
   function setState(nextState) {
-    Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__["default"])(history, nextState);
+    Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(history, nextState);
 
     history.length = history.entries.length;
     transitionManager.notifyListeners(history.location, history.action);
@@ -30225,7 +30222,7 @@ function createMemoryHistory(props) {
   var createHref = createPath;
 
   function push(path, state) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(!(typeof path === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(!(typeof path === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to push when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : undefined;
     var action = 'PUSH';
     var location = createLocation(path, state, createKey(), history.location);
     transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
@@ -30250,7 +30247,7 @@ function createMemoryHistory(props) {
   }
 
   function replace(path, state) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__["default"])(!(typeof path === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])(!(typeof path === 'object' && path.state !== undefined && state !== undefined), 'You should avoid providing a 2nd state argument to replace when the 1st ' + 'argument is a location-like object that already has state; it is ignored') : undefined;
     var action = 'REPLACE';
     var location = createLocation(path, state, createKey(), history.location);
     transitionManager.confirmTransitionTo(location, action, getUserConfirmation, function (ok) {
@@ -30336,6 +30333,7 @@ function createMemoryHistory(props) {
   !*** ./node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js ***!
   \**********************************************************************************/
 /*! no static exports found */
+/*! exports used: default */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30451,10 +30449,10 @@ module.exports = hoistNonReactStatics;
   !*** ./node_modules/mini-create-react-context/dist/esm/index.js ***!
   \******************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/inheritsLoose */ "./node_modules/@babel/runtime/helpers/inheritsLoose.js");
@@ -30545,7 +30543,7 @@ function createReactContext(defaultValue, calculateChangedBits) {
           changedBits = typeof calculateChangedBits === 'function' ? calculateChangedBits(oldValue, newValue) : MAX_SIGNED_31_BIT_INT;
 
           if (true) {
-            Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])((changedBits & MAX_SIGNED_31_BIT_INT) === changedBits, 'calculateChangedBits: Expected the return value to be a ' + '31-bit integer. Instead received: ' + changedBits);
+            Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])((changedBits & MAX_SIGNED_31_BIT_INT) === changedBits, 'calculateChangedBits: Expected the return value to be a ' + '31-bit integer. Instead received: ' + changedBits);
           }
 
           changedBits |= 0;
@@ -30638,7 +30636,7 @@ function createReactContext(defaultValue, calculateChangedBits) {
 
 var index = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext || createReactContext;
 
-/* harmony default export */ __webpack_exports__["default"] = (index);
+/* harmony default export */ __webpack_exports__["a"] = (index);
 
 
 /***/ }),
@@ -30648,6 +30646,7 @@ var index = react__WEBPACK_IMPORTED_MODULE_0___default.a.createContext || create
   !*** ./node_modules/object-assign/index.js ***!
   \*********************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -30750,6 +30749,7 @@ module.exports = shouldUseNative() ? Object.assign : function (target, source) {
   !*** ./node_modules/odata-query/dist/index.js ***!
   \************************************************/
 /*! no static exports found */
+/*! exports used: default */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31223,6 +31223,7 @@ function parseNot(op, builtFilters) {
   !*** ./node_modules/prop-types/checkPropTypes.js ***!
   \***************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31337,6 +31338,7 @@ module.exports = checkPropTypes;
   !*** ./node_modules/prop-types/factoryWithTypeCheckers.js ***!
   \************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31940,6 +31942,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   !*** ./node_modules/prop-types/index.js ***!
   \******************************************/
 /*! no static exports found */
+/*! exports used: default */
 /***/ (function(module, exports, __webpack_require__) {
 
 /**
@@ -31966,6 +31969,7 @@ if (true) {
   !*** ./node_modules/prop-types/lib/ReactPropTypesSecret.js ***!
   \*************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -31990,6 +31994,7 @@ module.exports = ReactPropTypesSecret;
   !*** ./node_modules/react-dom/cjs/react-dom.development.js ***!
   \*************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57217,6 +57222,7 @@ module.exports = reactDom;
   !*** ./node_modules/react-dom/index.js ***!
   \*****************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57262,6 +57268,7 @@ if (false) {} else {
   !*** ./node_modules/react-dom/index.js-exposed ***!
   \*************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {module.exports = global["FusionReactDOM"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react-dom/index.js");
@@ -57274,6 +57281,7 @@ if (false) {} else {
   !*** ./node_modules/react-hot-loader/dist/react-hot-loader.production.min.js ***!
   \*******************************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57287,6 +57295,7 @@ function _interopDefault(e){return e&&"object"==typeof e&&"default"in e?e.defaul
   !*** ./node_modules/react-hot-loader/patch.js ***!
   \************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57304,6 +57313,7 @@ if (true) {
   !*** ./node_modules/react-is/cjs/react-is.development.js ***!
   \***********************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57548,6 +57558,7 @@ exports.isSuspense = isSuspense;
   !*** ./node_modules/react-is/index.js ***!
   \****************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -57565,6 +57576,7 @@ if (false) {} else {
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
 /*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57577,27 +57589,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["MemoryRouter"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["a"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["Prompt"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["b"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["Redirect"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["Route"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["Router"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["e"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["StaticRouter"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["f"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["Switch"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["g"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "generatePath", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["generatePath"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "generatePath", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["i"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["matchPath"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["j"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["withRouter"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["k"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "__RouterContext", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["__RouterContext"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "__RouterContext", function() { return react_router__WEBPACK_IMPORTED_MODULE_2__["h"]; });
 
 /* harmony import */ var history__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! history */ "./node_modules/history/esm/history.js");
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
@@ -57624,7 +57636,7 @@ __webpack_require__.r(__webpack_exports__);
 var BrowserRouter =
 /*#__PURE__*/
 function (_React$Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(BrowserRouter, _React$Component);
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(BrowserRouter, _React$Component);
 
   function BrowserRouter() {
     var _this;
@@ -57641,7 +57653,7 @@ function (_React$Component) {
   var _proto = BrowserRouter.prototype;
 
   _proto.render = function render() {
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__["Router"], {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__[/* Router */ "e"], {
       history: this.history,
       children: this.props.children
     });
@@ -57660,7 +57672,7 @@ if (true) {
   };
 
   BrowserRouter.prototype.componentDidMount = function () {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_5__["default"])(!this.props.history, "<BrowserRouter> ignores the history prop. To use a custom history, " + "use `import { Router }` instead of `import { BrowserRouter as Router }`.") : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"])(!this.props.history, "<BrowserRouter> ignores the history prop. To use a custom history, " + "use `import { Router }` instead of `import { BrowserRouter as Router }`.") : undefined;
   };
 }
 
@@ -57671,7 +57683,7 @@ if (true) {
 var HashRouter =
 /*#__PURE__*/
 function (_React$Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(HashRouter, _React$Component);
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(HashRouter, _React$Component);
 
   function HashRouter() {
     var _this;
@@ -57688,7 +57700,7 @@ function (_React$Component) {
   var _proto = HashRouter.prototype;
 
   _proto.render = function render() {
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__["Router"], {
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__[/* Router */ "e"], {
       history: this.history,
       children: this.props.children
     });
@@ -57706,7 +57718,7 @@ if (true) {
   };
 
   HashRouter.prototype.componentDidMount = function () {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_5__["default"])(!this.props.history, "<HashRouter> ignores the history prop. To use a custom history, " + "use `import { Router }` instead of `import { HashRouter as Router }`.") : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"])(!this.props.history, "<HashRouter> ignores the history prop. To use a custom history, " + "use `import { Router }` instead of `import { HashRouter as Router }`.") : undefined;
   };
 }
 
@@ -57721,7 +57733,7 @@ function isModifiedEvent(event) {
 var Link =
 /*#__PURE__*/
 function (_React$Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(Link, _React$Component);
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])(Link, _React$Component);
 
   function Link() {
     return _React$Component.apply(this, arguments) || this;
@@ -57755,14 +57767,14 @@ function (_React$Component) {
         innerRef = _this$props.innerRef,
         replace = _this$props.replace,
         to = _this$props.to,
-        rest = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_7__["default"])(_this$props, ["innerRef", "replace", "to"]); // eslint-disable-line no-unused-vars
+        rest = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"])(_this$props, ["innerRef", "replace", "to"]); // eslint-disable-line no-unused-vars
 
 
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__["__RouterContext"].Consumer, null, function (context) {
-      !context ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_8__["default"])(false, "You should not use <Link> outside a <Router>") : undefined : void 0;
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__[/* __RouterContext */ "h"].Consumer, null, function (context) {
+      !context ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])(false, "You should not use <Link> outside a <Router>") : undefined : void 0;
       var location = typeof to === "string" ? Object(history__WEBPACK_IMPORTED_MODULE_3__["createLocation"])(to, null, null, context.location) : to;
       var href = location ? context.history.createHref(location) : "";
-      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_6__["default"])({}, rest, {
+      return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("a", Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])({}, rest, {
         onClick: function onClick(event) {
           return _this.handleClick(event, context.history);
         },
@@ -57816,23 +57828,23 @@ function NavLink(_ref) {
       strict = _ref.strict,
       styleProp = _ref.style,
       to = _ref.to,
-      rest = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_7__["default"])(_ref, ["aria-current", "activeClassName", "activeStyle", "className", "exact", "isActive", "location", "strict", "style", "to"]);
+      rest = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"])(_ref, ["aria-current", "activeClassName", "activeStyle", "className", "exact", "isActive", "location", "strict", "style", "to"]);
 
   var path = typeof to === "object" ? to.pathname : to; // Regex taken from: https://github.com/pillarjs/path-to-regexp/blob/master/index.js#L202
 
   var escapedPath = path && path.replace(/([.+*?=^!:${}()[\]|/\\])/g, "\\$1");
-  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__["__RouterContext"].Consumer, null, function (context) {
-    !context ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_8__["default"])(false, "You should not use <NavLink> outside a <Router>") : undefined : void 0;
+  return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(react_router__WEBPACK_IMPORTED_MODULE_2__[/* __RouterContext */ "h"].Consumer, null, function (context) {
+    !context ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])(false, "You should not use <NavLink> outside a <Router>") : undefined : void 0;
     var pathToMatch = locationProp ? locationProp.pathname : context.location.pathname;
-    var match = escapedPath ? Object(react_router__WEBPACK_IMPORTED_MODULE_2__["matchPath"])(pathToMatch, {
+    var match = escapedPath ? Object(react_router__WEBPACK_IMPORTED_MODULE_2__[/* matchPath */ "j"])(pathToMatch, {
       path: escapedPath,
       exact: exact,
       strict: strict
     }) : null;
     var isActive = !!(isActiveProp ? isActiveProp(match, context.location) : match);
     var className = isActive ? joinClassnames(classNameProp, activeClassName) : classNameProp;
-    var style = isActive ? Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_6__["default"])({}, styleProp, activeStyle) : styleProp;
-    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Link, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_6__["default"])({
+    var style = isActive ? Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])({}, styleProp, activeStyle) : styleProp;
+    return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(Link, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])({
       "aria-current": isActive && ariaCurrent || null,
       className: className,
       style: style,
@@ -57843,7 +57855,7 @@ function NavLink(_ref) {
 
 if (true) {
   var ariaCurrentType = prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.oneOf(["page", "step", "location", "date", "time", "true"]);
-  NavLink.propTypes = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_6__["default"])({}, Link.propTypes, {
+  NavLink.propTypes = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])({}, Link.propTypes, {
     "aria-current": ariaCurrentType,
     activeClassName: prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.string,
     activeStyle: prop_types__WEBPACK_IMPORTED_MODULE_4___default.a.object,
@@ -57861,26 +57873,39 @@ if (true) {
 
 /***/ }),
 
+/***/ "./node_modules/react-router-dom/esm/react-router-dom.js-exposed":
+/*!***********************************************************************!*\
+  !*** ./node_modules/react-router-dom/esm/react-router-dom.js-exposed ***!
+  \***********************************************************************/
+/*! no static exports found */
+/*! all exports used */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {module.exports = global["FusionReactRouterDOM"] = __webpack_require__(/*! -!./react-router-dom.js */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ "./node_modules/webpack/buildin/global.js")))
+
+/***/ }),
+
 /***/ "./node_modules/react-router/esm/react-router.js":
 /*!*******************************************************!*\
   !*** ./node_modules/react-router/esm/react-router.js ***!
   \*******************************************************/
 /*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports used: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, __RouterContext, generatePath, matchPath, withRouter */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MemoryRouter", function() { return MemoryRouter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Prompt", function() { return Prompt; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Redirect", function() { return Redirect; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Route", function() { return Route; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Router", function() { return Router; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StaticRouter", function() { return StaticRouter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Switch", function() { return Switch; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "generatePath", function() { return generatePath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "matchPath", function() { return matchPath; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "withRouter", function() { return withRouter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "__RouterContext", function() { return context; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MemoryRouter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return Prompt; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return Redirect; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return Route; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return Router; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return StaticRouter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return Switch; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return generatePath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return matchPath; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return withRouter; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return context; });
 /* harmony import */ var mini_create_react_context__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mini-create-react-context */ "./node_modules/mini-create-react-context/dist/esm/index.js");
 /* harmony import */ var _babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/esm/inheritsLoose */ "./node_modules/@babel/runtime/helpers/esm/inheritsLoose.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
@@ -57914,7 +57939,7 @@ __webpack_require__.r(__webpack_exports__);
 // TODO: Replace with React.createContext once we can assume React 16+
 
 var createNamedContext = function createNamedContext(name) {
-  var context = Object(mini_create_react_context__WEBPACK_IMPORTED_MODULE_0__["default"])();
+  var context = Object(mini_create_react_context__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"])();
   context.displayName = name;
   return context;
 };
@@ -57930,7 +57955,7 @@ createNamedContext("Router");
 var Router =
 /*#__PURE__*/
 function (_React$Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(Router, _React$Component);
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(Router, _React$Component);
 
   Router.computeRootMatch = function computeRootMatch(pathname) {
     return {
@@ -58010,7 +58035,7 @@ if (true) {
   };
 
   Router.prototype.componentDidUpdate = function (prevProps) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(prevProps.history === this.props.history, "You cannot change <Router history>") : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(prevProps.history === this.props.history, "You cannot change <Router history>") : undefined;
   };
 }
 
@@ -58021,7 +58046,7 @@ if (true) {
 var MemoryRouter =
 /*#__PURE__*/
 function (_React$Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(MemoryRouter, _React$Component);
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(MemoryRouter, _React$Component);
 
   function MemoryRouter() {
     var _this;
@@ -58057,14 +58082,14 @@ if (true) {
   };
 
   MemoryRouter.prototype.componentDidMount = function () {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(!this.props.history, "<MemoryRouter> ignores the history prop. To use a custom history, " + "use `import { Router }` instead of `import { MemoryRouter as Router }`.") : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(!this.props.history, "<MemoryRouter> ignores the history prop. To use a custom history, " + "use `import { Router }` instead of `import { MemoryRouter as Router }`.") : undefined;
   };
 }
 
 var Lifecycle =
 /*#__PURE__*/
 function (_React$Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(Lifecycle, _React$Component);
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(Lifecycle, _React$Component);
 
   function Lifecycle() {
     return _React$Component.apply(this, arguments) || this;
@@ -58100,7 +58125,7 @@ function Prompt(_ref) {
       _ref$when = _ref.when,
       when = _ref$when === void 0 ? true : _ref$when;
   return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(context.Consumer, null, function (context$$1) {
-    !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__["default"])(false, "You should not use <Prompt> outside a <Router>") : undefined : void 0;
+    !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])(false, "You should not use <Prompt> outside a <Router>") : undefined : void 0;
     if (!when || context$$1.staticContext) return null;
     var method = context$$1.history.block;
     return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Lifecycle, {
@@ -58173,11 +58198,11 @@ function Redirect(_ref) {
       _ref$push = _ref.push,
       push = _ref$push === void 0 ? false : _ref$push;
   return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(context.Consumer, null, function (context$$1) {
-    !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__["default"])(false, "You should not use <Redirect> outside a <Router>") : undefined : void 0;
+    !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])(false, "You should not use <Redirect> outside a <Router>") : undefined : void 0;
     var history = context$$1.history,
         staticContext = context$$1.staticContext;
     var method = push ? history.push : history.replace;
-    var location = Object(history__WEBPACK_IMPORTED_MODULE_5__["createLocation"])(computedMatch ? typeof to === "string" ? generatePath(to, computedMatch.params) : Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__["default"])({}, to, {
+    var location = Object(history__WEBPACK_IMPORTED_MODULE_5__["createLocation"])(computedMatch ? typeof to === "string" ? generatePath(to, computedMatch.params) : Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])({}, to, {
       pathname: generatePath(to.pathname, computedMatch.params)
     }) : to); // When rendering in a static context,
     // set the new location immediately.
@@ -58194,7 +58219,7 @@ function Redirect(_ref) {
       onUpdate: function onUpdate(self, prevProps) {
         var prevLocation = Object(history__WEBPACK_IMPORTED_MODULE_5__["createLocation"])(prevProps.to);
 
-        if (!Object(history__WEBPACK_IMPORTED_MODULE_5__["locationsAreEqual"])(prevLocation, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__["default"])({}, location, {
+        if (!Object(history__WEBPACK_IMPORTED_MODULE_5__["locationsAreEqual"])(prevLocation, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])({}, location, {
           key: prevLocation.key
         }))) {
           method(location);
@@ -58301,7 +58326,7 @@ function isEmptyChildren(children) {
 var Route =
 /*#__PURE__*/
 function (_React$Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(Route, _React$Component);
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(Route, _React$Component);
 
   function Route() {
     return _React$Component.apply(this, arguments) || this;
@@ -58313,12 +58338,12 @@ function (_React$Component) {
     var _this = this;
 
     return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(context.Consumer, null, function (context$$1) {
-      !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__["default"])(false, "You should not use <Route> outside a <Router>") : undefined : void 0;
+      !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])(false, "You should not use <Route> outside a <Router>") : undefined : void 0;
       var location = _this.props.location || context$$1.location;
       var match = _this.props.computedMatch ? _this.props.computedMatch // <Switch> already computed the match for us
       : _this.props.path ? matchPath(location.pathname, _this.props) : context$$1.match;
 
-      var props = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__["default"])({}, context$$1, {
+      var props = Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])({}, context$$1, {
         location: location,
         match: match
       });
@@ -58339,7 +58364,7 @@ function (_React$Component) {
         if (children === undefined) {
           if (true) {
             var path = _this.props.path;
-             true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(false, "You returned `undefined` from the `children` function of " + ("<Route" + (path ? " path=\"" + path + "\"" : "") + ">, but you ") + "should have returned a React element or `null`") : undefined;
+             true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(false, "You returned `undefined` from the `children` function of " + ("<Route" + (path ? " path=\"" + path + "\"" : "") + ">, but you ") + "should have returned a React element or `null`") : undefined;
           }
 
           children = null;
@@ -58372,14 +58397,14 @@ if (true) {
   };
 
   Route.prototype.componentDidMount = function () {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(!(this.props.children && !isEmptyChildren(this.props.children) && this.props.component), "You should not use <Route component> and <Route children> in the same route; <Route component> will be ignored") : undefined;
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(!(this.props.children && !isEmptyChildren(this.props.children) && this.props.render), "You should not use <Route render> and <Route children> in the same route; <Route render> will be ignored") : undefined;
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(!(this.props.component && this.props.render), "You should not use <Route component> and <Route render> in the same route; <Route render> will be ignored") : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(!(this.props.children && !isEmptyChildren(this.props.children) && this.props.component), "You should not use <Route component> and <Route children> in the same route; <Route component> will be ignored") : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(!(this.props.children && !isEmptyChildren(this.props.children) && this.props.render), "You should not use <Route render> and <Route children> in the same route; <Route render> will be ignored") : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(!(this.props.component && this.props.render), "You should not use <Route component> and <Route render> in the same route; <Route render> will be ignored") : undefined;
   };
 
   Route.prototype.componentDidUpdate = function (prevProps) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(!(this.props.location && !prevProps.location), '<Route> elements should not change from uncontrolled to controlled (or vice versa). You initially used no "location" prop and then provided one on a subsequent render.') : undefined;
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(!(!this.props.location && prevProps.location), '<Route> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(!(this.props.location && !prevProps.location), '<Route> elements should not change from uncontrolled to controlled (or vice versa). You initially used no "location" prop and then provided one on a subsequent render.') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(!(!this.props.location && prevProps.location), '<Route> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.') : undefined;
   };
 }
 
@@ -58389,7 +58414,7 @@ function addLeadingSlash(path) {
 
 function addBasename(basename, location) {
   if (!basename) return location;
-  return Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__["default"])({}, location, {
+  return Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])({}, location, {
     pathname: addLeadingSlash(basename) + location.pathname
   });
 }
@@ -58398,7 +58423,7 @@ function stripBasename(basename, location) {
   if (!basename) return location;
   var base = addLeadingSlash(basename);
   if (location.pathname.indexOf(base) !== 0) return location;
-  return Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__["default"])({}, location, {
+  return Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])({}, location, {
     pathname: location.pathname.substr(base.length)
   });
 }
@@ -58409,7 +58434,7 @@ function createURL(location) {
 
 function staticHandler(methodName) {
   return function () {
-     true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__["default"])(false, "You cannot %s with <StaticRouter>", methodName) : undefined;
+     true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])(false, "You cannot %s with <StaticRouter>", methodName) : undefined;
   };
 }
 
@@ -58425,7 +58450,7 @@ function noop() {}
 var StaticRouter =
 /*#__PURE__*/
 function (_React$Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(StaticRouter, _React$Component);
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(StaticRouter, _React$Component);
 
   function StaticRouter() {
     var _this;
@@ -58476,7 +58501,7 @@ function (_React$Component) {
         context = _this$props2$context === void 0 ? {} : _this$props2$context,
         _this$props2$location = _this$props2.location,
         location = _this$props2$location === void 0 ? "/" : _this$props2$location,
-        rest = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_10__["default"])(_this$props2, ["basename", "context", "location"]);
+        rest = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"])(_this$props2, ["basename", "context", "location"]);
 
     var history = {
       createHref: function createHref(path) {
@@ -58492,7 +58517,7 @@ function (_React$Component) {
       listen: this.handleListen,
       block: this.handleBlock
     };
-    return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Router, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__["default"])({}, rest, {
+    return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Router, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])({}, rest, {
       history: history,
       staticContext: context
     }));
@@ -58509,7 +58534,7 @@ if (true) {
   };
 
   StaticRouter.prototype.componentDidMount = function () {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(!this.props.history, "<StaticRouter> ignores the history prop. To use a custom history, " + "use `import { Router }` instead of `import { StaticRouter as Router }`.") : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(!this.props.history, "<StaticRouter> ignores the history prop. To use a custom history, " + "use `import { Router }` instead of `import { StaticRouter as Router }`.") : undefined;
   };
 }
 
@@ -58520,7 +58545,7 @@ if (true) {
 var Switch =
 /*#__PURE__*/
 function (_React$Component) {
-  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__["default"])(Switch, _React$Component);
+  Object(_babel_runtime_helpers_esm_inheritsLoose__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"])(Switch, _React$Component);
 
   function Switch() {
     return _React$Component.apply(this, arguments) || this;
@@ -58532,7 +58557,7 @@ function (_React$Component) {
     var _this = this;
 
     return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(context.Consumer, null, function (context$$1) {
-      !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__["default"])(false, "You should not use <Switch> outside a <Router>") : undefined : void 0;
+      !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])(false, "You should not use <Switch> outside a <Router>") : undefined : void 0;
       var location = _this.props.location || context$$1.location;
       var element, match; // We use React.Children.forEach instead of React.Children.toArray().find()
       // here because toArray adds keys to all child elements and we do not want
@@ -58543,7 +58568,7 @@ function (_React$Component) {
         if (match == null && react__WEBPACK_IMPORTED_MODULE_2___default.a.isValidElement(child)) {
           element = child;
           var path = child.props.path || child.props.from;
-          match = path ? matchPath(location.pathname, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__["default"])({}, child.props, {
+          match = path ? matchPath(location.pathname, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])({}, child.props, {
             path: path
           })) : context$$1.match;
         }
@@ -58565,8 +58590,8 @@ if (true) {
   };
 
   Switch.prototype.componentDidUpdate = function (prevProps) {
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(!(this.props.location && !prevProps.location), '<Switch> elements should not change from uncontrolled to controlled (or vice versa). You initially used no "location" prop and then provided one on a subsequent render.') : undefined;
-     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__["default"])(!(!this.props.location && prevProps.location), '<Switch> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(!(this.props.location && !prevProps.location), '<Switch> elements should not change from uncontrolled to controlled (or vice versa). You initially used no "location" prop and then provided one on a subsequent render.') : undefined;
+     true ? Object(tiny_warning__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])(!(!this.props.location && prevProps.location), '<Switch> elements should not change from controlled to uncontrolled (or vice versa). You provided a "location" prop initially but omitted it on a subsequent render.') : undefined;
   };
 }
 
@@ -58579,11 +58604,11 @@ function withRouter(Component) {
 
   var C = function C(props) {
     var wrappedComponentRef = props.wrappedComponentRef,
-        remainingProps = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_10__["default"])(props, ["wrappedComponentRef"]);
+        remainingProps = Object(_babel_runtime_helpers_esm_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"])(props, ["wrappedComponentRef"]);
 
     return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(context.Consumer, null, function (context$$1) {
-      !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__["default"])(false, "You should not use <" + displayName + " /> outside a <Router>") : undefined : void 0;
-      return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Component, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__["default"])({}, remainingProps, context$$1, {
+      !context$$1 ?  true ? Object(tiny_invariant__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"])(false, "You should not use <" + displayName + " /> outside a <Router>") : undefined : void 0;
+      return react__WEBPACK_IMPORTED_MODULE_2___default.a.createElement(Component, Object(_babel_runtime_helpers_esm_extends__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"])({}, remainingProps, context$$1, {
         ref: wrappedComponentRef
       }));
     });
@@ -58633,6 +58658,7 @@ if (true) {
   !*** ./node_modules/react-router/node_modules/isarray/index.js ***!
   \*****************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports) {
 
 module.exports = Array.isArray || function (arr) {
@@ -58647,6 +58673,7 @@ module.exports = Array.isArray || function (arr) {
   !*** ./node_modules/react-router/node_modules/path-to-regexp/index.js ***!
   \************************************************************************/
 /*! no static exports found */
+/*! exports used: default */
 /***/ (function(module, exports, __webpack_require__) {
 
 var isarray = __webpack_require__(/*! isarray */ "./node_modules/react-router/node_modules/isarray/index.js")
@@ -59084,6 +59111,7 @@ function pathToRegexp (path, keys, options) {
   !*** ./node_modules/react/cjs/react.development.js ***!
   \*****************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -61331,6 +61359,7 @@ module.exports = react;
   !*** ./node_modules/react/index.js ***!
   \*************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -61348,6 +61377,7 @@ if (false) {} else {
   !*** ./node_modules/react/index.js-exposed ***!
   \*********************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {module.exports = global["FusionReact"] = __webpack_require__(/*! -!./index.js */ "./node_modules/react/index.js");
@@ -61360,10 +61390,10 @@ if (false) {} else {
   !*** ./node_modules/resolve-pathname/index.js ***!
   \************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 function isAbsolute(pathname) {
   return pathname.charAt(0) === '/';
 }
@@ -61433,7 +61463,7 @@ function resolvePathname(to) {
   return result;
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (resolvePathname);
+/* harmony default export */ __webpack_exports__["a"] = (resolvePathname);
 
 /***/ }),
 
@@ -61442,6 +61472,7 @@ function resolvePathname(to) {
   !*** ./node_modules/scheduler/cjs/scheduler-tracing.development.js ***!
   \*********************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -61920,6 +61951,7 @@ exports.unstable_unsubscribe = unstable_unsubscribe;
   !*** ./node_modules/scheduler/cjs/scheduler.development.js ***!
   \*************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -62833,6 +62865,7 @@ exports.unstable_getFirstCallbackNode = unstable_getFirstCallbackNode;
   !*** ./node_modules/scheduler/index.js ***!
   \*****************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -62850,6 +62883,7 @@ if (false) {} else {
   !*** ./node_modules/scheduler/tracing.js ***!
   \*******************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -62867,10 +62901,10 @@ if (false) {} else {
   !*** ./node_modules/tiny-invariant/dist/tiny-invariant.esm.js ***!
   \****************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 var isProduction = "development" === 'production';
 var prefix = 'Invariant failed';
 function invariant(condition, message) {
@@ -62885,7 +62919,7 @@ function invariant(condition, message) {
   }
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (invariant);
+/* harmony default export */ __webpack_exports__["a"] = (invariant);
 
 
 /***/ }),
@@ -62895,10 +62929,10 @@ function invariant(condition, message) {
   !*** ./node_modules/tiny-warning/dist/tiny-warning.esm.js ***!
   \************************************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 var isProduction = "development" === 'production';
 function warning(condition, message) {
   if (!isProduction) {
@@ -62918,7 +62952,7 @@ function warning(condition, message) {
   }
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (warning);
+/* harmony default export */ __webpack_exports__["a"] = (warning);
 
 
 /***/ }),
@@ -62928,6 +62962,7 @@ function warning(condition, message) {
   !*** ./node_modules/uuid/lib/bytesToUuid.js ***!
   \**********************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports) {
 
 /**
@@ -62963,6 +62998,7 @@ module.exports = bytesToUuid;
   !*** ./node_modules/uuid/lib/rng-browser.js ***!
   \**********************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports) {
 
 // Unique ID creation requires a high quality random # generator.  In the
@@ -63008,6 +63044,7 @@ if (getRandomValues) {
   !*** ./node_modules/uuid/v1.js ***!
   \*********************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 var rng = __webpack_require__(/*! ./lib/rng */ "./node_modules/uuid/lib/rng-browser.js");
@@ -63128,10 +63165,10 @@ module.exports = v1;
   !*** ./node_modules/value-equal/index.js ***!
   \*******************************************/
 /*! exports provided: default */
+/*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function valueEqual(a, b) {
@@ -63169,7 +63206,7 @@ function valueEqual(a, b) {
   return false;
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (valueEqual);
+/* harmony default export */ __webpack_exports__["a"] = (valueEqual);
 
 /***/ }),
 
@@ -63178,6 +63215,7 @@ function valueEqual(a, b) {
   !*** (webpack)/buildin/global.js ***!
   \***********************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports) {
 
 var g;
@@ -63209,6 +63247,7 @@ module.exports = g;
   !*** ./src/start-app/HotAppWrapper.tsx ***!
   \*****************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63254,6 +63293,7 @@ exports.default = HotAppWrapper;
   !*** ./src/start-app/index.tsx ***!
   \*********************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63262,7 +63302,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_dom_1 = __webpack_require__(/*! @hot-loader/react-dom */ "./node_modules/@hot-loader/react-dom/index.js-exposed");
 const fusion_1 = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
-const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js-exposed");
 const fusion_components_1 = __webpack_require__(/*! @equinor/fusion-components */ "./node_modules/@equinor/fusion-components/dist/index.js-exposed");
 const HotAppWrapper_1 = __webpack_require__(/*! ./HotAppWrapper */ "./src/start-app/HotAppWrapper.tsx");
 const serviceResolver = {
@@ -63302,7 +63342,7 @@ const start = async () => {
                 overlay,
                 root,
             });
-            return (React.createElement(react_router_dom_1.Router, { history: fusionContext.history },
+            return (React.createElement(react_router_dom_1.default.Router, { history: fusionContext.history },
                 React.createElement(fusion_1.FusionContext.Provider, { value: fusionContext },
                     React.createElement(fusion_components_1.FusionRoot, { rootRef: root, overlayRef: overlay },
                         React.createElement(fusion_components_1.FusionHeader, { aside: null, content: null, start: null }),
@@ -63324,6 +63364,7 @@ start()
   !*** multi react-hot-loader/patch ./src/start-app/index.tsx ***!
   \**************************************************************/
 /*! no static exports found */
+/*! all exports used */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! react-hot-loader/patch */"./node_modules/react-hot-loader/patch.js");

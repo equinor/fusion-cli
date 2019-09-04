@@ -13,6 +13,9 @@ module.exports = {
         publicPath: 'dist',
         filename: 'fusion.bundle.js',
     },
+    optimization: {
+        usedExports: true,
+    },
     module: {
         rules: [
             {
@@ -28,6 +31,15 @@ module.exports = {
                 loader: 'source-map-loader',
             },
             {
+                test: require.resolve('react-router-dom/esm/react-router-dom.js'),
+                use: [
+                    {
+                        loader: 'expose-loader',
+                        options: 'FusionReactRouterDOM',
+                    },
+                ],
+            },
+            {
                 test: require.resolve('react'),
                 use: [
                     {
@@ -36,15 +48,7 @@ module.exports = {
                     },
                 ],
             },
-            {
-                test: require.resolve('react-router-dom'),
-                use: [
-                    {
-                        loader: 'expose-loader',
-                        options: 'FusionReactRouterDOM',
-                    },
-                ],
-            },
+            
             {
                 test: require.resolve('react-dom'),
                 use: [
