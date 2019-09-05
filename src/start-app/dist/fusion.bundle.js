@@ -63342,7 +63342,7 @@ const start = async () => {
                 overlay,
                 root,
             });
-            return (React.createElement(react_router_dom_1.default.Router, { history: fusionContext.history },
+            return (React.createElement(react_router_dom_1.Router, { history: fusionContext.history },
                 React.createElement(fusion_1.FusionContext.Provider, { value: fusionContext },
                     React.createElement(fusion_components_1.FusionRoot, { rootRef: root, overlayRef: overlay },
                         React.createElement(fusion_components_1.FusionHeader, { aside: null, content: null, start: null }),
