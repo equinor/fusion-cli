@@ -74,6 +74,12 @@
             "options": {
                 "5a842df8-3238-415d-b168-9f16a6a6031b": "Test"
             }
+        },
+        {
+            "name": "ignoreVersionConflict",
+            "type": "boolean",
+            "label": "Ignore version conflict",
+            "visibleRule": "action = Deploy"
         }
     ],
     "instanceNameFormat": "Fusion Framework Management",
