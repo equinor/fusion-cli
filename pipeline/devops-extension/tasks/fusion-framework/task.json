@@ -17,7 +17,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 0
+        "Patch": 1
     },
     "demands": [
     ],
@@ -54,6 +54,12 @@
                 "Publish": "Publish"
             },
             "helpMarkDown": "Action to perform. <br>**Deploy**<br>Upload a bundle<br>**Publish**<br>Publish the current preview framework."
+        },
+        {
+            "name": "ignoreVersionConflict",
+            "type": "boolean",
+            "label": "Ignore version conflict",
+            "visibleRule": "action = Deploy"
         },
         {
             "name": "bundlePath",

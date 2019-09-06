@@ -48,6 +48,7 @@ export class Task {
     private static async deployTileBundleAsync() {
         var pathToBundle = tl.getPathInput('bundlePath');
         var allowVersionConflict = tl.getBoolInput('ignoreVersionConflict', false);
+        var tileKey = tl.getInput('tileKey', false);
 
         if (isNullOrUndefined(pathToBundle)) {
             throw new Error("[!] Missing required input: bundlePath");
@@ -59,6 +60,7 @@ export class Task {
             if (allowVersionConflict && error.statusCode == 409) {
                 tl.logIssue(tl.IssueType.Warning, 'Version already exist, but i\'ve been ordered to ignore it...');
                 tl.setResult(tl.TaskResult.SucceededWithIssues, 'Ignoring already existing version conflict');
+                tl.setVariable(`ignorePublish_${tileKey}`, 'true');
             } else {
                 throw error; 
             }
@@ -67,6 +69,11 @@ export class Task {
 
     private static async publishTileAsync() {
         var tileKey = tl.getInput('tileKey', false);
+
+        if (tl.getVariable(`ignorePublish_${tileKey}`) == 'true') {
+            tl.setResult(tl.TaskResult.Skipped, 'Located marker for version conflict in bundle upload. Skipping publish.');
+            return;
+        }
 
         if (isNullOrUndefined(tileKey)) {
             throw new Error("[!] Missing required input: tileKey");
