@@ -44,12 +44,11 @@ export default class PortalApi {
     }
 
     public async publishTilesAsync(tileKey : string) {
-        let endpoint = `${this.serverHost}/bundles/apps/${tileKey}/publish`
+        let endpoint = `${this.serverHost}/bundles/tiles/${tileKey}/publish`
         await this.postAsync(endpoint);
     }
 
     private async uploadBundleAsync(endpoint : string, bundleContent : Buffer) {
-        
         let token = await auth.getAppAccessTokenAsync();
         
         var options = {
@@ -63,10 +62,10 @@ export default class PortalApi {
         };
         
         try {
+            console.log(`Uploading bundle with POST '${endpoint}'`);
             await rp(options);
         } catch (error) {
-
-            console.log("error: ", error);
+            this.debugErrorResponse(error);
             throw error;
         }
     }
@@ -85,12 +84,21 @@ export default class PortalApi {
         };
         
         try {
+            console.log(`Sending request POST '${endpoint}'`);
             await rp(options);
         } catch (error) {
 
-            console.log("error: ", error);
+            this.debugErrorResponse(error);
             throw error;
         }
+    }
+
+    private debugErrorResponse(error : any) {
+        console.log(`Request failed with code ${error.statusCode} - ${error.response.statusMessage}`);
+        console.log('-- BODY --');
+        console.log(error.response.body);
+        console.log('-- HEADERS --');
+        console.log(error.response.headers)
     }
 
     private readBundleFile(bundlePath : string) : Buffer {

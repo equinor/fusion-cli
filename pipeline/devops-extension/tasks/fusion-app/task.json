@@ -17,7 +17,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 0
+        "Patch": 3
     },
     "demands": [
     ],
@@ -63,6 +63,12 @@
             "helpMarkDown": "Zip bundle to deploy",
             "visibleRule": "action = Deploy"
         },        
+        {
+            "name": "ignoreVersionConflict",
+            "type": "boolean",
+            "label": "Ignore version conflict",
+            "visibleRule": "action = Deploy"
+        },
         {
             "name": "appKey",
             "label": "App key",

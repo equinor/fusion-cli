@@ -6,12 +6,14 @@ import { isNullOrUndefined } from 'util';
 tl.setResourcePath(path.join(__dirname, '../../task.json'));
 
 export class Task {
+    
+    private static portalApi : fusionPortalApi;
+
     public static async runMain() {
 
         var action = tl.getInput('action', false);
         var host = tl.getInput('portalUrl', false);
         var resource = tl.getInput('tokenResource', false);
-        var appKey = tl.getInput('appKey', false);
 
         if (isNullOrUndefined(action)) {
             throw new Error("[!] Missing required input: action");
@@ -23,21 +25,17 @@ export class Task {
             throw new Error("[!] Missing required input: tokenResource");
         }
 
-        var portalApi = new fusionPortalApi(host, resource);
+        this.portalApi = new fusionPortalApi(host, resource);
 
         try {
 
             switch (action.toLowerCase()) {
                 case 'deploy':
-                    var pathToBundle = tl.getPathInput('bundlePath');
-                    await portalApi.uploadAppBundleAsync(pathToBundle);
+                    await this.deployAppBundleAsync();
 
                     break;
                 case 'publish':
-                    if (isNullOrUndefined(appKey)) {
-                        throw new Error("[!] Missing required input: appKey");
-                    }
-                    await portalApi.publishAppAsync(appKey);
+                    await this.publishAppAsync();
 
                     break;
             }
@@ -46,6 +44,42 @@ export class Task {
             tl.setResult(tl.TaskResult.Failed, error);
         }
     }
+
+    private static async deployAppBundleAsync() {
+        var pathToBundle = tl.getPathInput('bundlePath');
+        var allowVersionConflict = tl.getBoolInput('ignoreVersionConflict', false);
+
+        if (isNullOrUndefined(pathToBundle)) {
+            throw new Error("[!] Missing required input: bundlePath");
+        }
+
+        try {
+            await this.portalApi.uploadAppBundleAsync(pathToBundle);
+        } catch (error) {
+            if (allowVersionConflict && error.statusCode == 409) {
+                var appKey = tl.getInput('appKey', false);
+                tl.setResult(tl.TaskResult.SucceededWithIssues, 'Version already exists. Ignore version conflict enabled.');
+                tl.setVariable(`ignorePublish_${appKey}`, 'true');
+            } else {
+                throw error; 
+            }
+        }
+    }
+
+    private static async publishAppAsync() {
+        var appKey = tl.getInput('appKey', false);
+
+        if (tl.getVariable(`ignorePublish_${appKey}`) == 'true') {
+            tl.setResult(tl.TaskResult.Skipped, 'Located marker for version conflict in bundle upload. Skipping publish.');
+            return;
+        }
+
+        if (isNullOrUndefined(appKey)) {
+            throw new Error("[!] Missing required input: appKey");
+        }
+        await this.portalApi.publishAppAsync(appKey);
+    }
+
 }
 
 Task.runMain();

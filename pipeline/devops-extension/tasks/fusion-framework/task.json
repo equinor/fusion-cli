@@ -17,7 +17,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 0
+        "Patch": 1
     },
     "demands": [
     ],
@@ -56,6 +56,12 @@
             "helpMarkDown": "Action to perform. <br>**Deploy**<br>Upload a bundle<br>**Publish**<br>Publish the current preview framework."
         },
         {
+            "name": "ignoreVersionConflict",
+            "type": "boolean",
+            "label": "Ignore version conflict",
+            "visibleRule": "action = Deploy"
+        },
+        {
             "name": "bundlePath",
             "type": "filePath",
             "required": true,
@@ -74,6 +80,12 @@
             "options": {
                 "5a842df8-3238-415d-b168-9f16a6a6031b": "Test"
             }
+        },
+        {
+            "name": "ignoreVersionConflict",
+            "type": "boolean",
+            "label": "Ignore version conflict",
+            "visibleRule": "action = Deploy"
         }
     ],
     "instanceNameFormat": "Fusion Framework Management",
