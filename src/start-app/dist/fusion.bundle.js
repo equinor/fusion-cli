@@ -1928,6 +1928,11 @@ class HttpClient {
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
+    async optionsAsync(url, init, responseParser) {
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: "OPTIONS" })));
+        const response = await this.performFetchAsync(url, init);
+        return await this.parseResponseAsync(init, response, responseParser);
+    }
     async performFetchAsync(url, init) {
         try {
             const options = await this.transformRequestAsync(url, init);
@@ -2297,9 +2302,33 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
             return await response.text();
         });
     }
+    async getBasePositionRoleDescriptionAsync(basePositionId) {
+        const url = this.resourceCollections.org.basePositionRoleDescription(basePositionId);
+        return await this.httpClient.getAsync(url, null, async (response) => {
+            return await response.text();
+        });
+    }
     async getDisciplineNetworkAsync(projectId, discipline) {
         const url = this.resourceCollections.org.disciplineNetwork(projectId, discipline);
         return await this.httpClient.getAsync(url);
+    }
+    async canEditPosition(projectId, positionId) {
+        const url = this.resourceCollections.org.position(projectId, positionId);
+        try {
+            const response = await this.httpClient.optionsAsync(url, {
+                headers: {
+                    'api-version': '2.0',
+                },
+            }, () => Promise.resolve());
+            const allowHeader = response.headers.get('Allow');
+            if (allowHeader !== null && allowHeader.indexOf('POST') !== -1) {
+                return true;
+            }
+            return false;
+        }
+        catch (e) {
+            return false;
+        }
     }
 }
 
@@ -2824,6 +2853,9 @@ class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MO
     }
     roleDescription(projectId, positionId) {
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.position(projectId, positionId, false), 'roleDescription', 'content');
+    }
+    basePositionRoleDescription(basePositionId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])('positions', 'basepositions', basePositionId, 'roleDescription', 'content');
     }
     reportsTo(projectId, positionId) {
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.position(projectId, positionId, false), 'reportsTo');
@@ -4071,7 +4103,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.8');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.9');
 
 
 /***/ }),
