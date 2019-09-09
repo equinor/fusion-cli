@@ -12,6 +12,74 @@
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch DEPLOY app task",
+            "env": {
+                "INPUT_isDebug": "true",
+                "INPUT_testCredentials": "${workspaceFolder}\\tasks\\fusion-app\\test-credentials.json",
+                "INPUT_portalUrl": "https://ci.fusion-dev.net",
+                "INPUT_action": "deploy",
+                "INPUT_bundlePath": "C:\\Source\\VSTS\\Repos\\Project-Portal-Sup\\frontend\\Build\\dist\\apps\\meetings.zip",
+                "INPUT_ignoreVersionConflict": "true"
+            },
+            "program": "${workspaceFolder}\\tasks\\fusion-app\\index.ts",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch PUBLISH app task",
+            "env": {
+                "INPUT_isDebug": "true",
+                "INPUT_testCredentials": "${workspaceFolder}\\tasks\\fusion-app\\test-credentials.json",
+                "INPUT_portalUrl": "https://ci.fusion-dev.net",
+                "INPUT_action": "publish",
+                "INPUT_appKey": "pro-org",
+                "ignorePublish_pro-org": "true"
+            },
+            "program": "${workspaceFolder}\\tasks\\fusion-app\\index.ts",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch DEPLOY tiles task",
+            "env": {
+                "INPUT_isDebug": "true",
+                "INPUT_testCredentials": "${workspaceFolder}\\tasks\\fusion-tile\\test-credentials.json",
+                "INPUT_action": "deploy",
+                "INPUT_bundlePath": "C:\\Source\\VSTS\\Repos\\Project-Portal-Sup\\frontend\\Build\\dist\\tiles\\adscostreporttile.zip",
+                "INPUT_portalUrl": "https://ci.fusion-dev.net",
+                "INPUT_ignoreVersionConflict": "true"
+
+            },
+            "program": "${workspaceFolder}\\tasks\\fusion-tile\\index.ts",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch PUBLISH tiles task",
+            "env": {
+                "INPUT_isDebug": "true",
+                "INPUT_testCredentials": "${workspaceFolder}\\tasks\\fusion-tile\\test-credentials.json",
+                "INPUT_portalUrl": "https://ci.fusion-dev.net",
+                "INPUT_action": "publish",
+                "INPUT_tileKey": "adscostreporttile"
+            },
+            "program": "${workspaceFolder}\\tasks\\fusion-tile\\index.ts",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
         }
     ]
 }

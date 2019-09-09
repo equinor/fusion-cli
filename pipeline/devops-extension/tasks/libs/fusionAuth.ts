@@ -12,7 +12,6 @@ interface ServiceEndpoint {
 
 
 export default class FusionAuth {
-    public static isDebug: boolean = false;
 
     public static async getAppAccessTokenAsync() : Promise<string> {
         var connection = this.getServiceConnection();
@@ -53,15 +52,11 @@ export default class FusionAuth {
     }
     
     private static getServiceConnection() : ServiceEndpoint | null {
-        var connectedService: string = tl.getInput("fusionAppConnection", true);
-
-        if (!connectedService) {
-            return null;
-        }
-
-        if (this.isDebug) {
+        
+        if (tl.getBoolInput('isDebug', false)) {
             // Read test connection
-            var contents = fs.readFileSync('test-credentials.json', 'utf8');
+            var testCredentialsPath = tl.getPathInput('testCredentials');
+            var contents = fs.readFileSync(testCredentialsPath, 'utf8');
             var config = JSON.parse(contents);
 
             return {
@@ -70,7 +65,11 @@ export default class FusionAuth {
             }
         }
 
-        var authScheme: string = tl.getEndpointAuthorizationScheme(connectedService, true);
+        var connectedService: string = tl.getInput("fusionAppConnection", true);
+
+        if (!connectedService) {
+            return null;
+        }
 
         let clientId = tl.getEndpointAuthorizationParameter(connectedService, 'username', true);
         let password = tl.getEndpointAuthorizationParameter(connectedService, 'password', true);

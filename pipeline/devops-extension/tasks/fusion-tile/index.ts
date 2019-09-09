@@ -6,12 +6,14 @@ import { isNullOrUndefined } from 'util';
 tl.setResourcePath(path.join(__dirname, '../../task.json'));
 
 export class Task {
+
+    private static portalApi : fusionPortalApi;
+
     public static async runMain() {
 
         var action = tl.getInput('action', false);
         var host = tl.getInput('portalUrl', false);
         var resource = tl.getInput('tokenResource', false);
-        var tileKey = tl.getInput('tileKey', false);
 
         if (isNullOrUndefined(action)) {
             throw new Error("[!] Missing required input: action");
@@ -23,28 +25,60 @@ export class Task {
             throw new Error("[!] Missing required input: tokenResource");
         }
 
-        var portalApi = new fusionPortalApi(host, resource);
+        this.portalApi = new fusionPortalApi(host, resource);
 
         try {
 
             switch (action.toLowerCase()) {
                 case 'deploy':
-                    var pathToBundle = tl.getPathInput('bundlePath');
-                    await portalApi.uploadTileBundleAsync(pathToBundle);
+                    await this.deployTileBundleAsync();
 
                     break;
                 case 'publish':
-                    if (isNullOrUndefined(tileKey)) {
-                        throw new Error("[!] Missing required input: tileKey");
-                    }
-                    await portalApi.publishTilesAsync(tileKey);
+                    await this.publishTileAsync();
 
                     break;
             }
 
-        } catch (error) {
-            tl.setResult(tl.TaskResult.Failed, error);
+        } catch (error) {        
+            tl.setResult(tl.TaskResult.Failed, error.message);
         }
+    }
+
+    private static async deployTileBundleAsync() {
+        var pathToBundle = tl.getPathInput('bundlePath');
+        var allowVersionConflict = tl.getBoolInput('ignoreVersionConflict', false);
+        var tileKey = tl.getInput('tileKey', false);
+
+        if (isNullOrUndefined(pathToBundle)) {
+            throw new Error("[!] Missing required input: bundlePath");
+        }
+
+        try {
+            await this.portalApi.uploadTileBundleAsync(pathToBundle);
+        } catch (error) {
+            if (allowVersionConflict && error.statusCode == 409) {
+                tl.logIssue(tl.IssueType.Warning, 'Version already exist, but i\'ve been ordered to ignore it...');
+                tl.setResult(tl.TaskResult.SucceededWithIssues, 'Ignoring already existing version conflict');
+                tl.setVariable(`ignorePublish_${tileKey}`, 'true');
+            } else {
+                throw error; 
+            }
+        }
+    }
+
+    private static async publishTileAsync() {
+        var tileKey = tl.getInput('tileKey', false);
+
+        if (tl.getVariable(`ignorePublish_${tileKey}`) == 'true') {
+            tl.setResult(tl.TaskResult.Skipped, 'Located marker for version conflict in bundle upload. Skipping publish.');
+            return;
+        }
+
+        if (isNullOrUndefined(tileKey)) {
+            throw new Error("[!] Missing required input: tileKey");
+        }
+        await this.portalApi.publishTilesAsync(tileKey);
     }
 }
 
