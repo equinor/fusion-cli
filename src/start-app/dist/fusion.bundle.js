@@ -2261,7 +2261,7 @@ class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* defaul
 class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     async getProjectAsync(projectId) {
         const url = this.resourceCollections.org.project(projectId);
-        return this.httpClient.getAsync(url, {
+        return await this.httpClient.getAsync(url, {
             headers: {
                 'api-version': '2.0',
             },
@@ -2269,7 +2269,7 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
     }
     async getPositionsAsync(projectId) {
         const url = this.resourceCollections.org.positions(projectId);
-        return this.httpClient.getAsync(url, {
+        return await this.httpClient.getAsync(url, {
             headers: {
                 'api-version': '2.0',
             },
@@ -2277,7 +2277,15 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
     }
     async getPositionAsync(projectId, positionId) {
         const url = this.resourceCollections.org.position(projectId, positionId);
-        return this.httpClient.getAsync(url, {
+        return await this.httpClient.getAsync(url, {
+            headers: {
+                'api-version': '2.0',
+            },
+        });
+    }
+    async updatePositionAsync(projectId, position) {
+        const url = this.resourceCollections.org.position(projectId, position.id);
+        return await this.httpClient.putAsync(url, position, {
             headers: {
                 'api-version': '2.0',
             },
@@ -2285,13 +2293,13 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
     }
     async getRoleDescriptionAsync(projectId, positionId) {
         const url = this.resourceCollections.org.roleDescription(projectId, positionId);
-        return this.httpClient.getAsync(url, null, async (response) => {
+        return await this.httpClient.getAsync(url, null, async (response) => {
             return await response.text();
         });
     }
     async getDisciplineNetworkAsync(projectId, discipline) {
         const url = this.resourceCollections.org.disciplineNetwork(projectId, discipline);
-        return this.httpClient.getAsync(url);
+        return await this.httpClient.getAsync(url);
     }
 }
 
@@ -4063,7 +4071,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.7');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.8');
 
 
 /***/ }),
