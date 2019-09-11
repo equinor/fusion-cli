@@ -2335,7 +2335,7 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
         return await this.httpClient.getAsync(url);
     }
     async canEditPosition(projectId, positionId) {
-        const url = this.resourceCollections.org.position(projectId, positionId);
+        const url = this.resourceCollections.org.position(projectId, positionId, false);
         try {
             const response = await this.httpClient.optionsAsync(url, {
                 headers: {
@@ -2343,7 +2343,7 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
                 },
             }, () => Promise.resolve());
             const allowHeader = response.headers.get('Allow');
-            if (allowHeader !== null && allowHeader.indexOf('POST') !== -1) {
+            if (allowHeader !== null && allowHeader.indexOf('PUT') !== -1) {
                 return true;
             }
             return false;
@@ -4128,7 +4128,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.18');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.19');
 
 
 /***/ }),
