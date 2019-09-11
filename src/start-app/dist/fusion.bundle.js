@@ -2262,8 +2262,6 @@ class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* defaul
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return OrgClient; });
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
-/* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
-
 
 class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     async getProjectAsync(projectId) {
@@ -2294,30 +2292,14 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
             },
         });
     }
-    // TODO: Replaced with the commented method below when backend is ready
     async updatePositionAsync(projectId, position) {
-        const isSupport = position.properties.isSupport === true;
-        const parentPositionId = position.parentPositionId;
-        if (parentPositionId) {
-            await this.httpClient.postAsync(Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.resourceCollections.org.position(projectId, position.id, false), 'parentPositionId', parentPositionId), null);
-        }
-        return await this.httpClient.patchAsync(this.resourceCollections.org.position(projectId, position.id), {
-            isSupport,
+        const url = this.resourceCollections.org.position(projectId, position.id, false);
+        return await this.httpClient.putAsync(url, position, {
+            headers: {
+                'api-version': '2.0',
+            },
         });
     }
-    // TODO: Backend not implemented for v2.0 yet
-    // async updatePositionAsync(projectId: string, position: Position) {
-    //     const url = this.resourceCollections.org.position(projectId, position.id);
-    //     return await this.httpClient.putAsync<Position, Position, FusionApiHttpErrorResponse>(
-    //         url,
-    //         position,
-    //         {
-    //             headers: {
-    //                 'api-version': '2.0',
-    //             },
-    //         }
-    //     );
-    // }
     async getRoleDescriptionAsync(projectId, positionId) {
         const url = this.resourceCollections.org.roleDescription(projectId, positionId);
         return await this.httpClient.getAsync(url, null, async (response) => {
@@ -4128,7 +4110,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.19');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.20');
 
 
 /***/ }),
