@@ -2297,6 +2297,7 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
         return await this.httpClient.putAsync(url, position, {
             headers: {
                 'api-version': '2.0',
+                'Content-Type': 'application/json',
             },
         });
     }
@@ -4110,7 +4111,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.20');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.21');
 
 
 /***/ }),
