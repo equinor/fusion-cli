@@ -2984,7 +2984,7 @@ class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MO
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.position(projectId, positionId, false), 'roleDescription', 'content');
     }
     basePositionRoleDescription(basePositionId) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])('positions', 'basepositions', basePositionId, 'roleDescription', 'content');
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'positions', 'basepositions', basePositionId, 'roleDescription', 'content');
     }
     reportsTo(projectId, positionId) {
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.position(projectId, positionId, false), 'reportsTo');
@@ -4242,7 +4242,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.24');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.25');
 
 
 /***/ }),
