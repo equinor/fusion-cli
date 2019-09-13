@@ -1485,7 +1485,8 @@ const usePersonImageUrl = (personId) => {
     const getImageAsync = async (personId) => {
         const cachedImageUrl = getCachedPersonImageUrl(personId);
         if (cachedImageUrl !== '') {
-            return cachedImageUrl;
+            setImageUrl(cachedImageUrl);
+            return;
         }
         try {
             setFetching(true);
@@ -4242,7 +4243,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.26');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.27');
 
 
 /***/ }),
