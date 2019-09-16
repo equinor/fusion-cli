@@ -4246,7 +4246,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.30');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.31');
 
 
 /***/ }),
