@@ -1980,14 +1980,17 @@ class HttpClientRequestFailedError extends HttpClientError {
 "use strict";
 /* harmony import */ var _version__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../version */ "./node_modules/@equinor/fusion/lib/version.js");
 
-const defaultHeaders = new Headers({
+const defaultHeaders = {
     Accept: 'application/json',
     'Content-Type': 'application/json',
     'x-fusion-api-version': _version__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"],
-});
+};
 /* harmony default export */ __webpack_exports__["a"] = ((init, transform) => {
-    init = Object.assign({}, init, { headers: new Headers(init
-            ? Object.assign({}, defaultHeaders, init.headers) : Object.assign({}, defaultHeaders)) });
+    const headers = new Headers(init && init.headers ? init.headers : new Headers());
+    init = Object.assign({}, init, { headers });
+    for (let key in defaultHeaders) {
+        headers.append(key, defaultHeaders[key]);
+    }
     if (typeof transform === 'undefined') {
         return init;
     }
@@ -4243,7 +4246,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.27');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.30');
 
 
 /***/ }),
