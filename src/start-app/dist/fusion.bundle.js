@@ -2978,7 +2978,7 @@ class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MO
         if (!expandProperties || !expandProperties.length) {
             return url;
         }
-        const query = `?$expand=${expandProperties.join(', ')}`;
+        const query = `?$expand=${expandProperties.join(',')}`;
         return `${url}${query}`;
     }
     position(projectId, positionId, expand = true) {
@@ -4251,7 +4251,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ("0.4.32");
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.33');
 
 
 /***/ }),
