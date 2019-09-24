@@ -2415,8 +2415,8 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
         const url = this.resourceCollections.org.projectQuery(query);
         return await this.httpClient.getAsync(url);
     }
-    async getPositionsAsync(projectId) {
-        const url = this.resourceCollections.org.positions(projectId);
+    async getPositionsAsync(projectId, expandProperties) {
+        const url = this.resourceCollections.org.positions(projectId, expandProperties);
         return await this.httpClient.getAsync(url, {
             headers: {
                 'api-version': '2.0',
@@ -2973,8 +2973,13 @@ class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MO
     projectQuery(query) {
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), `projects?query=${query}`);
     }
-    positions(projectId) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'projects', projectId, 'positions');
+    positions(projectId, expandProperties) {
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'projects', projectId, 'positions');
+        if (!expandProperties || !expandProperties.length) {
+            return url;
+        }
+        const query = `?$expand=${expandProperties.join(', ')}`;
+        return `${url}${query}`;
     }
     position(projectId, positionId, expand = true) {
         const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.positions(projectId), positionId);
@@ -4246,7 +4251,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.31');
+/* harmony default export */ __webpack_exports__["a"] = ("0.4.32");
 
 
 /***/ }),
