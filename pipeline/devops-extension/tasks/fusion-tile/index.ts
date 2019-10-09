@@ -49,13 +49,14 @@ export class Task {
         var pathToBundle = tl.getPathInput('bundlePath');
         var allowVersionConflict = tl.getBoolInput('ignoreVersionConflict', false);
         var tileKey = tl.getInput('tileKey', false);
+        var forceReplaceExisting = tl.getBoolInput('forceReplaceExisting', false);
 
         if (isNullOrUndefined(pathToBundle)) {
             throw new Error("[!] Missing required input: bundlePath");
         }
 
         try {
-            await this.portalApi.uploadTileBundleAsync(pathToBundle);
+            await this.portalApi.uploadTileBundleAsync(pathToBundle, forceReplaceExisting);
         } catch (error) {
             if (allowVersionConflict && error.statusCode == 409) {
                 tl.logIssue(tl.IssueType.Warning, 'Version already exist, but i\'ve been ordered to ignore it...');
