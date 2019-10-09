@@ -30,6 +30,8 @@ export default async () => {
     const cliDependencies = await getPackageDependencies(cliPackage);
     const moduleDependencies = await getPackageDependencies(appPackage);
 
+    const appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
+
     const compiler = webpack(
         merge(
             babel,
@@ -40,7 +42,8 @@ export default async () => {
             images(),
             externals(cliDependencies, moduleDependencies),
             styles,
-            typescript('', false)
+            typescript('', false),
+            appWebpackConfig
         )
     );
 
