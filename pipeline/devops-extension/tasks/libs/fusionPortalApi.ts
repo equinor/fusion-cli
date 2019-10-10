@@ -57,7 +57,7 @@ export default class PortalApi {
         }
 
         if(forceReplaceExisting) {
-            headers['x-fusion-force-replace'] = true;
+            headers['x-fusion-force'] = true;
         }
         
         var options = {
