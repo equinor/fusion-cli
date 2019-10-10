@@ -802,10 +802,10 @@ class UserTokenMissmatchError extends Error {
 }
 class AuthUser {
     constructor(id, json) {
-        this._fullName = "";
-        this._givenName = "";
-        this._familyName = "";
-        this._upn = "";
+        this._fullName = '';
+        this._givenName = '';
+        this._familyName = '';
+        this._upn = '';
         this._roles = [];
         this._id = id;
         if (json !== null) {
@@ -850,11 +850,13 @@ class AuthUser {
         this._givenName = token.givenName;
         this._familyName = token.familyName;
         this._upn = token.upn;
-        token.roles.forEach(role => {
-            if (this._roles.indexOf(role) === -1) {
-                this._roles.push(role);
-            }
-        });
+        if (token.roles) {
+            token.roles.forEach(role => {
+                if (this._roles.indexOf(role) === -1) {
+                    this._roles.push(role);
+                }
+            });
+        }
     }
     toObject() {
         return {
