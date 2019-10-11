@@ -12,6 +12,7 @@ export class Task {
         var host = tl.getInput('portalUrl', true);
         var resource = tl.getInput('tokenResource', true);
         var allowVersionConflict = tl.getBoolInput('ignoreVersionConflict', false);
+        var forceReplaceExisting = tl.getBoolInput('forceReplaceExisting', false);
         
         var portalApi = new fusionPortalApi(host, resource);
 
@@ -22,7 +23,7 @@ export class Task {
                     var pathToBundle = tl.getPathInput('bundlePath');
 
                     try {
-                        await portalApi.uploadFrameworkBundleAsync(pathToBundle);
+                        await portalApi.uploadFrameworkBundleAsync(pathToBundle, forceReplaceExisting);
                     } catch (error) {
                         if (allowVersionConflict && error.statusCode == 409) {
                             tl.setResult(tl.TaskResult.SucceededWithIssues, 'Version already exists. Ignore version conflict enabled.');
