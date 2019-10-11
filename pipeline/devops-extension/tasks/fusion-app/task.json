@@ -17,7 +17,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 4
+        "Patch": 6
     },
     "demands": [
     ],
@@ -73,6 +73,7 @@
             "name": "forceReplaceExisting",
             "type": "boolean",
             "label": "Force upload",
+            "defaultValue": "false",
             "helpMarkDown": "Send force flag when uploading bundle. This will override a published bundle.",
             "visibleRule": "action = Deploy"
         },
