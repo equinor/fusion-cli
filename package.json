@@ -1,7 +1,7 @@
 {
   "name": "@equinor/fusion-cli",
   "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-  "version": "0.2.67",
+  "version": "0.2.78",
   "author": "Fusion Core",
   "bin": {
     "fusion": "./bin/run"
@@ -63,7 +63,7 @@
     "webpack-merge": "^4.2.1"
   },
   "devDependencies": {
-    "@equinor/fusion-components": "^0.1.49",
+    "@equinor/fusion-components": "^0.1.50",
     "@oclif/dev-cli": "^1.22.0",
     "@oclif/test": "^1.2.4",
     "@oclif/tslint": "^3.1.1",

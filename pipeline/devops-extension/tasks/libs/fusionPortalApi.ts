@@ -12,25 +12,25 @@ export default class PortalApi {
         this.resource = resource;
     }
 
-    public async uploadFrameworkBundleAsync(bundlePath : string) {
+    public async uploadFrameworkBundleAsync(bundlePath : string, forceReplaceExisting: boolean) {
         let endpoint = `${this.serverHost}/bundles/frameworks`
         let bundleContent = await this.readBundleFile(bundlePath);
 
-        await this.uploadBundleAsync(endpoint, bundleContent);
+        await this.uploadBundleAsync(endpoint, bundleContent, forceReplaceExisting);
     }
 
-    public async uploadAppBundleAsync(bundlePath : string) {
+    public async uploadAppBundleAsync(bundlePath : string, forceReplaceExisting: boolean) {
         let endpoint = `${this.serverHost}/bundles/apps`
         let bundleContent = await this.readBundleFile(bundlePath);
 
-        await this.uploadBundleAsync(endpoint, bundleContent);
+        await this.uploadBundleAsync(endpoint, bundleContent, forceReplaceExisting);
     }
 
-    public async uploadTileBundleAsync(bundlePath : string) {
+    public async uploadTileBundleAsync(bundlePath : string, forceReplaceExisting: boolean) {
         let endpoint = `${this.serverHost}/bundles/tiles`
         let bundleContent = await this.readBundleFile(bundlePath);
 
-        await this.uploadBundleAsync(endpoint, bundleContent);
+        await this.uploadBundleAsync(endpoint, bundleContent, forceReplaceExisting);
     }
 
     public async publishFrameworkAsync() {
@@ -48,17 +48,23 @@ export default class PortalApi {
         await this.postAsync(endpoint);
     }
 
-    private async uploadBundleAsync(endpoint : string, bundleContent : Buffer) {
+    private async uploadBundleAsync(endpoint : string, bundleContent : Buffer, forceReplaceExisting: boolean) {
         let token = await auth.getAppAccessTokenAsync();
+
+        const headers = {
+            'content-type': 'application/zip',
+            'authorization': 'bearer ' + token,
+        }
+
+        if(forceReplaceExisting) {
+            headers['x-fusion-force'] = true;
+        }
         
         var options = {
             method: 'POST',
             uri: endpoint,
             body: bundleContent,
-            headers: {
-                'content-type': 'application/zip',
-                'authorization': 'bearer ' + token
-            }
+            headers,
         };
         
         try {

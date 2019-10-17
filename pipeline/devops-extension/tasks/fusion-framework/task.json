@@ -17,7 +17,7 @@
     "version": {
         "Major": 1,
         "Minor": 0,
-        "Patch": 1
+        "Patch": 2
     },
     "demands": [
     ],
@@ -82,9 +82,10 @@
             }
         },
         {
-            "name": "ignoreVersionConflict",
+            "name": "forceReplaceExisting",
             "type": "boolean",
-            "label": "Ignore version conflict",
+            "label": "Force upload",
+            "helpMarkDown": "Send force flag when uploading bundle. This will override a published bundle.",
             "visibleRule": "action = Deploy"
         }
     ],

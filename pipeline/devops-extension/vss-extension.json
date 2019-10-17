@@ -1,7 +1,7 @@
 {
     "manifestVersion": 1,
       "id": "fusion-app-management",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "name": "Extension to manage fusion apps",
       "description": "Tasks and service connection to faciliate app deployment, publishing and other management tasks through DevOps pipelines.",
       "publisher": "EquinorFusion",
