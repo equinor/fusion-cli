@@ -260,7 +260,7 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
     async setCurrentAppAsync(appKey) {
         if (!appKey) {
             this.currentApp = null;
-            this.emit("change", null);
+            this.emit('change', null);
             return;
         }
         const app = this.get(appKey);
@@ -275,7 +275,7 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
             return await this.setCurrentAppAsync(appKey);
         }
         this.currentApp = app;
-        this.emit("change", app);
+        this.emit('change', app);
     }
     async getAllAsync() {
         const response = await this.fusionClient.getAppsAsync();
@@ -299,22 +299,23 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
         else {
             this.apps = [...this.apps, app];
         }
-        this.emit("update", app);
+        this.emit('update', app);
     }
 }
-let appContainerSingleton = null;
+const global = window;
+global['EQUINOR_FUSION_APP_CONTAINER'] = null;
 let appContainerPromise = null;
 let setAppContainerSingleton;
 const appContainerFactory = (appContainer) => {
-    appContainerSingleton = appContainer;
+    global['EQUINOR_FUSION_APP_CONTAINER'] = appContainer;
     if (setAppContainerSingleton) {
         setAppContainerSingleton(appContainer);
         setAppContainerSingleton = null;
     }
 };
 const getAppContainer = () => {
-    if (appContainerSingleton) {
-        return Promise.resolve(appContainerSingleton);
+    if (global['EQUINOR_FUSION_APP_CONTAINER']) {
+        return Promise.resolve(global['EQUINOR_FUSION_APP_CONTAINER']);
     }
     if (appContainerPromise) {
         return appContainerPromise;
@@ -329,7 +330,7 @@ const registerApp = (appKey, manifest) => {
 };
 const useCurrentApp = () => {
     const { app } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
-    const [currentApp] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* useEventEmitterValue */ "b"])(app.container, "change");
+    const [currentApp] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* useEventEmitterValue */ "b"])(app.container, 'change');
     return currentApp;
 };
 const useApps = () => {
@@ -350,7 +351,7 @@ const useApps = () => {
     };
     Object(react__WEBPACK_IMPORTED_MODULE_2__["useEffect"])(() => {
         fetchApps();
-        return app.container.on("update", () => setApps(app.container.getAll()));
+        return app.container.on('update', () => setApps(app.container.getAll()));
     }, []);
     return [error, isFetching, apps];
 };
@@ -4253,7 +4254,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.38');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.40');
 
 
 /***/ }),
