@@ -13,12 +13,12 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "0.4.40",
-    "@equinor/fusion-components": "0.1.49",
+    "@equinor/fusion": "^0.4.40",
+    "@equinor/fusion-components": "^0.1.50",
     "react": "^16.9.0"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "0.2.77",
+    "@equinor/fusion-cli": "0.2.81",
     "@types/history": "^4.7.2",
     "@types/react": "^16.9.2",
     "@types/react-router-dom": "^4.3.4",
