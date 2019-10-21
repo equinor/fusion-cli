@@ -330,7 +330,7 @@ const registerApp = (appKey, manifest) => {
 };
 const useCurrentApp = () => {
     const { app } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
-    const [currentApp] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* useEventEmitterValue */ "b"])(app.container, 'change');
+    const [currentApp] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* useEventEmitterValue */ "c"])(app.container, 'change');
     return currentApp;
 };
 const useApps = () => {
@@ -1401,10 +1401,13 @@ const useNotificationCenter = () => {
 /* harmony import */ var _FusionContext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
 
 
-class PeopleContainer {
+
+class PeopleContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"] {
     constructor(apiClients, resourceCollections) {
+        super();
         this.persons = {};
         this.images = {};
         this.peopleClient = apiClients.people;
@@ -1428,6 +1431,20 @@ class PeopleContainer {
         ]);
         this.persons[personId] = response.data;
         return this.persons[personId];
+    }
+    async setRoleStatusForUser(personId, roleName, isActive) {
+        const response = await this.peopleClient.setRoleStatusForUser(personId, roleName, isActive);
+        if (!this.persons[personId] || !this.persons[personId].roles)
+            return response.data;
+        const roles = this.persons[personId].roles;
+        if (roles) {
+            const roleIndex = roles.findIndex(role => role.name === roleName);
+            if (roleIndex) {
+                roles[roleIndex] = response.data;
+                this.emit('updated', Object.assign({}, this.persons[personId]));
+            }
+        }
+        return response.data;
     }
     getPersonImage(personId) {
         if (this.images[personId]) {
@@ -1475,6 +1492,12 @@ const usePersonDetails = (personId) => {
     react__WEBPACK_IMPORTED_MODULE_1__["useEffect"](() => {
         getPersonAsync(personId);
     }, [personId]);
+    const updatedPersonHandler = react__WEBPACK_IMPORTED_MODULE_1__["useCallback"]((updatedPerson) => {
+        if (personId === updatedPerson.azureUniqueId) {
+            setPersonDetails(updatedPerson);
+        }
+    }, [personId]);
+    Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__[/* useEventEmitter */ "b"])(peopleContainer, 'updated', updatedPersonHandler);
     return { isFetching, error, personDetails };
 };
 const usePersonImageUrl = (personId) => {
@@ -1633,7 +1656,7 @@ const useTasksData = (event, fetchAsync, defaultData) => {
     const [error, setError] = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(null);
     const [isFetching, setIsFetching] = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
     const [defaultDataState] = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(defaultData);
-    const [data, setData] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* useEventEmitterValue */ "b"])(tasksContainer, event, t => t, defaultDataState);
+    const [data, setData] = Object(_utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* useEventEmitterValue */ "c"])(tasksContainer, event, t => t, defaultDataState);
     const fetch = async () => {
         setIsFetching(true);
         try {
@@ -3214,7 +3237,7 @@ const createResourceCollections = (serviceResolver, options) => ({
 /*!***************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/index.js ***!
   \***************************************************/
-/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, usePeopleContainer, usePersonDetails, usePersonImageUrl, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, UserMenuContainer, useCustomUserMenuSection, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, createCalendar, isSameDate, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild */
+/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, usePeopleContainer, usePersonDetails, usePersonImageUrl, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, UserMenuContainer, useCustomUserMenuSection, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, createCalendar, isSameDate, EventEmitter, useEventEmitterValue, useEventEmitter, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild */
 /*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3401,6 +3424,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHandover", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_35__["a"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useHanoverChild", function() { return _http_hooks_dataProxy_useHandover__WEBPACK_IMPORTED_MODULE_35__["b"]; });
+
+/* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EventEmitter", function() { return _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_36__["a"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEventEmitterValue", function() { return _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_36__["c"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEventEmitter", function() { return _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_36__["b"]; });
+
 
 
 
@@ -3797,13 +3828,14 @@ const createCalendar = (year, month) => {
 /*!**********************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js ***!
   \**********************************************************************/
-/*! exports provided: default, useEventEmitterValue */
-/*! exports used: default, useEventEmitterValue */
+/*! exports provided: default, useEventEmitterValue, useEventEmitter */
+/*! exports used: default, useEventEmitter, useEventEmitterValue */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return EventEmitter; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useEventEmitterValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return useEventEmitterValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useEventEmitter; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -3837,6 +3869,11 @@ const useEventEmitterValue = (emitter, event, transform = value => value, defaul
         return emitter.on(event, data => setValue(transform(data)));
     }, [emitter, event]);
     return [value, setValue];
+};
+const useEventEmitter = (emitter, event, handler) => {
+    Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
+        return emitter.on(event, handler);
+    }, [emitter, event, handler]);
 };
 
 
@@ -4329,7 +4366,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.43');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.44');
 
 
 /***/ }),
