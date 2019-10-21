@@ -1439,7 +1439,7 @@ class PeopleContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__[/
         const roles = this.persons[personId].roles;
         if (roles) {
             const roleIndex = roles.findIndex(role => role.name === roleName);
-            if (roleIndex) {
+            if (roleIndex !== -1) {
                 roles[roleIndex] = response.data;
                 this.emit('updated', Object.assign({}, this.persons[personId]));
             }
@@ -4366,7 +4366,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.44');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.45');
 
 
 /***/ }),
