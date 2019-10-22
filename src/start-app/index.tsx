@@ -8,7 +8,7 @@ import {
 import * as React from 'react';
 import { Router } from 'react-router-dom';
 import { FusionHeader, FusionRoot, FusionContent } from '@equinor/fusion-components';
-import HotAppWrapper from "./HotAppWrapper";
+import HotAppWrapper from './HotAppWrapper';
 
 const serviceResolver: ServiceResolver = {
     getContextBaseUrl: () => 'https://pro-s-context-pr-842.azurewebsites.net',
@@ -46,10 +46,20 @@ const start = async () => {
             const root = React.useRef(document.createElement('div'));
             const overlay = React.useRef(document.createElement('div'));
 
-            const fusionContext = createFusionContext(authContainer, serviceResolver, {
-                overlay,
-                root,
-            });
+            const fusionContext = createFusionContext(
+                authContainer,
+                serviceResolver,
+                {
+                    overlay,
+                    root,
+                },
+                {
+                    environment: {
+                        env: 'dev',
+                    },
+                    loadBundlesFromDisk: false,
+                }
+            );
 
             return (
                 <Router history={fusionContext.history}>
