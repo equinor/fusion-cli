@@ -72518,6 +72518,11 @@ const start = async () => {
             const fusionContext = fusion_1.createFusionContext(authContainer, serviceResolver, {
                 overlay,
                 root,
+            }, {
+                environment: {
+                    env: 'dev',
+                },
+                loadBundlesFromDisk: false,
             });
             return (React.createElement(react_router_dom_1.Router, { history: fusionContext.history },
                 React.createElement(fusion_1.FusionContext.Provider, { value: fusionContext },
