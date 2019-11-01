@@ -1242,7 +1242,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
     const contextId = contextRouteMatch && contextRouteMatch.params ? contextRouteMatch.params.contextId : null;
     const contextManager = new _ContextManager__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"](apiClients, contextId);
     const tasksContainer = new _TasksContainer__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"](apiClients);
-    const notificationCenter = new _NotificationCenter__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]();
+    const notificationCenter = new _NotificationCenter__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     const peopleContainer = new _PeopleContainer__WEBPACK_IMPORTED_MODULE_14__[/* default */ "a"](apiClients, resourceCollections);
     const userMenuSectionsContainer = new _UserMenuContainer__WEBPACK_IMPORTED_MODULE_15__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     const environment = ensureFusionEnvironment(options);
@@ -1310,16 +1310,18 @@ const useFusionContext = () => Object(react__WEBPACK_IMPORTED_MODULE_0__["useCon
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v1__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
 /* harmony import */ var _FusionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+
 
 
 
 class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__[/* default */ "b"] {
-    constructor() {
+    constructor(eventHub) {
         super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__[/* LocalStorageProvider */ "a"]('NOTIFICATION_CENTER', { notifications: [] }));
-        this.presenters = [];
+        this.presenters = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('NotificationCenter.presenters', [], eventHub);
     }
     async sendAsync(notificationRequest) {
-        if (!await this.shouldPresentNotificationAsync(notificationRequest)) {
+        if (!(await this.shouldPresentNotificationAsync(notificationRequest))) {
             return Promise.reject();
         }
         const notification = this.createNotification(notificationRequest);
@@ -1344,10 +1346,9 @@ class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MOD
             level,
             present,
         };
-        this.presenters.push(notificationPresenter);
+        this.presenters.state = [...this.presenters.state, notificationPresenter];
         return () => {
-            const index = this.presenters.indexOf(notificationPresenter);
-            this.presenters.splice(index, 1);
+            this.presenters.state = this.presenters.state.filter(p => p !== notificationPresenter);
         };
     }
     async getAllNotificationsAsync() {
@@ -1412,7 +1413,7 @@ class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MOD
         });
     }
     getPresenter(notification) {
-        return this.presenters.find(presenter => presenter.level === notification.level);
+        return this.presenters.state.find(presenter => presenter.level === notification.level);
     }
 }
 const useNotificationCenter = () => {
@@ -3919,16 +3920,21 @@ const createCalendar = (year, month) => {
 /* harmony import */ var _EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
 
 class DistributedState extends _EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
-    constructor(key, state, evenHub) {
+    constructor(key, state, eventHub) {
         super();
         this.handleUpdatedState = (state) => {
             this._state = state;
             this.emit('change', this._state);
         };
+        this.handleNewInstance = () => {
+            this._eventHub.publish(this._key, this._state);
+        };
         this._key = key;
         this._state = state;
-        this._eventHub = evenHub;
-        evenHub.registerListener(key, this.handleUpdatedState);
+        this._eventHub = eventHub;
+        eventHub.registerListener(key, this.handleUpdatedState);
+        eventHub.publish(key + 'InitialState', void null);
+        eventHub.registerListener(key + 'InitialState', this.handleNewInstance);
     }
     get state() {
         return this._state;
