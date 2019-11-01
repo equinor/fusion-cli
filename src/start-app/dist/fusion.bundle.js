@@ -1255,7 +1255,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
             resourceCache,
             serviceResolver,
         },
-        refs: Object.assign({}, refs, { headerContent: Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null) }),
+        refs,
         history,
         settings: {
             core: coreSettings,
@@ -72609,6 +72609,7 @@ const start = async () => {
             const root = React.useRef(document.createElement('div'));
             const overlay = React.useRef(document.createElement('div'));
             const fusionContext = fusion_1.createFusionContext(authContainer, serviceResolver, {
+                headerContent: React.useRef(null),
                 overlay,
                 root,
             }, {
