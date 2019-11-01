@@ -3921,6 +3921,10 @@ const createCalendar = (year, month) => {
 class DistributedState extends _EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     constructor(key, state, evenHub) {
         super();
+        this.handleUpdatedState = (state) => {
+            this._state = state;
+            this.emit('change', this._state);
+        };
         this._key = key;
         this._state = state;
         this._eventHub = evenHub;
@@ -3932,10 +3936,6 @@ class DistributedState extends _EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* def
     set state(state) {
         this._state = state;
         this._eventHub.publish(this._key, state);
-    }
-    handleUpdatedState(state) {
-        this._state = state;
-        this.emit('change', this._state);
     }
 }
 /* harmony default export */ __webpack_exports__["a"] = (DistributedState);
@@ -4628,7 +4628,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.0');
+/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.1');
 
 
 /***/ }),
