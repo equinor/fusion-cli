@@ -227,16 +227,24 @@ module.exports = _inheritsLoose;
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+
 
 
 
 class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
-    constructor(apiClients, telemetryLogger) {
+    constructor(apiClients, telemetryLogger, eventHub) {
         super();
-        this.currentApp = null;
-        this.apps = [];
         this.fusionClient = apiClients.fusion;
         this.telemetryLogger = telemetryLogger;
+        this.currentApp = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('currentApp', null, eventHub);
+        this.currentApp.on('change', (updatedApp) => {
+            this.emit('change', updatedApp);
+        });
+        this.apps = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('apps', [], eventHub);
+        this.apps.on('change', (apps) => {
+            this.emit('update', apps);
+        });
     }
     updateManifest(appKey, manifest) {
         const existingApp = this.get(appKey);
@@ -253,14 +261,14 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
         }
     }
     get(appKey) {
-        return this.apps.find(app => app.key === appKey) || null;
+        return this.apps.state.find(app => app.key === appKey) || null;
     }
     getAll() {
-        return [...this.apps];
+        return [...this.apps.state];
     }
     async setCurrentAppAsync(appKey) {
         if (!appKey) {
-            this.currentApp = null;
+            this.currentApp.state = null;
             this.emit('change', null);
             return;
         }
@@ -279,11 +287,11 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
         this.telemetryLogger.trackEvent({
             name: 'App selected',
             properties: {
-                previousApp: this.currentApp ? this.currentApp.name : null,
+                previousApp: this.currentApp.state ? this.currentApp.state.name : null,
                 selectedApp: app.name,
             },
         });
-        this.currentApp = app;
+        this.currentApp.state = app;
         this.emit('change', app);
     }
     async getAllAsync() {
@@ -303,28 +311,27 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
     addOrUpdate(app) {
         const existingApp = this.get(app.key);
         if (existingApp) {
-            this.apps = this.apps.map(a => (a.key === app.key ? app : a));
+            this.apps.state = this.apps.state.map(a => (a.key === app.key ? app : a));
         }
         else {
-            this.apps = [...this.apps, app];
+            this.apps.state = [...this.apps.state, app];
         }
-        this.emit('update', app);
+        this.emit('update', this.apps.state);
     }
 }
-const global = window;
-global['EQUINOR_FUSION_APP_CONTAINER'] = null;
+let appContainerInstance = null;
 let appContainerPromise = null;
 let setAppContainerSingleton;
 const appContainerFactory = (appContainer) => {
-    global['EQUINOR_FUSION_APP_CONTAINER'] = appContainer;
+    appContainerInstance = appContainer;
     if (setAppContainerSingleton) {
         setAppContainerSingleton(appContainer);
         setAppContainerSingleton = null;
     }
 };
 const getAppContainer = () => {
-    if (global['EQUINOR_FUSION_APP_CONTAINER']) {
-        return Promise.resolve(global['EQUINOR_FUSION_APP_CONTAINER']);
+    if (appContainerInstance) {
+        return Promise.resolve(appContainerInstance);
     }
     if (appContainerPromise) {
         return appContainerPromise;
@@ -1185,6 +1192,8 @@ const useContextQuery = (...types) => {
 /* harmony import */ var _PeopleContainer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./PeopleContainer */ "./node_modules/@equinor/fusion/lib/core/PeopleContainer.js");
 /* harmony import */ var _UserMenuContainer__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./UserMenuContainer */ "./node_modules/@equinor/fusion/lib/core/UserMenuContainer.js");
 /* harmony import */ var _utils_TelemetryLogger__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utils/TelemetryLogger */ "./node_modules/@equinor/fusion/lib/utils/TelemetryLogger.js");
+/* harmony import */ var _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utils/EventHub */ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js");
+
 
 
 
@@ -1205,15 +1214,14 @@ const useContextQuery = (...types) => {
 const defaultSettings = {
     componentDisplayType: _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_9__[/* ComponentDisplayType */ "a"].Comfortable,
 };
+const globalEquinorFusionContextKey = '74b1613f-f22a-451b-a5c3-1c9391e91e68';
+const win = window;
 const ensureGlobalFusionContextType = () => {
-    const win = window;
-    const key = 'EQUINOR_FUSION_CONTEXT';
-    if (typeof win[key] !== undefined && win[key]) {
-        return win[key];
+    if (!win[globalEquinorFusionContextKey]) {
+        return Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});
     }
-    const fusionContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});
-    win[key] = fusionContext;
-    return fusionContext;
+    const existingFusionContext = win[globalEquinorFusionContextKey];
+    return Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])(createFusionContext(existingFusionContext.auth.container, existingFusionContext.http.serviceResolver, existingFusionContext.refs, existingFusionContext.options));
 };
 const FusionContext = ensureGlobalFusionContextType();
 const ensureFusionEnvironment = (options) => {
@@ -1233,7 +1241,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
     const apiClients = Object(_http_apiClients__WEBPACK_IMPORTED_MODULE_4__[/* createApiClients */ "a"])(httpClient, resourceCollections);
     const history = Object(history__WEBPACK_IMPORTED_MODULE_1__["createBrowserHistory"])();
     const coreSettings = new _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]('core', authContainer.getCachedUser(), defaultSettings);
-    const appContainer = new _app_AppContainer__WEBPACK_IMPORTED_MODULE_8__[/* default */ "b"](apiClients, telemetryLogger);
+    const appContainer = new _app_AppContainer__WEBPACK_IMPORTED_MODULE_8__[/* default */ "b"](apiClients, telemetryLogger, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     Object(_app_AppContainer__WEBPACK_IMPORTED_MODULE_8__[/* appContainerFactory */ "a"])(appContainer);
     // Try to get the current context id from the current route if a user navigates directly to the app/context
     const contextRouteMatch = Object(react_router__WEBPACK_IMPORTED_MODULE_2__[/* matchPath */ "j"])('apps/:appKey/:contextId', {
@@ -1244,9 +1252,9 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
     const tasksContainer = new _TasksContainer__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"](apiClients);
     const notificationCenter = new _NotificationCenter__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]();
     const peopleContainer = new _PeopleContainer__WEBPACK_IMPORTED_MODULE_14__[/* default */ "a"](apiClients, resourceCollections);
-    const userMenuSectionsContainer = new _UserMenuContainer__WEBPACK_IMPORTED_MODULE_15__[/* default */ "a"]();
+    const userMenuSectionsContainer = new _UserMenuContainer__WEBPACK_IMPORTED_MODULE_15__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     const environment = ensureFusionEnvironment(options);
-    return {
+    const fusionContext = {
         auth: { container: authContainer },
         http: {
             client: httpClient,
@@ -1274,7 +1282,12 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
         logging: {
             telemetry: telemetryLogger,
         },
+        options,
     };
+    if (!win[globalEquinorFusionContextKey]) {
+        win[globalEquinorFusionContextKey] = fusionContext;
+    }
+    return fusionContext;
 };
 const useFusionContext = () => Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(FusionContext);
 /* harmony default export */ __webpack_exports__["b"] = (FusionContext);
@@ -1746,24 +1759,29 @@ const useTasks = () => {
 /* harmony import */ var _FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+
 
 
 
 class UserMenuContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
-    constructor() {
-        super(...arguments);
-        this._sections = [];
+    constructor(eventHub) {
+        super();
+        this._sections = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('userMenuSections', [], eventHub);
+        this._sections.on('change', (sections) => {
+            this.emit('change', sections);
+        });
     }
     get sections() {
-        return [...this._sections];
+        return [...this._sections.state];
     }
     registerSection(section) {
-        this._sections = [...this.sections, section];
+        this._sections.state = [...this.sections, section];
         this.emit('change', this.sections);
         return () => this.unregisterSection(section);
     }
     unregisterSection(section) {
-        this._sections = this.sections.filter(s => s.key !== section.key);
+        this._sections.state = this.sections.filter(s => s.key !== section.key);
         this.emit('change', this.sections);
     }
 }
@@ -2560,7 +2578,7 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
                 'api-version': '2.0',
                 'Content-Type': 'application/json',
             },
-        });
+        }, () => Promise.resolve());
     }
     async getRoleDescriptionAsync(projectId, positionId) {
         const url = this.resourceCollections.org.roleDescription(projectId, positionId);
@@ -3282,7 +3300,7 @@ const createResourceCollections = (serviceResolver, options) => ({
 /*!***************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/index.js ***!
   \***************************************************/
-/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, usePeopleContainer, usePersonDetails, usePersonImageUrl, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, UserMenuContainer, useCustomUserMenuSection, TelemetryLogger, useTelemetryLogger, useTelemetryInitializer, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, useFusionEnvironment, createCalendar, isSameDate, EventEmitter, useEventEmitterValue, useEventEmitter, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild */
+/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, usePeopleContainer, usePersonDetails, usePersonImageUrl, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, UserMenuContainer, useCustomUserMenuSection, TelemetryLogger, useTelemetryLogger, useTelemetryInitializer, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, useFusionEnvironment, createCalendar, isSameDate, EventEmitter, useEventEmitterValue, useEventEmitter, EventHub, DistributedState, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild */
 /*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3486,6 +3504,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEventEmitterValue", function() { return _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_38__["c"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEventEmitter", function() { return _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_38__["b"]; });
+
+/* harmony import */ var _utils_EventHub__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./utils/EventHub */ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EventHub", function() { return _utils_EventHub__WEBPACK_IMPORTED_MODULE_39__["a"]; });
+
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DistributedState", function() { return _utils_DistributedState__WEBPACK_IMPORTED_MODULE_40__["a"]; });
+
+
 
 
 
@@ -3881,6 +3907,42 @@ const createCalendar = (year, month) => {
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/utils/DistributedState.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
+
+class DistributedState extends _EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    constructor(key, state, evenHub) {
+        super();
+        this._key = key;
+        this._state = state;
+        this._eventHub = evenHub;
+        evenHub.registerListener(key, this.handleUpdatedState);
+    }
+    get state() {
+        return this._state;
+    }
+    set state(state) {
+        this._state = state;
+        this._eventHub.publish(this._key, state);
+    }
+    handleUpdatedState(state) {
+        this._state = state;
+        this.emit('change', this._state);
+    }
+}
+/* harmony default export */ __webpack_exports__["a"] = (DistributedState);
+
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js":
 /*!**********************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js ***!
@@ -3932,6 +3994,35 @@ const useEventEmitter = (emitter, event, handler) => {
         return emitter.on(event, handler);
     }, [emitter, event, handler]);
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/utils/EventHub/index.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class EventHub {
+    publish(key, message) {
+        const event = new CustomEvent(key, { detail: message });
+        window.dispatchEvent(event);
+    }
+    registerListener(key, handler) {
+        const eventHandler = (e) => {
+            const customEvent = e;
+            const message = customEvent.detail;
+            handler(message);
+        };
+        window.addEventListener(key, eventHandler);
+        return () => window.removeEventListener(key, eventHandler);
+    }
+}
+/* harmony default export */ __webpack_exports__["a"] = (EventHub);
 
 
 /***/ }),
@@ -4537,7 +4628,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.49');
+/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.0');
 
 
 /***/ }),
@@ -72442,14 +72533,16 @@ const HotAppWrapper = () => {
         if (onlyApp) {
             setApp(onlyApp);
         }
-        return appContainer.on('update', setApp);
+        return appContainer.on('update', apps => setApp(apps[0]));
     }, []);
     React.useEffect(() => {
         sendNotification({
             cancelLabel: 'I know',
             level: 'low',
             title: 'App updated',
-        }).then().catch();
+        })
+            .then()
+            .catch();
     }, [app]);
     if (!app) {
         return null;
@@ -72458,7 +72551,7 @@ const HotAppWrapper = () => {
     if (!AppComponent) {
         return null;
     }
-    return (React.createElement(AppComponent, null));
+    return React.createElement(AppComponent, null);
 };
 exports.default = HotAppWrapper;
 
