@@ -1216,22 +1216,6 @@ const defaultSettings = {
 };
 const globalEquinorFusionContextKey = '74b1613f-f22a-451b-a5c3-1c9391e91e68';
 const win = window;
-const ensureGlobalFusionContextType = () => {
-    if (!win[globalEquinorFusionContextKey]) {
-        return Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});
-    }
-    const existingFusionContext = win[globalEquinorFusionContextKey];
-    return Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])(createFusionContext(existingFusionContext.auth.container, existingFusionContext.http.serviceResolver, existingFusionContext.refs, existingFusionContext.options));
-};
-const FusionContext = ensureGlobalFusionContextType();
-const ensureFusionEnvironment = (options) => {
-    if (options && options.environment) {
-        return options.environment;
-    }
-    return {
-        env: 'ci',
-    };
-};
 const createFusionContext = (authContainer, serviceResolver, refs, options) => {
     const telemetryLogger = new _utils_TelemetryLogger__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](options && options.telemetry ? options.telemetry.instrumentationKey : '', authContainer);
     const abortControllerManager = new _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"]();
@@ -1288,6 +1272,22 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
         win[globalEquinorFusionContextKey] = fusionContext;
     }
     return fusionContext;
+};
+const ensureGlobalFusionContextType = () => {
+    if (!win[globalEquinorFusionContextKey]) {
+        return Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});
+    }
+    const existingFusionContext = win[globalEquinorFusionContextKey];
+    return Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])(createFusionContext(existingFusionContext.auth.container, existingFusionContext.http.serviceResolver, existingFusionContext.refs, existingFusionContext.options));
+};
+const FusionContext = ensureGlobalFusionContextType();
+const ensureFusionEnvironment = (options) => {
+    if (options && options.environment) {
+        return options.environment;
+    }
+    return {
+        env: 'ci',
+    };
 };
 const useFusionContext = () => Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(FusionContext);
 /* harmony default export */ __webpack_exports__["b"] = (FusionContext);
@@ -4628,7 +4628,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.1');
+/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.2');
 
 
 /***/ }),
