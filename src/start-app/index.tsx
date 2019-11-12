@@ -20,6 +20,8 @@ const serviceResolver: ServiceResolver = {
     getProjectsBaseUrl: () => 'https://pro-s-projects-ci.azurewebsites.net',
     getTasksBaseUrl: () => 'https://pro-s-tasks-ci.azurewebsites.net',
     getPeopleBaseUrl: () => 'https://pro-s-people-ci.azurewebsites.net',
+    getReportsBaseUrl: () => 'https://pro-s-reports-ci.azurewebsites.net',
+    getPowerBiApiBaseUrl: () => 'https://api.powerbi.com/v1.0/myorg',
 };
 
 const start = async () => {
@@ -37,6 +39,8 @@ const start = async () => {
         serviceResolver.getProjectsBaseUrl(),
         serviceResolver.getTasksBaseUrl(),
         serviceResolver.getPeopleBaseUrl(),
+        serviceResolver.getReportsBaseUrl(),
+        serviceResolver.getPowerBiApiBaseUrl(),
     ]);
 
     if (!coreAppRegistered) {
