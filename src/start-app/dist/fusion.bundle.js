@@ -2604,6 +2604,23 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
             return false;
         }
     }
+    async getDisciplines() {
+        const url = this.resourceCollections.org.basePositions();
+        try {
+            const res = await this.httpClient.getAsync(url);
+            const disciplines = res.data.map(d => d.discipline);
+            const distinct = disciplines.reduce((acc, curr) => {
+                if (curr && acc.indexOf(curr) === -1 && curr.trim().length > 0) {
+                    acc.push(curr);
+                }
+                return acc;
+            }, []);
+            return distinct;
+        }
+        catch (error) {
+            return false;
+        }
+    }
 }
 
 
@@ -2657,6 +2674,165 @@ class PeopleClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* defaul
         return await this.httpClient.patchAsync(url, {
             isActive: active,
         });
+    }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/http/apiClients/PowerBIClient.js":
+/*!***************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/apiClients/PowerBIClient.js ***!
+  \***************************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PowerBIClient; });
+/* harmony import */ var _models_powerbi_PowerBIError__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./models/powerbi/PowerBIError */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/powerbi/PowerBIError.js");
+/* harmony import */ var _auth_AuthToken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../auth/AuthToken */ "./node_modules/@equinor/fusion/lib/auth/AuthToken.js");
+/* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
+
+
+
+class PowerBIClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"] {
+    constructor() {
+        super(...arguments);
+        this.groups = [];
+        this.reports = {};
+        this.dashboards = {};
+        this.powerBiToken = '';
+    }
+    async getPowerBITokenAsync() {
+        if (this.powerBiToken && _auth_AuthToken__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].parse(this.powerBiToken).isValid())
+            return this.powerBiToken;
+        const url = this.resourceCollections.fusion.token('https://analysis.windows.net/powerbi/api');
+        const response = await this.httpClient.getAsync(url, null, r => r.text());
+        this.powerBiToken = response.data;
+        return response.data;
+    }
+    async getGroupsAsync() {
+        if (this.groups.length)
+            return this.groups;
+        const options = await this.buildRequestOptionsWithToken();
+        const response = await fetch(this.resourceCollections.powerBI.groups(), options);
+        this.groups = await this.handleResponse(response);
+        return this.groups;
+    }
+    async getReportsAsync(groupId) {
+        const cached = this.reports[groupId];
+        if (cached)
+            return cached;
+        const options = await this.buildRequestOptionsWithToken();
+        const response = await fetch(this.resourceCollections.powerBI.reports(groupId), options);
+        this.reports[groupId] = await this.handleResponse(response);
+        return this.reports[groupId];
+    }
+    async getDashboardsAsync(groupId) {
+        const cached = this.dashboards[groupId];
+        if (cached)
+            return cached;
+        const options = await this.buildRequestOptionsWithToken();
+        const response = await fetch(this.resourceCollections.powerBI.dashboards(groupId), options);
+        this.dashboards[groupId] = await this.handleResponse(response);
+        return this.dashboards[groupId];
+    }
+    async handleResponse(response) {
+        if (response.ok) {
+            const json = await response.json();
+            return json.value;
+        }
+        else if (response.status === 401 || response.status === 403) {
+            throw new _models_powerbi_PowerBIError__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"](response.status, 'No access');
+        }
+        else {
+            throw new _models_powerbi_PowerBIError__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"](response.status, `Something unexpected went wrong. ${response.statusText}`);
+        }
+    }
+    async buildRequestOptionsWithToken(bearerToken) {
+        if (!bearerToken) {
+            bearerToken = await this.getPowerBITokenAsync();
+        }
+        return {
+            headers: {
+                Authorization: `Bearer ${bearerToken}`,
+            },
+        };
+    }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/http/apiClients/ReportClient.js":
+/*!**************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/apiClients/ReportClient.js ***!
+  \**************************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportClient; });
+/* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
+
+class ReportClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    async getReportsAsync() {
+        const url = this.resourceCollections.report.reports();
+        return await this.httpClient.getAsync(url);
+    }
+    async getReportAsync(id) {
+        const url = this.resourceCollections.report.report(id);
+        return await this.httpClient.getAsync(url);
+    }
+    async getEmbedInfo(reportId) {
+        const url = this.resourceCollections.report.embedInfo(reportId);
+        return await this.httpClient.getAsync(url);
+    }
+    async getAccessToken(reportId) {
+        const url = this.resourceCollections.report.accessToken(reportId);
+        return await this.httpClient.getAsync(url);
+    }
+    async getDescription(reportId) {
+        const url = this.resourceCollections.report.description(reportId);
+        return await this.httpClient.getAsync(url, null, response => response.text());
+    }
+    async getAccessDescription(reportId) {
+        const url = this.resourceCollections.report.accessDescription(reportId);
+        return await this.httpClient.getAsync(url, null, response => response.text());
+    }
+    async getTechnicalDocument(reportId) {
+        const url = this.resourceCollections.report.technicalDocument(reportId);
+        return await this.httpClient.getAsync(url, null, response => response.text());
+    }
+    async addReport(report) {
+        const url = this.resourceCollections.report.reports();
+        return await this.httpClient.postAsync(url, report);
+    }
+    async updateReport(report) {
+        const url = this.resourceCollections.report.report(report.id);
+        return await this.httpClient.putAsync(url, report);
+    }
+    async updateConfig(reportId, embedConfig) {
+        const url = this.resourceCollections.report.updateConfig(reportId);
+        return await this.httpClient.putAsync(url, embedConfig);
+    }
+    async validateConfig(embedConfig) {
+        const url = this.resourceCollections.report.validateConfig();
+        return await this.httpClient.postAsync(url, embedConfig);
+    }
+    async publishReport(reportId) {
+        const url = this.resourceCollections.report.publishReport(reportId);
+        return await this.httpClient.putAsync(url, '');
+    }
+    async unPublishReport(reportId) {
+        const url = this.resourceCollections.report.unPublishReport(reportId);
+        return await this.httpClient.putAsync(url, '');
+    }
+    async deleteReport(reportId) {
+        const url = this.resourceCollections.report.report(reportId);
+        return await this.httpClient.deleteAsync(url, null, () => Promise.resolve());
     }
 }
 
@@ -2728,6 +2904,10 @@ class TasksClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default
 /* harmony import */ var _TasksClient__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TasksClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/TasksClient.js");
 /* harmony import */ var _PeopleClient__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PeopleClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/PeopleClient.js");
 /* harmony import */ var _OrgClient__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./OrgClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/OrgClient.js");
+/* harmony import */ var _ReportClient__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ReportClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/ReportClient.js");
+/* harmony import */ var _PowerBIClient__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PowerBIClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/PowerBIClient.js");
+
+
 
 
 
@@ -2741,6 +2921,8 @@ const createApiClients = (httpClient, resources) => ({
     tasks: new _TasksClient__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](httpClient, resources),
     people: new _PeopleClient__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"](httpClient, resources),
     org: new _OrgClient__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](httpClient, resources),
+    report: new _ReportClient__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"](httpClient, resources),
+    powerBI: new _PowerBIClient__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"](httpClient, resources),
 });
 
 
@@ -2792,6 +2974,28 @@ class ContextType {
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "b", function() { return _ContextTypes__WEBPACK_IMPORTED_MODULE_0__["b"]; });
 
 
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/http/apiClients/models/powerbi/PowerBIError.js":
+/*!*****************************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/apiClients/models/powerbi/PowerBIError.js ***!
+  \*****************************************************************************************/
+/*! exports provided: PowerBIError, default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export PowerBIError */
+class PowerBIError extends Error {
+    constructor(code, message) {
+        super(message);
+        this.message = message;
+        this.code = code;
+    }
+}
+/* harmony default export */ __webpack_exports__["a"] = (PowerBIError);
 
 
 /***/ }),
@@ -3058,33 +3262,36 @@ class FusionResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED
         return this.serviceResolver.getFusionBaseUrl();
     }
     apps() {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), "bundles", "apps");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'bundles', 'apps');
     }
     app(appKey) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), this.getBundlesPath(), "apps", appKey);
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), this.getBundlesPath(), 'apps', appKey);
     }
     appManifest(appKey) {
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.app(appKey), this.getAppManifestFileName());
+    }
+    token(resource) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'api', 'auth', 'token?resource=') + resource;
     }
     appScript(appKey) {
         if (this.options && this.options.loadBundlesFromDisk) {
             return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.app(appKey), `app-bundle.js?v=${+new Date()}`);
         }
-        return this.app(appKey) + ".js";
+        return this.app(appKey) + '.js';
     }
     appIcon(appKey) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.app(appKey), this.getResourcesPath(), "app-icon.svg");
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.app(appKey), this.getResourcesPath(), 'app-icon.svg');
     }
     getBundlesPath() {
-        return this.options && this.options.loadBundlesFromDisk ? "js" : "bundles";
+        return this.options && this.options.loadBundlesFromDisk ? 'js' : 'bundles';
     }
     getAppManifestFileName() {
         return this.options && this.options.loadBundlesFromDisk
             ? `app-manifest.json?v=${+new Date()}`
-            : "";
+            : '';
     }
     getResourcesPath() {
-        return this.options && this.options.loadBundlesFromDisk ? "" : "resources";
+        return this.options && this.options.loadBundlesFromDisk ? '' : 'resources';
     }
 }
 
@@ -3133,6 +3340,9 @@ class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MO
     }
     roleDescription(projectId, positionId) {
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.position(projectId, positionId, false), 'roleDescription', 'content');
+    }
+    basePositions() {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'positions', 'basepositions');
     }
     basePositionRoleDescription(basePositionId) {
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'positions', 'basepositions', basePositionId, 'roleDescription', 'content');
@@ -3207,6 +3417,94 @@ class PeopleResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion/lib/http/resourceCollections/PowerBIResourceCollection.js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/PowerBIResourceCollection.js ***!
+  \************************************************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PowerBIResourceCollection; });
+/* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
+/* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
+
+
+class PowerBIResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    getBaseUrl() {
+        return this.serviceResolver.getPowerBiApiBaseUrl();
+    }
+    groups() {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'groups');
+    }
+    reports(groupId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'groups', groupId, 'reports');
+    }
+    dashboards(groupId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'groups', groupId, 'dashboards');
+    }
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/http/resourceCollections/ReportResourceCollection.js":
+/*!***********************************************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/ReportResourceCollection.js ***!
+  \***********************************************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportResourceCollection; });
+/* harmony import */ var _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/BaseResourceCollection.js");
+/* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
+
+
+class ReportResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    getBaseUrl() {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.serviceResolver.getReportsBaseUrl());
+    }
+    reports() {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports');
+    }
+    report(reportId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', reportId);
+    }
+    embedInfo(reportId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', reportId, 'config', 'embedinfo');
+    }
+    accessToken(reportId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', reportId, 'token');
+    }
+    description(reportId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', reportId, 'description', 'content');
+    }
+    technicalDocument(reportId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', reportId, 'technicaldocument', 'content');
+    }
+    accessDescription(reportId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', reportId, 'accessdescription', 'content');
+    }
+    updateConfig(reportId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', reportId, 'config');
+    }
+    validateConfig() {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', 'config', 'validate');
+    }
+    publishReport(reportId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', reportId, 'publish');
+    }
+    unPublishReport(reportId) {
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'reports', reportId, 'unpublish');
+    }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/http/resourceCollections/TasksResourceCollection.js":
 /*!**********************************************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/http/resourceCollections/TasksResourceCollection.js ***!
@@ -3267,6 +3565,10 @@ class TasksResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_
 /* harmony import */ var _TasksResourceCollection__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./TasksResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/TasksResourceCollection.js");
 /* harmony import */ var _PeopleResourceCollection__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./PeopleResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/PeopleResourceCollection.js");
 /* harmony import */ var _OrgResourceCollection__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./OrgResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/OrgResourceCollection.js");
+/* harmony import */ var _ReportResourceCollection__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./ReportResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/ReportResourceCollection.js");
+/* harmony import */ var _PowerBIResourceCollection__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./PowerBIResourceCollection */ "./node_modules/@equinor/fusion/lib/http/resourceCollections/PowerBIResourceCollection.js");
+
+
 
 
 
@@ -3281,6 +3583,8 @@ const createResourceCollections = (serviceResolver, options) => ({
     tasks: new _TasksResourceCollection__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](serviceResolver),
     people: new _PeopleResourceCollection__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"](serviceResolver),
     org: new _OrgResourceCollection__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](serviceResolver),
+    report: new _ReportResourceCollection__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"](serviceResolver),
+    powerBI: new _PowerBIResourceCollection__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"](serviceResolver),
 });
 
 
@@ -4545,7 +4849,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.54');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.56');
 
 
 /***/ }),
@@ -72691,6 +72995,8 @@ const serviceResolver = {
     getProjectsBaseUrl: () => 'https://pro-s-projects-ci.azurewebsites.net',
     getTasksBaseUrl: () => 'https://pro-s-tasks-ci.azurewebsites.net',
     getPeopleBaseUrl: () => 'https://pro-s-people-ci.azurewebsites.net',
+    getReportsBaseUrl: () => 'https://pro-s-reports-ci.azurewebsites.net',
+    getPowerBiApiBaseUrl: () => 'https://api.powerbi.com/v1.0/myorg',
 };
 const start = async () => {
     const authContainer = new fusion_1.AuthContainer();
@@ -72706,6 +73012,8 @@ const start = async () => {
         serviceResolver.getProjectsBaseUrl(),
         serviceResolver.getTasksBaseUrl(),
         serviceResolver.getPeopleBaseUrl(),
+        serviceResolver.getReportsBaseUrl(),
+        serviceResolver.getPowerBiApiBaseUrl(),
     ]);
     if (!coreAppRegistered) {
         await authContainer.loginAsync(coreAppClientId);
