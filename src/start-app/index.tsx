@@ -49,12 +49,14 @@ const start = async () => {
         const Root = () => {
             const root = React.useRef(document.createElement('div'));
             const overlay = React.useRef(document.createElement('div'));
+            const header = React.useRef(document.createElement('div'));
 
             const fusionContext = createFusionContext(
                 authContainer,
                 serviceResolver,
                 {
                     overlay,
+                    headerContent: header,
                     root,
                 },
                 {
