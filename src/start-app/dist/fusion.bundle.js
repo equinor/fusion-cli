@@ -1484,7 +1484,7 @@ class PeopleContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__[/
         const response = await this.peopleClient.getPersonDetailsAsync(personId, [
             'positions',
             'contracts',
-            'roles'
+            'roles',
         ]);
         this.persons[personId] = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](`PeopleContainer.person.${personId}`, response.data, this.eventHub);
         this.persons[personId].on('change', personDetails => {
@@ -1499,7 +1499,7 @@ class PeopleContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__[/
         const person = this.persons[personId].state;
         const roles = person.roles;
         if (roles) {
-            const newRoles = roles.map(role => role.name === roleName ? response.data : role);
+            const newRoles = roles.map(role => (role.name === roleName ? response.data : role));
             this.persons[personId].state = Object.assign({}, person, { roles: newRoles });
         }
         return response.data;
@@ -1521,7 +1521,7 @@ class PeopleContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__[/
             image.src = urlToImage;
             image.onerror = () => reject(`Could not load image ${urlToImage}.`);
             image.onload = () => {
-                this.images[personId].state = image;
+                this.images[personId] = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](`PeopleContainer.Images.${personId}`, image, this.eventHub);
                 resolve(image);
             };
         });
@@ -4986,7 +4986,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.12');
+/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.13');
 
 
 /***/ }),
