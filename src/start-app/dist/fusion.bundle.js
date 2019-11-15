@@ -1239,9 +1239,9 @@ const ensureFusionEnvironment = (options) => {
 };
 const createFusionContext = (authContainer, serviceResolver, refs, options) => {
     const telemetryLogger = new _utils_TelemetryLogger__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](options && options.telemetry ? options.telemetry.instrumentationKey : '', authContainer);
+    const abortControllerManager = new _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     const resourceCollections = Object(_http_resourceCollections__WEBPACK_IMPORTED_MODULE_3__[/* createResourceCollections */ "a"])(serviceResolver, options);
     const resourceCache = new _http_ResourceCache__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
-    const abortControllerManager = new _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     const httpClient = new _http_HttpClient__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](authContainer, resourceCache, abortControllerManager, telemetryLogger);
     const apiClients = Object(_http_apiClients__WEBPACK_IMPORTED_MODULE_4__[/* createApiClients */ "a"])(httpClient, resourceCollections);
     const history = Object(history__WEBPACK_IMPORTED_MODULE_1__["createBrowserHistory"])();
@@ -4709,10 +4709,10 @@ class LocalStorageProvider {
             const cachedValue = cachedJson ? _JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].parse(cachedJson) : {};
             this.localCache.state = cachedValue;
         }
-        return this.localCache;
+        return this.localCache.state;
     }
     toObject() {
-        return this.localCache;
+        return this.localCache.state;
     }
     async persistAsync() {
         const json = _JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].stringify(await this.toObjectAsync());
@@ -4986,7 +4986,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.11');
+/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.12');
 
 
 /***/ }),
