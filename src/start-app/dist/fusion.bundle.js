@@ -624,7 +624,7 @@ class AuthContainer {
     async buildLoginUrlAsync(app, nonce, customParams = {}) {
         const cachedUser = await this.getCachedUserAsync();
         const base = 'https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/authorize';
-        const params = Object.assign({}, customParams, { client_id: app.clientId, response_type: 'id_token', redirect_uri: getTopLevelWindow(window).location.href, nonce: nonce.getKey(), login_hint: cachedUser ? cachedUser.upn : null });
+        const params = Object.assign({}, customParams, { client_id: app.clientId, response_type: 'id_token', redirect_uri: getTopLevelWindow(window).location.href.split("#")[0], nonce: nonce.getKey(), login_hint: cachedUser ? cachedUser.upn : null });
         const queryString = Object.keys(params)
             .filter(key => params[key])
             .reduce((query, key) => query + `${query ? '&' : ''}${key}=${encodeURIComponent(params[key])}`, '');
@@ -4849,7 +4849,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.58');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.59');
 
 
 /***/ }),
