@@ -26,7 +26,7 @@ jobs:
       run: |
         npm ci
         npm install @equinor/fusion@latest @equinor/fusion-components@latest 
-        git commit -am "Update fusion deps"
+        git commit -am "Update fusion deps" || true
     - name: Build and pack bundle
       run: |
         npm run build:start-app-bundle
