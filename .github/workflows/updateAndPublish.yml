@@ -1,0 +1,46 @@
+name: Update Equinor bundles and publish
+
+on:
+  release:
+    types: 
+      - published
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [8.x]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Configure git
+      run: |
+        git config --local user.email "fusion@equinor.com"
+        git config --local user.name "GitHub Action by Fusion Team"
+    - name: npm install, update fusion packages
+      run: |
+        npm ci
+        npm install @equinor/fusion@latest @equinor/fusion-components@latest 
+        git commit -am "Update fusion deps"
+    - name: Build and pack bundle
+      run: |
+        npm run build:start-app-bundle
+        npm run postpack || true
+        npm run prepack
+    - name: Push changes to Github
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_PERSONAL_TOKEN}}
+      run: |
+        git push "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git" HEAD:master
+    - name: npm publish
+      run: | 
+        npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+        npm publish --access public
+      env:
+        CI: true
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
