@@ -12,7 +12,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "@equinor/fusion": "^0.4.61",
+    "@equinor/fusion": "^0.4.62",
     "@hot-loader/react-dom": "^16.8.6",
     "@oclif/command": "^1.5.13",
     "@oclif/config": "^1.13.0",
@@ -63,7 +63,7 @@
     "webpack-merge": "^4.2.1"
   },
   "devDependencies": {
-    "@equinor/fusion-components": "^0.1.71",
+    "@equinor/fusion-components": "^0.1.72",
     "@oclif/dev-cli": "^1.22.0",
     "@oclif/test": "^1.2.4",
     "@oclif/tslint": "^3.1.1",
