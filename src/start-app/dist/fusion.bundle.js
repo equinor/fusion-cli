@@ -1175,7 +1175,6 @@ const useContextQuery = () => {
     const [isQuerying, setIsQuerying] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false);
     const [error, setError] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(null);
     const apiClients = Object(_http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])();
-    const contextManager = useContextManager();
     const currentTypes = useCurrentContextTypes();
     const canQueryWithText = (text) => !!text && text.length > 2;
     const fetchContexts = Object(react__WEBPACK_IMPORTED_MODULE_0__["useCallback"])(async (query) => {
@@ -1198,7 +1197,7 @@ const useContextQuery = () => {
         setIsQuerying(canQueryWithText(query));
         setQueryText(query);
     };
-    return [error, isQuerying, contexts, search];
+    return { error, isQuerying, contexts, search };
 };
 
 
@@ -4916,7 +4915,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.61');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.62');
 
 
 /***/ }),
