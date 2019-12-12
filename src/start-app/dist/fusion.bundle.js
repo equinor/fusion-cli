@@ -247,7 +247,7 @@ and limitations under the License.
 class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
     constructor(apiClients, telemetryLogger) {
         super();
-        this.previousApp = null;
+        this.previousApps = [];
         this.currentApp = null;
         this.apps = [];
         this.fusionClient = apiClients.fusion;
@@ -256,14 +256,14 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
     updateManifest(appKey, manifest) {
         const existingApp = this.get(appKey);
         // Ensure app key on the manifest
-        manifest = Object.assign({}, manifest, { key: appKey });
+        manifest = Object.assign(Object.assign({}, manifest), { key: appKey });
         if (existingApp === null) {
             const newApp = manifest;
             this.addOrUpdate(newApp);
             this.fetchIconAsync(appKey);
         }
         else {
-            const updatedApp = Object.assign({}, existingApp, manifest);
+            const updatedApp = Object.assign(Object.assign({}, existingApp), manifest);
             this.addOrUpdate(updatedApp);
         }
     }
@@ -274,8 +274,11 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
         return [...this.apps];
     }
     async setCurrentAppAsync(appKey) {
+        const previousApp = this.previousApps[0];
+        if (this.currentApp && previousApp && previousApp.key !== appKey) {
+            this.previousApps = [this.currentApp, ...this.previousApps];
+        }
         if (!appKey) {
-            this.previousApp = this.currentApp;
             this.currentApp = null;
             this.emit('change', null);
             return;
@@ -291,14 +294,12 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
             await this.fusionClient.loadAppScriptAsync(appKey);
             return await this.setCurrentAppAsync(appKey);
         }
-        if (this.currentApp) {
-            this.previousApp = this.currentApp;
-        }
         // Log custom event - new app and prev app
         this.telemetryLogger.trackEvent({
             name: 'App selected',
             properties: {
-                previousApp: this.previousApp ? this.previousApp.name : null,
+                previousApps: this.previousApps.map(pa => pa.name),
+                previousApp: previousApp ? previousApp.name : null,
                 currentApp: app.name,
             },
         });
@@ -316,7 +317,7 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
             return;
         }
         const response = await this.fusionClient.getAppIconAsync(appKey);
-        const appWithIcon = Object.assign({}, app, { icon: response.data });
+        const appWithIcon = Object.assign(Object.assign({}, app), { icon: response.data });
         this.addOrUpdate(appWithIcon);
     }
     addOrUpdate(app) {
@@ -672,7 +673,7 @@ class AuthContainer {
     async buildLoginUrlAsync(app, nonce, customParams = {}) {
         const cachedUser = await this.getCachedUserAsync();
         const base = 'https://login.microsoftonline.com/3aa4a235-b6e2-48d5-9195-7fcf05b459b0/oauth2/authorize';
-        const params = Object.assign({}, customParams, { client_id: app.clientId, response_type: 'id_token', redirect_uri: getTopLevelWindow(window).location.origin.split('#')[0], nonce: nonce.getKey(), login_hint: cachedUser ? cachedUser.upn : null });
+        const params = Object.assign(Object.assign({}, customParams), { client_id: app.clientId, response_type: 'id_token', redirect_uri: getTopLevelWindow(window).location.origin.split('#')[0], nonce: nonce.getKey(), login_hint: cachedUser ? cachedUser.upn : null });
         const queryString = Object.keys(params)
             .filter(key => params[key])
             .reduce((query, key) => query + `${query ? '&' : ''}${key}=${encodeURIComponent(params[key])}`, '');
@@ -713,6 +714,10 @@ class FusionNonceNotFoundError extends Error {
     }
 }
 class AuthNonce {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
+    }
     static createCacheKey(key) {
         return `FUSION_AUTH_NONCE:${key}`;
     }
@@ -731,10 +736,6 @@ class AuthNonce {
         const nonce = new AuthNonce(key, value);
         localStorage.removeItem(cacheKey);
         return nonce;
-    }
-    constructor(key, value) {
-        this.key = key;
-        this.value = value;
     }
     toString() {
         return this.value;
@@ -772,6 +773,10 @@ class FusionAuthTokenParseError extends Error {
     }
 }
 class AuthToken {
+    constructor(originalToken, parsedToken) {
+        this._originalToken = originalToken;
+        this._parsedToken = parsedToken;
+    }
     static parse(token) {
         const userPart = token.split(".")[1];
         const parsedToken = _utils_JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].parse(b64DecodeUnicode(userPart));
@@ -779,10 +784,6 @@ class AuthToken {
             throw new FusionAuthTokenParseError(token);
         }
         return new AuthToken(token, parsedToken);
-    }
-    constructor(originalToken, parsedToken) {
-        this._originalToken = originalToken;
-        this._parsedToken = parsedToken;
     }
     get id() {
         return this._parsedToken.oid;
@@ -1028,12 +1029,25 @@ const useComponentDisplayClassNames = (styles) => {
 
 
 class ContextManager extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* default */ "b"] {
-    constructor(apiClients, contextId) {
+    constructor(apiClients, appContainer) {
         super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* LocalStorageProvider */ "a"](`FUSION_CURRENT_CONTEXT`));
         this.isSettingFromRoute = false;
         this.contextClient = apiClients.context;
+        const { history } = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
+        const context = appContainer && appContainer.currentApp && appContainer.currentApp.context
+            ? appContainer.currentApp.context
+            : null;
+        const contextId = context && context.getContextFromUrl && history.location && history.location.pathname
+            ? context.getContextFromUrl(history.location.pathname)
+            : null;
         if (contextId) {
             this.setCurrentContextFromIdAsync(contextId);
+        }
+        if (!contextId && context && context.buildUrl) {
+            const buildUrl = context.buildUrl;
+            this.getCurrentContextAsync().then(currentContext => {
+                currentContext && history.push(buildUrl(currentContext));
+            });
         }
     }
     async setCurrentContextAsync(context) {
@@ -1060,7 +1074,7 @@ class ContextManager extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_
     }
     async updateLinksAsync(currentContext, newContext) {
         const links = await this.getAsync('links');
-        await this.setAsync('links', Object.assign({}, (links || {}), { [currentContext.id]: newContext.id }));
+        await this.setAsync('links', Object.assign(Object.assign({}, (links || {})), { [currentContext.id]: newContext.id }));
     }
     async getLinkedContextAsync(context) {
         const links = await this.getAsync('links');
@@ -1294,7 +1308,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
     const resourceCollections = Object(_http_resourceCollections__WEBPACK_IMPORTED_MODULE_3__[/* createResourceCollections */ "a"])(serviceResolver, options);
     const resourceCache = new _http_ResourceCache__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"]();
     const httpClient = new _http_HttpClient__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](authContainer, resourceCache, abortControllerManager, telemetryLogger);
-    const apiClients = Object(_http_apiClients__WEBPACK_IMPORTED_MODULE_4__[/* createApiClients */ "a"])(httpClient, resourceCollections);
+    const apiClients = Object(_http_apiClients__WEBPACK_IMPORTED_MODULE_4__[/* createApiClients */ "a"])(httpClient, resourceCollections, serviceResolver);
     const history = Object(history__WEBPACK_IMPORTED_MODULE_1__["createBrowserHistory"])();
     const coreSettings = new _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]('core', authContainer.getCachedUser(), defaultSettings);
     const appContainer = new _app_AppContainer__WEBPACK_IMPORTED_MODULE_8__[/* default */ "b"](apiClients, telemetryLogger);
@@ -1304,7 +1318,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
         path: history.location.pathname,
     });
     const contextId = contextRouteMatch && contextRouteMatch.params ? contextRouteMatch.params.contextId : null;
-    const contextManager = new _ContextManager__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"](apiClients, contextId);
+    const contextManager = new _ContextManager__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"](apiClients, appContainer);
     const tasksContainer = new _TasksContainer__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"](apiClients);
     const notificationCenter = new _NotificationCenter__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]();
     const peopleContainer = new _PeopleContainer__WEBPACK_IMPORTED_MODULE_14__[/* default */ "a"](apiClients, resourceCollections);
@@ -1319,7 +1333,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
             resourceCache,
             serviceResolver,
         },
-        refs: Object.assign({}, refs, { headerContent: Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null) }),
+        refs: Object.assign(Object.assign({}, refs), { headerContent: Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null) }),
         history,
         settings: {
             core: coreSettings,
@@ -1386,7 +1400,7 @@ class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MOD
             this.emit('cancelled', notificationRequest);
         }
         this.emit('finished', notificationRequest);
-        const notificationWithResponse = Object.assign({}, notification, { responded: new Date(), response });
+        const notificationWithResponse = Object.assign(Object.assign({}, notification), { responded: new Date(), response });
         await this.persistAsync(notificationWithResponse);
         return response;
     }
@@ -1478,19 +1492,22 @@ const useNotificationCenter = () => {
 /*!******************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/core/PeopleContainer.js ***!
   \******************************************************************/
-/*! exports provided: default, usePeopleContainer, usePersonDetails, usePersonImageUrl */
-/*! exports used: default, usePeopleContainer, usePersonDetails, usePersonImageUrl */
+/*! exports provided: default, usePeopleContainer, usePersonDetails, usePersonImageUrl, useCurrentPersonDetails */
+/*! exports used: default, useCurrentPersonDetails, usePeopleContainer, usePersonDetails, usePersonImageUrl */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return PeopleContainer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return usePeopleContainer; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return usePersonDetails; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return usePersonImageUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return usePeopleContainer; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return usePersonDetails; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return usePersonImageUrl; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useCurrentPersonDetails; });
 /* harmony import */ var _FusionContext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
+/* harmony import */ var _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth/useCurrentUser */ "./node_modules/@equinor/fusion/lib/auth/useCurrentUser.js");
+
 
 
 
@@ -1568,6 +1585,9 @@ const usePersonDetails = (personId) => {
     const [error, setError] = react__WEBPACK_IMPORTED_MODULE_1__["useState"](null);
     const [personDetails, setPersonDetails] = react__WEBPACK_IMPORTED_MODULE_1__["useState"](peopleContainer.getPersonDetails(personId));
     const getPersonAsync = async (personId) => {
+        if (!personId) {
+            return;
+        }
         try {
             setFetching(true);
             const personDetails = await peopleContainer.getPersonDetailsAsync(personId);
@@ -1625,6 +1645,11 @@ const usePersonImageUrl = (personId) => {
         getImageAsync(personId);
     }, [personId]);
     return { isFetching, error, imageUrl };
+};
+const useCurrentPersonDetails = () => {
+    var _a;
+    const currentUser = Object(_auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])();
+    return usePersonDetails(((_a = currentUser) === null || _a === void 0 ? void 0 : _a.id) || "");
 };
 
 
@@ -1693,13 +1718,13 @@ class TasksContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/*
         const previousPriority = task.priority;
         try {
             // Immediately update the priority on the task for quick UI response
-            const updatedTask = Object.assign({}, task, { priority });
+            const updatedTask = Object.assign(Object.assign({}, task), { priority });
             this.mergeTasks([updatedTask]);
             await this.tasksClient.setTaskPriorityAsync(id, priority);
         }
         catch (e) {
             // Revert the task priority if it failed
-            const revertedTask = Object.assign({}, task, { priority: previousPriority });
+            const revertedTask = Object.assign(Object.assign({}, task), { priority: previousPriority });
             this.mergeTasks([revertedTask]);
         }
     }
@@ -2173,11 +2198,17 @@ const defaultHeaders = {
     'x-fusion-api-version': _version__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"],
 };
 /* harmony default export */ __webpack_exports__["a"] = ((init, transform) => {
-    const headers = new Headers(init && init.headers ? init.headers : new Headers());
-    init = Object.assign({}, init, { headers });
+    const headers = new Headers();
     for (let key in defaultHeaders) {
         headers.append(key, defaultHeaders[key]);
     }
+    if (init && init.headers) {
+        const overriddenHeaders = new Headers(init.headers);
+        for (const overriddenHeader of overriddenHeaders) {
+            headers.set(overriddenHeader[0], overriddenHeader[1]);
+        }
+    }
+    init = Object.assign(Object.assign({}, init), { headers });
     if (typeof transform === 'undefined') {
         return init;
     }
@@ -2228,7 +2259,7 @@ class HttpClient {
         }
         return this.performReusableRequest(url, async () => {
             await this.resourceCache.setIsFetchingAsync(url);
-            init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'GET' })));
+            init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign(Object.assign({}, init), { method: 'GET' })));
             const response = await this.performFetchAsync(url, init);
             const data = await this.parseResponseAsync(init, response, responseParser);
             await this.resourceCache.updateAsync(url, data);
@@ -2236,29 +2267,91 @@ class HttpClient {
         });
     }
     async postAsync(url, body, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'POST', body: this.createRequestBody(body) })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign(Object.assign({}, init), { method: 'POST', body: this.createRequestBody(body) })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
     async putAsync(url, body, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'PUT', body: this.createRequestBody(body) })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign(Object.assign({}, init), { method: 'PUT', body: this.createRequestBody(body) })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
     async patchAsync(url, body, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'PATCH', body: this.createRequestBody(body) })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign(Object.assign({}, init), { method: 'PATCH', body: this.createRequestBody(body) })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
     async deleteAsync(url, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: 'DELETE' })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign(Object.assign({}, init), { method: 'DELETE' })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
     async optionsAsync(url, init, responseParser) {
-        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign({}, init, { method: "OPTIONS" })));
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign(Object.assign({}, init), { method: 'OPTIONS' })));
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
+    }
+    async postFormAsync(url, form, onProgress) {
+        const token = await this.authContainer.acquireTokenAsync(url);
+        return new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            if (onProgress) {
+                xhr.upload.addEventListener('progress', e => {
+                    if (e.lengthComputable) {
+                        const percentage = Math.round((e.loaded * 100) / e.total);
+                        onProgress(percentage, e);
+                    }
+                });
+            }
+            xhr.addEventListener('load', () => {
+                const headerLines = xhr.getAllResponseHeaders();
+                const headers = headerLines.trim().split(/[\r\n]+/);
+                const headerMap = headers.reduce((headerMap, line) => {
+                    const parts = line.split(': ');
+                    const header = parts.shift();
+                    const value = parts.join(': ');
+                    if (header)
+                        headerMap.append(header, value);
+                    return headerMap;
+                }, new Headers());
+                const response = {
+                    data: _utils_JSON__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"].parse(xhr.responseText),
+                    status: xhr.status,
+                    headers: headerMap,
+                    refreshRequest: null,
+                };
+                resolve(response);
+            });
+            xhr.upload.addEventListener('error', () => {
+                const response = xhr.responseText;
+                if (response) {
+                    const errorResponse = _utils_JSON__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"].parse(response);
+                    reject(new _HttpClientError__WEBPACK_IMPORTED_MODULE_1__[/* HttpClientRequestFailedError */ "b"](url, xhr.status, errorResponse));
+                }
+                reject(new _HttpClientError__WEBPACK_IMPORTED_MODULE_1__[/* HttpClientRequestFailedError */ "b"](url, xhr.status, null));
+            });
+            xhr.setRequestHeader('X-Session-Id', this.sessionId);
+            xhr.setRequestHeader('Accept', 'application/json');
+            xhr.setRequestHeader('x-pp-refresh', 'true');
+            xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            xhr.open('POST', url, true);
+            xhr.send(form);
+        });
+    }
+    async getBlobAsync(url, init) {
+        if (!init) {
+            init = {
+                headers: new Headers({ Accept: '*/*' }),
+            };
+        }
+        init = Object(_ensureRequestInit__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"])(init, init => (Object.assign(Object.assign({}, init), { method: 'GET' })));
+        const response = await this.performFetchAsync(url, init);
+        const blob = await response.blob();
+        const fileName = this.resolveFileNameFromHeader(response);
+        if (!fileName) {
+            throw new Error('Cannot download file without filename');
+        }
+        return new File([blob], fileName);
     }
     async performFetchAsync(url, init) {
         try {
@@ -2331,7 +2424,7 @@ class HttpClient {
         };
         if (this.responseIsRefreshable(response)) {
             const refreshRequest = this.addRefreshHeader(request);
-            return Object.assign({}, httpResponse, { refreshRequest });
+            return Object.assign(Object.assign({}, httpResponse), { refreshRequest });
         }
         return httpResponse;
     }
@@ -2369,7 +2462,7 @@ class HttpClient {
     transformHeaders(init, transform) {
         const headers = new Headers(init.headers);
         transform(headers);
-        return Object.assign({}, init, { headers });
+        return Object.assign(Object.assign({}, init), { headers });
     }
     // Utils
     getRequestInProgress(url) {
@@ -2381,6 +2474,16 @@ class HttpClient {
             return bodyFactory();
         }
         return _utils_JSON__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"].stringify(body);
+    }
+    resolveFileNameFromHeader(response) {
+        const contentDisposition = response.headers.get('Content-Disposition');
+        if (!contentDisposition)
+            return null;
+        const parts = contentDisposition.split(';');
+        const fileNamePart = parts.find(part => part.indexOf('filename=') !== -1);
+        if (!fileNamePart)
+            return null;
+        return fileNamePart.split('=')[1];
     }
 }
 const useHttpClient = () => {
@@ -2410,7 +2513,7 @@ class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* 
     }
     async setIsFetchingAsync(resource) {
         const cachedResource = await this.getAsync(resource);
-        await this.setResourceAsync(resource, Object.assign({}, cachedResource, { isFetching: true }));
+        await this.setResourceAsync(resource, Object.assign(Object.assign({}, cachedResource), { isFetching: true }));
     }
     async updateAsync(resource, response) {
         const cachedResource = await this.getAsync(resource);
@@ -2419,7 +2522,7 @@ class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* 
         const cacheDurationHeader = response.headers.get("x-pp-cache-duration-minutes");
         const duration = cacheDurationHeader !== null ? parseInt(cacheDurationHeader, 10) : -1;
         const source = response.headers.get("x-pp-cache-source");
-        const updatedResource = Object.assign({}, cachedResource, { data: response.data, isFetching: false, cacheStatus: Object.assign({}, cachedResource.cacheStatus, { age,
+        const updatedResource = Object.assign(Object.assign({}, cachedResource), { data: response.data, isFetching: false, cacheStatus: Object.assign(Object.assign({}, cachedResource.cacheStatus), { age,
                 duration,
                 source }) });
         await this.setResourceAsync(resource, updatedResource);
@@ -2458,10 +2561,33 @@ class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* 
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return BaseApiClient; });
+/* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
+
 class BaseApiClient {
-    constructor(httpClient, resourceCollection) {
+    constructor(httpClient, resourceCollection, serviceResolver) {
+        this.serviceResolver = serviceResolver;
         this.httpClient = httpClient;
         this.resourceCollections = resourceCollection;
+    }
+    async getAsync(path, init, responseParser) {
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_0__[/* combineUrls */ "a"])(this.getBaseUrl(), path);
+        return await this.httpClient.getAsync(url, init, responseParser);
+    }
+    async postAsync(path, body, init, responseParser) {
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_0__[/* combineUrls */ "a"])(this.getBaseUrl(), path);
+        return await this.httpClient.postAsync(url, body, init, responseParser);
+    }
+    async putAsync(path, body, init, responseParser) {
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_0__[/* combineUrls */ "a"])(this.getBaseUrl(), path);
+        return await this.httpClient.putAsync(url, body, init, responseParser);
+    }
+    async patchAsync(path, body, init, responseParser) {
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_0__[/* combineUrls */ "a"])(this.getBaseUrl(), path);
+        return await this.httpClient.patchAsync(url, body, init, responseParser);
+    }
+    async deleteAsync(path, init, responseParser) {
+        const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_0__[/* combineUrls */ "a"])(this.getBaseUrl(), path);
+        return await this.httpClient.deleteAsync(url, init, responseParser);
     }
 }
 
@@ -2481,6 +2607,9 @@ class BaseApiClient {
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
 class ContextClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    getBaseUrl() {
+        return this.serviceResolver.getContextBaseUrl();
+    }
     async getContextsAsync() {
         const url = this.resourceCollections.context.contexts();
         return await this.httpClient.getAsync(url);
@@ -2523,6 +2652,9 @@ class ContextClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* defau
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
 class DataProxyClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    getBaseUrl() {
+        return this.serviceResolver.getDataProxyBaseUrl();
+    }
     async getHandoverAsync(siteCode, projectIdentifier) {
         const url = this.resourceCollections.dataProxy.handover(siteCode, projectIdentifier);
         return await this.httpClient.getAsync(url);
@@ -2555,6 +2687,9 @@ class DataProxyClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* def
 
 
 class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    getBaseUrl() {
+        return this.serviceResolver.getFusionBaseUrl();
+    }
     async getAppsAsync() {
         const url = this.resourceCollections.fusion.apps();
         return await this.httpClient.getAsync(url);
@@ -2591,6 +2726,9 @@ class FusionClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* defaul
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
 class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    getBaseUrl() {
+        return this.serviceResolver.getOrgBaseUrl();
+    }
     async getProjectsAsync() {
         const url = this.resourceCollections.org.projects();
         return await this.httpClient.getAsync(url);
@@ -2603,9 +2741,14 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
             },
         });
     }
-    async searchProjectsAsync(query) {
+    async searchProjectsAsync(query, apiVersion) {
+        const requestHeader = {
+            headers: {
+                'api-version': apiVersion ? apiVersion : "1.0"
+            }
+        };
         const url = this.resourceCollections.org.projectQuery(query);
-        return await this.httpClient.getAsync(url);
+        return await this.httpClient.getAsync(url, requestHeader);
     }
     async newProjectAsync(newProject) {
         const baseUrl = this.resourceCollections.org.projects();
@@ -2706,9 +2849,12 @@ class OrgClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default *
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
 class PeopleClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
-    constructor(httpClient, resourceCollection) {
-        super(httpClient, resourceCollection);
+    constructor(httpClient, resourceCollection, serviceResolver) {
+        super(httpClient, resourceCollection, serviceResolver);
         httpClient.getAsync(resourceCollection.people.apiSignin(), { credentials: 'include' }, async () => Promise.resolve());
+    }
+    getBaseUrl() {
+        return this.serviceResolver.getPeopleBaseUrl();
     }
     async getPersonDetailsAsync(id, oDataExpand) {
         const url = this.resourceCollections.people.getPersonDetails(id, oDataExpand);
@@ -2770,6 +2916,9 @@ class PowerBIClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_2__[/* defau
         this.reports = {};
         this.dashboards = {};
         this.powerBiToken = '';
+    }
+    getBaseUrl() {
+        return this.serviceResolver.getReportsBaseUrl();
     }
     async getPowerBITokenAsync() {
         if (this.powerBiToken && _auth_AuthToken__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"].parse(this.powerBiToken).isValid())
@@ -2845,6 +2994,9 @@ class PowerBIClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_2__[/* defau
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
 class ReportClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    getBaseUrl() {
+        return this.serviceResolver.getReportsBaseUrl();
+    }
     async getReportsAsync() {
         const url = this.resourceCollections.report.reports();
         return await this.httpClient.getAsync(url);
@@ -2919,6 +3071,9 @@ class ReportClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* defaul
 /* harmony import */ var _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BaseApiClient */ "./node_modules/@equinor/fusion/lib/http/apiClients/BaseApiClient.js");
 
 class TasksClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    getBaseUrl() {
+        return this.serviceResolver.getTasksBaseUrl();
+    }
     async getSourceSystemsAsync() {
         const url = this.resourceCollections.tasks.sourceSystems();
         return this.httpClient.getAsync(url);
@@ -2981,15 +3136,15 @@ class TasksClient extends _BaseApiClient__WEBPACK_IMPORTED_MODULE_0__[/* default
 
 
 
-const createApiClients = (httpClient, resources) => ({
-    dataProxy: new _DataProxyClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"](httpClient, resources),
-    fusion: new _FusionClient__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"](httpClient, resources),
-    context: new _ContextClient__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"](httpClient, resources),
-    tasks: new _TasksClient__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](httpClient, resources),
-    people: new _PeopleClient__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"](httpClient, resources),
-    org: new _OrgClient__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](httpClient, resources),
-    report: new _ReportClient__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"](httpClient, resources),
-    powerBI: new _PowerBIClient__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"](httpClient, resources),
+const createApiClients = (httpClient, resources, serviceResolver) => ({
+    dataProxy: new _DataProxyClient__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"](httpClient, resources, serviceResolver),
+    fusion: new _FusionClient__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"](httpClient, resources, serviceResolver),
+    context: new _ContextClient__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"](httpClient, resources, serviceResolver),
+    tasks: new _TasksClient__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](httpClient, resources, serviceResolver),
+    people: new _PeopleClient__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"](httpClient, resources, serviceResolver),
+    org: new _OrgClient__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](httpClient, resources, serviceResolver),
+    report: new _ReportClient__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"](httpClient, resources, serviceResolver),
+    powerBI: new _PowerBIClient__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"](httpClient, resources, serviceResolver),
 });
 
 
@@ -3410,7 +3565,7 @@ class OrgResourceCollection extends _BaseResourceCollection__WEBPACK_IMPORTED_MO
         return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'projects', projectId);
     }
     projectQuery(query) {
-        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), `projects?search=${query}`);
+        return Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), `projects?$search=${query}`);
     }
     positions(projectId, expandProperties) {
         const url = Object(_utils_url__WEBPACK_IMPORTED_MODULE_1__[/* combineUrls */ "a"])(this.getBaseUrl(), 'projects', projectId, 'positions');
@@ -3684,7 +3839,7 @@ const createResourceCollections = (serviceResolver, options) => ({
 /*!***************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/index.js ***!
   \***************************************************/
-/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, useCurrentContextTypes, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, usePeopleContainer, usePersonDetails, usePersonImageUrl, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, UserMenuContainer, useCustomUserMenuSection, TelemetryLogger, useTelemetryLogger, useTelemetryInitializer, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, useFusionEnvironment, createCalendar, isSameDate, EventEmitter, useEventEmitterValue, useEventEmitter, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild */
+/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, useCurrentContextTypes, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, usePeopleContainer, usePersonDetails, usePersonImageUrl, useCurrentPersonDetails, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, UserMenuContainer, useCustomUserMenuSection, TelemetryLogger, useTelemetryLogger, useTelemetryInitializer, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, useFusionEnvironment, createCalendar, isSameDate, EventEmitter, useEventEmitterValue, useEventEmitter, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild */
 /*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3783,11 +3938,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useTaskPrioritySetter", function() { return _core_TasksContainer__WEBPACK_IMPORTED_MODULE_19__["b"]; });
 
 /* harmony import */ var _core_PeopleContainer__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./core/PeopleContainer */ "./node_modules/@equinor/fusion/lib/core/PeopleContainer.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePeopleContainer", function() { return _core_PeopleContainer__WEBPACK_IMPORTED_MODULE_20__["b"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePeopleContainer", function() { return _core_PeopleContainer__WEBPACK_IMPORTED_MODULE_20__["c"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePersonDetails", function() { return _core_PeopleContainer__WEBPACK_IMPORTED_MODULE_20__["c"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePersonDetails", function() { return _core_PeopleContainer__WEBPACK_IMPORTED_MODULE_20__["d"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePersonImageUrl", function() { return _core_PeopleContainer__WEBPACK_IMPORTED_MODULE_20__["d"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "usePersonImageUrl", function() { return _core_PeopleContainer__WEBPACK_IMPORTED_MODULE_20__["e"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useCurrentPersonDetails", function() { return _core_PeopleContainer__WEBPACK_IMPORTED_MODULE_20__["b"]; });
 
 /* harmony import */ var _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./http/apiClients/models/tasks/Task */ "./node_modules/@equinor/fusion/lib/http/apiClients/models/tasks/Task.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "TaskTypes", function() { return _http_apiClients_models_tasks_Task__WEBPACK_IMPORTED_MODULE_21__["b"]; });
@@ -4645,7 +4802,7 @@ class LocalStorageProvider {
     }
     async setItemAsync(key, value) {
         const localCache = await this.toObjectAsync();
-        this.localCache = Object.assign({}, localCache, { [key]: value });
+        this.localCache = Object.assign(Object.assign({}, localCache), { [key]: value });
         await this.persistAsync();
     }
     async removeItemAsync(key) {
@@ -4941,7 +5098,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.69');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.72');
 
 
 /***/ }),
