@@ -2291,7 +2291,7 @@ class HttpClient {
         const response = await this.performFetchAsync(url, init);
         return await this.parseResponseAsync(init, response, responseParser);
     }
-    async postFormAsync(url, form, onProgress) {
+    async postFormAsync(url, form, onProgress, responseParser) {
         const token = await this.authContainer.acquireTokenAsync(url);
         return new Promise((resolve, reject) => {
             const xhr = new XMLHttpRequest();
@@ -2315,7 +2315,9 @@ class HttpClient {
                     return headerMap;
                 }, new Headers());
                 const response = {
-                    data: _utils_JSON__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"].parse(xhr.responseText),
+                    data: responseParser
+                        ? responseParser(xhr.responseText)
+                        : _utils_JSON__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"].parse(xhr.responseText),
                     status: xhr.status,
                     headers: headerMap,
                     refreshRequest: null,
@@ -2483,7 +2485,16 @@ class HttpClient {
         const fileNamePart = parts.find(part => part.indexOf('filename=') !== -1);
         if (!fileNamePart)
             return null;
-        return fileNamePart.split('=')[1];
+        const fileName = fileNamePart.split('=')[1];
+        // The API returns filename wrapped in double qutoes to preserve spaces.
+        // These should be replaced when parsing the filename to prevent the browser
+        // from prefixing and postfixing the filname with underscores during download.
+        // If we do not replace the quotes, the parsed filename would be a double quoted
+        // string (e.g. ""file.pdf""). The browser would likely create the following
+        // filename when the file is downloaded: _file.pdf_. This would result in the
+        // client not recognising the file format and the user will not be able to open
+        // the file.
+        return fileName.replace(/["]/g, '');
     }
 }
 const useHttpClient = () => {
@@ -5098,7 +5109,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.73');
+/* harmony default export */ __webpack_exports__["a"] = ('0.4.74');
 
 
 /***/ }),
