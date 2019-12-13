@@ -1,7 +1,11 @@
 {
   "name": "@equinor/fusion-cli",
   "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
+<<<<<<< HEAD
   "version": "0.2.107",
+=======
+  "version": "0.2.119",
+>>>>>>> 7f0c4f68288e4e42361d5b9d983564abcdf5b4ac
   "author": "Fusion Core",
   "bin": {
     "fusion": "./bin/run"
@@ -12,7 +16,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "@equinor/fusion": "^0.4.61",
+    "@equinor/fusion": "^0.4.74",
     "@hot-loader/react-dom": "^16.8.6",
     "@oclif/command": "^1.5.13",
     "@oclif/config": "^1.13.0",
@@ -55,7 +59,7 @@
     "slugify": "^1.3.4",
     "style-loader": "^0.23.1",
     "tslib": "^1.9.3",
-    "typescript": "^3.4.5",
+    "typescript": "^3.7.3",
     "webpack": "^4.32.0",
     "webpack-cli": "^3.3.2",
     "webpack-dev-middleware": "^3.7.0",
@@ -63,7 +67,7 @@
     "webpack-merge": "^4.2.1"
   },
   "devDependencies": {
-    "@equinor/fusion-components": "^0.1.71",
+    "@equinor/fusion-components": "^0.2.0",
     "@oclif/dev-cli": "^1.22.0",
     "@oclif/test": "^1.2.4",
     "@oclif/tslint": "^3.1.1",
