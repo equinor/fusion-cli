@@ -1044,26 +1044,28 @@ const useComponentDisplayClassNames = (styles) => {
 
 
 class ContextManager extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* default */ "b"] {
-    constructor(apiClients, appContainer) {
+    constructor(apiClients, appContainer, history) {
         super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* LocalStorageProvider */ "a"](`FUSION_CURRENT_CONTEXT`, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]()));
         this.isSettingFromRoute = false;
         this.contextClient = apiClients.context;
-        const { history } = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
-        const context = appContainer && appContainer.currentApp && appContainer.currentApp.context
-            ? appContainer.currentApp.context
+        this.history = history;
+        const unlistenAppContainer = appContainer.on('change', app => {
+            this.resolveContextFromUrlOrLocalStorageAsync(app);
+            unlistenAppContainer();
+        });
+    }
+    async resolveContextFromUrlOrLocalStorageAsync(app) {
+        if (!app || !app.context)
+            return;
+        const { context: { getContextFromUrl, buildUrl }, } = app;
+        const contextId = getContextFromUrl && this.history.location && this.history.location.pathname
+            ? getContextFromUrl(this.history.location.pathname)
             : null;
-        const contextId = context && context.getContextFromUrl && history.location && history.location.pathname
-            ? context.getContextFromUrl(history.location.pathname)
-            : null;
-        if (contextId) {
-            this.setCurrentContextFromIdAsync(contextId);
-        }
-        if (!contextId && context && context.buildUrl) {
-            const buildUrl = context.buildUrl;
-            this.getCurrentContextAsync().then(currentContext => {
-                currentContext && history.push(buildUrl(currentContext));
-            });
-        }
+        if (contextId)
+            return this.setCurrentContextFromIdAsync(contextId);
+        const currentContext = await this.getCurrentContextAsync();
+        if (buildUrl && currentContext)
+            this.history.push(buildUrl(currentContext));
     }
     async setCurrentContextAsync(context) {
         const currentContext = await this.getCurrentContextAsync();
@@ -1326,7 +1328,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
         path: history.location.pathname,
     });
     const contextId = contextRouteMatch && contextRouteMatch.params ? contextRouteMatch.params.contextId : null;
-    const contextManager = new _ContextManager__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"](apiClients, appContainer);
+    const contextManager = new _ContextManager__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"](apiClients, appContainer, history);
     const tasksContainer = new _TasksContainer__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"](apiClients, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     const notificationCenter = new _NotificationCenter__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     const peopleContainer = new _PeopleContainer__WEBPACK_IMPORTED_MODULE_14__[/* default */ "a"](apiClients, resourceCollections, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
@@ -5254,7 +5256,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.17');
+/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.19');
 
 
 /***/ }),
