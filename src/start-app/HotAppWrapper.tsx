@@ -16,6 +16,7 @@ const HotAppWrapper: React.FC = () => {
 
         if (onlyApp) {
             setApp(onlyApp);
+            appContainer.setCurrentAppAsync(onlyApp.key);
         }
 
         return appContainer.on('update', apps => setApp(apps[0]));
