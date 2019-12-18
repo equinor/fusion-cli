@@ -51,15 +51,7 @@ const start = async () => {
 
     const HeaderContextSelector: React.FC = () => {
         const currentApp = useCurrentApp();
-        console.log('CurrentApp:');
-        console.log(currentApp);
-
-        return currentApp &&
-            currentApp.context &&
-            currentApp.context.types &&
-            currentApp.context.types.length ? (
-            <ContextSelector />
-        ) : null;
+        return currentApp?.context?.types.length ? <ContextSelector /> : null;
     };
 
     if (!coreAppRegistered) {
