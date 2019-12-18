@@ -1036,6 +1036,8 @@ const useComponentDisplayClassNames = (styles) => {
 /* harmony import */ var _http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../http/hooks/useApiClients */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClients.js");
 /* harmony import */ var _utils_EventHub__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/EventHub */ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js");
 /* harmony import */ var _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../app/AppContainer */ "./node_modules/@equinor/fusion/lib/app/AppContainer.js");
+/* harmony import */ var _utils_url__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../utils/url */ "./node_modules/@equinor/fusion/lib/utils/url.js");
+
 
 
 
@@ -1046,10 +1048,11 @@ const useComponentDisplayClassNames = (styles) => {
 class ContextManager extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* default */ "b"] {
     constructor(apiClients, appContainer, history) {
         super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* LocalStorageProvider */ "a"](`FUSION_CURRENT_CONTEXT`, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]()));
+        this.appContainer = appContainer;
         this.isSettingFromRoute = false;
         this.contextClient = apiClients.context;
         this.history = history;
-        const unlistenAppContainer = appContainer.on('change', app => {
+        const unlistenAppContainer = this.appContainer.on('change', app => {
             this.resolveContextFromUrlOrLocalStorageAsync(app);
             unlistenAppContainer();
         });
@@ -1058,17 +1061,25 @@ class ContextManager extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_
         if (!app || !app.context)
             return;
         const { context: { getContextFromUrl, buildUrl }, } = app;
+        const appPath = `/apps/${app.key}`;
         const contextId = getContextFromUrl && this.history.location && this.history.location.pathname
-            ? getContextFromUrl(this.history.location.pathname)
+            ? getContextFromUrl(this.history.location.pathname.replace(appPath, ''))
             : null;
+        const hasAppPath = this.history.location.pathname.indexOf(appPath) !== -1;
         if (contextId)
             return this.setCurrentContextFromIdAsync(contextId);
         const currentContext = await this.getCurrentContextAsync();
         if (buildUrl && currentContext)
-            this.history.push(buildUrl(currentContext));
+            this.history.push(Object(_utils_url__WEBPACK_IMPORTED_MODULE_7__[/* combineUrls */ "a"])(hasAppPath ? appPath : '', buildUrl(currentContext)));
     }
     async setCurrentContextAsync(context) {
+        var _a, _b, _c;
         const currentContext = await this.getCurrentContextAsync();
+        const buildUrl = (_b = (_a = this.appContainer.currentApp) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.buildUrl;
+        const appPath = `/apps/${(_c = this.appContainer.currentApp) === null || _c === void 0 ? void 0 : _c.key}`;
+        const hasAppPath = this.history.location.pathname.indexOf(appPath) !== -1;
+        if (buildUrl && context)
+            this.history.push(Object(_utils_url__WEBPACK_IMPORTED_MODULE_7__[/* combineUrls */ "a"])(hasAppPath ? appPath : '', buildUrl(context)));
         await this.setAsync('current', context);
         if (!currentContext) {
             return;
@@ -5256,7 +5267,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('1.0.0');
+/* harmony default export */ __webpack_exports__["a"] = ('1.0.1');
 
 
 /***/ }),
@@ -73351,6 +73362,7 @@ const HotAppWrapper = () => {
         const onlyApp = allApps[0];
         if (onlyApp) {
             setApp(onlyApp);
+            appContainer.setCurrentAppAsync(onlyApp.key);
         }
         return appContainer.on('update', apps => setApp(apps[0]));
     }, []);
@@ -73389,13 +73401,13 @@ exports.default = HotAppWrapper;
 
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_dom_1 = __webpack_require__(/*! @hot-loader/react-dom */ "./node_modules/@hot-loader/react-dom/index.js-exposed");
-const fusion_1 = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
 const React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js-exposed");
+const fusion_1 = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
 const fusion_components_1 = __webpack_require__(/*! @equinor/fusion-components */ "./node_modules/@equinor/fusion-components/dist/index.js-exposed");
 const HotAppWrapper_1 = __webpack_require__(/*! ./HotAppWrapper */ "./src/start-app/HotAppWrapper.tsx");
 const serviceResolver = {
-    getContextBaseUrl: () => 'https://pro-s-context-pr-842.azurewebsites.net',
+    getContextBaseUrl: () => 'https://pro-s-context-ci.azurewebsites.net',
     getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
     getFusionBaseUrl: () => 'https://pro-s-portal-ci.azurewebsites.net',
     getMeetingsBaseUrl: () => 'https://pro-s-meeting-v2-ci.azurewebsites.net',
@@ -73424,6 +73436,11 @@ const start = async () => {
         serviceResolver.getReportsBaseUrl(),
         serviceResolver.getPowerBiApiBaseUrl(),
     ]);
+    const HeaderContextSelector = () => {
+        var _a, _b;
+        const currentApp = fusion_1.useCurrentApp();
+        return ((_b = (_a = currentApp) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.types.length) ? React.createElement(fusion_components_1.ContextSelector, null) : null;
+    };
     if (!coreAppRegistered) {
         await authContainer.loginAsync(coreAppClientId);
     }
@@ -73444,7 +73461,7 @@ const start = async () => {
             return (React.createElement(react_router_dom_1.Router, { history: fusionContext.history },
                 React.createElement(fusion_1.FusionContext.Provider, { value: fusionContext },
                     React.createElement(fusion_components_1.FusionRoot, { rootRef: root, overlayRef: overlay },
-                        React.createElement(fusion_components_1.FusionHeader, { aside: null, content: null, start: null }),
+                        React.createElement(fusion_components_1.FusionHeader, { aside: null, content: React.createElement(HeaderContextSelector, null), start: null }),
                         React.createElement(fusion_components_1.FusionContent, null,
                             React.createElement(HotAppWrapper_1.default, null))))));
         };
