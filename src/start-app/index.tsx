@@ -73,6 +73,7 @@ const start = async () => {
                 authContainer,
                 serviceResolver,
                 {
+                    headerContent: React.useRef<HTMLElement | null>(null),
                     overlay,
                     root,
                 },
