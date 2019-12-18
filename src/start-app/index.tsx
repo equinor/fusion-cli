@@ -1,17 +1,23 @@
 import { render } from '@hot-loader/react-dom';
-import {
-    FusionContext,
-    AuthContainer,
-    ServiceResolver,
-    createFusionContext,
-} from '@equinor/fusion';
 import * as React from 'react';
 import { Router } from 'react-router-dom';
-import { FusionHeader, FusionRoot, FusionContent } from '@equinor/fusion-components';
+import {
+    createFusionContext,
+    useCurrentApp,
+    AuthContainer,
+    FusionContext,
+    ServiceResolver,
+} from '@equinor/fusion';
+import {
+    FusionHeader,
+    ContextSelector,
+    FusionContent,
+    FusionRoot,
+} from '@equinor/fusion-components';
 import HotAppWrapper from './HotAppWrapper';
 
 const serviceResolver: ServiceResolver = {
-    getContextBaseUrl: () => 'https://pro-s-context-pr-842.azurewebsites.net',
+    getContextBaseUrl: () => 'https://pro-s-context-ci.azurewebsites.net',
     getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
     getFusionBaseUrl: () => 'https://pro-s-portal-ci.azurewebsites.net',
     getMeetingsBaseUrl: () => 'https://pro-s-meeting-v2-ci.azurewebsites.net',
@@ -43,6 +49,19 @@ const start = async () => {
         serviceResolver.getPowerBiApiBaseUrl(),
     ]);
 
+    const HeaderContextSelector: React.FC = () => {
+        const currentApp = useCurrentApp();
+        console.log('CurrentApp:');
+        console.log(currentApp);
+
+        return currentApp &&
+            currentApp.context &&
+            currentApp.context.types &&
+            currentApp.context.types.length ? (
+            <ContextSelector />
+        ) : null;
+    };
+
     if (!coreAppRegistered) {
         await authContainer.loginAsync(coreAppClientId);
     } else {
@@ -69,7 +88,11 @@ const start = async () => {
                 <Router history={fusionContext.history}>
                     <FusionContext.Provider value={fusionContext}>
                         <FusionRoot rootRef={root} overlayRef={overlay}>
-                            <FusionHeader aside={null} content={null} start={null} />
+                            <FusionHeader
+                                aside={null}
+                                content={<HeaderContextSelector />}
+                                start={null}
+                            />
                             <FusionContent>
                                 <HotAppWrapper />
                             </FusionContent>
