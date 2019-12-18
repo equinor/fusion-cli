@@ -241,17 +241,28 @@ and limitations under the License.
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+
 
 
 
 class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
-    constructor(apiClients, telemetryLogger) {
+    constructor(apiClients, telemetryLogger, eventHub) {
         super();
-        this.previousApps = [];
-        this.currentApp = null;
-        this.apps = [];
         this.fusionClient = apiClients.fusion;
         this.telemetryLogger = telemetryLogger;
+        this._currentApp = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('AppContainer.currentApp', null, eventHub);
+        this._currentApp.on('change', (updatedApp) => {
+            this.emit('change', updatedApp);
+        });
+        this.apps = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('AppContainer.apps', [], eventHub);
+        this.apps.on('change', (apps) => {
+            this.emit('update', apps);
+        });
+        this.previousApps = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('AppContainer.previousApps', [], eventHub);
+    }
+    get currentApp() {
+        return this._currentApp.state;
     }
     updateManifest(appKey, manifest) {
         const existingApp = this.get(appKey);
@@ -268,18 +279,18 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
         }
     }
     get(appKey) {
-        return this.apps.find(app => app.key === appKey) || null;
+        return this.apps.state.find(app => app.key === appKey) || null;
     }
     getAll() {
-        return [...this.apps];
+        return [...this.apps.state];
     }
     async setCurrentAppAsync(appKey) {
-        const previousApp = this.previousApps[0];
+        const previousApp = this.previousApps.state[0];
         if (this.currentApp && previousApp && previousApp.key !== appKey) {
-            this.previousApps = [this.currentApp, ...this.previousApps];
+            this.previousApps.state = [this.currentApp, ...this.previousApps.state];
         }
         if (!appKey) {
-            this.currentApp = null;
+            this._currentApp.state = null;
             this.emit('change', null);
             return;
         }
@@ -298,12 +309,13 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
         this.telemetryLogger.trackEvent({
             name: 'App selected',
             properties: {
-                previousApps: this.previousApps.map(pa => pa.name),
-                previousApp: previousApp ? previousApp.name : null,
+                previousApp: this._currentApp.state ? this._currentApp.state.name : null,
+                selectedApp: app.name,
+                previousApps: this.previousApps.state.map(pa => pa.name),
                 currentApp: app.name,
             },
         });
-        this.currentApp = app;
+        this._currentApp.state = app;
         this.emit('change', app);
     }
     async getAllAsync() {
@@ -323,27 +335,27 @@ class AppContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* d
     addOrUpdate(app) {
         const existingApp = this.get(app.key);
         if (existingApp) {
-            this.apps = this.apps.map(a => (a.key === app.key ? app : a));
+            this.apps.state = this.apps.state.map(a => (a.key === app.key ? app : a));
         }
         else {
-            this.apps = [...this.apps, app];
+            this.apps.state = [...this.apps.state, app];
         }
-        this.emit('update', app);
+        this.emit('update', this.apps.state);
     }
 }
-const global = window;
+let appContainerInstance = null;
 let appContainerPromise = null;
 let setAppContainerSingleton;
 const appContainerFactory = (appContainer) => {
-    global['EQUINOR_FUSION_APP_CONTAINER'] = appContainer;
+    appContainerInstance = appContainer;
     if (setAppContainerSingleton) {
         setAppContainerSingleton(appContainer);
         setAppContainerSingleton = null;
     }
 };
 const getAppContainer = () => {
-    if (global['EQUINOR_FUSION_APP_CONTAINER']) {
-        return Promise.resolve(global['EQUINOR_FUSION_APP_CONTAINER']);
+    if (appContainerInstance) {
+        return Promise.resolve(appContainerInstance);
     }
     if (appContainerPromise) {
         return appContainerPromise;
@@ -433,6 +445,8 @@ class AuthApp {
 /* harmony import */ var _AuthToken__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthToken */ "./node_modules/@equinor/fusion/lib/auth/AuthToken.js");
 /* harmony import */ var _AuthUser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthUser */ "./node_modules/@equinor/fusion/lib/auth/AuthUser.js");
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
+/* harmony import */ var _utils_EventHub__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/EventHub */ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js");
+
 
 
 
@@ -445,7 +459,7 @@ var TokenCacheKey;
 ;
 class AuthCache extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* default */ "b"] {
     constructor() {
-        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* LocalStorageProvider */ "a"]("FUSION_AUTH_CACHE"));
+        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* LocalStorageProvider */ "a"]('FUSION_AUTH_CACHE', new _utils_EventHub__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]()));
     }
     static createAppCacheKey(app, key) {
         return `FUSION_AUTH_CACHE:${app.clientId}:${key}`;
@@ -1020,7 +1034,9 @@ const useComponentDisplayClassNames = (styles) => {
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
 /* harmony import */ var _hooks_useDebouncedAbortable__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../hooks/useDebouncedAbortable */ "./node_modules/@equinor/fusion/lib/hooks/useDebouncedAbortable.js");
 /* harmony import */ var _http_hooks_useApiClients__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../http/hooks/useApiClients */ "./node_modules/@equinor/fusion/lib/http/hooks/useApiClients.js");
-/* harmony import */ var _app_AppContainer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../app/AppContainer */ "./node_modules/@equinor/fusion/lib/app/AppContainer.js");
+/* harmony import */ var _utils_EventHub__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/EventHub */ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js");
+/* harmony import */ var _app_AppContainer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../app/AppContainer */ "./node_modules/@equinor/fusion/lib/app/AppContainer.js");
+
 
 
 
@@ -1028,26 +1044,28 @@ const useComponentDisplayClassNames = (styles) => {
 
 
 class ContextManager extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* default */ "b"] {
-    constructor(apiClients, appContainer) {
-        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* LocalStorageProvider */ "a"](`FUSION_CURRENT_CONTEXT`));
+    constructor(apiClients, appContainer, history) {
+        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_2__[/* LocalStorageProvider */ "a"](`FUSION_CURRENT_CONTEXT`, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"]()));
         this.isSettingFromRoute = false;
         this.contextClient = apiClients.context;
-        const { history } = Object(_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
-        const context = appContainer && appContainer.currentApp && appContainer.currentApp.context
-            ? appContainer.currentApp.context
+        this.history = history;
+        const unlistenAppContainer = appContainer.on('change', app => {
+            this.resolveContextFromUrlOrLocalStorageAsync(app);
+            unlistenAppContainer();
+        });
+    }
+    async resolveContextFromUrlOrLocalStorageAsync(app) {
+        if (!app || !app.context)
+            return;
+        const { context: { getContextFromUrl, buildUrl }, } = app;
+        const contextId = getContextFromUrl && this.history.location && this.history.location.pathname
+            ? getContextFromUrl(this.history.location.pathname)
             : null;
-        const contextId = context && context.getContextFromUrl && history.location && history.location.pathname
-            ? context.getContextFromUrl(history.location.pathname)
-            : null;
-        if (contextId) {
-            this.setCurrentContextFromIdAsync(contextId);
-        }
-        if (!contextId && context && context.buildUrl) {
-            const buildUrl = context.buildUrl;
-            this.getCurrentContextAsync().then(currentContext => {
-                currentContext && history.push(buildUrl(currentContext));
-            });
-        }
+        if (contextId)
+            return this.setCurrentContextFromIdAsync(contextId);
+        const currentContext = await this.getCurrentContextAsync();
+        if (buildUrl && currentContext)
+            this.history.push(buildUrl(currentContext));
     }
     async setCurrentContextAsync(context) {
         const currentContext = await this.getCurrentContextAsync();
@@ -1149,7 +1167,7 @@ const useContextManager = () => {
     return fusionContext.contextManager;
 };
 const useCurrentContextTypes = () => {
-    const app = Object(_app_AppContainer__WEBPACK_IMPORTED_MODULE_5__[/* useCurrentApp */ "d"])();
+    const app = Object(_app_AppContainer__WEBPACK_IMPORTED_MODULE_6__[/* useCurrentApp */ "d"])();
     return app && app.context ? app.context.types : [];
 };
 const useContextHistory = () => {
@@ -1261,6 +1279,8 @@ const useContextQuery = () => {
 /* harmony import */ var _PeopleContainer__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./PeopleContainer */ "./node_modules/@equinor/fusion/lib/core/PeopleContainer.js");
 /* harmony import */ var _UserMenuContainer__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./UserMenuContainer */ "./node_modules/@equinor/fusion/lib/core/UserMenuContainer.js");
 /* harmony import */ var _utils_TelemetryLogger__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ../utils/TelemetryLogger */ "./node_modules/@equinor/fusion/lib/utils/TelemetryLogger.js");
+/* harmony import */ var _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ../utils/EventHub */ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js");
+
 
 
 
@@ -1281,17 +1301,8 @@ const useContextQuery = () => {
 const defaultSettings = {
     componentDisplayType: _core_ComponentDisplayType__WEBPACK_IMPORTED_MODULE_9__[/* ComponentDisplayType */ "a"].Comfortable,
 };
-const ensureGlobalFusionContextType = () => {
-    const win = window;
-    const key = 'EQUINOR_FUSION_CONTEXT';
-    if (typeof win[key] !== undefined && win[key]) {
-        return win[key];
-    }
-    const fusionContext = Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});
-    win[key] = fusionContext;
-    return fusionContext;
-};
-const FusionContext = ensureGlobalFusionContextType();
+const globalEquinorFusionContextKey = '74b1613f-f22a-451b-a5c3-1c9391e91e68';
+const win = window;
 const ensureFusionEnvironment = (options) => {
     if (options && options.environment) {
         return options.environment;
@@ -1302,28 +1313,28 @@ const ensureFusionEnvironment = (options) => {
 };
 const createFusionContext = (authContainer, serviceResolver, refs, options) => {
     const telemetryLogger = new _utils_TelemetryLogger__WEBPACK_IMPORTED_MODULE_16__[/* default */ "a"](options && options.telemetry ? options.telemetry.instrumentationKey : '', authContainer);
-    authContainer.setTelemetryLogger(telemetryLogger);
-    const abortControllerManager = new _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"]();
+    const abortControllerManager = new _utils_AbortControllerManager__WEBPACK_IMPORTED_MODULE_11__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     const resourceCollections = Object(_http_resourceCollections__WEBPACK_IMPORTED_MODULE_3__[/* createResourceCollections */ "a"])(serviceResolver, options);
-    const resourceCache = new _http_ResourceCache__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"]();
+    const resourceCache = new _http_ResourceCache__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
+    authContainer.setTelemetryLogger(telemetryLogger);
     const httpClient = new _http_HttpClient__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](authContainer, resourceCache, abortControllerManager, telemetryLogger);
     const apiClients = Object(_http_apiClients__WEBPACK_IMPORTED_MODULE_4__[/* createApiClients */ "a"])(httpClient, resourceCollections, serviceResolver);
     const history = Object(history__WEBPACK_IMPORTED_MODULE_1__["createBrowserHistory"])();
-    const coreSettings = new _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]('core', authContainer.getCachedUser(), defaultSettings);
-    const appContainer = new _app_AppContainer__WEBPACK_IMPORTED_MODULE_8__[/* default */ "b"](apiClients, telemetryLogger);
+    const coreSettings = new _settings_SettingsContainer__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"]('core', authContainer.getCachedUser(), new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"](), defaultSettings);
+    const appContainer = new _app_AppContainer__WEBPACK_IMPORTED_MODULE_8__[/* default */ "b"](apiClients, telemetryLogger, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     Object(_app_AppContainer__WEBPACK_IMPORTED_MODULE_8__[/* appContainerFactory */ "a"])(appContainer);
     // Try to get the current context id from the current route if a user navigates directly to the app/context
     const contextRouteMatch = Object(react_router__WEBPACK_IMPORTED_MODULE_2__[/* matchPath */ "j"])('apps/:appKey/:contextId', {
         path: history.location.pathname,
     });
     const contextId = contextRouteMatch && contextRouteMatch.params ? contextRouteMatch.params.contextId : null;
-    const contextManager = new _ContextManager__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"](apiClients, appContainer);
-    const tasksContainer = new _TasksContainer__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"](apiClients);
-    const notificationCenter = new _NotificationCenter__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"]();
-    const peopleContainer = new _PeopleContainer__WEBPACK_IMPORTED_MODULE_14__[/* default */ "a"](apiClients, resourceCollections);
-    const userMenuSectionsContainer = new _UserMenuContainer__WEBPACK_IMPORTED_MODULE_15__[/* default */ "a"]();
+    const contextManager = new _ContextManager__WEBPACK_IMPORTED_MODULE_10__[/* default */ "a"](apiClients, appContainer, history);
+    const tasksContainer = new _TasksContainer__WEBPACK_IMPORTED_MODULE_12__[/* default */ "a"](apiClients, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
+    const notificationCenter = new _NotificationCenter__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
+    const peopleContainer = new _PeopleContainer__WEBPACK_IMPORTED_MODULE_14__[/* default */ "a"](apiClients, resourceCollections, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
+    const userMenuSectionsContainer = new _UserMenuContainer__WEBPACK_IMPORTED_MODULE_15__[/* default */ "a"](new _utils_EventHub__WEBPACK_IMPORTED_MODULE_17__[/* default */ "a"]());
     const environment = ensureFusionEnvironment(options);
-    return {
+    const fusionContext = {
         auth: { container: authContainer },
         http: {
             client: httpClient,
@@ -1332,7 +1343,7 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
             resourceCache,
             serviceResolver,
         },
-        refs: Object.assign(Object.assign({}, refs), { headerContent: Object(react__WEBPACK_IMPORTED_MODULE_0__["useRef"])(null) }),
+        refs,
         history,
         settings: {
             core: coreSettings,
@@ -1351,8 +1362,21 @@ const createFusionContext = (authContainer, serviceResolver, refs, options) => {
         logging: {
             telemetry: telemetryLogger,
         },
+        options,
     };
+    if (!win[globalEquinorFusionContextKey]) {
+        win[globalEquinorFusionContextKey] = fusionContext;
+    }
+    return fusionContext;
 };
+const ensureGlobalFusionContextType = () => {
+    if (!win[globalEquinorFusionContextKey]) {
+        return Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])({});
+    }
+    const existingFusionContext = win[globalEquinorFusionContextKey];
+    return Object(react__WEBPACK_IMPORTED_MODULE_0__["createContext"])(createFusionContext(existingFusionContext.auth.container, existingFusionContext.http.serviceResolver, existingFusionContext.refs, existingFusionContext.options));
+};
+const FusionContext = ensureGlobalFusionContextType();
 const useFusionContext = () => Object(react__WEBPACK_IMPORTED_MODULE_0__["useContext"])(FusionContext);
 /* harmony default export */ __webpack_exports__["b"] = (FusionContext);
 
@@ -1374,16 +1398,20 @@ const useFusionContext = () => Object(react__WEBPACK_IMPORTED_MODULE_0__["useCon
 /* harmony import */ var uuid_v1__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(uuid_v1__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
 /* harmony import */ var _FusionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+/* harmony import */ var _utils_EventHub__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../utils/EventHub */ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js");
+
+
 
 
 
 class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__[/* default */ "b"] {
-    constructor() {
-        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__[/* LocalStorageProvider */ "a"]('NOTIFICATION_CENTER', { notifications: [] }));
-        this.presenters = [];
+    constructor(eventHub) {
+        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_1__[/* LocalStorageProvider */ "a"]('NOTIFICATION_CENTER', new _utils_EventHub__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"](), { notifications: [] }));
+        this.presenters = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('NotificationCenter.presenters', [], eventHub);
     }
     async sendAsync(notificationRequest) {
-        if (!await this.shouldPresentNotificationAsync(notificationRequest)) {
+        if (!(await this.shouldPresentNotificationAsync(notificationRequest))) {
             return Promise.reject();
         }
         const notification = this.createNotification(notificationRequest);
@@ -1408,10 +1436,9 @@ class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MOD
             level,
             present,
         };
-        this.presenters.push(notificationPresenter);
+        this.presenters.state = [...this.presenters.state, notificationPresenter];
         return () => {
-            const index = this.presenters.indexOf(notificationPresenter);
-            this.presenters.splice(index, 1);
+            this.presenters.state = this.presenters.state.filter(p => p !== notificationPresenter);
         };
     }
     async getAllNotificationsAsync() {
@@ -1476,7 +1503,7 @@ class NotificationCenter extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MOD
         });
     }
     getPresenter(notification) {
-        return this.presenters.find(presenter => presenter.level === notification.level);
+        return this.presenters.state.find(presenter => presenter.level === notification.level);
     }
 }
 const useNotificationCenter = () => {
@@ -1505,62 +1532,66 @@ const useNotificationCenter = () => {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
-/* harmony import */ var _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth/useCurrentUser */ "./node_modules/@equinor/fusion/lib/auth/useCurrentUser.js");
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+/* harmony import */ var _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../auth/useCurrentUser */ "./node_modules/@equinor/fusion/lib/auth/useCurrentUser.js");
+
 
 
 
 
 class PeopleContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"] {
-    constructor(apiClients, resourceCollections) {
+    constructor(apiClients, resourceCollections, eventHub) {
         super();
         this.persons = {};
         this.images = {};
         this.peopleClient = apiClients.people;
         this.resourceCollection = resourceCollections.people;
+        this.eventHub = eventHub;
     }
     getPersonDetails(personId) {
         if (this.persons[personId]) {
-            return this.persons[personId];
+            return this.persons[personId].state;
         }
         return null;
     }
     async getPersonDetailsAsync(personId) {
         const cachedPerson = this.persons[personId];
         if (cachedPerson) {
-            return cachedPerson;
+            return cachedPerson.state;
         }
         const response = await this.peopleClient.getPersonDetailsAsync(personId, [
             'positions',
             'contracts',
             'roles',
         ]);
-        this.persons[personId] = response.data;
-        return this.persons[personId];
+        this.persons[personId] = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](`PeopleContainer.person.${personId}`, response.data, this.eventHub);
+        this.persons[personId].on('change', personDetails => {
+            this.emit('updated', personDetails);
+        });
+        return this.persons[personId].state;
     }
     async setRoleStatusForUser(personId, roleName, isActive) {
         const response = await this.peopleClient.setRoleStatusForUser(personId, roleName, isActive);
-        if (!this.persons[personId] || !this.persons[personId].roles)
+        if (!this.persons[personId] || !this.persons[personId].state.roles)
             return response.data;
-        const roles = this.persons[personId].roles;
+        const person = this.persons[personId].state;
+        const roles = person.roles;
         if (roles) {
-            const roleIndex = roles.findIndex(role => role.name === roleName);
-            if (roleIndex !== -1) {
-                roles[roleIndex] = response.data;
-                this.emit('updated', Object.assign({}, this.persons[personId]));
-            }
+            const newRoles = roles.map(role => (role.name === roleName ? response.data : role));
+            this.persons[personId].state = Object.assign(Object.assign({}, person), { roles: newRoles });
         }
         return response.data;
     }
     getPersonImage(personId) {
         if (this.images[personId]) {
-            return this.images[personId];
+            return this.images[personId].state;
         }
         return null;
     }
     async getPersonImageAsync(personId) {
         const cachedImage = this.images[personId];
         if (cachedImage) {
-            return cachedImage;
+            return cachedImage.state;
         }
         return new Promise((resolve, reject) => {
             const urlToImage = this.resourceCollection.getPersonPhoto(personId);
@@ -1568,7 +1599,7 @@ class PeopleContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_2__[/
             image.src = urlToImage;
             image.onerror = () => reject(`Could not load image ${urlToImage}.`);
             image.onload = () => {
-                this.images[personId] = image;
+                this.images[personId] = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](`PeopleContainer.Images.${personId}`, image, this.eventHub);
                 resolve(image);
             };
         });
@@ -1584,9 +1615,6 @@ const usePersonDetails = (personId) => {
     const [error, setError] = react__WEBPACK_IMPORTED_MODULE_1__["useState"](null);
     const [personDetails, setPersonDetails] = react__WEBPACK_IMPORTED_MODULE_1__["useState"](peopleContainer.getPersonDetails(personId));
     const getPersonAsync = async (personId) => {
-        if (!personId) {
-            return;
-        }
         try {
             setFetching(true);
             const personDetails = await peopleContainer.getPersonDetailsAsync(personId);
@@ -1647,7 +1675,7 @@ const usePersonImageUrl = (personId) => {
 };
 const useCurrentPersonDetails = () => {
     var _a;
-    const currentUser = Object(_auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"])();
+    const currentUser = Object(_auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])();
     return usePersonDetails(((_a = currentUser) === null || _a === void 0 ? void 0 : _a.id) || "");
 };
 
@@ -1674,22 +1702,33 @@ const useCurrentPersonDetails = () => {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _FusionContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+
 
 
 
 class TasksContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
-    constructor(apiClients) {
+    constructor(apiClients, eventHub) {
         super();
-        this.tasks = [];
-        this.taskTypes = [];
-        this.sourceSystems = [];
+        this.tasks = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('TaskContainer.Tasks', [], eventHub);
+        this.tasks.on('change', (tasks) => {
+            this.emit('tasks-updated', tasks);
+        });
+        this.taskTypes = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('TaskContainer.TaskTypes', [], eventHub);
+        this.taskTypes.on('change', (taskTypes) => {
+            this.emit('task-types-updated', taskTypes);
+        });
+        this.sourceSystems = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('TaskContainer.SourceSysytems', [], eventHub);
+        this.sourceSystems.on('change', (sourceSystems) => {
+            this.emit('source-systems-updated', sourceSystems);
+        });
         this.tasksClient = apiClients.tasks;
     }
     async getAllTasksAsync() {
         const taskTypes = await this.getTaskTypesAsync();
         const taskPromises = taskTypes.map(taskType => this.getTasksAsync(taskType.key));
         await Promise.all(taskPromises);
-        return this.tasks;
+        return this.tasks.state;
     }
     async getTasksAsync(taskType) {
         const response = await this.tasksClient.getAllTasksAsync(taskType);
@@ -1729,15 +1768,15 @@ class TasksContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/*
     }
     getTasks(taskType) {
         if (!taskType) {
-            return [...this.tasks];
+            return [...this.tasks.state];
         }
-        return this.tasks.filter(t => t.taskTypeKey == taskType);
+        return this.tasks.state.filter(t => t.taskTypeKey == taskType);
     }
     getTaskTypes() {
-        return [...this.taskTypes];
+        return [...this.taskTypes.state];
     }
     getSourceSystems() {
-        return [...this.sourceSystems];
+        return [...this.sourceSystems.state];
     }
     async refreshTasksAsync(taskType, refreshRequest) {
         const response = await this.tasksClient.refreshTasksAsync(taskType, refreshRequest);
@@ -1746,19 +1785,19 @@ class TasksContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/*
     }
     mergeTasks(tasks) {
         // Extract new tasks from the list of tasks
-        const newTasks = tasks.filter(t => !this.tasks.find(e => e.id === t.id));
+        const newTasks = tasks.filter(t => !this.tasks.state.find(e => e.id === t.id));
         // Merge new tasks with the existing
-        const mergedTasks = [...this.tasks, ...newTasks];
+        const mergedTasks = [...this.tasks.state, ...newTasks];
         // Overwrite existing tasks with updated tasks
-        this.tasks = mergedTasks.map(t => tasks.find(n => n.id === t.id) || t);
+        this.tasks.state = mergedTasks.map(t => tasks.find(n => n.id === t.id) || t);
         this.emit('tasks-updated', this.tasks);
     }
     setTaskTypes(taskTypes) {
-        this.taskTypes = taskTypes;
+        this.taskTypes.state = taskTypes;
         this.emit('task-types-updated', taskTypes);
     }
     setSourceSystems(sourceSystems) {
-        this.sourceSystems = sourceSystems;
+        this.sourceSystems.state = sourceSystems;
         this.emit('source-systems-updated', sourceSystems);
     }
 }
@@ -1836,24 +1875,29 @@ const useTasks = () => {
 /* harmony import */ var _FusionContext__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+
 
 
 
 class UserMenuContainer extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
-    constructor() {
-        super(...arguments);
-        this._sections = [];
+    constructor(eventHub) {
+        super();
+        this._sections = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"]('userMenuSections', [], eventHub);
+        this._sections.on('change', (sections) => {
+            this.emit('change', sections);
+        });
     }
     get sections() {
-        return [...this._sections];
+        return [...this._sections.state];
     }
     registerSection(section) {
-        this._sections = [...this.sections, section];
+        this._sections.state = [...this.sections, section];
         this.emit('change', this.sections);
         return () => this.unregisterSection(section);
     }
     unregisterSection(section) {
-        this._sections = this.sections.filter(s => s.key !== section.key);
+        this._sections.state = this.sections.filter(s => s.key !== section.key);
         this.emit('change', this.sections);
     }
 }
@@ -2525,11 +2569,16 @@ const useHttpClient = () => {
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ResourceCache; });
 /* harmony import */ var _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../utils/EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+
 
 class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
-    constructor() {
-        super(...arguments);
-        this.cachedResources = {};
+    constructor(eventHub) {
+        super();
+        this.cachedResources = new _utils_DistributedState__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]('ResourceCache.CachedResources', {}, eventHub);
+        this.cachedResources.on('change', (cachedResources) => {
+            this.emit('update', cachedResources);
+        });
     }
     async setIsFetchingAsync(resource) {
         const cachedResource = await this.getAsync(resource);
@@ -2537,18 +2586,18 @@ class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* 
     }
     async updateAsync(resource, response) {
         const cachedResource = await this.getAsync(resource);
-        const cacheAgeHeader = response.headers.get("x-pp-cache-age");
+        const cacheAgeHeader = response.headers.get('x-pp-cache-age');
         const age = cacheAgeHeader !== null ? new Date(cacheAgeHeader) : null;
-        const cacheDurationHeader = response.headers.get("x-pp-cache-duration-minutes");
+        const cacheDurationHeader = response.headers.get('x-pp-cache-duration-minutes');
         const duration = cacheDurationHeader !== null ? parseInt(cacheDurationHeader, 10) : -1;
-        const source = response.headers.get("x-pp-cache-source");
+        const source = response.headers.get('x-pp-cache-source');
         const updatedResource = Object.assign(Object.assign({}, cachedResource), { data: response.data, isFetching: false, cacheStatus: Object.assign(Object.assign({}, cachedResource.cacheStatus), { age,
                 duration,
                 source }) });
         await this.setResourceAsync(resource, updatedResource);
     }
     async getAsync(resource) {
-        if (typeof this.cachedResources[resource] === "undefined") {
+        if (typeof this.cachedResources.state[resource] === 'undefined') {
             await this.setResourceAsync(resource, {
                 resource,
                 data: null,
@@ -2560,11 +2609,11 @@ class ResourceCache extends _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* 
                 },
             });
         }
-        return this.cachedResources[resource];
+        return this.cachedResources.state[resource];
     }
     async setResourceAsync(resource, updatedResource) {
-        this.cachedResources[resource] = updatedResource;
-        this.emit("update", updatedResource);
+        this.cachedResources.state[resource] = updatedResource;
+        this.emit('update', updatedResource);
     }
 }
 
@@ -3859,7 +3908,7 @@ const createResourceCollections = (serviceResolver, options) => ({
 /*!***************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/index.js ***!
   \***************************************************/
-/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, useCurrentContextTypes, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, usePeopleContainer, usePersonDetails, usePersonImageUrl, useCurrentPersonDetails, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, UserMenuContainer, useCustomUserMenuSection, TelemetryLogger, useTelemetryLogger, useTelemetryInitializer, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, useFusionEnvironment, createCalendar, isSameDate, EventEmitter, useEventEmitterValue, useEventEmitter, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild */
+/*! exports provided: AuthContainer, AuthApp, AuthNonce, AuthUser, AuthToken, useCurrentUser, registerApp, useCurrentApp, FusionContext, useFusionContext, createFusionContext, HttpClient, createResourceCollections, createApiClients, useCoreSettings, useAppSettings, ContextType, ContextTypes, useContextManager, useCurrentContext, useContextQuery, useCurrentContextTypes, withAbortController, useAbortControllerManager, useComponentDisplayType, useComponentDisplayClassNames, ComponentDisplayType, useHistory, HistoryContext, useTasksContainer, useTasks, useTaskSourceSystems, useTaskTypes, useTaskPrioritySetter, usePeopleContainer, usePersonDetails, usePersonImageUrl, useCurrentPersonDetails, TaskTypes, TaskSourceSystems, useApiClient, useApiClients, createPagination, applyPagination, usePagination, useAsyncPagination, useSorting, applySorting, NotificationCenter, useNotificationCenter, UserMenuContainer, useCustomUserMenuSection, TelemetryLogger, useTelemetryLogger, useTelemetryInitializer, useDebouncedAbortable, useDebounce, useEffectAsync, useAsyncData, useFusionEnvironment, createCalendar, isSameDate, EventEmitter, useEventEmitterValue, useEventEmitter, EventHub, DistributedState, trimTrailingSlash, combineUrls, formatDateTime, formatDate, formatTime, formatWeekDay, formatDay, parseDate, parseDateTime, dateMask, timeMask, dateTimeMask, formatNumber, formatPercentage, formatCurrency, useHandover, useHanoverChild */
 /*! all exports used */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -4068,6 +4117,14 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "useEventEmitter", function() { return _utils_EventEmitter__WEBPACK_IMPORTED_MODULE_38__["b"]; });
 
+/* harmony import */ var _utils_EventHub__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./utils/EventHub */ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "EventHub", function() { return _utils_EventHub__WEBPACK_IMPORTED_MODULE_39__["a"]; });
+
+/* harmony import */ var _utils_DistributedState__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./utils/DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "DistributedState", function() { return _utils_DistributedState__WEBPACK_IMPORTED_MODULE_40__["a"]; });
+
+
+
 
 
 
@@ -4261,8 +4318,8 @@ const formatCurrency = (number, currency = 'NOK', fractionDigits = 2) => {
 /* harmony import */ var _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/ReliableDictionary */ "./node_modules/@equinor/fusion/lib/utils/ReliableDictionary/index.js");
 
 class SettingsContainer extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__[/* default */ "b"] {
-    constructor(baseKey, user, defaultSettings) {
-        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__[/* LocalStorageProvider */ "a"](`FUSION_SETTINGS_CACHE:${baseKey}:${user ? user.id : "global"}`, defaultSettings));
+    constructor(baseKey, user, eventHub, defaultSettings) {
+        super(new _utils_ReliableDictionary__WEBPACK_IMPORTED_MODULE_0__[/* LocalStorageProvider */ "a"](`FUSION_SETTINGS_CACHE:${baseKey}:${user ? user.id : 'global'}`, eventHub, defaultSettings));
     }
 }
 
@@ -4284,6 +4341,8 @@ class SettingsContainer extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODU
 /* harmony import */ var _app_AppContainer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../app/AppContainer */ "./node_modules/@equinor/fusion/lib/app/AppContainer.js");
 /* harmony import */ var _SettingsContainer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SettingsContainer */ "./node_modules/@equinor/fusion/lib/settings/SettingsContainer.js");
 /* harmony import */ var _auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../auth/useCurrentUser */ "./node_modules/@equinor/fusion/lib/auth/useCurrentUser.js");
+/* harmony import */ var _utils_EventHub__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils/EventHub */ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js");
+
 
 
 
@@ -4291,8 +4350,8 @@ class SettingsContainer extends _utils_ReliableDictionary__WEBPACK_IMPORTED_MODU
 
 const ensureAppSettings = (settings, appKey, defaultSettings) => {
     const currentUser = Object(_auth_useCurrentUser__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"])();
-    if (typeof settings.apps[appKey] === "undefined") {
-        const appSettings = new _SettingsContainer__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](appKey, currentUser, defaultSettings);
+    if (typeof settings.apps[appKey] === 'undefined') {
+        const appSettings = new _SettingsContainer__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"](appKey, currentUser, new _utils_EventHub__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"](), defaultSettings);
         settings.apps[appKey] = appSettings;
         return appSettings;
     }
@@ -4301,11 +4360,11 @@ const ensureAppSettings = (settings, appKey, defaultSettings) => {
 /* harmony default export */ __webpack_exports__["a"] = ((defaultSettings) => {
     const { settings } = Object(_core_FusionContext__WEBPACK_IMPORTED_MODULE_1__[/* useFusionContext */ "d"])();
     const currentApp = Object(_app_AppContainer__WEBPACK_IMPORTED_MODULE_2__[/* useCurrentApp */ "d"])();
-    let appSettings = ensureAppSettings(settings, currentApp ? currentApp.key : "");
+    let appSettings = ensureAppSettings(settings, currentApp ? currentApp.key : '');
     const [localAppSettings, setLocalAppsettings] = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(appSettings.toObject() || {});
     Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(() => {
         appSettings.toObjectAsync().then(setLocalAppsettings);
-        return appSettings.on("change", setLocalAppsettings);
+        return appSettings.on('change', setLocalAppsettings);
     }, []);
     const setAppSettingAsync = async (key, value) => {
         await appSettings.setAsync(key, value);
@@ -4358,24 +4417,32 @@ const ensureAppSettings = (settings, appKey, defaultSettings) => {
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return useAbortControllerManager; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return withAbortController; });
 /* harmony import */ var _core_FusionContext__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../core/FusionContext */ "./node_modules/@equinor/fusion/lib/core/FusionContext.js");
+/* harmony import */ var _DistributedState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+/* harmony import */ var _EventEmitter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
 
-class AbortControllerManager {
-    constructor() {
-        this.currentAbortController = null;
+
+
+class AbortControllerManager extends _EventEmitter__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"] {
+    constructor(eventHub) {
+        super();
+        this.currentAbortController = new _DistributedState__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"]('CurrentAbortController', null, eventHub);
+        this.currentAbortController.on('change', (abortController) => {
+            this.emit('update', abortController);
+        });
     }
     withAbortController(abortableAction) {
         const abortController = new AbortController();
-        this.currentAbortController = abortController;
+        this.currentAbortController.state = abortController;
         abortableAction(abortController.signal).then(() => {
-            this.currentAbortController = null;
+            this.currentAbortController.state = null;
         });
         return () => abortController.abort();
     }
     getCurrentSignal() {
-        if (this.currentAbortController === null) {
+        if (this.currentAbortController.state === null) {
             return null;
         }
-        return this.currentAbortController.signal;
+        return this.currentAbortController.state.signal;
     }
 }
 const useAbortControllerManager = () => {
@@ -4462,6 +4529,47 @@ const createCalendar = (year, month) => {
 
 /***/ }),
 
+/***/ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/utils/DistributedState.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _EventEmitter__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./EventEmitter */ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js");
+
+class DistributedState extends _EventEmitter__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"] {
+    constructor(key, state, eventHub) {
+        super();
+        this.handleUpdatedState = (state) => {
+            this._state = state;
+            this.emit('change', this._state);
+        };
+        this.handleNewInstance = () => {
+            this._eventHub.publish(this._key, this._state);
+        };
+        this._key = key;
+        this._state = state;
+        this._eventHub = eventHub;
+        eventHub.registerListener(key, this.handleUpdatedState);
+        eventHub.publish(key + 'InitialState', void null);
+        eventHub.registerListener(key + 'InitialState', this.handleNewInstance);
+    }
+    get state() {
+        return this._state;
+    }
+    set state(state) {
+        this._state = state;
+        this._eventHub.publish(this._key, state);
+    }
+}
+/* harmony default export */ __webpack_exports__["a"] = (DistributedState);
+
+
+/***/ }),
+
 /***/ "./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js":
 /*!**********************************************************************!*\
   !*** ./node_modules/@equinor/fusion/lib/utils/EventEmitter/index.js ***!
@@ -4513,6 +4621,35 @@ const useEventEmitter = (emitter, event, handler) => {
         return emitter.on(event, handler);
     }, [emitter, event, handler]);
 };
+
+
+/***/ }),
+
+/***/ "./node_modules/@equinor/fusion/lib/utils/EventHub/index.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@equinor/fusion/lib/utils/EventHub/index.js ***!
+  \******************************************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+class EventHub {
+    publish(key, message) {
+        const event = new CustomEvent(key, { detail: message });
+        window.dispatchEvent(event);
+    }
+    registerListener(key, handler) {
+        const eventHandler = (e) => {
+            const customEvent = e;
+            const message = customEvent.detail;
+            handler(message);
+        };
+        window.addEventListener(key, eventHandler);
+        return () => window.removeEventListener(key, eventHandler);
+    }
+}
+/* harmony default export */ __webpack_exports__["a"] = (EventHub);
 
 
 /***/ }),
@@ -4800,16 +4937,17 @@ const useAsyncPagination = (applyAsync, initialPerPage, initialCurrentPageIndex 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LocalStorageProvider; });
 /* harmony import */ var _JSON__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../JSON */ "./node_modules/@equinor/fusion/lib/utils/JSON.js");
+/* harmony import */ var _DistributedState__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../DistributedState */ "./node_modules/@equinor/fusion/lib/utils/DistributedState.js");
+
 
 class LocalStorageProvider {
-    constructor(baseKey, defaultValue) {
-        this.localCache = null;
+    constructor(baseKey, eventHub, defaultValue) {
         this.baseKey = baseKey;
         const cachedJson = localStorage.getItem(this.baseKey);
         const cachedValue = cachedJson ? _JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].parse(cachedJson) : null;
-        this.localCache = cachedValue;
+        this.localCache = new _DistributedState__WEBPACK_IMPORTED_MODULE_1__[/* default */ "a"](`LocalStorageProvider.${baseKey}`, cachedValue, eventHub);
         if (!cachedValue && defaultValue) {
-            this.localCache = defaultValue;
+            this.localCache.state = defaultValue;
         }
     }
     async getItemAsync(key) {
@@ -4822,29 +4960,29 @@ class LocalStorageProvider {
     }
     async setItemAsync(key, value) {
         const localCache = await this.toObjectAsync();
-        this.localCache = Object.assign(Object.assign({}, localCache), { [key]: value });
+        this.localCache.state = Object.assign(Object.assign({}, localCache), { [key]: value });
         await this.persistAsync();
     }
     async removeItemAsync(key) {
         const localCache = await this.toObjectAsync();
         delete localCache[key];
-        this.localCache = Object.assign({}, localCache);
+        this.localCache.state = Object.assign({}, localCache);
         await this.persistAsync();
     }
     async clearAsync() {
         localStorage.removeItem(this.baseKey);
-        this.localCache = {};
+        this.localCache.state = {};
     }
     async toObjectAsync() {
-        if (this.localCache === null) {
+        if (this.localCache.state === null) {
             const cachedJson = localStorage.getItem(this.baseKey);
             const cachedValue = cachedJson ? _JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].parse(cachedJson) : {};
-            this.localCache = cachedValue;
+            this.localCache.state = cachedValue;
         }
-        return this.localCache;
+        return this.localCache.state;
     }
     toObject() {
-        return this.localCache;
+        return this.localCache.state;
     }
     async persistAsync() {
         const json = _JSON__WEBPACK_IMPORTED_MODULE_0__[/* default */ "a"].stringify(await this.toObjectAsync());
@@ -5118,7 +5256,7 @@ const combineUrls = (base, ...parts) => trimTrailingSlash((parts || [])
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony default export */ __webpack_exports__["a"] = ('0.4.76');
+/* harmony default export */ __webpack_exports__["a"] = ('1.0.0-beta.19');
 
 
 /***/ }),
@@ -73214,14 +73352,16 @@ const HotAppWrapper = () => {
         if (onlyApp) {
             setApp(onlyApp);
         }
-        return appContainer.on('update', setApp);
+        return appContainer.on('update', apps => setApp(apps[0]));
     }, []);
     React.useEffect(() => {
         sendNotification({
             cancelLabel: 'I know',
             level: 'low',
             title: 'App updated',
-        }).then().catch();
+        })
+            .then()
+            .catch();
     }, [app]);
     if (!app) {
         return null;
@@ -73230,7 +73370,7 @@ const HotAppWrapper = () => {
     if (!AppComponent) {
         return null;
     }
-    return (React.createElement(AppComponent, null));
+    return React.createElement(AppComponent, null);
 };
 exports.default = HotAppWrapper;
 
@@ -73292,6 +73432,7 @@ const start = async () => {
             const root = React.useRef(document.createElement('div'));
             const overlay = React.useRef(document.createElement('div'));
             const fusionContext = fusion_1.createFusionContext(authContainer, serviceResolver, {
+                headerContent: React.useRef(null),
                 overlay,
                 root,
             }, {
