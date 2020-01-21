@@ -14,14 +14,11 @@ export default (outDir?: string, silent = false): webpack.Configuration => ({
                     {
                         loader: typescriptLoader,
                         options: {
-                            babelCore: '@babel/core',
                             compilerOptions: {
                                 outDir,
                             },
                             outDir,
                             silent,
-                            useBabel: true,
-                            useCache: false,
                         },
                     },
                 ],
