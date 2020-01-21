@@ -10,7 +10,7 @@ import * as archiver from 'archiver';
 
 import babel from '../build/parts/babel';
 import entry from '../build/parts/entry';
-import hmr from '../build/parts/hmr';
+import images from '../build/parts/images';
 import externals from '../build/parts/externals';
 import styles from '../build/parts/styles';
 import typescript from '../build/parts/typescript';
@@ -302,6 +302,7 @@ export default class BuildApp extends Command {
             babel,
             mode(true),
             entry(context.package, true),
+            images(),
             externals(cliDependencies, moduleDependencies),
             styles,
             typescript(context.appOutputDir, true),
