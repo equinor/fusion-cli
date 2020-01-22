@@ -215,7 +215,7 @@ and limitations under the License.
   !*** ./node_modules/@equinor/fusion-components/dist/index.js-exposed ***!
   \***********************************************************************/
 /*! no static exports found */
-/*! all exports used */
+/*! exports used: ContextSelector, FusionContent, FusionHeader, FusionRoot */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {module.exports = global["FusionComponents"] = __webpack_require__(/*! -!./index.js */ "./node_modules/@equinor/fusion-components/dist/index.js");
@@ -30598,7 +30598,7 @@ if (false) {} else {
   !*** ./node_modules/@hot-loader/react-dom/index.js-exposed ***!
   \*************************************************************/
 /*! no static exports found */
-/*! all exports used */
+/*! exports used: render */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {module.exports = global["FusionReactDOM"] = __webpack_require__(/*! -!./index.js */ "./node_modules/@hot-loader/react-dom/index.js");
@@ -73344,20 +73344,22 @@ module.exports = g;
 /*!*****************************************!*\
   !*** ./src/start-app/HotAppWrapper.tsx ***!
   \*****************************************/
-/*! no static exports found */
-/*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _equinor_fusion__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
+/* harmony import */ var _equinor_fusion__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_equinor_fusion__WEBPACK_IMPORTED_MODULE_1__);
 
-Object.defineProperty(exports, "__esModule", { value: true });
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
-const fusion_1 = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
+
 const HotAppWrapper = () => {
-    const { app: { container: appContainer }, } = fusion_1.useFusionContext();
-    const sendNotification = fusion_1.useNotificationCenter();
-    const [app, setApp] = React.useState(null);
-    React.useEffect(() => {
+    const { app: { container: appContainer }, } = Object(_equinor_fusion__WEBPACK_IMPORTED_MODULE_1__["useFusionContext"])();
+    const sendNotification = Object(_equinor_fusion__WEBPACK_IMPORTED_MODULE_1__["useNotificationCenter"])();
+    const [app, setApp] = react__WEBPACK_IMPORTED_MODULE_0__["useState"](null);
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](() => {
         const allApps = appContainer.getAll();
         const onlyApp = allApps[0];
         if (onlyApp) {
@@ -73366,7 +73368,7 @@ const HotAppWrapper = () => {
         }
         return appContainer.on('update', apps => setApp(apps[0]));
     }, []);
-    React.useEffect(() => {
+    react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](() => {
         sendNotification({
             cancelLabel: 'I know',
             level: 'low',
@@ -73382,9 +73384,9 @@ const HotAppWrapper = () => {
     if (!AppComponent) {
         return null;
     }
-    return React.createElement(AppComponent, null);
+    return react__WEBPACK_IMPORTED_MODULE_0__["createElement"](AppComponent, null);
 };
-exports.default = HotAppWrapper;
+/* harmony default export */ __webpack_exports__["a"] = (HotAppWrapper);
 
 
 /***/ }),
@@ -73393,19 +73395,29 @@ exports.default = HotAppWrapper;
 /*!*********************************!*\
   !*** ./src/start-app/index.tsx ***!
   \*********************************/
-/*! no static exports found */
+/*! no exports provided */
 /*! all exports used */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _hot_loader_react_dom__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @hot-loader/react-dom */ "./node_modules/@hot-loader/react-dom/index.js-exposed");
+/* harmony import */ var _hot_loader_react_dom__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_hot_loader_react_dom__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js-exposed");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_router_dom__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _equinor_fusion__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
+/* harmony import */ var _equinor_fusion__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_equinor_fusion__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _equinor_fusion_components__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @equinor/fusion-components */ "./node_modules/@equinor/fusion-components/dist/index.js-exposed");
+/* harmony import */ var _equinor_fusion_components__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_equinor_fusion_components__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _HotAppWrapper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./HotAppWrapper */ "./src/start-app/HotAppWrapper.tsx");
 
-Object.defineProperty(exports, "__esModule", { value: true });
-const react_dom_1 = __webpack_require__(/*! @hot-loader/react-dom */ "./node_modules/@hot-loader/react-dom/index.js-exposed");
-const React = __webpack_require__(/*! react */ "./node_modules/react/index.js-exposed");
-const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js-exposed");
-const fusion_1 = __webpack_require__(/*! @equinor/fusion */ "./node_modules/@equinor/fusion/lib/index.js-exposed");
-const fusion_components_1 = __webpack_require__(/*! @equinor/fusion-components */ "./node_modules/@equinor/fusion-components/dist/index.js-exposed");
-const HotAppWrapper_1 = __webpack_require__(/*! ./HotAppWrapper */ "./src/start-app/HotAppWrapper.tsx");
+
+
+
+
+
 const serviceResolver = {
     getContextBaseUrl: () => 'https://pro-s-context-ci.azurewebsites.net',
     getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
@@ -73420,7 +73432,7 @@ const serviceResolver = {
     getPowerBiApiBaseUrl: () => 'https://api.powerbi.com/v1.0/myorg',
 };
 const start = async () => {
-    const authContainer = new fusion_1.AuthContainer();
+    const authContainer = new _equinor_fusion__WEBPACK_IMPORTED_MODULE_3__["AuthContainer"]();
     await authContainer.handleWindowCallbackAsync();
     const coreAppClientId = '5a842df8-3238-415d-b168-9f16a6a6031b';
     const coreAppRegistered = await authContainer.registerAppAsync(coreAppClientId, [
@@ -73438,18 +73450,18 @@ const start = async () => {
     ]);
     const HeaderContextSelector = () => {
         var _a, _b;
-        const currentApp = fusion_1.useCurrentApp();
-        return ((_b = (_a = currentApp) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.types.length) ? React.createElement(fusion_components_1.ContextSelector, null) : null;
+        const currentApp = Object(_equinor_fusion__WEBPACK_IMPORTED_MODULE_3__["useCurrentApp"])();
+        return ((_b = (_a = currentApp) === null || _a === void 0 ? void 0 : _a.context) === null || _b === void 0 ? void 0 : _b.types.length) ? react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_equinor_fusion_components__WEBPACK_IMPORTED_MODULE_4__["ContextSelector"], null) : null;
     };
     if (!coreAppRegistered) {
         await authContainer.loginAsync(coreAppClientId);
     }
     else {
         const Root = () => {
-            const root = React.useRef(document.createElement('div'));
-            const overlay = React.useRef(document.createElement('div'));
-            const fusionContext = fusion_1.createFusionContext(authContainer, serviceResolver, {
-                headerContent: React.useRef(null),
+            const root = react__WEBPACK_IMPORTED_MODULE_1__["useRef"](document.createElement('div'));
+            const overlay = react__WEBPACK_IMPORTED_MODULE_1__["useRef"](document.createElement('div'));
+            const fusionContext = Object(_equinor_fusion__WEBPACK_IMPORTED_MODULE_3__["createFusionContext"])(authContainer, serviceResolver, {
+                headerContent: react__WEBPACK_IMPORTED_MODULE_1__["useRef"](null),
                 overlay,
                 root,
             }, {
@@ -73458,14 +73470,14 @@ const start = async () => {
                 },
                 loadBundlesFromDisk: false,
             });
-            return (React.createElement(react_router_dom_1.Router, { history: fusionContext.history },
-                React.createElement(fusion_1.FusionContext.Provider, { value: fusionContext },
-                    React.createElement(fusion_components_1.FusionRoot, { rootRef: root, overlayRef: overlay },
-                        React.createElement(fusion_components_1.FusionHeader, { aside: null, content: React.createElement(HeaderContextSelector, null), start: null }),
-                        React.createElement(fusion_components_1.FusionContent, null,
-                            React.createElement(HotAppWrapper_1.default, null))))));
+            return (react__WEBPACK_IMPORTED_MODULE_1__["createElement"](react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Router"], { history: fusionContext.history },
+                react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_equinor_fusion__WEBPACK_IMPORTED_MODULE_3__["FusionContext"].Provider, { value: fusionContext },
+                    react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_equinor_fusion_components__WEBPACK_IMPORTED_MODULE_4__["FusionRoot"], { rootRef: root, overlayRef: overlay },
+                        react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_equinor_fusion_components__WEBPACK_IMPORTED_MODULE_4__["FusionHeader"], { aside: null, content: react__WEBPACK_IMPORTED_MODULE_1__["createElement"](HeaderContextSelector, null), start: null }),
+                        react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_equinor_fusion_components__WEBPACK_IMPORTED_MODULE_4__["FusionContent"], null,
+                            react__WEBPACK_IMPORTED_MODULE_1__["createElement"](_HotAppWrapper__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"], null))))));
         };
-        react_dom_1.render(React.createElement(Root, null), document.getElementById('fusion-app'));
+        Object(_hot_loader_react_dom__WEBPACK_IMPORTED_MODULE_0__["render"])(react__WEBPACK_IMPORTED_MODULE_1__["createElement"](Root, null), document.getElementById('fusion-app'));
     }
 };
 start()

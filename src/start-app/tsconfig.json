@@ -5,12 +5,15 @@
     "sourceMap": true,
     "module": "esnext",
     "outDir": "lib",
-    "rootDir": "./",
+    "rootDir": "../",
     "strict": true,
     "target": "es2017",
     "composite": false,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "node"
-  }
+  },
+  "include": [
+    "./hot-loader.d.ts",
+  ],
 }
