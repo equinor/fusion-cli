@@ -1,7 +1,7 @@
 import webpack from 'webpack';
 import resolveCliDependency from '../resolveCliDependency';
 
-const typescriptLoader = resolveCliDependency('awesome-typescript-loader');
+const typescriptLoader = resolveCliDependency('ts-loader');
 
 export default (outDir?: string, silent = false): webpack.Configuration => ({
     module: {
@@ -12,11 +12,10 @@ export default (outDir?: string, silent = false): webpack.Configuration => ({
                     {
                         loader: typescriptLoader,
                         options: {
-                            babelCore: '@babel/core',
-                            outDir,
+                            compilerOptions: {
+                                outDir,
+                            },
                             silent,
-                            useBabel: true,
-                            useCache: false,
                         },
                     },
                 ],

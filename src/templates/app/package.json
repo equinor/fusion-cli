@@ -14,12 +14,12 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^1.0.0",
-    "@equinor/fusion-components": "^1.0.0",
+    "@equinor/fusion": "^1.0.7",
+    "@equinor/fusion-components": "^1.1.8",
     "react": "^16.9.0"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^1.0.0",
+    "@equinor/fusion-cli": "^1.0.4",
     "@types/history": "^4.7.2",
     "@types/react": "^16.9.2",
     "@types/react-router-dom": "^4.3.4",
@@ -27,7 +27,7 @@
     "history": "^4.9.0",
     "react-hot-loader": "^4.12.12",
     "react-router-dom": "^5.0.1",
-    "typescript": "^3.5.3",
+    "typescript": "^3.7.5",
     "tslib": "^1.9.3"
   }
 }
