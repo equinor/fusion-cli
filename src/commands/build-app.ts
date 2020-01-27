@@ -302,7 +302,7 @@ export default class BuildApp extends Command {
             babel,
             mode(true),
             entry(context.package, true),
-            images(`/apps/${context.manifest.key}/resources/`),
+            images(`/bundles/apps/${context.manifest.key}/resources/`),
             externals(cliDependencies, moduleDependencies),
             styles,
             typescript(context.appOutputDir, true),
