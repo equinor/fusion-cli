@@ -3,7 +3,7 @@ import resolveCliDependency from '../resolveCliDependency';
 
 const fileLoader = resolveCliDependency('file-loader');
 
-export default (): webpack.Configuration => ({
+export default (publicPath?: string): webpack.Configuration => ({
     module: {
         rules: [
             {
@@ -11,6 +11,10 @@ export default (): webpack.Configuration => ({
                 use: [
                     {
                         loader: fileLoader,
+                        options: {
+                            name: '[name].[ext]',
+                            publicPath,
+                        }
                     },
                 ],
             },
