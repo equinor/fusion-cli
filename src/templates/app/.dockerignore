@@ -1,0 +1,4 @@
+node_modules
+.awcache
+out
+pipelines
