@@ -1,5 +1,5 @@
 parameters:
-  dockerfile: ./Dockerfile
+  dockerfile: ./build.Dockerfile
   dockerContext: .
   appKey: ${appKey}
   outputSource: ./app/out

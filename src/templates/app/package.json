@@ -4,8 +4,9 @@
   "description": "",
   "main": "src/index.tsx",
   "scripts": {
-    "start": "fusion start-app",
-    "build": "fusion build-app"
+    "start": "docker-compose up --build",
+    "build": "fusion build-app",
+    "dev": "fusion start-app"
   },
   "author": "",
   "license": "ISC",
