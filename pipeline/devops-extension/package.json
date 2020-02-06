@@ -16,12 +16,18 @@
     "url": "https://github.com/equinor/fusion-cli/issues"
   },
   "homepage": "https://github.com/equinor/fusion-cli#readme",
-  "dependencies": {},
+  "dependencies": {
+    "azure-pipelines-task-lib": "^2.9.3",
+    "typescript": "^3.7.5"
+  },
   "devDependencies": {
+    "@types/node": "^13.7.0",
+    "@types/q": "^1.5.2",
     "gulp": "^4.0.2",
     "gulp-install": "^1.1.0",
     "gulp-typescript": "^5.0.1",
     "merge2": "^1.2.4",
+    "request-promise-native": "^1.0.8",
     "require-dir": "^1.2.0"
   },
   "ignore": {

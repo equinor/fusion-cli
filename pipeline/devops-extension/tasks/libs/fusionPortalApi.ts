@@ -19,11 +19,11 @@ export default class PortalApi {
         await this.uploadBundleAsync(endpoint, bundleContent, forceReplaceExisting);
     }
 
-    public async uploadAppBundleAsync(bundlePath : string, forceReplaceExisting: boolean) {
-        let endpoint = `${this.serverHost}/bundles/apps`
+    public async uploadAppBundleAsync(appKey : string, bundlePath : string) {
+        let endpoint = `${this.serverHost}/api/apps${appKey}/versions`
         let bundleContent = await this.readBundleFile(bundlePath);
 
-        await this.uploadBundleAsync(endpoint, bundleContent, forceReplaceExisting);
+        await this.uploadBundleAsync(endpoint, bundleContent, false);
     }
 
     public async uploadTileBundleAsync(bundlePath : string, forceReplaceExisting: boolean) {
@@ -38,8 +38,8 @@ export default class PortalApi {
         await this.postAsync(endpoint);
     }
 
-    public async publishAppAsync(appKey : string) {
-        let endpoint = `${this.serverHost}/bundles/apps/${appKey}/publish`
+    public async publishAppAsync(appKey : string, versionId : string) {
+        let endpoint = `${this.serverHost}/api/apps/${appKey}/versions/${versionId}`
         await this.postAsync(endpoint);
     }
 
