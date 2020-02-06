@@ -4,8 +4,9 @@
   "description": "",
   "main": "src/index.tsx",
   "scripts": {
-    "start": "fusion start-app",
-    "build": "fusion build-app"
+    "start": "docker-compose up --build",
+    "build": "fusion build-app",
+    "dev": "fusion start-app"
   },
   "author": "",
   "license": "ISC",
@@ -14,12 +15,12 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^1.0.7",
-    "@equinor/fusion-components": "^1.1.8",
+    "@equinor/fusion": "^1.0.11",
+    "@equinor/fusion-components": "^1.1.9",
     "react": "^16.9.0"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^1.0.4",
+    "@equinor/fusion-cli": "^1.0.9",
     "@types/history": "^4.7.2",
     "@types/react": "^16.9.2",
     "@types/react-router-dom": "^4.3.4",
@@ -28,6 +29,8 @@
     "react-hot-loader": "^4.12.12",
     "react-router-dom": "^5.0.1",
     "typescript": "^3.7.5",
-    "tslib": "^1.9.3"
+    "tslib": "^1.9.3",
+    "tslint": "^5.16.0",
+    "tslint-config-prettier": "^1.18.0"
   }
 }

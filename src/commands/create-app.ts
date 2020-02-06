@@ -98,7 +98,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
     }
     if (!options.key) {
         questions.push({
-            default: false,
+            default: true,
             message: 'Initialize git?',
             name: 'git',
             type: 'confirm',
@@ -106,7 +106,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
     }
     if (!options.install) {
         questions.push({
-            default: true,
+            default: false,
             message: 'Install dependencies?',
             name: 'install',
             type: 'confirm',
@@ -175,10 +175,9 @@ const updatePackageConfig = async (options: ICreateAppOptions) => {
     config.manifest.shortName = options.shortName;
     config.scripts = {
         ...config.scripts,
-        start: `fusion start-app`,
     };
 
-    fs.writeFileSync(configPath, JSON.stringify(config));
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 4));
 };
 
 const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> => {
