@@ -12,9 +12,9 @@ export default (publicPath?: string): webpack.Configuration => ({
                     {
                         loader: fileLoader,
                         options: {
-                            name: '[name].[ext]',
+                            name: '[path][name].[ext]',
                             publicPath,
-                        }
+                        },
                     },
                 ],
             },
