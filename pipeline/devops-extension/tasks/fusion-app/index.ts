@@ -59,7 +59,6 @@ export class Task {
 
     private static async publishAppAsync() {
         var appKey = tl.getInput('appKey', false);
-        var versionId = tl.getInput('versionId', false);
 
         if (tl.getVariable(`ignorePublish_${appKey}`) == 'true') {
             tl.setResult(tl.TaskResult.Skipped, 'Located marker for version conflict in bundle upload. Skipping publish.');
@@ -69,10 +68,7 @@ export class Task {
         if (isNullOrUndefined(appKey)) {
             throw new Error("[!] Missing required input: appKey");
         }
-        if (isNullOrUndefined(versionId)) {
-            throw new Error("[!] Missing required input: versionId");
-        }
-        await this.portalApi.publishAppAsync(appKey, versionId);
+        await this.portalApi.publishAppAsync(appKey);
     }
 
 }

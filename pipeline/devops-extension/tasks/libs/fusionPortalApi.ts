@@ -38,8 +38,8 @@ export default class PortalApi {
         await this.postAsync(endpoint);
     }
 
-    public async publishAppAsync(appKey : string, versionId : string) {
-        let endpoint = `${this.serverHost}/api/apps/${appKey}/versions/${versionId}`
+    public async publishAppAsync(appKey : string) {
+        let endpoint = `${this.serverHost}/api/apps/${appKey}/publish`
         await this.postAsync(endpoint);
     }
 
