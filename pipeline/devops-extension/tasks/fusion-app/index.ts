@@ -50,11 +50,23 @@ export class Task {
         var pathToBundle = tl.getPathInput('bundlePath');
         var pathToBundle = tl.getPathInput('bundlePath');
         var allowVersionConflict = tl.getBoolInput('ignoreVersionConflict', false);
+        var forceReplaceExisting = tl.getBoolInput('forceReplaceExisting', false);
 
         if (isNullOrUndefined(pathToBundle)) {
             throw new Error("[!] Missing required input: bundlePath");
         }
-        await this.portalApi.uploadAppBundleAsync(appKey, pathToBundle);
+        
+        try {
+            await this.portalApi.uploadAppBundleAsync(pathToBundle, pathToBundle, forceReplaceExisting);
+        } catch (error) {
+            if (allowVersionConflict && error.statusCode == 409) {
+                var appKey = tl.getInput('appKey', false);
+                tl.setResult(tl.TaskResult.SucceededWithIssues, 'Version already exists. Ignore version conflict enabled.');
+                tl.setVariable(`ignorePublish_${appKey}`, 'true');
+            } else {
+                throw error; 
+            }
+        }        
     }
 
     private static async publishAppAsync() {
