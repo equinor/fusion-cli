@@ -19,11 +19,11 @@ export default class PortalApi {
         await this.uploadBundleAsync(endpoint, bundleContent, forceReplaceExisting);
     }
 
-    public async uploadAppBundleAsync(appKey : string, bundlePath : string, forceReplaceExisting: boolean) {
+    public async uploadAppBundleAsync(appKey : string, bundlePath : string) {
         let endpoint = `${this.serverHost}/api/apps${appKey}/versions`
         let bundleContent = await this.readBundleFile(bundlePath);
 
-        await this.uploadBundleAsync(endpoint, bundleContent, forceReplaceExisting);
+        await this.uploadBundleAsync(endpoint, bundleContent, false);
     }
 
     public async uploadTileBundleAsync(bundlePath : string, forceReplaceExisting: boolean) {
