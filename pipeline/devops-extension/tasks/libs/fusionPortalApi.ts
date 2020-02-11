@@ -20,7 +20,7 @@ export default class PortalApi {
     }
 
     public async uploadAppBundleAsync(appKey : string, bundlePath : string) {
-        let endpoint = `${this.serverHost}/api/apps${appKey}/versions`
+        let endpoint = `${this.serverHost}/api/apps/${appKey}/versions`
         let bundleContent = await this.readBundleFile(bundlePath);
 
         await this.uploadBundleAsync(endpoint, bundleContent, false);
