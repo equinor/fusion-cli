@@ -57,7 +57,7 @@ export class Task {
         }
         
         try {
-            await this.portalApi.uploadAppBundleAsync(pathToBundle, pathToBundle, forceReplaceExisting);
+            await this.portalApi.uploadAppBundleAsync(appKey, pathToBundle, forceReplaceExisting);
         } catch (error) {
             if (allowVersionConflict && error.statusCode == 409) {
                 var appKey = tl.getInput('appKey', false);
