@@ -35,6 +35,7 @@ export default class CreateApp extends Command {
         key: flags.string({ char: 'k', description: 'Key for app/tile' }),
         name: flags.string({ char: 'n', description: 'Name for app/tile(use quotes for spaces)' }),
         shortName: flags.string({ char: 'N', description: 'App short name' }),
+        templateDirectory: flags.string({ char: 't', description: 'App template to use' }),
     };
 
     public async run() {
@@ -93,6 +94,14 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
             default: '',
             message: 'Please enter a app description',
             name: 'description',
+            type: 'input',
+        });
+    }
+    if (!options.templateDirectory) {
+        questions.push({
+            default: 'app',
+            message: 'Please enter a app template (app | report)',
+            name: 'template',
             type: 'input',
         });
     }
@@ -200,7 +209,7 @@ const createProject = async (options: ICreateAppOptions) => {
         targetDirectory: options.targetDirectory || createAndSetTargetDir(options.key || ''),
     };
 
-    const templateDir = path.resolve(__filename, '../../templates/app');
+    const templateDir = path.resolve(__filename, `../../templates/${options.templateDirectory}`);
 
     options.templateDirectory = templateDir;
 
