@@ -22,6 +22,7 @@ interface ICreateAppOptions {
     install?: boolean;
     targetDirectory?: string;
     templateDirectory?: string;
+    templateName?: string;
 }
 
 export default class CreateApp extends Command {
@@ -35,7 +36,7 @@ export default class CreateApp extends Command {
         key: flags.string({ char: 'k', description: 'Key for app/tile' }),
         name: flags.string({ char: 'n', description: 'Name for app/tile(use quotes for spaces)' }),
         shortName: flags.string({ char: 'N', description: 'App short name' }),
-        templateDirectory: flags.string({ char: 't', description: 'App template to use' }),
+        templateName: flags.string({ char: 't', description: 'App template to use' }),
     };
 
     public async run() {
@@ -97,7 +98,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
             type: 'input',
         });
     }
-    if (!options.templateDirectory) {
+    if (!options.templateName) {
         questions.push({
             default: 'app',
             message: 'Please enter a app template (app | report)',
@@ -131,6 +132,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
         key: options.key || answers.key,
         name: selectedName.name,
         shortName: options.shortName || answers.shortName,
+        templateName: options.templateName || answers.templateName,
     };
 };
 
@@ -208,11 +210,11 @@ const createProject = async (options: ICreateAppOptions) => {
         ...options,
         targetDirectory: options.targetDirectory || createAndSetTargetDir(options.key || ''),
     };
-
-    const templateDir = path.resolve(__filename, `../../templates/${options.templateDirectory}`);
-
+    console.log(options.templateDirectory);
+    const templateDir = path.resolve(__filename, `../../templates/${options.templateName}`);
+    console.log(templateDir);
     options.templateDirectory = templateDir;
-
+    console.log(options.templateDirectory);
     try {
         await access(templateDir, fs.constants.R_OK);
     } catch (err) {
