@@ -102,7 +102,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
         questions.push({
             default: 'app',
             message: 'Please enter a app template (app | report)',
-            name: 'template',
+            name: 'templateName',
             type: 'input',
         });
     }
@@ -210,11 +210,9 @@ const createProject = async (options: ICreateAppOptions) => {
         ...options,
         targetDirectory: options.targetDirectory || createAndSetTargetDir(options.key || ''),
     };
-    console.log(options.templateDirectory);
+
     const templateDir = path.resolve(__filename, `../../templates/${options.templateName}`);
-    console.log(templateDir);
     options.templateDirectory = templateDir;
-    console.log(options.templateDirectory);
     try {
         await access(templateDir, fs.constants.R_OK);
     } catch (err) {
