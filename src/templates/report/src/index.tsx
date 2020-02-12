@@ -13,14 +13,7 @@ const App: React.FC = () => {
     const currentContext = useCurrentContext();
     const fusionContext = useFusionContext();
 
-    /*
-    For the app to work, change line below with IDs from the report app. 
-    {REPORTIDPROD} with id from report in production. 
-    {REPORTIDCI} with id from report in CI. 
-
-    You might need to create the report in the report app and publish it, before you can use it here. 
-    */
-    const reportId = fusionContext.environment.env === 'FPRD' ? '{REPORTIDPROD}' : '{REPORTIDCI}';
+    const reportId = fusionContext.environment.env === 'FPRD' ? '{REPORTIDPROD}' : '{REPORTIDTEST}';
 
     const filter = React.useMemo((): IBasicFilter => {
         return {

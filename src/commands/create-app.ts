@@ -23,6 +23,8 @@ interface ICreateAppOptions {
     targetDirectory?: string;
     templateDirectory?: string;
     templateName?: string;
+    reportIdProd?: string;
+    reportIdTest?: string;
 }
 
 export default class CreateApp extends Command {
@@ -37,6 +39,8 @@ export default class CreateApp extends Command {
         name: flags.string({ char: 'n', description: 'Name for app/tile(use quotes for spaces)' }),
         shortName: flags.string({ char: 'N', description: 'App short name' }),
         templateName: flags.string({ char: 't', description: 'App template to use' }),
+        reportIdProd: flags.string({ char: 'R', description: 'Add reportId from production' }),
+        reportIdTest: flags.string({ char: 'r', description: 'Add reportId from test(CI)' }),
     };
 
     public async run() {
@@ -64,6 +68,7 @@ const slugify = (text: string): string =>
 const promptForMissingOptions = async (options: ICreateAppOptions): Promise<object> => {
     const questions = [];
     const nameQuestion = [];
+    const templateQuestion = [];
 
     if (!options.name || typeof options.name !== 'string') {
         nameQuestion.push({
@@ -98,13 +103,36 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
             type: 'input',
         });
     }
+
     if (!options.templateName) {
-        questions.push({
+        templateQuestion.push({
             default: 'app',
             message: 'Please enter a app template (app | report)',
-            name: 'templateName',
+            name: 'template',
             type: 'input',
         });
+    }
+
+    const selectedTemplate: any =
+        templateQuestion.length !== 0 ? await inquirer.prompt(templateQuestion) : options;
+
+    if (selectedTemplate.template === 'report') {
+        if (!options.reportIdProd) {
+            questions.push({
+                default: '',
+                message: 'Please enter reportID for production',
+                name: 'reportIdProd',
+                type: 'input',
+            });
+        }
+        if (!options.reportIdTest) {
+            questions.push({
+                default: '',
+                message: 'Please enter reportID for test(CI)',
+                name: 'reportIdTest',
+                type: 'input',
+            });
+        }
     }
     if (!options.key) {
         questions.push({
@@ -132,7 +160,9 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
         key: options.key || answers.key,
         name: selectedName.name,
         shortName: options.shortName || answers.shortName,
-        templateName: options.templateName || answers.templateName,
+        templateName: selectedTemplate.template,
+        reportIdProd: options.reportIdProd || answers.reportIdProd,
+        reportIdTest: options.reportIdTest || answers.reportIdTest,
     };
 };
 
@@ -199,7 +229,14 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
     const indexJsPath = path.join(options.targetDirectory || '', 'src', 'index.tsx');
     const indexJsContent = fs.readFileSync(indexJsPath).toString();
 
-    const indexJsContentReplaced = indexJsContent.replace('{appKey}', options.key || 'app-key');
+    let indexJsContentReplaced = indexJsContent.replace('{appKey}', options.key || 'app-key');
+
+    if (options.templateName === 'report') {
+        indexJsContentReplaced = indexJsContent
+            .replace('{REPORTIDPROD}', options.reportIdProd || 'ReportID Production placeholder')
+            .replace('{REPORTIDTEST}', options.reportIdTest || 'ReportID Test placeholder');
+    }
+
     fs.writeFileSync(indexJsPath, indexJsContentReplaced);
 
     return success;
@@ -212,7 +249,9 @@ const createProject = async (options: ICreateAppOptions) => {
     };
 
     const templateDir = path.resolve(__filename, `../../templates/${options.templateName}`);
+
     options.templateDirectory = templateDir;
+
     try {
         await access(templateDir, fs.constants.R_OK);
     } catch (err) {
