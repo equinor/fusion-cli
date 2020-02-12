@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Router } from 'react-router-dom';
 import {
     createFusionContext,
-    useCurrentApp,
     AuthContainer,
     FusionContext,
     ServiceResolver,
@@ -49,11 +48,6 @@ const start = async () => {
         serviceResolver.getPowerBiApiBaseUrl(),
     ]);
 
-    const HeaderContextSelector: React.FC = () => {
-        const currentApp = useCurrentApp();
-        return currentApp?.context?.types.length ? <ContextSelector /> : null;
-    };
-
     if (!coreAppRegistered) {
         await authContainer.loginAsync(coreAppClientId);
     } else {
@@ -77,15 +71,16 @@ const start = async () => {
                 }
             );
 
+            const headerContent = React.useMemo(
+                () => ({ app }) => (app?.context?.types.length ? <ContextSelector /> : null),
+                []
+            );
+
             return (
                 <Router history={fusionContext.history}>
                     <FusionContext.Provider value={fusionContext}>
                         <FusionRoot rootRef={root} overlayRef={overlay}>
-                            <FusionHeader
-                                aside={null}
-                                content={<HeaderContextSelector />}
-                                start={null}
-                            />
+                            <FusionHeader aside={null} content={headerContent} start={null} />
                             <FusionContent>
                                 <HotAppWrapper />
                             </FusionContent>
