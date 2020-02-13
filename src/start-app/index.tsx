@@ -3,7 +3,6 @@ import * as React from 'react';
 import { Router } from 'react-router-dom';
 import {
     createFusionContext,
-    useCurrentApp,
     AuthContainer,
     FusionContext,
     ServiceResolver,
@@ -13,6 +12,7 @@ import {
     ContextSelector,
     FusionContent,
     FusionRoot,
+    HeaderContentProps,
 } from '@equinor/fusion-components';
 import HotAppWrapper from './HotAppWrapper';
 
@@ -49,9 +49,8 @@ const start = async () => {
         serviceResolver.getPowerBiApiBaseUrl(),
     ]);
 
-    const HeaderContextSelector: React.FC = () => {
-        const currentApp = useCurrentApp();
-        return currentApp?.context?.types.length ? <ContextSelector /> : null;
+    const HeaderContextSelector: React.FC<HeaderContentProps> = ({ app }) => {
+        return app?.context?.types.length ? <ContextSelector /> : null;
     };
 
     if (!coreAppRegistered) {
@@ -83,7 +82,7 @@ const start = async () => {
                         <FusionRoot rootRef={root} overlayRef={overlay}>
                             <FusionHeader
                                 aside={null}
-                                content={<HeaderContextSelector />}
+                                content={HeaderContextSelector}
                                 start={null}
                             />
                             <FusionContent>
