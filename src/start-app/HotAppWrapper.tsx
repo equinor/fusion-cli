@@ -6,6 +6,7 @@ const HotAppWrapper: React.FC = () => {
     const {
         app: { container: appContainer },
     } = useFusionContext();
+
     const sendNotification = useNotificationCenter();
 
     const [app, setApp] = React.useState<AppManifest | null>(null);
@@ -14,13 +15,14 @@ const HotAppWrapper: React.FC = () => {
         const allApps = appContainer.getAll();
         const onlyApp = allApps[0];
 
-        if (onlyApp) {
-            setApp(onlyApp);
-            appContainer.setCurrentAppAsync(onlyApp.key);
-        }
+        if (onlyApp) setApp(onlyApp);
 
         return appContainer.on('update', apps => setApp(apps[0]));
     }, []);
+
+    React.useEffect(() => {
+        appContainer.setCurrentAppAsync(app?.key || null);
+    }, [app]);
 
     React.useEffect(() => {
         sendNotification({
