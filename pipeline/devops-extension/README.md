@@ -56,7 +56,7 @@ Install / update the extension using tfx.
 To install the extension you will be quried for a PAT, this needs to be generated for all organisations you have access to.
 
 ```    
-    tfx extensions publish --manifest-globs ./vss-extension.json --share-with statoil-proview
+    tfx extension publish --manifest-globs ./vss-extension.json --share-with statoil-proview
 ```
 
 Not sure how devops will handle multiple installations of the same extension. 

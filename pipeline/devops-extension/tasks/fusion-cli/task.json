@@ -15,9 +15,9 @@
     ],
     "author": "Fusion Team",
     "version": {
-        "Major": 1,
+        "Major": 2,
         "Minor": 0,
-        "Patch": 0
+        "Patch": 1
     },
     "demands": [
         "npm"
