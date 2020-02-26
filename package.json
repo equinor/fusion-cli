@@ -80,7 +80,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^4.3.3",
     "@types/rimraf": "^2.0.2",
-    "@types/webpack-dev-middleware": "^2.0.2",
+    "@types/webpack-dev-middleware": "^3.7.0",
     "@types/webpack-env": "^1.13.9",
     "@types/webpack-hot-middleware": "^2.16.5",
     "@types/webpack-merge": "^4.1.5",
