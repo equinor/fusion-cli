@@ -15,8 +15,8 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^1.0.34",
-    "@equinor/fusion-components": "^1.1.53",
+    "@equinor/fusion": "^1.1.0",
+    "@equinor/fusion-components": "^1.1.56",
     "react": "^16.13.0"
   },
   "devDependencies": {
@@ -29,7 +29,7 @@
     "react-hot-loader": "^4.12.12",
     "react-router-dom": "^5.0.1",
     "tslib": "^1.11.1",
-    "tslint": "^6.0.0",
+    "tslint": "^6.1.0",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.8.3"
   }
