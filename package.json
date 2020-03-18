@@ -32,7 +32,7 @@
     "expose-loader": "^0.7.5",
     "express": "^4.17.0",
     "figlet": "^1.2.1",
-    "file-loader": "^5.0.2",
+    "file-loader": "^6.0.0",
     "fork-ts-checker-webpack-plugin": "^4.0.4",
     "get-port": "^5.0.0",
     "globby": "^11.0.0",
