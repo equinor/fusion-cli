@@ -232,7 +232,7 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
     let indexJsContentReplaced = indexJsContent.replace('{appKey}', options.key || 'app-key');
 
     if (options.templateName === 'report') {
-        indexJsContentReplaced = indexJsContent
+        indexJsContentReplaced = indexJsContentReplaced
             .replace('{REPORTIDPROD}', options.reportIdProd || 'ReportID Production placeholder')
             .replace('{REPORTIDTEST}', options.reportIdTest || 'ReportID Test placeholder');
     }
