@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@equinor/fusion": "^1.1.2",
-    "@equinor/fusion-components": "^1.1.68",
+    "@equinor/fusion-components": "^1.1.72",
     "react": "^16.13.1"
   },
   "devDependencies": {
