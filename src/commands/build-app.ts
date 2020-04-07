@@ -40,7 +40,6 @@ interface IBuildContext {
 }
 
 // Promisify
-const readFileAsync = util.promisify(fs.readFile);
 const rimrafAsync = util.promisify(rimraf);
 const statAsync = util.promisify(fs.stat);
 const existsAsync = async (p: string) => {
@@ -224,8 +223,11 @@ export default class BuildApp extends Command {
     private async copyResourcesAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
         const timer = new Timer();
 
-        await this.copyResourceAsync(process.cwd(), context.appOutputDir, 'app-icon.svg', task);
-        await this.copyResourceAsync(process.cwd(), context.appOutputDir, 'app-icon.png', task);
+        try {
+            await this.copyResourceAsync(process.cwd(), context.appOutputDir, 'app-icon.svg', task);
+        } catch(e) {
+            this.log(`Unable to find SVG icon. [${e.message}]`);
+        }
 
         if (context.manifest.resources) {
             const copyTasks = context.manifest.resources.map((resource: string) =>
