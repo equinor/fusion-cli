@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@equinor/fusion": "^1.1.8",
-    "@equinor/fusion-components": "^1.1.83",
+    "@equinor/fusion-components": "^1.1.84",
     "react": "^16.13.1"
   },
   "devDependencies": {
@@ -27,10 +27,10 @@
     "@types/webpack-env": "^1.15.2",
     "history": "^4.9.0",
     "react-hot-loader": "^4.12.21",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^5.2.0",
     "tslib": "^1.13.0",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.9.2"
   }
 }
