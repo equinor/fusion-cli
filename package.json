@@ -75,7 +75,7 @@
     "@types/guid": "^1.0.0",
     "@types/log-symbols": "^3.0.0",
     "@types/mocha": "^7.0.1",
-    "@types/node": "^13.7.1",
+    "@types/node": "^14.0.3",
     "@types/react": "^16.9.2",
     "@types/react-dom": "^16.9.0",
     "@types/react-router-dom": "^4.3.3",
