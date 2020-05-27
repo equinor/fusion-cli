@@ -31,9 +31,6 @@ export default {
                     },
                     {
                         loader: lessLoader,
-                        options: {
-                            noIeCompat: true,
-                        },
                     },
                 ],
             },
