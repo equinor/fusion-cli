@@ -28,6 +28,7 @@ const serviceResolver: ServiceResolver = {
     getPeopleBaseUrl: () => 'https://pro-s-people-ci.azurewebsites.net',
     getReportsBaseUrl: () => 'https://pro-s-reports-ci.azurewebsites.net',
     getPowerBiApiBaseUrl: () => 'https://api.powerbi.com/v1.0/myorg',
+    getNotificationBaseUrl: () => 'https://pro-s-notificaiton-ci.azurewebsites.net',
 };
 
 const start = async () => {
@@ -47,6 +48,7 @@ const start = async () => {
         serviceResolver.getPeopleBaseUrl(),
         serviceResolver.getReportsBaseUrl(),
         serviceResolver.getPowerBiApiBaseUrl(),
+        serviceResolver.getNotificationBaseUrl(),
     ]);
 
     const HeaderContextSelector: React.FC<HeaderContentProps> = ({ app }) => {
@@ -100,4 +102,4 @@ const start = async () => {
 
 start()
     .then(() => console.log('App started'))
-    .catch(e => console.error('Unable to start app', e));
+    .catch((e) => console.error('Unable to start app', e));
