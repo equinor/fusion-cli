@@ -15,8 +15,8 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^1.1.8",
-    "@equinor/fusion-components": "^1.1.89",
+    "@equinor/fusion": "^2.0.8",
+    "@equinor/fusion-components": "^1.1.90",
     "react": "^16.13.1"
   },
   "devDependencies": {
