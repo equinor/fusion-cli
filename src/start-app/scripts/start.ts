@@ -60,22 +60,21 @@ export default async () => {
 
     app.use(hotMiddleware(compiler));
 
+    const wwwRoot = path.resolve(__dirname, '..', 'dist');
+
     // tslint:disable-next-line:variable-name
-    app.get('/fusion.bundle.js', (_req, res) => {
-        res.sendFile(path.resolve(__dirname, '..', 'dist', 'fusion.bundle.js'));
+    app.get('/fusion.bundle.js(.map)?', (_req, res) => {
+        res.sendFile(path.join(wwwRoot, _req.path));
     });
 
-    app.get('/favicon-16x16.png', (_req, res) => {
-        res.sendFile(path.resolve(__dirname, '..', 'dist', 'favicon-16x16.png'));
-    });
-
-    app.get('/favicon-32x32.png', (_req, res) => {
-        res.sendFile(path.resolve(__dirname, '..', 'dist', 'favicon-32x32.png'));
+    // tslint:disable-next-line:variable-name
+    app.get(/\/favicon(-\d\dx\d\d)?.(png|ico)$/g, (_req, res) => {
+        res.sendFile(path.join(wwwRoot, _req.path));
     });
 
     // tslint:disable-next-line:variable-name
     app.get(['/', '/*', '*'], (_req, res) => {
-        res.sendFile(path.resolve(__dirname, '..', 'dist', 'index.html'));
+        res.sendFile(path.join(wwwRoot, 'index.html'));
     });
 
     app.listen(port, () => console.log(`Fusion App listening on port ${port}!`));
