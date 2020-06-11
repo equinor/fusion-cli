@@ -20,13 +20,14 @@ export default class StartApp extends Command {
         }),
         help: flags.help({ char: 'h' }),
         production: flags.boolean({ char: 'P', description: 'Use production config' }),
-        progress: flags.boolean({ char: 'p', description: 'Display build progress' }),
+        port: flags.integer({ char: 'p', description: 'Devserver port' }),
     };
 
     public async run() {
         // tslint:disable-next-line:no-console
         console.log('Starting apps...');
-        start();
+        const { port } = this.parse(StartApp).flags;
+        start({ port });
     }
 }
 

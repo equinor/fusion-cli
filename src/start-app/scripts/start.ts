@@ -20,11 +20,15 @@ import typescript from '../../build/parts/typescript';
 import getPackageAsync from '../../build/getPackageAsync';
 import getPackageDependencies from '../../build/getPackageDependencies';
 
+type StartOptions = {
+    port?: number;
+}
+
 const openBrowser = async (port: number) => {
     await open(`http://localhost:${port}`);
 };
 
-export default async () => {
+export default async (args?: StartOptions) => {
     const appPackage = await getPackageAsync(path.resolve(process.cwd()));
     const cliPackage = await getPackageAsync(path.resolve(__dirname, '..', '..', '..'));
     const cliDependencies = await getPackageDependencies(cliPackage);
@@ -48,7 +52,7 @@ export default async () => {
     );
 
     const app = express();
-    const port = await getPort({ port: getPort.makeRange(3000, 3100) });
+    const port = await getPort({ port: args?.port || getPort.makeRange(3000, 3100) });
 
     app.use(compression());
 
