@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { useFusionContext, useNotificationCenter } from '@equinor/fusion';
 import { AppManifest } from '@equinor/fusion/lib/app/AppContainer';
+import { useAppAuth } from '@equinor/fusion/lib/hooks/useAppAuth';
+
 
 const HotAppWrapper: React.FC = () => {
     const {
@@ -10,6 +12,8 @@ const HotAppWrapper: React.FC = () => {
     const sendNotification = useNotificationCenter();
 
     const [app, setApp] = React.useState<AppManifest | null>(null);
+
+    const authorized = useAppAuth(app?.auth);
 
     React.useEffect(() => {
         const allApps = appContainer.getAll();
@@ -34,7 +38,7 @@ const HotAppWrapper: React.FC = () => {
             .catch();
     }, [app]);
 
-    if (!app) {
+    if (!app || !authorized) {
         return null;
     }
 
