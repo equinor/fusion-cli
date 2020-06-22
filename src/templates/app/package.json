@@ -20,7 +20,7 @@
     "react": "^16.13.1"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^1.0.30",
+    "@equinor/fusion-cli": "^1.0.31",
     "@types/history": "^4.7.6",
     "@types/react": "^16.9.38",
     "@types/react-router-dom": "^5.1.5",
