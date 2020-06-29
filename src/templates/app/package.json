@@ -15,14 +15,14 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^2.0.13",
+    "@equinor/fusion": "^2.0.15",
     "@equinor/fusion-components": "^1.1.95",
     "react": "^16.13.1"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^1.0.30",
+    "@equinor/fusion-cli": "^1.0.31",
     "@types/history": "^4.7.6",
-    "@types/react": "^16.9.35",
+    "@types/react": "^16.9.38",
     "@types/react-router-dom": "^5.1.5",
     "@types/webpack-env": "^1.15.2",
     "history": "^4.9.0",
