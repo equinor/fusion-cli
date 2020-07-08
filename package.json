@@ -12,7 +12,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
-    "@equinor/fusion": "^2.1.1",
+    "@equinor/fusion": "^2.0.14",
     "@hot-loader/react-dom": "^16.8.6",
     "@oclif/command": "^1.5.13",
     "@oclif/config": "^1.13.0",
