@@ -23,7 +23,7 @@
                 "INPUT_appKey": "test",
                 "INPUT_appName": "test app",
                 "INPUT_appCategory": "test category",
-                // "INPUT_portalUrl": "https://pr-1885.fusion-dev.net",
+                "INPUT_portalUrl": "https://pr-0000.fusion-dev.net",
                 "INPUT_tokenResource": "TEST",
                 "INPUT_testCredentials": "${workspaceFolder}/test-credentials.json"
             },
