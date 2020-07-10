@@ -16,6 +16,25 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Launch CREATE app task",
+            "env": {
+                "INPUT_isDebug": "true",
+                "INPUT_action": "create",
+                "INPUT_appKey": "test",
+                "INPUT_appName": "test app",
+                "INPUT_appCategory": "test category",
+                // "INPUT_portalUrl": "https://pr-1885.fusion-dev.net",
+                "INPUT_tokenResource": "TEST",
+                "INPUT_testCredentials": "${workspaceFolder}/test-credentials.json"
+            },
+            "program": "${workspaceFolder}/tasks/fusion-app/index.ts",
+            "outFiles": [
+                "${workspaceFolder}/**/*.js"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Launch DEPLOY app task",
             "env": {
                 "INPUT_isDebug": "true",
