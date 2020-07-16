@@ -30,19 +30,42 @@ export class Task {
         try {
 
             switch (action.toLowerCase()) {
+                case 'create':
+                    await this.createAppAsync();
+                    break;
+
                 case 'deploy':
                     await this.deployAppBundleAsync();
-
                     break;
+
                 case 'publish':
                     await this.publishAppAsync();
-
                     break;
             }
 
         } catch (error) {
             tl.setResult(tl.TaskResult.Failed, error);
         }
+    }
+
+    private static async createAppAsync() {
+        const appKey = tl.getInput('appKey', false);
+        const appName = tl.getInput('appName', false);
+        const appCategory = tl.getInput('appCategory', false);
+
+        if (isNullOrUndefined(appKey)) {
+            throw new Error("[!] Missing required input: appKey");
+        }
+
+        if(await this.portalApi.hasApp(appKey)){
+            return tl.setResult(tl.TaskResult.Skipped, 'App allready exists');
+        }
+
+        if (isNullOrUndefined(appName)) {
+            throw new Error("[!] Missing required input: appName");
+        }
+
+        await this.portalApi.createApp(appKey, appName, appCategory);
     }
 
     private static async deployAppBundleAsync() {

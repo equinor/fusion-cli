@@ -135,6 +135,17 @@ Actions supported are deploying of bundle and publishing.
 #### Usage
 ```yml
 steps:
+- task: FusionApp@0
+  displayName: 'Create slot for app'
+  inputs:
+    fusionCredentials: 'Fusion test'
+    tokenResource: '5a842df8-3238-415d-b168-9f16a6a6031b'
+    portalUrl: 'https://pr-0000.fusion-dev.net'
+    action: Create
+    appKey: 'test-app'
+    appName: 'test app'
+    appCategory: 'testing'
+
 - task: FusionApp@0 
   displayName: Deploy app bundle
   inputs:
