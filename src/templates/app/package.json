@@ -28,7 +28,7 @@
     "history": "^4.9.0",
     "react-hot-loader": "^4.12.21",
     "react-router-dom": "^5.2.0",
-    "tslib": "^1.13.0",
+    "tslib": "^2.0.0",
     "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.9.5"
