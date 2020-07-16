@@ -15,9 +15,7 @@
     "noEmit": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "./css-modules.d.ts",
   ],
-  "exclude": [
-    "src/templates/**/*"
-  ]
 }

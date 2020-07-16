@@ -25,8 +25,12 @@ jobs:
     - name: npm install, update fusion packages
       run: |
         npm ci
-        npm install @equinor/fusion@latest @equinor/fusion-components@latest 
-        git commit -am "Update fusion deps" || true
+        npm install @equinor/fusion@latest @equinor/fusion-components@latest
+        git commit -am "chore: update fusion deps" || true
+    - name: Update templates
+      run: |
+        npm run update-tempplates
+        git commit -am "chore: update templates" || true
     - name: Build and pack bundle
       run: |
         npm run build:start-app-bundle
