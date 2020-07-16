@@ -22,7 +22,7 @@
   "devDependencies": {
     "@equinor/fusion-cli": "^1.0.31",
     "@types/history": "^4.7.6",
-    "@types/react": "^16.9.41",
+    "@types/react": "^16.9.43",
     "@types/react-router-dom": "^5.1.5",
     "@types/webpack-env": "^1.15.2",
     "history": "^4.9.0",
