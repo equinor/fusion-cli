@@ -124,7 +124,10 @@
     "posttest": "tslint -p test -t stylish",
     "prepack": "rm -rf lib && tsc -b && npm run copy && oclif-dev manifest",
     "test": "echo \"No test specified\"",
-    "build": "npm run postpack && npm run build:start-app-bundle && npm run prepack"
+    "build": "npm run postpack && npm run build:start-app-bundle && npm run prepack",
+    "update-templates": "npm run update-templates:dependencies && npm run update-templates:files",
+    "update-templates:dependencies": "ts-node src/scripts/update-template-dependencies.ts",
+    "update-templates:files": "ts-node src/scripts/update-template-files.ts"
   },
   "types": "lib/index.d.ts",
   "publishConfig": {

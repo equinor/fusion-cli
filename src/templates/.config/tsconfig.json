@@ -12,12 +12,11 @@
     "skipLibCheck": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "noEmit": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "./css-modules.d.ts",
   ],
-  "exclude": [
-    "src/templates/**/*"
-  ]
 }
