@@ -14,26 +14,28 @@
     "name": "",
     "shortName": "",
     "context": {
-      "types": ["ProjectMaster"]
+      "types": [
+        "ProjectMaster"
+      ]
     }
   },
   "dependencies": {
-    "@equinor/fusion": "^1.0.23",
-    "@equinor/fusion-components": "^1.1.23",
+    "@equinor/fusion": "^2.1.4",
+    "@equinor/fusion-components": "^1.1.101",
     "react": "^16.9.0"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^1.0.9",
+    "@equinor/fusion-cli": "1.0.34",
     "@types/history": "^4.7.2",
     "@types/react": "^16.9.2",
-    "@types/react-router-dom": "^5.1.3",
-    "@types/webpack-env": "^1.14.0",
+    "@types/react-router-dom": "^4.3.3",
+    "@types/webpack-env": "^1.13.9",
     "history": "^4.9.0",
     "react-hot-loader": "^4.12.12",
     "react-router-dom": "^5.0.1",
-    "typescript": "^3.7.5",
+    "typescript": "^3.7.3",
     "tslib": "^1.9.3",
-    "tslint": "^6.0.0",
+    "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0"
   }
 }

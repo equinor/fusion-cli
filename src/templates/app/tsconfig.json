@@ -9,8 +9,11 @@
     "strict": true,
     "target": "es2017",
     "composite": false,
+    "skipLibCheck": true,
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "noEmit": true
   },
   "include": [
     "src/**/*",

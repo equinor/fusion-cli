@@ -75,7 +75,7 @@ stages:
         runOnce:
           deploy:
             steps:
-            - task: FusionApp@1
+            - task: FusionApp@2
               displayName: 'Deploying app bundle for ${{ parameters.appKey }}'
               condition: succeeded()
               inputs:
@@ -88,7 +88,7 @@ stages:
                 ignoreVersionConflict: ${{ parameters.ignoreVersionConflict }}
                 forceReplaceExisting: ${{ parameters.forceReplaceExisting }}
 
-            - task: FusionApp@1
+            - task: FusionApp@2
               displayName: 'Publishing app ${{ parameters.appKey }}'
               condition: succeeded()
               inputs:
