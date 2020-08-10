@@ -29,7 +29,7 @@ jobs:
         git commit -am "chore: update fusion deps" || true
     - name: Update templates
       run: |
-        npm run update-tempplates
+        npm run update-templates
         git commit -am "chore: update templates" || true
     - name: Build and pack bundle
       run: |
