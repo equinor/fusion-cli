@@ -83638,7 +83638,7 @@ const HotAppWrapper = () => {
         return appContainer.on('update', (apps) => {
             appContainer.setCurrentAppAsync(getFirstApp(apps));
         });
-    }, []);
+    }, [appContainer.allApps]);
     react__WEBPACK_IMPORTED_MODULE_0__["useEffect"](() => {
         sendNotification({
             cancelLabel: 'I know',
