@@ -21,7 +21,7 @@ const HotAppWrapper: React.FC = () => {
         return appContainer.on('update', (apps) => {
             appContainer.setCurrentAppAsync(getFirstApp(apps));
         });
-    }, []);
+    }, [appContainer.allApps]);
 
     React.useEffect(() => {
         sendNotification({
