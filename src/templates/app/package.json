@@ -15,22 +15,22 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^2.1.4",
-    "@equinor/fusion-components": "^1.1.101",
-    "react": "^16.9.0"
+    "@equinor/fusion": "^2.2.0",
+    "@equinor/fusion-components": "^1.2.2",
+    "react": "^16.13.1"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "1.0.37",
+    "@equinor/fusion-cli": "1.1.0",
     "@types/history": "^4.7.6",
     "@types/react": "^16.9.2",
     "@types/react-router-dom": "^4.3.3",
     "@types/webpack-env": "^1.13.9",
     "history": "^4.9.0",
     "react-hot-loader": "^4.12.12",
-    "react-router-dom": "^5.0.1",
-    "tslib": "^1.9.3",
+    "react-router-dom": "^5.2.0",
+    "tslib": "^2.0.1",
     "tslint": "^5.16.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.3"
+    "typescript": "^3.9.7"
   }
 }
