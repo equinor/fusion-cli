@@ -29,6 +29,7 @@ const serviceResolver: ServiceResolver = {
     getReportsBaseUrl: () => 'https://pro-s-reports-ci.azurewebsites.net',
     getPowerBiApiBaseUrl: () => 'https://api.powerbi.com/v1.0/myorg',
     getNotificationBaseUrl: () => 'https://pro-s-notification-ci.azurewebsites.net',
+    getInfoUrl: () => 'https://pro-s-info-app-ci.azurewebsites.net',
 };
 
 const start = async () => {
