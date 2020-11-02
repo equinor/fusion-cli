@@ -63,11 +63,15 @@ const start = async () => {
             const root = React.useRef(document.createElement('div'));
             const overlay = React.useRef(document.createElement('div'));
 
+            const headerContent = React.useRef<HTMLElement | null>(null);
+            const headerAppAside = React.useRef<HTMLElement | null>(null);
+
             const fusionContext = createFusionContext(
                 authContainer,
                 serviceResolver,
                 {
-                    headerContent: React.useRef<HTMLElement | null>(null),
+                    headerAppAside,
+                    headerContent,
                     overlay,
                     root,
                 },
@@ -87,6 +91,7 @@ const start = async () => {
                                 aside={null}
                                 content={HeaderContextSelector}
                                 start={null}
+                                settings={null}
                             />
                             <FusionContent>
                                 <HotAppWrapper />
