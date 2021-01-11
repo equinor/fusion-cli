@@ -300,6 +300,8 @@ export default class BuildApp extends Command {
             task.title = `Building (${percentageString}%)`;
         };
 
+        const appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
+
         return merge(
             babel,
             mode(true),
@@ -311,7 +313,8 @@ export default class BuildApp extends Command {
             output('app-bundle.js', context.appOutputDir),
             {
                 plugins: [new webpack.ProgressPlugin(progressHandler)],
-            }
+            },
+            appWebpackConfig
         );
     }
 
