@@ -4,10 +4,10 @@ import * as path from 'path';
 import * as fs from 'fs';
 import * as util from 'util';
 import * as webpack from 'webpack';
-import * as merge from 'webpack-merge';
 import * as rimraf from 'rimraf';
 import * as archiver from 'archiver';
 
+import { merge } from 'webpack-merge';
 import babel from '../build/parts/babel';
 import entry from '../build/parts/entry';
 import images from '../build/parts/images';
@@ -181,19 +181,19 @@ export default class BuildApp extends Command {
 
             task.title = 'Building';
             compiler.run((err, stats) => {
-                context.buildSucceeded = !err && !stats.hasErrors();
+                context.buildSucceeded = !err && stats && !stats.hasErrors();
 
                 if (err) {
                     task.title = 'Build failed';
                     return reject(err);
                 }
 
-                if (stats.hasErrors()) {
+                if (stats && stats.hasErrors()) {
                     task.title = 'Build failed';
                     return reject(new CompileError(stats.compilation.errors));
                 }
 
-                const buildDuration = (stats.endTime || 0) - (stats.startTime || 0);
+                const buildDuration = (stats && stats.endTime || 0) - (stats && stats.startTime || 0);
                 task.title = `Build completed in ${(buildDuration / 1000).toFixed(2)} seconds`;
                 resolve();
             });
