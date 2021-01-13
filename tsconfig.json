@@ -10,7 +10,7 @@
     "target": "es2017",
     "composite": false,
     "skipLibCheck": true,
-    "jsx": "react",
+    "jsx": "react-jsx",
     "allowSyntheticDefaultImports": true,
   },
   "include": [
