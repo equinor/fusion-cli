@@ -60,7 +60,7 @@
     "webpack-cli": "^4.3.1",
     "webpack-dev-middleware": "^3.7.0",
     "webpack-hot-middleware": "^2.25.0",
-    "webpack-merge": "^4.2.1"
+    "webpack-merge": "^5.7.3"
   },
   "devDependencies": {
     "@equinor/fusion-components": "^1.4.27",
