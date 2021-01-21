@@ -30,6 +30,7 @@ const serviceResolver: ServiceResolver = {
     getPowerBiApiBaseUrl: () => 'https://api.powerbi.com/v1.0/myorg',
     getNotificationBaseUrl: () => 'https://pro-s-notification-ci.azurewebsites.net',
     getInfoUrl: () => 'https://pro-s-info-app-ci.azurewebsites.net',
+    getFusionTasksBaseUrl: () => 'https://pro-s-tasks-ci.azurewebsites.net',
 };
 
 const start = async () => {
