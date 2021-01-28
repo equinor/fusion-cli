@@ -1,5 +1,5 @@
 import { render } from '@hot-loader/react-dom';
-import { useRef, FC } from "react";
+import { useRef, FunctionComponent } from "react";
 import { Router } from 'react-router-dom';
 import {
     createFusionContext,
@@ -53,7 +53,7 @@ const start = async () => {
         serviceResolver.getNotificationBaseUrl(),
     ]);
 
-    const HeaderContextSelector: FC<HeaderContentProps> = ({ app }) => {
+    const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
         return app?.context?.types.length ? <ContextSelector /> : null;
     };
 
