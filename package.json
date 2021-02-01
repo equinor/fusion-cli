@@ -46,6 +46,7 @@
     "log-symbols": "^4.0.0",
     "ncp": "^2.0.0",
     "open": "^7.0.2",
+    "path-browserify": "^1.0.1",
     "pkg-install": "^1.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
