@@ -16,6 +16,7 @@ import styles from '../build/parts/styles';
 import typescript from '../build/parts/typescript';
 import output from '../build/parts/output';
 import mode from '../build/parts/mode';
+import env from '../build/parts/env';
 import * as logSymbols from 'log-symbols';
 
 import IAppManifest from '../build/AppManifest';
@@ -314,6 +315,7 @@ export default class BuildApp extends Command {
             {
                 plugins: [new webpack.ProgressPlugin(progressHandler)],
             },
+            env(),
             appWebpackConfig
         );
     }

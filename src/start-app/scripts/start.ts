@@ -17,6 +17,7 @@ import output from '../../build/parts/output';
 import externals from '../../build/parts/externals';
 import styles from '../../build/parts/styles';
 import typescript from '../../build/parts/typescript';
+import env from '../../build/parts/env';
 import getPackageAsync from '../../build/getPackageAsync';
 import getPackageDependencies from '../../build/getPackageDependencies';
 import { merge } from 'webpack-merge';
@@ -36,21 +37,21 @@ export default async (args?: StartOptions) => {
     const moduleDependencies = await getPackageDependencies(appPackage);
 
     const appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
-
-    const compiler = webpack(
-        merge(
-            babel,
-            mode(false),
-            entry(appPackage, false),
-            output('app.bundle.js'),
-            hmr,
-            images(),
-            externals(cliDependencies, moduleDependencies),
-            styles,
-            typescript('', false),
-            appWebpackConfig
-        )
+    const config = merge(
+        babel,
+        mode(false),
+        entry(appPackage, false),
+        output('app.bundle.js'),
+        hmr,
+        images(),
+        externals(cliDependencies, moduleDependencies),
+        styles,
+        typescript('', false),
+        env(),
+        appWebpackConfig
     );
+
+    const compiler = webpack(config);
 
     const app = express();
     const port = await getPort({ port: (args && args.port) || getPort.makeRange(3000, 3100) });
