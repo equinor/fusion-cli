@@ -14,7 +14,8 @@ export default (outDir?: string, silent = false): webpack.Configuration => ({
                         options: {
                             compilerOptions: {
                                 outDir,
-                                "moduleResolution": "node"
+                                "moduleResolution": "node",
+                                "noEmit": false
                             },
                             silent,
                         },
