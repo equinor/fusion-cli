@@ -15,6 +15,7 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/preset-typescript": "^7.3.3",
     "@equinor/fusion": "^3.0.1",
+    "@equinor/fusion-components": "^2.0.0-4",
     "@hot-loader/react-dom": "^17.0.1",
     "@oclif/command": "^1.5.13",
     "@oclif/config": "^1.17.0",
@@ -65,7 +66,6 @@
     "webpack-merge": "^5.7.3"
   },
   "devDependencies": {
-    "@equinor/fusion-components": "^2.0.0-3",
     "@oclif/dev-cli": "^1.22.0",
     "@oclif/test": "^1.2.4",
     "@oclif/tslint": "^3.1.1",
@@ -89,6 +89,7 @@
     "chai": "^4.2.0",
     "mocha": "^8.0.1",
     "nyc": "^15.0.0",
+    "react-hot-loader": "^4.13.0",
     "source-map-loader": "^1.0.0",
     "ts-node": "^9.1.1",
     "tslint": "^5.20.1",
