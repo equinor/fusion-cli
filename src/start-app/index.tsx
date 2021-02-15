@@ -1,5 +1,5 @@
 import { render } from '@hot-loader/react-dom';
-import * as React from 'react';
+import { useRef, FunctionComponent } from "react";
 import { Router } from 'react-router-dom';
 import {
     createFusionContext,
@@ -53,7 +53,7 @@ const start = async () => {
         serviceResolver.getNotificationBaseUrl(),
     ]);
 
-    const HeaderContextSelector: React.FC<HeaderContentProps> = ({ app }) => {
+    const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
         return app?.context?.types.length ? <ContextSelector /> : null;
     };
 
@@ -61,11 +61,11 @@ const start = async () => {
         await authContainer.loginAsync(coreAppClientId);
     } else {
         const Root = () => {
-            const root = React.useRef(document.createElement('div'));
-            const overlay = React.useRef(document.createElement('div'));
+            const root = useRef(document.createElement('div'));
+            const overlay = useRef(document.createElement('div'));
 
-            const headerContent = React.useRef<HTMLElement | null>(null);
-            const headerAppAside = React.useRef<HTMLElement | null>(null);
+            const headerContent = useRef<HTMLElement | null>(null);
+            const headerAppAside = useRef<HTMLElement | null>(null);
 
             const fusionContext = createFusionContext(
                 authContainer,

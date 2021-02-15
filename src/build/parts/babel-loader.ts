@@ -12,19 +12,14 @@ export default {
     options: {
         plugins: [reactHotLoaderBabel],
         presets: [
-            [
-                presetEnv,
-                {
-                    loose: false,
-                    modules: false,
-                    targets: {
-                        chrome: '70',
-                        ie: '11',
-                    },
-                },
-            ],
+            presetEnv,
             presetTypeScript,
-            presetReact,
+            [
+                presetReact,
+                {
+                    runtime: "automatic"
+                }
+            ]
         ],
     },
 };
