@@ -121,13 +121,10 @@
   },
   "repository": "equinor/fusion-cli",
   "scripts": {
-    "build:start-app-bundle": "webpack --config ./src/start-app/webpack.config.js && git commit -am \"Build start app bundle\" || true",
     "copy": "cp -r src/templates/ lib/ && cp -r src/start-app/dist lib/start-app/",
     "postpack": "rm oclif.manifest.json",
-    "posttest": "tslint -p test -t stylish",
     "prepack": "rm -rf lib && tsc -b && npm run copy && oclif-dev manifest",
-    "test": "echo \"No test specified\"",
-    "build": "npm run postpack && npm run build:start-app-bundle && npm run prepack",
+    "build": "webpack --config ./src/start-app/webpack.config.js",
     "update-templates": "npm run update-templates:dependencies && npm run update-templates:files",
     "update-templates:dependencies": "ts-node src/scripts/update-template-dependencies.ts",
     "update-templates:files": "ts-node src/scripts/update-template-files.ts"
