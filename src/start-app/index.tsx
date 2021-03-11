@@ -17,20 +17,20 @@ import {
 import HotAppWrapper from './HotAppWrapper';
 
 const serviceResolver: ServiceResolver = {
-    getContextBaseUrl: () => process.env.REACT_APP_CONTEXT_HOST ?? 'https://pro-s-context-ci.azurewebsites.net',
-    getDataProxyBaseUrl: () => process.env.REACT_APP_DATAPROXY_HOST ?? 'https://pro-s-dataproxy-ci.azurewebsites.net',
-    getFusionBaseUrl: () => process.env.REACT_APP_FUNCTION_HOST ?? 'https://pro-s-portal-ci.azurewebsites.net',
-    getMeetingsBaseUrl: () => process.env.REACT_APP_MEETING_HOST ?? 'https://pro-s-meeting-v2-ci.azurewebsites.net',
-    getOrgBaseUrl: () => process.env.REACT_APP_ORG_HOST ?? 'https://pro-s-org-ci.azurewebsites.net',
+    getContextBaseUrl: () => 'https://pro-s-context-ci.azurewebsites.net',
+    getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
+    getFusionBaseUrl: () => 'https://pro-s-portal-ci.azurewebsites.net',
+    getMeetingsBaseUrl: () => 'https://pro-s-meeting-v2-ci.azurewebsites.net',
+    getOrgBaseUrl: () => 'https://pro-s-org-ci.azurewebsites.net',
     getPowerBiBaseUrl: () => 'https://pro-s-powerbi-ci.azurewebsites.net',
     getProjectsBaseUrl: () => 'https://pro-s-projects-ci.azurewebsites.net',
     getTasksBaseUrl: () => 'https://pro-s-tasks-ci.azurewebsites.net',
-    getPeopleBaseUrl: () => process.env.REACT_APP_PEOPLE_HOST ?? 'https://pro-s-people-ci.azurewebsites.net',
-    getReportsBaseUrl: () => process.env.REACT_APP_REPORTS_HOST ?? 'https://pro-s-reports-ci.azurewebsites.net',
+    getPeopleBaseUrl: () => 'https://pro-s-people-ci.azurewebsites.net',
+    getReportsBaseUrl: () => 'https://pro-s-reports-ci.azurewebsites.net',
     getPowerBiApiBaseUrl: () => 'https://api.powerbi.com/v1.0/myorg',
-    getNotificationBaseUrl: () => process.env.REACT_APP_NOTIFICATION_HOST ?? 'https://pro-s-notification-ci.azurewebsites.net',
-    getInfoUrl: () => process.env.REACT_APP_INFO_HOST ?? 'https://pro-s-info-app-ci.azurewebsites.net',
-    getFusionTasksBaseUrl: () => process.env.REACT_APP_FUSIONTASKS_HOST ?? 'https://pro-s-tasks-ci.azurewebsites.net',
+    getNotificationBaseUrl: () => 'https://pro-s-notification-ci.azurewebsites.net',
+    getInfoUrl: () => 'https://pro-s-info-app-ci.azurewebsites.net',
+    getFusionTasksBaseUrl: () => 'https://pro-s-tasks-ci.azurewebsites.net',
 };
 
 const start = async () => {
