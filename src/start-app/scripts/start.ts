@@ -68,6 +68,10 @@ export default async (args?: StartOptions) => {
 
     const wwwRoot = path.resolve(__dirname, '..', 'dist');
 
+    app.get('/images/profiles/*', (_req, res) => {
+        res.sendFile(path.join(wwwRoot, 'unkown-profile-128.png'), { maxAge: 1000*60*60*24 });
+    });
+
     // tslint:disable-next-line:variable-name
     app.get('/fusion.bundle.js(.map)?', (_req, res) => {
         res.sendFile(path.join(wwwRoot, _req.path));
