@@ -1,5 +1,5 @@
 import { render } from '@hot-loader/react-dom';
-import { useRef, FunctionComponent } from "react";
+import { useRef, FunctionComponent } from 'react';
 import { Router } from 'react-router-dom';
 import {
     createFusionContext,
@@ -31,6 +31,7 @@ const serviceResolver: ServiceResolver = {
     getNotificationBaseUrl: () => 'https://pro-s-notification-ci.azurewebsites.net',
     getInfoUrl: () => 'https://pro-s-info-app-ci.azurewebsites.net',
     getFusionTasksBaseUrl: () => 'https://pro-s-tasks-ci.azurewebsites.net',
+    getBookmarksBaseUrl: () => 'https://pro-s-bookmarks-ci.azurewebsites.net',
 };
 
 const start = async () => {
@@ -51,6 +52,7 @@ const start = async () => {
         serviceResolver.getReportsBaseUrl(),
         serviceResolver.getPowerBiApiBaseUrl(),
         serviceResolver.getNotificationBaseUrl(),
+        serviceResolver.getBookmarksBaseUrl(),
     ]);
 
     const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
