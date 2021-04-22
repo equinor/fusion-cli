@@ -10,3 +10,4 @@ node_modules
 oclif.manifest.json
 
 src/start-app/dist/fusion.bundle*
+src/templates/*/package-lock.json
