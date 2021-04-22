@@ -1,7 +1,7 @@
 {
   "name": "@equinor/fusion-cli",
   "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "author": "Fusion Core",
   "bin": {
     "fusion": "./bin/run"
@@ -126,6 +126,7 @@
     "prepack": "rm -rf lib && tsc -b && npm run copy && oclif-dev manifest",
     "build": "webpack --config ./src/start-app/webpack.config.js",
     "update-templates": "npm run update-templates:dependencies && npm run update-templates:files",
+    "postupdate-templates": "npm i --package-lock-only --prefix src/templates/app && npm i --package-lock-only --prefix src/templates/report",
     "update-templates:dependencies": "ts-node src/scripts/update-template-dependencies.ts",
     "update-templates:files": "ts-node src/scripts/update-template-files.ts"
   },
