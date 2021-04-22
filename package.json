@@ -126,7 +126,6 @@
     "prepack": "rm -rf lib && tsc -b && npm run copy && oclif-dev manifest",
     "build": "webpack --config ./src/start-app/webpack.config.js",
     "update-templates": "npm run update-templates:dependencies && npm run update-templates:files",
-    "postupdate-templates": "npm i --package-lock-only --prefix src/templates/app && npm i --package-lock-only --prefix src/templates/report",
     "update-templates:dependencies": "ts-node src/scripts/update-template-dependencies.ts",
     "update-templates:files": "ts-node src/scripts/update-template-files.ts"
   },
