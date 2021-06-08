@@ -7,7 +7,7 @@ export default (publicPath?: string): webpack.Configuration => ({
     module: {
         rules: [
             {
-                test: /.(png|jpg|jpeg?)(\?[a-z0-9]+)?$/,
+                test: /.(svg|png|jpg|jpeg?)(\?[a-z0-9]+)?$/,
                 use: [
                     {
                         loader: fileLoader,
