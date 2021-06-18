@@ -124,7 +124,6 @@
     "repository": "equinor/fusion-cli",
     "scripts": {
         "copy": "cp -r src/templates/ lib/ && cp -r src/start-app/dist lib/start-app/",
-
         "postpack": "rm oclif.manifest.json",
         "prepack": "rm -rf lib && tsc -b && npm run copy && oclif-dev manifest",
         "build": "webpack --config ./src/start-app/webpack.config.js",
