@@ -11,3 +11,6 @@ oclif.manifest.json
 
 src/start-app/dist/fusion.bundle*
 src/templates/*/package-lock.json
+
+.yalc
+yalc.lock
