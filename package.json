@@ -37,7 +37,7 @@
         "express": "^4.17.0",
         "figlet": "^1.2.1",
         "file-loader": "^6.2.0",
-        "fork-ts-checker-webpack-plugin": "^5.0.5",
+        "fork-ts-checker-webpack-plugin": "^6.3.1",
         "get-port": "^5.0.0",
         "globby": "^11.0.0",
         "history": "^4.9.0",
