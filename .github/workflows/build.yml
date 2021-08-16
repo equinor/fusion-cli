@@ -21,8 +21,4 @@ jobs:
     - name: npm install
       run: |
         npm ci
-    - name: Build and pack bundle
-      run: |
-        npm run build:start-app-bundle
-        npm run postpack || true
-        npm run prepack
+        npm run build

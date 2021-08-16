@@ -90,7 +90,7 @@ module.exports = {
     plugins: [
         new ForkTsCheckerWebpackPlugin(),
         new CleanWebpackPlugin({
-            cleanOnceBeforeBuildPatterns: ['**/*', '!favicon-*.png', '!favicon.ico', '!index.html'],
+            cleanOnceBeforeBuildPatterns: ['**/*', '!favicon-*.png', '!favicon.ico', '!index.html', '!unknown-profile-128.png'],
         }),
     ],
 };

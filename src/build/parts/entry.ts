@@ -13,5 +13,8 @@ export default (modulePackage: IPackage, isProduction: boolean) => ({
             path.dirname(path.resolve(process.cwd(), modulePackage.main)),
             path.resolve(__dirname, '..', '..', '..', 'node_modules'),
         ],
+        fallback: { 
+            path: false
+        }
     },
 });

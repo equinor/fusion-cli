@@ -10,8 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "azure-pipelines-task-lib": "^2.12.0",
-    "request": "^2.88.0",
-    "request-promise-native": "^1.0.7",
+    "request": "^2.88.2",
+    "request-promise-native": "^1.0.9",
     "util": "^0.12.1"
   },
   "devDependencies": {

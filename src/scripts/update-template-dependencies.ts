@@ -17,7 +17,7 @@ const updateDeps = (a: Deps, b: Deps) => Object.keys(a).reduce((o, k) => ({ ...o
         const pkg = await getPackage(dir);
         pkg.dependencies = updateDeps(pkg.dependencies, deps);
         pkg.devDependencies = updateDeps(pkg.devDependencies, deps);
-        pkg.devDependencies['@equinor/fusion-cli'] = cliPackage.version;
+        pkg.devDependencies['@equinor/fusion-cli'] = `^${cliPackage.version}`;
         writeFileSync(join(dir, 'package.json'), JSON.stringify(pkg, undefined, 2));
     }
 

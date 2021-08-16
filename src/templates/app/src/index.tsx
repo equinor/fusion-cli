@@ -1,10 +1,10 @@
-import * as React from 'react';
+import { FC, useEffect } from 'react';
 import { registerApp, useCurrentUser, useNotificationCenter } from '@equinor/fusion';
 import { Button, usePopoverRef } from '@equinor/fusion-components';
 
 import * as styles from './styles.less';
 
-const App: React.FC = () => {
+const App: FC = () => {
     const currentUser = useCurrentUser();
     const sendNotification = useNotificationCenter();
 
@@ -24,7 +24,7 @@ const App: React.FC = () => {
         });
     };
 
-    React.useEffect(() => {
+    useEffect(() => {
         sendWelcomeNotification();
     }, []);
 

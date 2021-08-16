@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { FC, useMemo } from 'react';
 import {
     registerApp,
     useFusionContext,
@@ -9,13 +9,13 @@ import {
 import { ErrorBoundary, PowerBIReport, IBasicFilter } from '@equinor/fusion-components';
 import LandingPage from './LandingPage';
 
-const App: React.FC = () => {
+const App: FC = () => {
     const currentContext = useCurrentContext();
     const fusionContext = useFusionContext();
 
     const reportId = fusionContext.environment.env === 'FPRD' ? '{REPORTIDPROD}' : '{REPORTIDTEST}';
 
-    const filter = React.useMemo((): IBasicFilter => {
+    const filter = useMemo((): IBasicFilter => {
         return {
             $schema: 'http://powerbi.com/product/schema#basic',
             target: {
