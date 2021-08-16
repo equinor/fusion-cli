@@ -1,7 +1,7 @@
 {
     "name": "@equinor/fusion-cli",
     "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-    "version": "2.2.6",
+    "version": "2.3.0-1",
     "author": "Fusion Core",
     "bin": {
         "fusion": "bin/run"
@@ -15,7 +15,7 @@
         "@babel/preset-react": "^7.0.0",
         "@babel/preset-typescript": "^7.3.3",
         "@babel/runtime": "^7.13.17",
-        "@equinor/fusion": "^3.2.6",
+        "@equinor/fusion": "^3.3.0-1",
         "@equinor/fusion-components": "^2.2.17",
         "@hot-loader/react-dom": "^17.0.1",
         "@oclif/command": "^1.5.13",
