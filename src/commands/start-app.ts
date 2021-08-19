@@ -26,6 +26,8 @@ export default class StartApp extends Command {
     public async run() {
         // tslint:disable-next-line:no-console
         console.log('Starting apps...');
+        // @ts-ignore
+        process.env.DEVELOPMENT = true;
         const { port } = this.parse(StartApp).flags;
         start({ port });
     }
