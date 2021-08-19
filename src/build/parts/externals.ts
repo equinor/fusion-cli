@@ -14,9 +14,11 @@ const parseVersion = (version?: string | null) =>
         : '';
 
 export default (cliDependencies: IDependencyList, moduleDependencies: IDependencyList): webpack.Configuration => {
-    const externals: Record<string, string> = {
-        '@equinor/fusion-react-styles': 'FusionReactStyles'
-    };
+
+    const externals: Record<string, string> = {};
+    if(!process.env.DEVELOPMENT) {
+        externals['@equinor/fusion-react-styles'] = 'FusionReactStyles';
+    }
 
     const addIfVersionsMatch = (key: string, value: string) => {
         const moduleVersion = parseVersion(moduleDependencies[key]);
