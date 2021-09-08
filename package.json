@@ -17,6 +17,7 @@
         "@babel/runtime": "^7.13.17",
         "@equinor/fusion": "^3.2.6",
         "@equinor/fusion-components": "^2.2.17",
+        "@equinor/fusion-react-styles": "^0.3.0",
         "@hot-loader/react-dom": "^17.0.1",
         "@oclif/command": "^1.5.13",
         "@oclif/config": "^1.17.0",

@@ -16,6 +16,8 @@ import {
 } from '@equinor/fusion-components';
 import HotAppWrapper from './HotAppWrapper';
 
+import {ThemeProvider} from '@equinor/fusion-react-styles';
+
 const serviceResolver: ServiceResolver = {
     getContextBaseUrl: () => 'https://pro-s-context-ci.azurewebsites.net',
     getDataProxyBaseUrl: () => 'https://pro-s-dataproxy-ci.azurewebsites.net',
@@ -89,17 +91,19 @@ const start = async () => {
             return (
                 <Router history={fusionContext.history}>
                     <FusionContext.Provider value={fusionContext}>
-                        <FusionRoot rootRef={root} overlayRef={overlay}>
-                            <FusionHeader
-                                aside={null}
-                                content={HeaderContextSelector}
-                                start={null}
-                                settings={null}
-                            />
-                            <FusionContent>
-                                <HotAppWrapper />
-                            </FusionContent>
-                        </FusionRoot>
+                        <ThemeProvider seed="fusion-dev-app">
+                            <FusionRoot rootRef={root} overlayRef={overlay}>
+                                <FusionHeader
+                                    aside={null}
+                                    content={HeaderContextSelector}
+                                    start={null}
+                                    settings={null}
+                                    />
+                                <FusionContent>
+                                    <HotAppWrapper />
+                                </FusionContent>
+                            </FusionRoot>
+                        </ThemeProvider>
                     </FusionContext.Provider>
                 </Router>
             );
