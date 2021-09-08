@@ -17,7 +17,9 @@ import typescript from '../build/parts/typescript';
 import output from '../build/parts/output';
 import mode from '../build/parts/mode';
 import env from '../build/parts/env';
-import * as logSymbols from 'log-symbols';
+
+// version ^5 fails to run
+import logSymbols = require('log-symbols');
 
 import IAppManifest from '../build/AppManifest';
 import IAppVersion from '../build/AppVersion';
@@ -149,9 +151,9 @@ export default class BuildApp extends Command {
                 } app in ${timer.getEllapsedSeconds()}`
             );
         } catch (e) {
-            const { errors } = e as { errors: Error[] };
+            const {errors} = e as {errors: Error[]};
             if (errors) {
-                errors.forEach((e) => this.error(e.message));
+                errors.forEach(e => this.error(e.message));
             }
 
             this.log(`${logSymbols.error} Build failed after ${timer.getEllapsedSeconds()}`);
@@ -228,8 +230,8 @@ export default class BuildApp extends Command {
 
         try {
             await this.copyResourceAsync(process.cwd(), context.appOutputDir, 'app-icon.svg', task);
-        } catch (e) {
-            const { message } = e as Error;
+        } catch(e) {
+            const {message}= e as Error;
             this.log(`Unable to find SVG icon. [${message}]`);
         }
 
@@ -262,10 +264,10 @@ export default class BuildApp extends Command {
 
         try {
             await mkdirAsync(path.dirname(to), { recursive: true });
-        } catch (error) {
-            const { code } = error as { code: string };
+        } catch (e) {
+            const {code} = e as {code:string};
             if (code !== 'EEXIST') {
-                throw error;
+                throw e;
             }
         }
 
@@ -305,7 +307,7 @@ export default class BuildApp extends Command {
             task.title = `Building (${percentageString}%)`;
         };
 
-        const appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
+        const appWebpackConfig = await import(path.resolve(process.cwd(), 'webpack.config.js'));
 
         return merge(
             babel,
