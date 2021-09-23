@@ -16,7 +16,17 @@ import {
 } from '@equinor/fusion-components';
 import HotAppWrapper from './HotAppWrapper';
 
-import {ThemeProvider} from '@equinor/fusion-react-styles';
+import { ThemeProvider } from '@equinor/fusion-react-styles';
+
+// TODO: @odinr please fix me
+const _customElementsDefine = window.customElements.define;
+window.customElements.define = (name, cl, conf) => {
+    if (!customElements.get(name)) {
+        _customElementsDefine.call(window.customElements, name, cl, conf);
+    } else {
+        console.debug(`${name} has been defined twice`);
+    }
+};
 
 const serviceResolver: ServiceResolver = {
     getContextBaseUrl: () => 'https://pro-s-context-ci.azurewebsites.net',
@@ -98,7 +108,7 @@ const start = async () => {
                                     content={HeaderContextSelector}
                                     start={null}
                                     settings={null}
-                                    />
+                                />
                                 <FusionContent>
                                     <HotAppWrapper />
                                 </FusionContent>
