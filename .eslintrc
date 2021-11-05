@@ -1,0 +1,4 @@
+{
+  "root": true,
+  "extends": "@equinor/eslint-config-fusion"
+}
