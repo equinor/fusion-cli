@@ -1,4 +1,4 @@
-FROM node:alpine as base
+FROM node:14
 
 COPY .devcontainer.json ./
 
