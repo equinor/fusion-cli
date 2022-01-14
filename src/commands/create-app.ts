@@ -23,8 +23,8 @@ interface ICreateAppOptions {
     targetDirectory?: string;
     templateDirectory?: string;
     templateName?: string;
-    reportIdProd?: string;
-    reportIdTest?: string;
+    globalId?: string;
+    hasContext?: boolean;
 }
 
 export default class CreateApp extends Command {
@@ -39,12 +39,12 @@ export default class CreateApp extends Command {
         name: flags.string({ char: 'n', description: 'Name for app/tile(use quotes for spaces)' }),
         shortName: flags.string({ char: 'N', description: 'App short name' }),
         templateName: flags.string({ char: 't', description: 'App template to use' }),
-        reportIdProd: flags.string({ char: 'R', description: 'Add reportId from production' }),
-        reportIdTest: flags.string({ char: 'r', description: 'Add reportId from test(CI)' }),
+        globalId: flags.string({ char: 'g', description: 'Add global id' }),
+        hasContext: flags.boolean({ char: 'c', description: 'intilize report with context' }),
     };
 
     public async run() {
-        const parsed = this.parse(CreateApp);
+        const parsed = this.parse(CreateApp); //hva er parsed?
 
         console.log(
             figlet.textSync('Fusion', {
@@ -54,8 +54,8 @@ export default class CreateApp extends Command {
             })
         );
 
-        const options = await promptForMissingOptions(parsed.flags);
-        await createProject(options);
+        const options = await promptForMissingOptions(parsed.flags); //venter på koden under til å kjøre
+        await createProject(options); //lager prosjekt av objektet options
     }
 }
 
@@ -70,6 +70,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
     const nameQuestion = [];
     const templateQuestion = [];
 
+    /**All if statements are intialized as !false, meaning they are true*/
     if (!options.name || typeof options.name !== 'string') {
         nameQuestion.push({
             message: 'Please enter a app name',
@@ -78,7 +79,8 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
         });
     }
     const selectedName: any =
-        nameQuestion.length !== 0 ? await inquirer.prompt(nameQuestion) : options;
+        nameQuestion.length !== 0 ? await inquirer.prompt(nameQuestion) : options; //passing nameQuestion to user
+
     if (!options.key) {
         questions.push({
             default: selectedName && slugify(selectedName.name),
@@ -117,24 +119,25 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
         templateQuestion.length !== 0 ? await inquirer.prompt(templateQuestion) : options;
 
     if (selectedTemplate.template === 'report') {
-        if (!options.reportIdProd) {
+        if (!options.globalId) {
             questions.push({
                 default: '',
-                message: 'Please enter reportID for production',
-                name: 'reportIdProd',
-                type: 'input',
-            });
-        }
-        if (!options.reportIdTest) {
-            questions.push({
-                default: '',
-                message: 'Please enter reportID for test(CI)',
-                name: 'reportIdTest',
+                message: 'Please enter a global id)',
+                name: 'globalId',
                 type: 'input',
             });
         }
     }
+    if (!options.hasContext) {
+        questions.push({
+            default: true,
+            name: 'hasContext',
+            message: 'Initilize context?',
+            type: 'confirm',
+        });
+    }
     if (!options.key) {
+        //not .git?
         questions.push({
             default: true,
             message: 'Initialize git?',
@@ -142,9 +145,10 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
             type: 'confirm',
         });
     }
+
     if (!options.install) {
         questions.push({
-            default: false,
+            default: true,
             message: 'Install dependencies?',
             name: 'install',
             type: 'confirm',
@@ -154,15 +158,15 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
 
     return {
         ...options,
-        description: options.description || answers.description,
+        description: options.description || answers.description, //undefined || user input
         git: options.git || answers.git,
         install: options.install || answers.install,
         key: options.key || answers.key,
         name: selectedName.name,
         shortName: options.shortName || answers.shortName,
         templateName: selectedTemplate.template,
-        reportIdProd: options.reportIdProd || answers.reportIdProd,
-        reportIdTest: options.reportIdTest || answers.reportIdTest,
+        globalId: options.globalId || answers.globalId,
+        hasContext: options.hasContext || answers.hasContext, //must match name property
     };
 };
 
@@ -225,21 +229,58 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
     const success = await copy(options.templateDirectory, options.targetDirectory, {
         clobber: false,
     });
+    const replaceMap: Record<string, string | undefined> = {
+        appKey: options.key,
+    };
 
-    const indexJsPath = path.join(options.targetDirectory || '', 'src', 'index.tsx');
-    const indexJsContent = fs.readFileSync(indexJsPath).toString();
+    const dirPath = path.join(options.targetDirectory || '', 'src');
+    switch (options.templateName) {
+        case 'report': {
+            replaceMap.GLOBALID = options.globalId;
+            updatePipelineTemplate(options); //pipeline update
+            updateAppTemplate(path.join(dirPath, 'App.tsx'), replaceMap);
+            updateAppTemplate(path.join(dirPath, 'AppWithContext.tsx'), replaceMap);
+            createAppIndex(dirPath, options.hasContext ? 'AppWithContext' : 'App'); //stop
+            break;
+        }
 
-    let indexJsContentReplaced = indexJsContent.replace('{appKey}', options.key || 'app-key');
-
-    if (options.templateName === 'report') {
-        indexJsContentReplaced = indexJsContentReplaced
-            .replace('{REPORTIDPROD}', options.reportIdProd || 'ReportID Production placeholder')
-            .replace('{REPORTIDTEST}', options.reportIdTest || 'ReportID Test placeholder');
+        default:
+            replaceMap.GLOBALID = options.globalId;
+            updatePipelineTemplate(options); //pipeline update
+            updateAppTemplate(path.join(dirPath, 'App.tsx'), replaceMap);
+            createAppIndex(dirPath, 'App.tsx');
+            break;
     }
 
-    fs.writeFileSync(indexJsPath, indexJsContentReplaced);
-
     return success;
+};
+
+const createAppIndex = (filePath: string, name: string = 'App') => {
+    //const dirPath = path.join(options.targetDirectory || '', 'src');
+    fs.writeFileSync(path.join(filePath, 'index.ts'), `import './${name}';`);
+};
+
+const updateAppTemplate = (filePath: string, keys: Record<string, string | undefined>) => {
+    const fileContent = fs.readFileSync(filePath).toString();
+
+    const content = Object.entries(keys).reduce(
+        (acc, [key, value]) =>
+            acc.replace(`{${key}}`, value || 'No matching value for template key'),
+        fileContent
+    );
+    fs.writeFileSync(filePath, content);
+};
+
+const updatePipelineTemplate = (options: ICreateAppOptions) => {
+    const filePath = path.join(options.targetDirectory || '', 'azure-pipelines.yml');
+    const fileContent = fs.readFileSync(filePath).toString();
+
+    const fileContentReplaced = fileContent
+        .replace('TEMPLATE_APP_KEY', options.key || '{INSERT_APPKEY}')
+        .replace('TEMPLATE_APP_KEY', options.key || '{INSERT_APPKEY}')
+        .replace('TEMPLATE_APP_NAME', options.name || '{INSERT_APPNAME}'); //shortname?
+
+    fs.writeFileSync(filePath, fileContentReplaced);
 };
 
 const createProject = async (options: ICreateAppOptions) => {
