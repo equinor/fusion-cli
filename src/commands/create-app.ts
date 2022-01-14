@@ -247,8 +247,8 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
         default:
             replaceMap.GLOBALID = options.globalId;
             updatePipelineTemplate(options); //pipeline update
-            updateAppTemplate(path.join(dirPath, 'App.tsx'), replaceMap);
-            createAppIndex(dirPath, 'App.tsx');
+            updateAppTemplate(path.join(dirPath, 'index.tsx'), replaceMap);
+            //createAppIndex(dirPath, 'index.tsx');
             break;
     }
 
