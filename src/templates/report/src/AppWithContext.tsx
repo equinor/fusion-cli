@@ -36,7 +36,7 @@ export const AppComponent: FC = () => {
 };
 
 const context: AppManifest['context'] = {
-    types: [ContextTypes.ProjectMaster],// add one or more context types wihtin the square brackets-->ex. [ContextTypes.ProjectMaster, ContextTypes.Facility]
+    types: [ContextTypes.ProjectMaster],// add context types wihtin the square brackets-->ex. [ContextTypes.ProjectMaster, ContextTypes.Facility]
     buildUrl: (context: Context | null, url: string) => {
         if (!context) return '';
         return `/${context.id}`;
