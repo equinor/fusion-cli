@@ -44,7 +44,7 @@ export default class CreateApp extends Command {
     };
 
     public async run() {
-        const parsed = this.parse(CreateApp); //hva er parsed?
+        const parsed = this.parse(CreateApp);
 
         console.log(
             figlet.textSync('Fusion', {
@@ -54,8 +54,8 @@ export default class CreateApp extends Command {
             })
         );
 
-        const options = await promptForMissingOptions(parsed.flags); //venter på koden under til å kjøre
-        await createProject(options); //lager prosjekt av objektet options
+        const options = await promptForMissingOptions(parsed.flags);
+        await createProject(options);
     }
 }
 
@@ -137,7 +137,6 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
         });
     }
     if (!options.key) {
-        //not .git?
         questions.push({
             default: true,
             message: 'Initialize git?',
@@ -166,7 +165,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
         shortName: options.shortName || answers.shortName,
         templateName: selectedTemplate.template,
         globalId: options.globalId || answers.globalId,
-        hasContext: options.hasContext || answers.hasContext, //must match name property
+        hasContext: options.hasContext || answers.hasContext, //must match the name property
     };
 };
 
@@ -237,18 +236,17 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
     switch (options.templateName) {
         case 'report': {
             replaceMap.GLOBALID = options.globalId;
-            updatePipelineTemplate(options); //pipeline update
+            updatePipelineTemplate(options);
             updateAppTemplate(path.join(dirPath, 'App.tsx'), replaceMap);
             updateAppTemplate(path.join(dirPath, 'AppWithContext.tsx'), replaceMap);
-            createAppIndex(dirPath, options.hasContext ? 'AppWithContext' : 'App'); //stop
+            createAppIndex(dirPath, options.hasContext ? 'AppWithContext' : 'App');
             break;
         }
 
         default:
             replaceMap.GLOBALID = options.globalId;
-            updatePipelineTemplate(options); //pipeline update
+            updatePipelineTemplate(options);
             updateAppTemplate(path.join(dirPath, 'index.tsx'), replaceMap);
-            //createAppIndex(dirPath, 'index.tsx');
             break;
     }
 
@@ -256,7 +254,6 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
 };
 
 const createAppIndex = (filePath: string, name: string = 'App') => {
-    //const dirPath = path.join(options.targetDirectory || '', 'src');
     fs.writeFileSync(path.join(filePath, 'index.ts'), `import './${name}';`);
 };
 
@@ -278,7 +275,7 @@ const updatePipelineTemplate = (options: ICreateAppOptions) => {
     const fileContentReplaced = fileContent
         .replace('TEMPLATE_APP_KEY', options.key || '{INSERT_APPKEY}')
         .replace('TEMPLATE_APP_KEY', options.key || '{INSERT_APPKEY}')
-        .replace('TEMPLATE_APP_NAME', options.name || '{INSERT_APPNAME}'); //shortname?
+        .replace('TEMPLATE_APP_NAME', options.name || '{INSERT_APPNAME}');
 
     fs.writeFileSync(filePath, fileContentReplaced);
 };
