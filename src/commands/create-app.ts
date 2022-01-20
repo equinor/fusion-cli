@@ -122,7 +122,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
         if (!options.globalId) {
             questions.push({
                 default: '',
-                message: 'Please enter a global id)',
+                message: 'Please enter a global id',
                 name: 'globalId',
                 type: 'input',
             });
@@ -138,7 +138,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<obje
     }
     if (!options.key) {
         questions.push({
-            default: true,
+            default: false,
             message: 'Initialize git?',
             name: 'git',
             type: 'confirm',
@@ -254,7 +254,7 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
 };
 
 const createAppIndex = (filePath: string, name: string = 'App') => {
-    fs.writeFileSync(path.join(filePath, 'index.ts'), `import './${name}';`);
+    fs.writeFileSync(path.join(filePath, 'index.tsx'), `import './${name}';`);
 };
 
 const updateAppTemplate = (filePath: string, keys: Record<string, string | undefined>) => {
