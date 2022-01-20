@@ -68,7 +68,7 @@ class CompileError extends Error {
     public readonly errors: any[];
 
     constructor(errors: any[]) {
-        super(errors.map(e => e.message).join('\n'));
+        super(errors.map((e) => e.message).join('\n'));
         this.errors = errors;
     }
 }
@@ -108,18 +108,18 @@ export default class BuildApp extends Command {
                     title: 'Build',
                 },
                 {
-                    skip: ctx => !ctx.buildSucceeded,
+                    skip: (ctx) => !ctx.buildSucceeded,
                     task: (ctx, task) => this.writeManifestAsync(ctx, task),
                     title: 'Generate manifest',
                 },
                 {
-                    skip: ctx => !ctx.buildSucceeded,
+                    skip: (ctx) => !ctx.buildSucceeded,
                     task: (ctx, task) => this.copyResourcesAsync(ctx, task),
                     title: 'Copy resources',
                 },
                 {
                     enabled: () => options.zip,
-                    skip: ctx => !ctx.buildSucceeded,
+                    skip: (ctx) => !ctx.buildSucceeded,
                     task: (ctx, task) => this.generateZipAsync(ctx, task),
                     title: 'Generate zip',
                 },
@@ -149,8 +149,9 @@ export default class BuildApp extends Command {
                 } app in ${timer.getEllapsedSeconds()}`
             );
         } catch (e) {
-            if (e.errors) {
-                (e.errors as any[]).forEach(e => this.error(e.message));
+            const { errors } = e as { errors: Error[] };
+            if (errors) {
+                errors.forEach((e) => this.error(e.message));
             }
 
             this.log(`${logSymbols.error} Build failed after ${timer.getEllapsedSeconds()}`);
@@ -194,7 +195,8 @@ export default class BuildApp extends Command {
                     return reject(new CompileError(stats.compilation.errors));
                 }
 
-                const buildDuration = (stats && stats.endTime || 0) - (stats && stats.startTime || 0);
+                const buildDuration =
+                    ((stats && stats.endTime) || 0) - ((stats && stats.startTime) || 0);
                 task.title = `Build completed in ${(buildDuration / 1000).toFixed(2)} seconds`;
                 resolve();
             });
@@ -226,8 +228,9 @@ export default class BuildApp extends Command {
 
         try {
             await this.copyResourceAsync(process.cwd(), context.appOutputDir, 'app-icon.svg', task);
-        } catch(e) {
-            this.log(`Unable to find SVG icon. [${e.message}]`);
+        } catch (e) {
+            const { message } = e as Error;
+            this.log(`Unable to find SVG icon. [${message}]`);
         }
 
         if (context.manifest.resources) {
@@ -260,7 +263,8 @@ export default class BuildApp extends Command {
         try {
             await mkdirAsync(path.dirname(to), { recursive: true });
         } catch (error) {
-            if (error.code !== 'EEXIST') {
+            const { code } = error as { code: string };
+            if (code !== 'EEXIST') {
                 throw error;
             }
         }
@@ -297,7 +301,7 @@ export default class BuildApp extends Command {
             const percentageString = Math.ceil(percentage * 100).toString();
             const messages = ['[webpack]', msg, moduleProgress];
 
-            task.output = messages.filter(m => m).join(' ');
+            task.output = messages.filter((m) => m).join(' ');
             task.title = `Building (${percentageString}%)`;
         };
 
