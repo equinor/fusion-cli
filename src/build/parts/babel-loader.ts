@@ -12,7 +12,13 @@ export default {
     options: {
         plugins: [reactHotLoaderBabel],
         presets: [
-            presetEnv,
+            [
+                presetEnv,
+                {
+                    "useBuiltIns": "usage",
+                    "corejs": 3,
+                }
+            ],
             presetTypeScript,
             [
                 presetReact,
