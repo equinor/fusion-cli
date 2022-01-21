@@ -1,56 +1,36 @@
-import { useEffect, useCallback, useRef, useState } from 'react';
-import { useCurrentUser, useNotificationCenter } from '@equinor/fusion';
-import { usePopoverRef } from '@equinor/fusion-components';
-
-import Button, { HTMLButtonCustomElement } from '@equinor/fusion-react-button';
-import Icon from '@equinor/fusion-react-icon';
+import { useEffect } from 'react';
+import { useCurrentUser } from '@equinor/fusion';
 
 import useStyle from './App.style';
+// import { useHttpClient } from '@equinor/fusion-framework-react';
+// import type { HttpClient } from '@equinor/fusion-framework/services';
 
 export const App = (): JSX.Element | null => {
+  console.log(1, 'starting app');
   const currentUser = useCurrentUser();
+  // @ts-ignore
+  // console.log(currentUser, window.Fusion.services.auth.client.account);
 
-  const sendNotification = useNotificationCenter();
+  // const styles = useStyle();
 
-  const styles = useStyle();
+  // const client = useHttpClient('portal');
+  // console.log(10, client);
 
-  const [click, setClick] = useState(0);
-
-  // const popoverRef = useRef<HTMLButtonCustomElement>(null);
-
-  const [popoverRef] = usePopoverRef<HTMLButtonCustomElement>(
-    <div className={styles.popover}>What a lovely popover 💩</div>,
-    {
-      placement: 'below',
-    }
-  );
-
-  const sendWelcomeNotification = useCallback(async () => {
-    try {
-      await sendNotification({
-        id: 'This is a unique id which means the notification will only be shown once',
-        level: 'medium',
-        title: 'Welcome to your new fusion app! Open up src/index.tsx to start building your app!',
-      });
-    } catch (e) {
-      console.error(e);
-    }
-  }, [sendNotification]);
-
-  useEffect(() => {
-    sendWelcomeNotification();
-  }, []);
+  // useEffect(() => {
+  //   const sub = client.fetch('/api/apps').subscribe({
+  //     next: (result: any) => console.log(result),
+  //     error: (err: any) => console.error(err),
+  //   });
+  //   return () => sub.unsubscribe();
+  // }, [client]);
 
   if (!currentUser) {
     return null;
   }
 
   return (
-    <div className={styles.hello}>
+    <div>
       <h1>Oh hello there, {currentUser.fullName}</h1>
-      <Button ref={popoverRef} label="Click me!" icon="accessible_forward" onClick={() => setClick(click + 1)}>
-        <Icon slot="icon" icon="settings" />({click})
-      </Button>
     </div>
   );
 };

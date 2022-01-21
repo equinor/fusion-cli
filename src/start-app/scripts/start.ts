@@ -89,5 +89,5 @@ export default async (args?: StartOptions) => {
 
     app.listen(port, () => console.log(`Fusion App listening on port ${port}!`));
 
-    await openBrowser(port);
+    // await openBrowser(port);
 };
