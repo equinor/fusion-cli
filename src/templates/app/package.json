@@ -19,6 +19,8 @@
   "dependencies": {
     "@equinor/fusion": "^3.3.0",
     "@equinor/fusion-components": "^2.4.5",
+    "@equinor/fusion-framework-module-msal": "file:.yalc/@equinor/fusion-framework-module-msal",
+    "@equinor/fusion-framework-react-app": "file:.yalc/@equinor/fusion-framework-react-app",
     "@equinor/fusion-react-button": "^0.3.3",
     "@equinor/fusion-react-icon": "^0.1.0",
     "@equinor/fusion-react-styles": "^0.3.0",
@@ -26,7 +28,8 @@
   },
   "devDependencies": {
     "@equinor/eslint-config-fusion": "^0.1.2",
-    "@equinor/fusion-cli": "file:.yalc/@equinor/fusion-cli",
+    "@equinor/fusion-framework-module": "0.1.0-alpha.12",
+    "@equinor/fusion-framework-module-http": "file:.yalc/@equinor/fusion-framework-module-http",
     "@types/history": "^4.7.6",
     "@types/react": "^17.0.20",
     "@types/react-router-dom": "^5.1.8",
@@ -36,6 +39,7 @@
     "prettier": "^2.3.2",
     "react-hot-loader": "^4.13.0",
     "react-router-dom": "^5.0.1",
+    "rxjs": "^7.5.2",
     "tslib": "^2.3.1",
     "typescript": "^4.4.2"
   }
