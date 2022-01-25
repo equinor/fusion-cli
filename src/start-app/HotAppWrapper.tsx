@@ -6,21 +6,30 @@ import { useFusionContext, useNotificationCenter } from '@equinor/fusion';
 import { AppManifest, useCurrentApp } from '@equinor/fusion/lib/app/AppContainer';
 import { useAppAuth } from '@equinor/fusion/lib/hooks/useAppAuth';
 
-import { createFrameworkProvider, useFramework } from '@equinor/fusion-framework-react';
+import { createFrameworkProvider } from '@equinor/fusion-framework-react';
+import { useFramework } from '@equinor/fusion-framework-react/hooks';
+
+type ServiceConfig = {
+  client_id: string;
+};
 
 const Framework = createFrameworkProvider(async (config) => {
-  console.log('configuring framework');
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  console.debug('configuring framework');
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+  const serviceConfig: ServiceConfig | undefined = await fetch('/env/portal-client-id').then((x) => x.json());
   config.auth.configureDefault({
     tenantId: '3aa4a235-b6e2-48d5-9195-7fcf05b459b0',
-    clientId: '9b707e3a-3e90-41ed-a47e-652a1e3b53d0',
+    clientId: serviceConfig?.client_id ?? '9b707e3a-3e90-41ed-a47e-652a1e3b53d0',
   });
   // add a setup method for this!
   config.http.configureClient('service_discovery', {
-    defaultUri: 'https://pro-s-portal-ci.azurewebsites.net',
+    baseUri: 'https://pro-s-portal-ci.azurewebsites.net',
     onCreate: (client) => {
       client.defaultScope = ['97978493-9777-4d48-b38a-67b0b9cd88d2/.default'];
     },
+  });
+  config.onAfterConfiguration(() => {
+    console.debug('framework config done');
   });
 });
 
@@ -42,31 +51,31 @@ const HotAppWrapper: FunctionComponent = () => {
     app: { container: appContainer },
   } = useFusionContext();
 
-  console.log(99, 'app wrapper start');
+  console.debug('app wrapper start');
 
   const currentApp = useCurrentApp();
   const sendNotification = useNotificationCenter();
 
+  // TODO - use framework MSAL
   const authorized = useAppAuth(currentApp?.auth);
 
   useEffect(() => {
-    console.log(appContainer.allApps);
+    if (currentApp) return;
     !currentApp && appContainer.setCurrentAppAsync(getFirstApp(appContainer.allApps));
 
     return appContainer.on('update', (apps) => {
       appContainer.setCurrentAppAsync(getFirstApp(apps));
     });
-  }, [appContainer.allApps]);
+  }, [appContainer, currentApp]);
 
   useEffect(() => {
-    sendNotification({
-      cancelLabel: 'I know',
-      level: 'low',
-      title: 'App updated',
-    })
-      .then()
-      .catch();
-  }, [currentApp]);
+    currentApp &&
+      sendNotification({
+        cancelLabel: 'I know',
+        level: 'low',
+        title: `${currentApp.name} is updated`,
+      });
+  }, [sendNotification, currentApp]);
 
   if (!authorized || !currentApp) {
     return null;
