@@ -23,71 +23,82 @@ import getPackageDependencies from '../../build/getPackageDependencies';
 import { merge } from 'webpack-merge';
 
 type StartOptions = {
-    port?: number;
-}
+  port?: number;
+};
 
 const openBrowser = async (port: number) => {
-    await open(`http://localhost:${port}`);
+  await open(`http://localhost:${port}`);
 };
 
 export default async (args?: StartOptions) => {
-    const appPackage = await getPackageAsync(path.resolve(process.cwd()));
-    const cliPackage = await getPackageAsync(path.resolve(__dirname, '..', '..', '..'));
-    const cliDependencies = await getPackageDependencies(cliPackage);
-    const moduleDependencies = await getPackageDependencies(appPackage);
+  const appPackage = await getPackageAsync(path.resolve(process.cwd()));
+  const cliPackage = await getPackageAsync(path.resolve(__dirname, '..', '..', '..'));
+  const cliDependencies = await getPackageDependencies(cliPackage);
+  const moduleDependencies = await getPackageDependencies(appPackage);
 
-    const appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
-    const config = merge(
-        babel,
-        mode(false),
-        entry(appPackage, false),
-        output('app.bundle.js'),
-        hmr,
-        images(),
-        externals(cliDependencies, moduleDependencies),
-        styles,
-        typescript('', false),
-        env(),
-        appWebpackConfig
-    );
+  const appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
+  const config = merge(
+    babel,
+    mode(false),
+    entry(appPackage, false),
+    output('app.bundle.js'),
+    hmr,
+    images(),
+    externals(cliDependencies, moduleDependencies),
+    styles,
+    typescript('', false),
+    env(),
+    appWebpackConfig
+  );
 
-    const compiler = webpack(config);
+  const compiler = webpack(config);
 
-    const app = express();
-    const port = await getPort({ port: (args && args.port) || getPort.makeRange(3000, 3100) });
+  const app = express();
+  const port = await getPort({ port: (args && args.port) || getPort.makeRange(3000, 3100) });
 
-    app.use(compression());
+  app.use(compression());
 
-    app.use(
-        devMiddleware(compiler, {
-            publicPath: '/',
-        })
-    );
+  app.use(
+    devMiddleware(compiler, {
+      publicPath: '/',
+    })
+  );
 
-    app.use(hotMiddleware(compiler));
+  app.use(hotMiddleware(compiler));
 
-    const wwwRoot = path.resolve(__dirname, '..', 'dist');
+  const wwwRoot = path.resolve(__dirname, '..', 'dist');
 
-    app.get('/images/profiles/*', (_req, res) => {
-        res.sendFile(path.join(wwwRoot, 'unknown-profile-128.png'), { maxAge: 1000*60*60*24 });
-    });
+  app.get('/images/profiles/*', (_req, res) => {
+    res.sendFile(path.join(wwwRoot, 'unknown-profile-128.png'), { maxAge: 1000 * 60 * 60 * 24 });
+  });
 
-    // tslint:disable-next-line:variable-name
-    app.get('/fusion.bundle.js(.map)?', (_req, res) => {
-        res.sendFile(path.join(wwwRoot, _req.path));
-    });
+  // tslint:disable-next-line:variable-name
+  app.get('/fusion.bundle.js(.map)?', (_req, res) => {
+    res.sendFile(path.join(wwwRoot, _req.path));
+  });
 
-    // tslint:disable-next-line:variable-name
-    app.get(/\/favicon(-\d\dx\d\d)?.(png|ico)$/g, (_req, res) => {
-        res.sendFile(path.join(wwwRoot, _req.path));
-    });
+  app.get('/env.json', (_req, res) => {
+    // res.json({test:'ok'});
+    res.sendFile(path.resolve(process.cwd(), 'env.json'));
+  });
 
-    // tslint:disable-next-line:variable-name
-    app.get(['/', '/*', '*'], (_req, res) => {
-        res.sendFile(path.join(wwwRoot, 'index.html'));
-    });
+  app.get('/env/portal-client-id', (_req, res) => {
+    process.env['FUSION_PORTAL_CLIENT_ID'];
+    res.json({ client_id: process.env['FUSION_PORTAL_CLIENT_ID'] });
+    // res.sendFile(path.resolve(process.cwd(), 'env.json'));
+  });
 
-    app.listen(port, () => console.log(`Fusion App listening on port ${port}!`));
+  // tslint:disable-next-line:variable-name
+  app.get(/\/favicon(-\d\dx\d\d)?.(png|ico)$/g, (_req, res) => {
+    res.sendFile(path.join(wwwRoot, _req.path));
+  });
 
-    // await openBrowser(port);
+  // tslint:disable-next-line:variable-name
+  app.get(['/', '/*', '*'], (_req, res) => {
+    res.sendFile(path.join(wwwRoot, 'index.html'));
+  });
+
+  app.listen(port, () => console.log(`Fusion App listening on port ${port}!`));
+
+  // await openBrowser(port);
 };

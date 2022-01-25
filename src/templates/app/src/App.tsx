@@ -1,38 +1,75 @@
-import { useEffect } from 'react';
-import { useCurrentUser } from '@equinor/fusion';
+import { useCallback, useEffect, useState } from 'react';
 
-import useStyle from './App.style';
-// import { useHttpClient } from '@equinor/fusion-framework-react';
-// import type { HttpClient } from '@equinor/fusion-framework/services';
+import { useNotificationCenter } from '@equinor/fusion';
+import {
+  useCurrentUser,
+  useHttpClient,
+  useFramework,
+  useModuleContext,
+} from '@equinor/fusion-framework-react-app/hooks';
 
-export const App = (): JSX.Element | null => {
-  console.log(1, 'starting app');
-  const currentUser = useCurrentUser();
-  // @ts-ignore
-  // console.log(currentUser, window.Fusion.services.auth.client.account);
+import type { App } from './types';
 
-  // const styles = useStyle();
+export const AppComponent = (): JSX.Element => {
+  const [apps, setApps] = useState<App[]>([]);
+  const client = useHttpClient('portal');
 
-  // const client = useHttpClient('portal');
-  // console.log(10, client);
+  const sendNotification = useNotificationCenter();
 
-  // useEffect(() => {
-  //   const sub = client.fetch('/api/apps').subscribe({
-  //     next: (result: any) => console.log(result),
-  //     error: (err: any) => console.error(err),
-  //   });
-  //   return () => sub.unsubscribe();
-  // }, [client]);
+  const sendWelcomeNotification = useCallback(async () => {
+    await sendNotification({
+      id: 'This is a unique id which means the notification will only be shown once',
+      level: 'high',
+      title: 'Welcome to your new fusion app! Open up src/index.tsx to start building your app!',
+    });
+  }, [sendNotification]);
 
-  if (!currentUser) {
-    return null;
+  useEffect(() => {
+    sendWelcomeNotification();
+  }, [sendWelcomeNotification]);
+
+  const framework = useFramework();
+  const modules = useModuleContext();
+
+  const account = useCurrentUser();
+
+  useEffect(() => {
+    client
+      .fetchAsync('api/apps')
+      .then((x) => x.json())
+      .then(setApps);
+  }, [client]);
+
+  if (!apps.length) {
+    return <span>Loading apps.....</span>;
   }
 
   return (
     <div>
-      <h1>Oh hello there, {currentUser.fullName}</h1>
+      <h3>Current user</h3>
+      <code>
+        <pre>{JSON.stringify(account, null, 4)}</pre>
+      </code>
+      <h3>Registered modules in Framework</h3>
+      <ul>
+        {Object.keys(framework.modules).map((x) => (
+          <li key={x}>{x}</li>
+        ))}
+      </ul>
+      <h3>Registered modules in App</h3>
+      <ul>
+        {Object.keys(modules).map((x) => (
+          <li key={x}>{x}</li>
+        ))}
+      </ul>
+      <h3>List of registered apps in fusion</h3>
+      <ul>
+        {apps.map((x) => (
+          <li key={x.key}>{x.name}</li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default App;
+export default AppComponent;
