@@ -83,6 +83,16 @@ const Root = ({ authContainer }: { authContainer: AuthContainer }) => {
   );
 };
 
+// TODO: @odinr please fix me
+const _customElementsDefine = window.customElements.define;
+window.customElements.define = (name, cl, conf) => {
+  if (!customElements.get(name)) {
+    _customElementsDefine.call(window.customElements, name, cl, conf);
+  } else {
+    console.debug(`${name} has been defined twice`);
+  }
+};
+
 const start = async () => {
   const authContainer = new AuthContainer();
   await authContainer.handleWindowCallbackAsync();
