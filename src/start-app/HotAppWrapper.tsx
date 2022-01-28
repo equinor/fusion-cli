@@ -20,6 +20,7 @@ const Framework = createFrameworkProvider(async (config) => {
   config.auth.configureDefault({
     tenantId: '3aa4a235-b6e2-48d5-9195-7fcf05b459b0',
     clientId: serviceConfig?.client_id ?? '9b707e3a-3e90-41ed-a47e-652a1e3b53d0',
+    redirectUri: '/authentication/login-callback',
   });
   // add a setup method for this!
   config.http.configureClient('service_discovery', {
@@ -30,6 +31,13 @@ const Framework = createFrameworkProvider(async (config) => {
   });
   config.onAfterConfiguration(() => {
     console.debug('framework config done');
+  });
+  // TODO - this is ninja, make a auth provider
+  config.onAfterInit(async (fusion) => {
+    await fusion.auth.handleRedirect();
+    if (!fusion.auth.defaultAccount) {
+      await fusion.auth.login();
+    }
   });
 });
 
