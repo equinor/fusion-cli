@@ -17,7 +17,7 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^3.3.7",
+    "@equinor/fusion": "^3.3.9",
     "@equinor/fusion-components": "^2.4.5",
     "@equinor/fusion-framework-react-app": "0.1.0-beta.12",
     "@equinor/fusion-react-button": "^0.3.3",
