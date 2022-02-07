@@ -16,11 +16,11 @@
   },
   "dependencies": {
     "@equinor/fusion": "^3.3.7",
-    "@equinor/fusion-components": "^2.5.3",
+    "@equinor/fusion-components": "^2.5.10",
     "react": "^17.0.1"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^2.4.1",
+    "@equinor/fusion-cli": "^2.4.3",
     "@types/history": "^4.7.6",
     "@types/react": "^17.0.0",
     "@types/react-router-dom": "^5.1.7",
