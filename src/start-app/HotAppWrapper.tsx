@@ -9,11 +9,15 @@ import { useAppAuth } from '@equinor/fusion/lib/hooks/useAppAuth';
 import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 import { useFramework } from '@equinor/fusion-framework-react/hooks';
 
+import { StarProgress } from '@equinor/fusion-react-progress-indicator';
+
 type ServiceConfig = {
   client_id: string;
 };
 
 const Framework = createFrameworkProvider(async (config) => {
+  const timestamp = Date.now();
+
   console.debug('configuring framework');
   await new Promise((resolve) => setTimeout(resolve, 2000));
   const serviceConfig: ServiceConfig | undefined = await fetch('/env/portal-client-id').then((x) => x.json());
@@ -37,6 +41,8 @@ const Framework = createFrameworkProvider(async (config) => {
       await fusion.auth.login();
     }
   });
+
+  await new Promise((resolve) => setTimeout(resolve, timestamp - Date.now() + 300));
 });
 
 const AppLoader = ({ app }: { app: AppManifest }) => {
@@ -44,7 +50,7 @@ const AppLoader = ({ app }: { app: AppManifest }) => {
   // @ts-ignore
   const Component = app.render ? app.render(framework, app) : app.AppComponent;
   return (
-    <Suspense fallback={<h1>Loading Application</h1>}>
+    <Suspense fallback={<StarProgress>Loading Application</StarProgress>}>
       <Component />
     </Suspense>
   );
@@ -89,7 +95,7 @@ const HotAppWrapper: FunctionComponent = () => {
 
   // @ts-ignore
   return (
-    <Suspense fallback={<h1>Loading Framework</h1>}>
+    <Suspense fallback={<StarProgress>Loading Framework</StarProgress>}>
       <Framework>
         <AppLoader app={currentApp} />
       </Framework>
