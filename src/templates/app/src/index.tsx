@@ -15,4 +15,4 @@ if (module.hot) {
   module.hot.accept();
 }
 
-export default setup;
+export default render;
