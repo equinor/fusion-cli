@@ -94,6 +94,36 @@ export INPUT_ARGUMENTS=help
 $env:INPUT_ARGUMENTS = "help"
 ```
 
+
+Required arguments:
+
+```
+$env:INPUT_ISDEBUG = "true"
+$env:INPUT_ACTION = "config"
+$env:INPUT_PORTALURL = "https://pro-s-portal-ci.azurewebsites.net"
+$env:INPUT_TOKENRESOURCE = "5a842df8-3238-415d-b168-9f16a6a6031b"
+$env:INPUT_APPKEY = "cvppoc"
+$env:INPUT_testCredentials = "./.testCredentials"
+```
+
+To debug:
+```
+$> cd ./tasks/fusion-app
+$> tsc 
+$> cd ./built/fusion-app
+
+## Set env variables for arguments as above
+
+$> node index.js
+```
+
+To debug `fusion-app` task:
+```
+$> cd ./tasks/fusion-app
+$> $env:INPUT_testCredentials = "../../.testCredentials"
+$> npm run task
+```
+
 # Tasks
 
 Shared properties:
@@ -135,7 +165,7 @@ Actions supported are deploying of bundle and publishing.
 #### Usage
 ```yml
 steps:
-- task: FusionApp@0
+- task: FusionApp@2
   displayName: 'Create slot for app'
   inputs:
     fusionCredentials: 'Fusion test'
@@ -146,7 +176,7 @@ steps:
     appName: 'test app'
     appCategory: 'testing'
 
-- task: FusionApp@0 
+- task: FusionApp@2 
   displayName: Deploy app bundle
   inputs:
     fusionCredentials: 'Fusion Test'
@@ -155,7 +185,7 @@ steps:
     action: Deploy
     bundlePath: '$(pipeline.workspace)/app-bundle/pro-org.zip'
 
-- task: FusionApp@0 
+- task: FusionApp@2 
   displayName: Publish app bundle
   inputs:
     fusionCredentials: 'Fusion Test'
@@ -163,6 +193,26 @@ steps:
     portalUrl: 'https://ci.fusion-dev.net'
     action: Publish
     appKey: 'pro-org'
+
+- task: FusionApp@2
+  displayName: Update app config
+  inputs:
+    fusionCredentials: 'Fusion Test'
+    tokenResource: Test
+    portalUrl: 'https://ci.fusion-dev.net'
+    appKey: 'pro-org'
+    action: Config
+    endpointsConfig: |
+      {
+        "api": "https://my-api.com"
+      }
+    environmentConfig: |
+      {
+        "enableNewFeature": true,
+        "defaultScopes": [
+          "api://my-app-identifier/.default"
+        ]
+      }
 ```
 
 ## Fusion Tile management task

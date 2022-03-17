@@ -41,6 +41,10 @@ export class Task {
                 case 'publish':
                     await this.publishAppAsync();
                     break;
+
+                case 'config':
+                    await this.configAppAsync();
+                    break;
             }
 
         } catch (error) {
@@ -58,7 +62,7 @@ export class Task {
         }
 
         if(await this.portalApi.hasApp(appKey)){
-            return tl.setResult(tl.TaskResult.Skipped, 'App allready exists');
+            return tl.setResult(tl.TaskResult.Skipped, 'App already exists');
         }
 
         if (isNullOrUndefined(appName)) {
@@ -103,6 +107,60 @@ export class Task {
             throw new Error("[!] Missing required input: appKey");
         }
         await this.portalApi.publishAppAsync(appKey);
+    }
+
+    private static async configAppAsync() {
+        var appKey = tl.getInput('appKey', false);
+
+        if (!appKey) {
+            throw new Error("[!] Missing required input: appKey");
+        }
+
+        const inputConfig = this.getConfigInputObject();
+        const { environment, endpoints} = await this.portalApi.getAppConfigAsync(appKey);
+       
+        console.log("Config to set:");
+        console.log(inputConfig);
+
+        const newConfig = { 
+            environment: {...environment, ...inputConfig.environment},
+            endpoints: {...endpoints, ...inputConfig.endpoints}
+        }
+
+        console.log("Setting new config: ");
+        console.log(newConfig);
+
+        await this.portalApi.updateAppConfigAsync(appKey, newConfig);
+        console.log("Config updated...");
+
+        tl.setResult(tl.TaskResult.Succeeded, 'Config was updated');
+    }
+
+    private static getConfigInputObject() : any {
+        var endpointConfigJson = tl.getInput('endpointsConfig', false);
+        var environmentConfigJson = tl.getInput('environmentConfig', false);
+
+         // Will build this object by parsing the configs. Doing this in order to be able to give feedback on invalid values.
+         let inputConfig = { environment: {}, endpoints: {} };
+
+         try {
+             inputConfig.endpoints = JSON.parse(endpointConfigJson) ?? {};
+         } catch (error) {
+             console.log("Invalid endpoint json:");
+             console.log(endpointConfigJson);
+ 
+             throw new Error("Endpoint config is not valid json: " + endpointConfigJson);
+         }
+         try {
+             inputConfig.environment = JSON.parse(environmentConfigJson) ?? {};
+         } catch (error) {
+             console.log("Invalid environment json:");
+             console.log(environmentConfigJson);
+ 
+             throw new Error("Environment config is not valid json: " + environmentConfigJson);
+         }
+
+         return inputConfig;
     }
 
 }

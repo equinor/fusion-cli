@@ -13,11 +13,11 @@ export default class PortalApi {
     serverHost: string;
     resource: string;
 
-    get apps(): Promise<Array<App>> {
+    getApps(): Promise<Array<App>> {
         return this.getAsync(`${this.serverHost}/api/admin/apps`);
     }
 
-    get categories(): Promise<Array<AppCategory>> {
+    getCategories(): Promise<Array<AppCategory>> {
         return this.getAsync(`${this.serverHost}/api/apps/categories`);
     }
 
@@ -27,7 +27,7 @@ export default class PortalApi {
     }
 
     public async getApp(appKey: string): Promise<App> {
-        return (await this.apps).find(app => app.key === appKey);
+        return (await this.getApps()).find(app => app.key === appKey);
     }
     
     public async hasApp(appKey: string): Promise<boolean> {
@@ -35,7 +35,7 @@ export default class PortalApi {
     }
 
     public async getCategoryByName(name: string): Promise<AppCategory> {
-        return (await this.categories).find(cat => cat.name === name);
+        return (await this.getCategories()).find(cat => cat.name === name);
     }
 
 
@@ -116,6 +116,16 @@ export default class PortalApi {
         await this.postAsync(endpoint);
     }
 
+    public getAppConfigAsync(appKey: string): Promise<any> {
+        let endpoint = `${this.serverHost}/api/apps/${appKey}/config`;
+        return this.getAsync(endpoint);        
+    }
+
+    public async updateAppConfigAsync(appKey: string, config: any) {
+        let endpoint = `${this.serverHost}/api/apps/${appKey}/config`;
+        return this.putAsync(endpoint, config);
+    }
+
     private async uploadBundleAsync(endpoint: string, bundleContent: Buffer, forceReplaceExisting: boolean) {
         let token = await auth.getAppAccessTokenAsync();
 
@@ -149,6 +159,12 @@ export default class PortalApi {
         return JSON.parse(contents);
     }
 
+    private async putAsync(endpoint: string, payload: any) {
+        const contents = await this.executeRequest(endpoint, 'PUT', {
+            body: JSON.stringify(payload)
+        });
+    }
+
     private postAsync(endpoint: string): Promise<void> {
         return this.executeRequest(endpoint, 'POST');
     }
@@ -166,10 +182,11 @@ export default class PortalApi {
                 ...(opt || {}).headers
             }
         };
-
+        
         try {
             console.log(`Sending request ${method} '${endpoint}'`);
-            return await rp(options);
+            const resp = await rp(options);
+            return resp;
         } catch (error) {
             this.debugErrorResponse(error);
             throw error;
