@@ -1,0 +1,3 @@
+.testCredentials
+tasks/libs/*.js
+tasks/**.js
