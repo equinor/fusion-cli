@@ -1,7 +1,7 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FunctionComponent, Suspense, useEffect, useMemo, useState } from 'react';
+import { FunctionComponent, Suspense, useEffect, useMemo } from 'react';
 import { useFusionContext, useNotificationCenter } from '@equinor/fusion';
 import { AppManifest, useCurrentApp } from '@equinor/fusion/lib/app/AppContainer';
 
