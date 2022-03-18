@@ -30,16 +30,16 @@ module.exports = {
         test: '/.js$/',
         loader: 'source-map-loader',
       },
-      {
-        test: require.resolve('react-router-dom/esm/react-router-dom.js'),
-        loader: 'expose-loader',
-        options: {
-          exposes: {
-            globalName: 'FusionReactRouterDOM',
-            override: true,
-          },
-        },
-      },
+      // {
+      //   test: require.resolve('react-router-dom/esm/react-router-dom.js'),
+      //   loader: 'expose-loader',
+      //   options: {
+      //     exposes: {
+      //       globalName: 'FusionReactRouterDOM',
+      //       override: true,
+      //     },
+      //   },
+      // },
       {
         test: require.resolve('react'),
         loader: 'expose-loader',
@@ -51,26 +51,26 @@ module.exports = {
         },
       },
 
-      {
-        test: require.resolve('react-dom'),
-        loader: 'expose-loader',
-        options: {
-          exposes: {
-            globalName: 'FusionReactDOM',
-            override: true,
-          },
-        },
-      },
-      {
-        test: require.resolve('@hot-loader/react-dom'),
-        loader: 'expose-loader',
-        options: {
-          exposes: {
-            globalName: 'FusionReactDOM',
-            override: true,
-          },
-        },
-      },
+      // {
+      //   test: require.resolve('react-dom'),
+      //   loader: 'expose-loader',
+      //   options: {
+      //     exposes: {
+      //       globalName: 'FusionReactDOM',
+      //       override: true,
+      //     },
+      //   },
+      // },
+      // {
+      //   test: require.resolve('@hot-loader/react-dom'),
+      //   loader: 'expose-loader',
+      //   options: {
+      //     exposes: {
+      //       globalName: 'FusionReactDOM',
+      //       override: true,
+      //     },
+      //   },
+      // },
       {
         test: require.resolve('@equinor/fusion'),
         loader: 'expose-loader',

@@ -74,18 +74,18 @@ export const Portal = () => {
 
   return (
     <FusionContext.Provider value={fusionContext}>
-      <BrowserRouter>
-        <Router history={history}>
+      {/* <BrowserRouter> */}
+        {/* <Router history={history}> */}
           <ThemeProvider seed="fusion-dev-app">
             <FusionRoot rootRef={root} overlayRef={overlay}>
-              <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
+              {/* <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} /> */}
               <FusionContent>
                 <HotAppWrapper />
               </FusionContent>
             </FusionRoot>
           </ThemeProvider>
-        </Router>
-      </BrowserRouter>
+        {/* </Router>
+      </BrowserRouter> */}
     </FusionContext.Provider>
   );
 };
