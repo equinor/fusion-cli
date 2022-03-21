@@ -3,7 +3,6 @@ import { FusionAuthAppNotFoundError } from '@equinor/fusion/lib/auth/AuthContain
 
 import { Fusion } from '@equinor/fusion-framework';
 import { AuthUserJSON } from '@equinor/fusion/lib/auth/AuthUser';
-const global = window as any;
 
 // from msal
 type AccountInfo = {
@@ -87,9 +86,8 @@ type BrowserAuthError = {
   correlationId: string;
 };
 export default class AppAuthContainer extends AuthContainer {
-  // 🥷🏻 remove me... please
-  protected get _auth(): Fusion['modules']['auth'] {
-    return window.Fusion.modules.auth;
+  constructor(protected _auth: Fusion['modules']['auth']) {
+    super();
   }
 
   get account() {
@@ -176,7 +174,7 @@ export default class AppAuthContainer extends AuthContainer {
 
   /** internal registry of 'new' apps registred for msal */
   protected _registeredApps: Record<string, AuthApp> = {};
-  async registerAppAsync(clientId: string, resources: string[], legacy = true): Promise<boolean> {
+  async registerAppAsync(clientId, resources, legacy = true) {
     const isRegistered = !!this._registeredApps[clientId];
     if (!isRegistered && legacy) {
       console.warn(`registering legacy client for [${clientId}]`);
