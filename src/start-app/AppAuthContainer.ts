@@ -1,6 +1,9 @@
 import { AuthApp, AuthContainer, AuthToken, AuthUser } from '@equinor/fusion';
 import { FusionAuthAppNotFoundError } from '@equinor/fusion/lib/auth/AuthContainer';
 
+import { Fusion } from '@equinor/fusion-framework';
+import { AuthUserJSON } from '@equinor/fusion/lib/auth/AuthUser';
+
 // from msal
 type AccountInfo = {
   homeAccountId: string;
@@ -35,8 +38,11 @@ class FusionAuthUser {
   get familyName(): string {
     return this.fullName.split(' ').at(-1) || '';
   }
+
+  /** @deprecated */
   get roles(): string[] {
-    throw new Error('Method not implemented.');
+    console.trace('FusionAuthUser::roles deprecation warning');
+    return [];
   }
   get upn(): string {
     return this._info.username;
@@ -44,13 +50,24 @@ class FusionAuthUser {
 
   /** === DEPRECATED! === */
   mergeWithToken(_token: AuthToken): void {
-    throw new Error('FusionAuthUser::mergeWithToken Method not implemented.');
+    console.debug('FusionAuthUser::mergeWithToken', 'noop');
+    // throw new Error("Method not implemented.");
   }
-  toObject() {
-    throw new Error('FusionAuthUser::toObject Method not implemented.');
+  toObject(): AuthUserJSON {
+    console.debug('FusionAuthUser::toObject', 'legacy');
+    return {
+      id: this.id,
+      familyName: this.familyName,
+      fullName: this.fullName,
+      givenName: this.givenName,
+      roles: this.roles,
+      upn: this.upn,
+    };
   }
-  toString() {
-    throw new Error('FusionAuthUser::toString Method not implemented.');
+
+  toString(): string {
+    console.debug('FusionAuthUser::toObject', 'legacy');
+    return JSON.stringify(this.toObject());
   }
 }
 
@@ -70,30 +87,27 @@ type BrowserAuthError = {
    */
   correlationId: string;
 };
-
 export default class AppAuthContainer extends AuthContainer {
-
-  get auth() {
-    return window.Fusion.modules.auth;
-  }
-
-  constructor() {
+  constructor(protected _auth: Fusion['modules']['auth']) {
     super();
   }
 
   get account() {
-    return this.auth.defaultClient.account;
+    return this._auth.defaultClient.account;
   }
 
   public async requiresAuth(): Promise<void> {
-    await this.auth.handleRedirect();
-    if (!this.account) {
+    await this._auth.handleRedirect();
+    const { account } = this;
+    // TODO - move logic to fusion framework
+    const valid = account && (account.idTokenClaims as { exp: number })?.exp > Date.now() / 1000;
+    if (!valid) {
       try {
-        await this.auth.login();
+        await this._auth.login();
       } catch (e) {
         const { errorCode } = e as BrowserAuthError;
         if (errorCode === 'interaction_in_progress') {
-          if (!(await this.auth.handleRedirect())) {
+          if (!(await this._auth.handleRedirect())) {
             window.sessionStorage.clear();
             window.location.reload();
           }
@@ -103,9 +117,9 @@ export default class AppAuthContainer extends AuthContainer {
   }
 
   async loginAsync(clientId: string): Promise<void> {
-    await this.auth.handleRedirect();
+    await this._auth.handleRedirect();
     if (this._registeredApps[clientId]) {
-      return this.auth.login();
+      return this._auth.login();
     }
     console.trace(`FusionAuthContainer::loginAsync for client id [${clientId}]`);
     return super.loginAsync(clientId);
@@ -118,7 +132,7 @@ export default class AppAuthContainer extends AuthContainer {
     console.trace(`FusionAuthContainer::logoutAsync for client id [${clientId}]`);
     // TODO
     if (!clientId || this._registeredApps[clientId]) {
-      return this.auth.defaultClient.logoutRedirect({
+      return this._auth.defaultClient.logoutRedirect({
         postLogoutRedirectUri: '/sign-out',
         account: this.account,
       });
@@ -146,8 +160,8 @@ export default class AppAuthContainer extends AuthContainer {
     }
     if (this._registeredApps[app.clientId]) {
       // TODO
-      const defaultScope = ((window as any).clientId || '5a842df8-3238-415d-b168-9f16a6a6031b') + '/.default';
-      const res = await this.auth.acquireToken({ scopes: [defaultScope] });
+      const defaultScope = app.clientId + '/.default';
+      const res = await this._auth.acquireToken({ scopes: [defaultScope] });
       if (res && res.accessToken) {
         return res.accessToken;
       }
@@ -162,8 +176,9 @@ export default class AppAuthContainer extends AuthContainer {
 
   /** internal registry of 'new' apps registred for msal */
   protected _registeredApps: Record<string, AuthApp> = {};
-  async registerAppAsync(clientId: string, resources: string[], legacy = true) {
-    if (legacy) {
+  async registerAppAsync(clientId, resources, legacy = true) {
+    const isRegistered = !!this._registeredApps[clientId];
+    if (!isRegistered && legacy) {
       console.warn(`registering legacy client for [${clientId}]`);
       return super.registerAppAsync(clientId, resources);
     }
