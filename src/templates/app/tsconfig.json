@@ -16,5 +16,8 @@
         "noEmit": true,
         "moduleResolution": "node"
     },
-    "include": ["src/**/*", "./css-modules.d.ts"]
+    "include": [
+        "src/**/*",
+        "./css-modules.d.ts"
+    ]
 }
