@@ -1,0 +1,11 @@
+{
+    "name": "",
+    "shortName": "",
+    "key": "fusion-app-js-template",
+    "main": "src/index.tsx",
+    "version": {
+        "major": "0",
+        "minor": "0",
+        "patch": "0"
+    }
+}
