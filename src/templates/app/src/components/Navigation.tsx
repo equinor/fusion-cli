@@ -90,14 +90,14 @@ const getNavStructure = (): NavigationStructure[] => {
       navigationChildren: [
         {
           id: 'section2',
-          title: 'Section2',
+          title: 'Section Disabled',
           type: 'section',
           isDisabled: true,
           navigationChildren: [
             {
               id: 'child4',
               type: 'child',
-              title: 'Child4',
+              title: 'Child Disabled',
               isDisabled: true,
             },
             {
@@ -126,7 +126,7 @@ const getNavStructure = (): NavigationStructure[] => {
               type: 'child',
               info: childRef,
               title: 'Child4',
-              aside: <Chip variant="filled" icon="settings">Hello World</Chip>,
+              aside: <Chip variant="filled" icon="android">App</Chip>,
             },
           ],
         },
