@@ -22,8 +22,7 @@ const getNavStructure = (): NavigationStructure[] => {
       id: 'home',
       type: 'grouping',
       title: 'Home',
-      icon: <Icon icon="home" />,
-      href: '/'
+      icon: <Icon icon="home" />
     },
     {
       id: 'apps',
