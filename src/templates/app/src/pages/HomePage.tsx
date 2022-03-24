@@ -1,12 +1,18 @@
 import { Button } from '@equinor/fusion-react-button';
 import { List, ListItem } from '@equinor/fusion-react-list';
 import { Navigation } from '../components/Navigation';
+import useNavStyles from "../components/Navigation.style";
+import useStyles from '../App.style';
 
 export const HomePage = (): JSX.Element => {
+  const navStyles = useNavStyles();
+  const styles = useStyles();
   return (
-    <>
+    <div className={navStyles.flex}>
       <Navigation />
-      <div>
+      <div className={navStyles.flex && styles.container}>
+        <h1>Welcome to the Fusion CLI</h1>
+        <h3>Here you can see examples of some of the possibilities that you can use</h3>
         <Button variant="outlined">
           <span slot="icon">🚨</span>
           <span>
@@ -25,6 +31,6 @@ export const HomePage = (): JSX.Element => {
           <ListItem>Item 3</ListItem>
         </List>
       </div>
-    </>
+    </div>
   );
 };

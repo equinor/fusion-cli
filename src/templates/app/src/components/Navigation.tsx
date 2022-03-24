@@ -1,35 +1,42 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { NavigationDrawer, NavigationStructure } from '@equinor/fusion-components';
 import { Chip } from '@equinor/fusion-react-chip';
 import { Icon } from '@equinor/fusion-react-icon';
 import { Avatar } from '@equinor/fusion-react-avatar';
 import { useState } from 'react';
+import { useMemo } from 'react';
 
-const getNavStructure = (): NavigationStructure[] => {
+const useNavigationStructure = (): NavigationStructure[] => {
   const groupingRef = { id: 'navigationItemGrouping' };
   const childRef = { id: 'navigationItemChild' };
   const labelRef = { id: 'navigationItemSection' };
   const sectionRef = { id: 'navigationItemLabel' };
+  const navigate = useNavigate();
 
-  return [
+  return useMemo(() => [
     {
       id: 'labe1',
       title: 'Main Menu',
       type: 'label',
-      info: labelRef,
+      info: labelRef
     },
     {
       id: 'home',
       type: 'grouping',
       title: 'Home',
-      icon: <Icon icon="home" />
+      icon: <Icon icon="home" />,
+      onClick: () => {
+        navigate("/");
+      }
     },
     {
       id: 'apps',
       type: 'grouping',
       title: 'Apps',
       icon: <Icon icon="apps" />,
-      href: '/apps'
+      onClick: () => {
+        navigate("/apps");
+      }
     },
     {
       id: 'labe2',
@@ -138,11 +145,12 @@ const getNavStructure = (): NavigationStructure[] => {
       icon: <Icon icon="warning_outlined" />,
       aside: <Icon icon="warning_outlined" />,
     }
-  ]
+  ], [navigate]
+  )
 }
 
 export const Navigation = (): JSX.Element => {
-  const [structure, setStructure] = useState<NavigationStructure[]>(getNavStructure());
+  const [structure, setStructure] = useState<NavigationStructure[]>(useNavigationStructure());
   const [selected, setSelected] = useState<string>('home');
 
   return (
@@ -156,19 +164,6 @@ export const Navigation = (): JSX.Element => {
           setStructure(newStructure);
         }}
       />
-      <div className='nav__logo'>
-        <div className="nav__name">fusion-cli</div>
-      </div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/apps">Apps</Link>
-          </li>
-        </ul>
-      </nav>
     </aside>
   );
 }

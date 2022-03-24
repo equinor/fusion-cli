@@ -9,6 +9,10 @@ export const useAppStyle = makeStyles(
       popover: {
         whiteSpace: 'nowrap',
       },
+      container: {
+        marginLeft: theme.spacing.comfortable.medium.getVariable('padding'),
+        marginRight: theme.spacing.comfortable.medium.getVariable('padding'),
+      },
     }),
   { name: 'app-style' }
 );
