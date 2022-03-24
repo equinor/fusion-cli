@@ -11,9 +11,11 @@ export const AppInfo = ({ app }: AppInfoProps): JSX.Element => {
   const { name, category } = app;
   const styles = useStyles({ color: category?.color || 'black' });
   return (
-    <div className={clsx(name.match(/mmp/i) && styles.red, styles.root)}>
-      <div dangerouslySetInnerHTML={{ __html: category?.defaultIcon }} />
-      <div className={styles.title}>{name}</div>
+    <div className={clsx(styles.root)}>
+      <div className={styles.app}>
+        <div dangerouslySetInnerHTML={{ __html: category?.defaultIcon }} />
+        <div className={styles.title}>{name}</div>
+      </div>
     </div>
   );
 };
