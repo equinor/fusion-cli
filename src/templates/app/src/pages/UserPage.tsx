@@ -1,16 +1,12 @@
 import { useEffect } from 'react';
 import { useCurrentUser, useNotificationCenter } from '@equinor/fusion';
-import { useFramework } from '@equinor/fusion-framework-react/hooks';
 import { Navigation } from '../components/Navigation';
 import useNavStyles from "../components/Navigation.style";
 import useStyles from '../App.style';
-import { useModuleContext } from '@equinor/fusion-framework-react-app/hooks';
 
 
 export const UserPage = (): JSX.Element => {
   const currentUser = useCurrentUser();
-  const framework = useFramework();
-  const modules = useModuleContext();
   const account = useCurrentUser();
 
   const sendNotification = useNotificationCenter();
