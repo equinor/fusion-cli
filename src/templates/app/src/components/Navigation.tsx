@@ -39,6 +39,15 @@ const useNavigationStructure = (): NavigationStructure[] => {
       }
     },
     {
+      id: 'user',
+      type: 'grouping',
+      title: 'User',
+      icon: <Icon icon="account_circle" />,
+      onClick: () => {
+        navigate("/user");
+      }
+    },
+    {
       id: 'labe2',
       title: 'Grouping Examples',
       type: 'label',

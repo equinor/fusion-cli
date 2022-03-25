@@ -24,6 +24,7 @@
         "@equinor/fusion-framework-react-app": "^0.2.7",
         "@equinor/fusion-react-progress-indicator": "0.0.1",
         "@equinor/fusion-react-styles": "^0.3.0",
+        "@equinor/fusion-react-tooltip": "^1.1.2",
         "@hot-loader/react-dom": "^17.0.1",
         "@oclif/command": "^1.8.0",
         "@oclif/config": "^1.17.0",
