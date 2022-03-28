@@ -1,13 +1,17 @@
 import { AppList } from '../components/AppList';
 import { Navigation } from '../components/Navigation';
-import { useStyles } from '../components/Navigation.style';
+import useNavStyles from "../components/Navigation.style";
+import useStyles from '../App.style';
 
 export const AppsPage = (): JSX.Element => {
+  const navStyles = useNavStyles();
   const styles = useStyles();
   return (
-    <div className={styles.flex}>
+    <div className={navStyles.flex}>
       <Navigation />
-      <AppList />;
+      <div className={styles.container}>
+        <AppList />
+      </div>
     </div>
   );
 };

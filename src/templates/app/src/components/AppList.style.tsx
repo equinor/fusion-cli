@@ -7,8 +7,7 @@ export const useStyles = makeStyles(
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        flexWrap: 'wrap',
-        padding: '15px'
+        flexWrap: 'wrap'
       }),
       title: {
         flex: '1 1 100%',

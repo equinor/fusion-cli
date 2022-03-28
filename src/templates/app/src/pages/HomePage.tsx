@@ -17,7 +17,7 @@ export const HomePage = (): JSX.Element => {
         <h1>Welcome to the Fusion CLI</h1>
         <p>Here you can see examples of some of the possibilities that you can use</p>
         <hr />
-        <h2>React Query</h2>
+        <h2 className={styles.mainTitle}>React Query</h2>
         <p>React Query is often described as the missing data-fetching library for React, but in more technical terms, it makes <strong>fetching, caching, synchronizing and updating server state</strong> in your React applications a breeze.</p>
         <p>Get yourself familiarized with it:</p>
         <List>
@@ -26,7 +26,7 @@ export const HomePage = (): JSX.Element => {
           <ListItem><a href="https://react-query.tanstack.com/quick-start" target="_blank" >Quick Start</a></ListItem>
         </List>
         <hr />
-        <h2>Components</h2>
+        <h2 className={styles.mainTitle}>Components</h2>
         <p>View few of the components and read more about them <a href="https://equinor.github.io/fusion-react-components/?path=%2Fdocs%2Fintro--page%2F" target="_blank" >here</a></p>
         <h4 style={{ marginBottom: 20 }}>Button - details <a href="https://equinor.github.io/fusion-react-components/?path=/docs/input-button--page" target="_blank" ><strong>@equinor/fusion-react-button</strong></a></h4>
         <div style={{ marginLeft: 20 }}>
