@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useCurrentUser, useNotificationCenter } from '@equinor/fusion';
 import { Navigation } from '../components/Navigation';
 import useNavStyles from "../components/Navigation.style";
 import useStyles from '../App.style';
 import { Breadcrumb, BreadcrumbItemProps } from '@equinor/fusion-react-breadcrumb';
 import { useNavigate } from 'react-router-dom';
+import { PersonDetails } from '@equinor/fusion';
+import { PersonDetail } from '@equinor/fusion-components';
 
 export const UserPage = (): JSX.Element => {
   const currentUser = useCurrentUser();
@@ -12,6 +14,7 @@ export const UserPage = (): JSX.Element => {
   const navStyles = useNavStyles();
   const styles = useStyles();
   const navigate = useNavigate();
+
   const breadcrumbs = (): BreadcrumbItemProps[] => {
     return [
       {
@@ -45,14 +48,34 @@ export const UserPage = (): JSX.Element => {
         <h1>No user!</h1>
       </>
     );
-  }
+  };
+
+  const personDetails = (): PersonDetails => ({
+    azureUniqueId: currentUser.id,
+    name: currentUser.fullName,
+    mail: currentUser.upn,
+    jobTitle: 'Developer',
+    department: 'Fusion',
+    mobilePhone: '+47987654321',
+    officeLocation: 'Forusbeen 50',
+    upn: currentUser.upn,
+    accountType: 'Consultant',
+    company: { id: '923 609 016', name: 'Equinor ASA' },
+  });
+
+  const [breadcrumb, setBreadcrumb] = useState<BreadcrumbItemProps[]>(breadcrumbs());
+  const [person, setPerson] = useState<PersonDetails>(personDetails());
 
   return (
     <div className={navStyles.flex}>
       <Navigation />
       <div className={navStyles.flex && styles.container}>
-        <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumbs()} />
-        <h1>Hello there, {currentUser.fullName}</h1>
+        <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumb} />
+        <div className={styles.user}>
+          <PersonDetail
+            person={person}
+          />
+        </div>
         <p>Here are some information that might be usefull to you:</p>
         <div>
           <h4>User Information Object</h4>

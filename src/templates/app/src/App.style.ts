@@ -9,10 +9,21 @@ export const useAppStyle = makeStyles(
       popover: {
         whiteSpace: 'nowrap',
       },
-      container: {
-        marginLeft: theme.spacing.comfortable.medium.getVariable('padding'),
-        marginRight: theme.spacing.comfortable.medium.getVariable('padding'),
+      mainTitle: {
+        marginTop: '30px !important',
       },
+      container: {
+        marginLeft: theme.spacing.comfortable.large.getVariable('padding'),
+        marginRight: theme.spacing.comfortable.large.getVariable('padding'),
+        paddingTop: theme.spacing.comfortable.medium.getVariable('padding'),
+        paddingBottom: theme.spacing.comfortable.medium.getVariable('padding'),
+        maxWidth: '1280px'
+      },
+      user: { 
+        paddingBottom: '16px', 
+        paddingTop: '32px',
+        maxWidth: '420px', 
+      }
     }),
   { name: 'app-style' }
 );
