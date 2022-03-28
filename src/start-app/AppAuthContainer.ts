@@ -86,14 +86,8 @@ type BrowserAuthError = {
   correlationId: string;
 };
 export default class AppAuthContainer extends AuthContainer {
-<<<<<<< HEAD
-  // 🥷🏻 remove me... please
-  protected get _auth(): Fusion['modules']['auth'] {
-    return window.Fusion.modules.auth;
-=======
   constructor(protected _auth: Fusion['modules']['auth']) {
     super();
->>>>>>> 73625f670d77ba4d320327886a83edf152ef4fd5
   }
 
   get account() {
