@@ -1,31 +1,36 @@
 import { useEffect } from 'react';
 import { useCurrentUser, useNotificationCenter } from '@equinor/fusion';
-import { useFramework } from '@equinor/fusion-framework-react/hooks';
 import { Navigation } from '../components/Navigation';
-import useNavStyles from "../components/Navigation.style";
+import useNavStyles from '../components/Navigation.style';
 import useStyles from '../App.style';
-import { useModuleContext } from '@equinor/fusion-framework-react-app/hooks';
-
+import { Breadcrumb, BreadcrumbItemProps } from '@equinor/fusion-react-breadcrumb';
+import { useNavigate } from 'react-router-dom';
 
 export const UserPage = (): JSX.Element => {
   const currentUser = useCurrentUser();
-  const framework = useFramework();
-  const modules = useModuleContext();
-  const account = useCurrentUser();
-
   const sendNotification = useNotificationCenter();
   const navStyles = useNavStyles();
   const styles = useStyles();
-
-
-
+  const navigate = useNavigate();
+  const breadcrumbs = (): BreadcrumbItemProps[] => {
+    return [
+      {
+        onClick: () => {
+          navigate('/');
+        },
+        name: 'Home',
+      },
+      {
+        name: 'User',
+      },
+    ];
+  };
 
   const sendWelcomeNotification = async () => {
     await sendNotification({
       id: 'This is a unique id which means the notification will only be shown once',
       level: 'medium',
-      title:
-        'Welcome to your new fusion app! Open up src/index.tsx to start building your app!',
+      title: 'Welcome to your new fusion app! Open up src/index.tsx to start building your app!',
     });
   };
 
@@ -45,12 +50,19 @@ export const UserPage = (): JSX.Element => {
     <div className={navStyles.flex}>
       <Navigation />
       <div className={navStyles.flex && styles.container}>
-        <h1>Oh hello there, {currentUser.fullName}</h1>
+        <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumbs()} />
+        <h1>Hello there, {currentUser.fullName}</h1>
         <p>Here are some information that might be usefull to you:</p>
         <div>
-          <h3>About User</h3>
+          <h4>User Information Object</h4>
           <code>
-            <pre>{JSON.stringify(account, null, 4)}</pre>
+            <pre>{JSON.stringify(currentUser.toObject(), null, 4)}</pre>
+          </code>
+        </div>
+        <div>
+          <h4>User Account Object</h4>
+          <code>
+            <pre>{JSON.stringify(currentUser, null, 4)}</pre>
           </code>
         </div>
       </div>

@@ -32,7 +32,7 @@ const useNavigationStructure = (): NavigationStructure[] => {
     {
       id: 'apps',
       type: 'grouping',
-      title: 'Apps',
+      title: 'Apps (React Query working example)',
       icon: <Icon icon="apps" />,
       onClick: () => {
         navigate("/apps");
