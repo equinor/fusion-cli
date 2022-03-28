@@ -1,4 +1,3 @@
-
 import { FC, useMemo } from 'react';
 import {
     registerApp,
@@ -18,7 +17,7 @@ export const AppComponent: FC = () => {
         return {
             $schema: 'http://powerbi.com/product/schema#basic',
             target: {
-                table: 'Dim_MasterProject', //change to specified table 
+                table: 'Dim_MasterProject', //change to specified table
                 column: 'Project', //change to spcified column
             },
             filterType: 1,
@@ -30,7 +29,9 @@ export const AppComponent: FC = () => {
     return (
         <ErrorBoundary>
             {!currentContext?.id && <LandingPage />}
-            {currentContext?.id && <PowerBIReport reportId={globalId} config={{ filters: [filter] }} hasContext />}
+            {currentContext?.id && (
+                <PowerBIReport reportId={globalId} config={{ filters: [filter] }} hasContext />
+            )}
         </ErrorBoundary>
     );
 };
@@ -38,7 +39,7 @@ export const AppComponent: FC = () => {
 const context: AppManifest['context'] = {
     // add context types wihtin the square brackets-->ex. [ContextTypes.ProjectMaster, ContextTypes.Facility]
     types: [ContextTypes.ProjectMaster],
-    buildUrl: (context: Context | null, url: string) => {
+    buildUrl: (context: Context | null, _url: string) => {
         if (!context) return '';
         return `/${context.id}`;
     },
@@ -46,7 +47,7 @@ const context: AppManifest['context'] = {
         const contextId = url.replace('/', '');
         return contextId.length > 10 ? contextId : '';
     },
-}
+};
 
 registerApp('{appKey}', {
     AppComponent,
