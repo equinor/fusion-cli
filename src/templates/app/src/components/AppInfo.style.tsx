@@ -17,9 +17,9 @@ export const useStyles = makeStyles(
         border: '1px solid',
         borderColor: color,
         padding: theme.spacing.comfortable.medium_small.getVariable('padding'),
-        margin: '5px',
+        margin: 5,
         cursor: 'pointer',
-        borderRadius: '10px',
+        borderRadius: 10,
         '&:hover': {
           backgroundColor: theme.colors.interactive.primary__hover_alt.getVariable('color'),
           color: theme.colors.interactive.primary__hover.getVariable('color'),
