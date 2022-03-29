@@ -1,16 +1,34 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { NavigationDrawer, NavigationStructure } from '@equinor/fusion-components';
 import { Chip } from '@equinor/fusion-react-chip';
 import { Icon } from '@equinor/fusion-react-icon';
 import { Avatar } from '@equinor/fusion-react-avatar';
 import { useState } from 'react';
 import { useMemo } from 'react';
+import { useEffect } from 'react';
+/**
+ * Creating the navigation 
+ * @see (@link https://equinor.github.io/fusion-components/?path=/story/general-navigation-drawer--default)
+ * @see (@link https://github.com/equinor/fusion-components/tree/master/src/components/general/NavigationDrawer)
+ * 
+ * @returns The structure of the navigation
+ * 
+ */
 
 const useNavigationStructure = (): NavigationStructure[] => {
+
+  /**
+   * Navigation references
+   */
   const groupingRef = { id: 'navigationItemGrouping' };
   const childRef = { id: 'navigationItemChild' };
   const labelRef = { id: 'navigationItemSection' };
   const sectionRef = { id: 'navigationItemLabel' };
+
+  /**
+   * Added useNavigate function from react-router-dom so that we could use it for navigating on click
+   * @see (@link https://reactrouterdotcom.fly.dev/docs/en/v6/getting-started/concepts#navigate-function)
+   */
   const navigate = useNavigate();
 
   return useMemo(() => [
@@ -158,9 +176,17 @@ const useNavigationStructure = (): NavigationStructure[] => {
   )
 }
 
+/**
+ * 
+ * @returns Navigation drawer component
+ */
 export const Navigation = (): JSX.Element => {
   const [structure, setStructure] = useState<NavigationStructure[]>(useNavigationStructure());
   const [selected, setSelected] = useState<string>('home');
+
+  // useEffect(() => {
+  //   console.log('check');
+  // }, []);
 
   return (
     <aside>
