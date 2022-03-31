@@ -19,5 +19,13 @@
     "include": [
         "src/**/*",
         "./css-modules.d.ts"
-    ]
+    ],
+    "typedocOptions": {
+        "entryPoints": [
+            "src/pages/HomePage.tsx",
+            "src/pages/AppsPage.tsx",
+            "src/pages/UserPage.tsx"
+        ],
+        "out": "docs"
+    }
 }
