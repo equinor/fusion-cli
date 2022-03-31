@@ -9,7 +9,7 @@ import { Divider } from '@equinor/fusion-react-divider';
 
 /**
  * Home Page
- * @returns Navigation with few components and documentation links for React Query
+ * @returns Navigation with few components and documentation for React Query
  */
 export const HomePage = (): JSX.Element => {
   const navStyles = useNavStyles();
