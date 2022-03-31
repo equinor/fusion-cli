@@ -1,6 +1,16 @@
 import { createStyles, makeStyles } from '@equinor/fusion-react-styles';
 
+/**
+ * Custom app styling
+ * 
+ * @see (@link https://equinor.github.io/fusion-react-components/?path=/docs/styling--page)
+ */
 export const useAppStyle = makeStyles(
+  /**
+   * 
+   * @param theme fusion parameter for default theme styling values
+   * @returns additional style classes
+   */
   (theme) =>
     createStyles({
       container: {
@@ -11,12 +21,12 @@ export const useAppStyle = makeStyles(
         maxWidth: 1280,
       },
       button_container: {
-        display: 'inline-flex', 
+        display: 'inline-flex',
         alignItems: 'center',
         gap: 10,
       },
       list: {
-        maxWidth: 200
+        maxWidth: 200,
       },
       list_link: {
         display: 'flex',
@@ -26,10 +36,10 @@ export const useAppStyle = makeStyles(
       main_title: {
         marginTop: '30px !important',
       },
-      user: { 
-        paddingBottom: 16, 
+      user: {
+        paddingBottom: 16,
         paddingTop: 32,
-        maxWidth: 420, 
+        maxWidth: 420,
       },
       mt_20: {
         marginTop: 20,
@@ -39,7 +49,7 @@ export const useAppStyle = makeStyles(
       },
       ml_20: {
         marginLeft: 20,
-      }
+      },
     }),
   { name: 'app-style' }
 );

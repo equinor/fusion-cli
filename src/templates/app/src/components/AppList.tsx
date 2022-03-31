@@ -5,7 +5,14 @@ import { useStyles } from './AppList.style';
 import { useNavigate } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItemProps } from '@equinor/fusion-react-breadcrumb';
 
+/**
+ * 
+ * @returns List of all fusion registered applications from the portal
+ */
 export const AppList = (): JSX.Element => {
+  /**
+   * data and ability to check if the apps are loading
+   */
   const { data, isLoading } = useAllApps();
   const appStyle = useStyles();
   const navigate = useNavigate();
@@ -13,7 +20,7 @@ export const AppList = (): JSX.Element => {
     return [
       {
         onClick: () => {
-          navigate("/");
+          navigate('/');
         },
         name: 'Home',
       },
@@ -22,10 +29,20 @@ export const AppList = (): JSX.Element => {
       },
     ];
   };
-
+  /**
+   * if the apps are loading
+   */
   if (isLoading) {
-    return <span>Loading apps...</span>;
+    return (
+      <div className={appStyle.root}>
+        <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumbs()} />
+        <h4 className={appStyle.title}>Loading apps...</h4>
+      </div>
+    );
   }
+  /**
+   * if there is data, map it all with AppInfo component
+   */
   return (
     <div className={appStyle.root}>
       <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumbs()} />
