@@ -15,8 +15,8 @@ const selector = <T extends any>(x: Response): Promise<T> => {
 
 const appSelector = async (x: Response): Promise<Record<string, App>> => {
   const response = await selector<Array<App>>(x);
-  const result = response.reduce((acc, current) => { 
-    return Object.assign(acc, {[current.key]: AppComponent})
+  const result = response.reduce((acc, current) => {
+    return Object.assign(acc, { [current.key]: AppComponent });
   }, {});
   return result;
 };

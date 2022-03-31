@@ -1,26 +1,57 @@
 import { useEffect, useState } from 'react';
-import { useCurrentUser, useNotificationCenter } from '@equinor/fusion';
+import { useCurrentUser, useNotificationCenter, PersonDetails } from '@equinor/fusion';
 import { Breadcrumb, BreadcrumbItemProps } from '@equinor/fusion-react-breadcrumb';
 import { useNavigate } from 'react-router-dom';
 import { Navigation } from '../components/Navigation';
-import useNavStyles from "../components/Navigation.style";
+import useNavStyles from '../components/Navigation.style';
 import useStyles from '../App.style';
-import { PersonDetails } from '@equinor/fusion';
 import { PersonDetail } from '@equinor/fusion-components';
 import { Divider } from '@equinor/fusion-react-divider';
 
+/**
+ * User page
+ * 
+ * @returns Users personal details
+ */
+
 export const UserPage = (): JSX.Element => {
+  /**
+   * User
+   * 
+   * @see (@link https://github.com/equinor/fusion)
+   * @constant currentUser calls useCurrentUser
+   * @constant sendNotification calls useNotificationCenter
+   */
   const currentUser = useCurrentUser();
   const sendNotification = useNotificationCenter();
-  const navStyles = useNavStyles();
-  const styles = useStyles();
+
+  /**
+   * Navigation
+   * 
+   * @constant navigate calls useNavigate from react router
+   * @see (@link https://github.com/equinor/fusion)
+   */
   const navigate = useNavigate();
 
+  /**
+   * Styling
+   * 
+   * @constant navStyles calls navigation style from components folder
+   * @constant styles calls main app styles
+   */
+  const navStyles = useNavStyles();
+  const styles = useStyles();
+
+  /**
+   * Breadcrumbs
+   * 
+   * @returns current bredcrumbs location with additional properties
+   */
   const breadcrumbs = (): BreadcrumbItemProps[] => {
     return [
       {
         onClick: () => {
-          navigate("/");
+          navigate('/');
         },
         name: 'Home',
       },
@@ -30,12 +61,14 @@ export const UserPage = (): JSX.Element => {
     ];
   };
 
+  /**
+   * Example of sending notificitation using async method
+   */
   const sendWelcomeNotification = async () => {
     await sendNotification({
       id: 'This is a unique id which means the notification will only be shown once',
       level: 'medium',
-      title:
-        'Welcome to your new fusion app! Open up src/index.tsx to start building your app!',
+      title: 'Welcome to your new fusion app! Open up src/index.tsx to start building your app!',
     });
   };
 
@@ -43,14 +76,22 @@ export const UserPage = (): JSX.Element => {
     sendWelcomeNotification();
   }, []);
 
+  /**
+   * Checks if the user is existing
+   */
   if (!currentUser) {
     return (
       <>
         <h1>No user!</h1>
       </>
     );
-  };
+  }
 
+  /**
+   * Personal details
+   * 
+   * @returns Personal details object with users inforamtion
+   */
   const personDetails = (): PersonDetails => ({
     azureUniqueId: currentUser.id,
     name: currentUser.fullName,
@@ -73,9 +114,7 @@ export const UserPage = (): JSX.Element => {
       <div className={navStyles.flex && styles.container}>
         <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumb} />
         <div className={styles.user}>
-          <PersonDetail
-            person={person}
-          />
+          <PersonDetail person={person} />
         </div>
         <Divider />
         <p>Here are some information that might be usefull to you:</p>

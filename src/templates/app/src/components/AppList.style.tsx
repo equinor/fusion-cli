@@ -7,13 +7,13 @@ export const useStyles = makeStyles(
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
       }),
       title: {
         flex: '1 1 100%',
         textAlign: 'center',
         padding: theme.spacing.comfortable.large.getVariable('padding'),
-      }
+      },
     }),
   // name the stylesheet for easy debugging
   { name: 'app-list' }
