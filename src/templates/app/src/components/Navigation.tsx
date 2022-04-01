@@ -57,6 +57,15 @@ const useNavigationStructure = (): NavigationStructure[] => {
         },
       },
       {
+        id: 'table',
+        type: 'grouping',
+        title: 'Table (AG Grid)',
+        icon: <Icon icon="table_chart" />,
+        onClick: () => {
+          navigate('/table');
+        },
+      },
+      {
         id: 'user',
         type: 'grouping',
         title: 'User',
@@ -189,13 +198,13 @@ const useNavigationStructure = (): NavigationStructure[] => {
  *
  * @returns Navigation drawer component
  */
-export const Navigation = (): JSX.Element => {
-  const [structure, setStructure] = useState<NavigationStructure[]>(useNavigationStructure());
-  const [selected, setSelected] = useState<string>('home');
+type Props = {
+  selected: string;
+};
 
-  // useEffect(() => {
-  //   console.log('check');
-  // }, []);
+export const Navigation = ({ selected }: Props): JSX.Element => {
+  const [structure, setStructure] = useState<NavigationStructure[]>(useNavigationStructure());
+  //const [selected, setSelected] = useState<string>("home");
 
   return (
     <aside>
@@ -203,7 +212,7 @@ export const Navigation = (): JSX.Element => {
         id="navigation-drawer-story"
         structure={structure}
         selectedId={selected}
-        onChangeSelectedId={(selectedItem) => setSelected(selectedItem)}
+        //onChangeSelectedId={(selectedItem) => setSelected(selectedItem)}
         onChangeStructure={(newStructure) => {
           setStructure(newStructure);
         }}

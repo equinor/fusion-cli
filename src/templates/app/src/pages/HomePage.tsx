@@ -25,7 +25,7 @@ export const HomePage = (): JSX.Element => {
    */
   return (
     <div className={navStyles.flex}>
-      <Navigation />
+      <Navigation selected='home' />
       <div className={styles.container}>
         <h1>Welcome to the Fusion CLI</h1>
         <p>Here you can see examples of some of the possibilities that you can use</p>

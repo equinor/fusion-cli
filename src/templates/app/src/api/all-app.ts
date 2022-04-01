@@ -1,6 +1,6 @@
 import { useHttpClient } from '@equinor/fusion-framework-react-app/hooks';
 import type { IHttpClient, FetchRequestInit } from '@equinor/fusion-framework-react-app/hooks/http';
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 import { App } from '../types';
 import { useMemo } from 'react';
 import AppComponent from '../App';
@@ -13,10 +13,14 @@ const selector = <T extends any>(x: Response): Promise<T> => {
   return x.json();
 };
 
+/**
+ * Fetch array of apps and normilize to index record
+ * @returns Indexed object of app key and apps
+ */
 const appSelector = async (x: Response): Promise<Record<string, App>> => {
   const response = await selector<Array<App>>(x);
   const result = response.reduce((acc, current) => {
-    return Object.assign(acc, { [current.key]: AppComponent });
+    return Object.assign(acc, { [current.key]: current });
   }, {});
   return result;
 };
@@ -24,12 +28,12 @@ const appSelector = async (x: Response): Promise<Record<string, App>> => {
 /**
  * get all registered app from the portal
  */
-export const useAllApps = () => {
+export const useAllApps = ():UseQueryResult<Record<string, App>> => {
   /** use the configured HttpClient which is configured by the `portal` key */
   const client = useHttpClient('portal');
   /** memorize the callback function for executing the query  */
   const fn = useMemo(() => getAllApps(client), [client]);
-  return useQuery(QueryKeys.GetAllApps, ({ signal }) => fn({ signal, selector }));
+  return useQuery(QueryKeys.GetAllApps, ({ signal }) => fn({ signal, selector:appSelector }));
 };
 
 const getAllApps =

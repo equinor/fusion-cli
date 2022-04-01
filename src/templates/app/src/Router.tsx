@@ -4,6 +4,7 @@ import { Layout } from './Layout';
 import { AppsPage } from './pages/AppsPage';
 import { HomePage } from './pages/HomePage';
 import { UserPage } from './pages/UserPage';
+import { TablePage } from './pages/TablePage';
 /**
  *
  * @returns Routes and Route for rendering different pages in React Router
@@ -19,6 +20,7 @@ export const Router = (): JSX.Element => {
         <Route index element={<HomePage />} />
         <Route path="/apps" element={<AppsPage />} />
         <Route path="/user" element={<UserPage />} />
+        <Route path="/table" element={<TablePage />} />
       </Route>
     </Routes>
   );
