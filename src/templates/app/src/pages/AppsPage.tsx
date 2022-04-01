@@ -12,7 +12,7 @@ export const AppsPage = (): JSX.Element => {
   const styles = useStyles();
   return (
     <div className={navStyles.flex}>
-      <Navigation />
+      <Navigation selected='apps' />
       <div className={styles.container}>
         <AppList />
       </div>

@@ -47,7 +47,7 @@ export const AppList = (): JSX.Element => {
     <div className={appStyle.root}>
       <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumbs()} />
       <h2 className={appStyle.title}>List of registered apps in fusion</h2>
-      {data?.map((app) => (
+      {Object.values(data ?? {}).map((app) => (
         <AppInfo key={app.key} app={app} />
       ))}
     </div>
