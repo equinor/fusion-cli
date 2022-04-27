@@ -6,6 +6,13 @@ export const useStyles = makeStyles(
       root: () => ({}),
       flex: {
         display: 'flex',
+        height: '100%',
+      },
+      breadcrumbs: {
+        position: 'fixed',
+        width: '100%',
+        backgroundColor: '#fff',
+        paddingBottom: theme.spacing.comfortable.medium.getVariable('padding'),
       },
     }),
   // name the stylesheet for easy debugging

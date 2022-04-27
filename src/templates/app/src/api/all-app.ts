@@ -3,7 +3,6 @@ import type { IHttpClient, FetchRequestInit } from '@equinor/fusion-framework-re
 import { useQuery, UseQueryResult } from 'react-query';
 import { App } from '../types';
 import { useMemo } from 'react';
-import AppComponent from '../App';
 
 import { QueryKeys } from '../api/constants';
 
@@ -22,6 +21,8 @@ const appSelector = async (x: Response): Promise<Record<string, App>> => {
   const result = response.reduce((acc, current) => {
     return Object.assign(acc, { [current.key]: current });
   }, {});
+  console.log(result);
+  
   return result;
 };
 
@@ -41,5 +42,16 @@ const getAllApps =
   (init: FetchRequestInit): Promise<App[]> => {
     return client.fetchAsync('api/apps', init) as Promise<App[]>;
   };
+
+/**
+ * example fuction for updating publish date to todays date
+ */
+export const updateApps = async (apps:Record<string, App>):Promise<Record<string, App>> => {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+  const result = Object.entries(apps).reduce((obj,[key,value]) => {
+    return Object.assign(obj, {[key]:{...value, publishedDate:Date()}});
+  },{});
+  return result;
+};
 
 export default useAllApps;

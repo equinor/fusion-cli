@@ -129,33 +129,6 @@ const useNavigationStructure = (): NavigationStructure[] => {
         ],
       },
       {
-        id: 'grouping2',
-        type: 'grouping',
-        title: 'Group with Avatar',
-        icon: <Avatar src="https://i.imgur.com/GcZeeXX.jpeg" />,
-        navigationChildren: [
-          {
-            id: 'section2',
-            title: 'Section Disabled',
-            type: 'section',
-            isDisabled: true,
-            navigationChildren: [
-              {
-                id: 'child4',
-                type: 'child',
-                title: 'Child Disabled',
-                isDisabled: true,
-              },
-              {
-                id: 'child5',
-                type: 'child',
-                title: 'Child5',
-              },
-            ],
-          },
-        ],
-      },
-      {
         id: 'grouping3',
         type: 'grouping',
         title: 'Grouping with Number as Icon',
@@ -182,26 +155,22 @@ const useNavigationStructure = (): NavigationStructure[] => {
           },
         ],
       },
-      {
-        id: 'grouping4',
-        type: 'grouping',
-        title: 'Icons front and back',
-        icon: <Icon icon="warning_outlined" />,
-        aside: <Icon icon="warning_outlined" />,
-      },
     ],
     [navigate]
   );
 };
 
 /**
+ * property type for selected menu element
+ */
+type Props = {
+  selected: string
+};
+
+/**
  *
  * @returns Navigation drawer component
  */
-type Props = {
-  selected: string;
-};
-
 export const Navigation = ({ selected }: Props): JSX.Element => {
   const [structure, setStructure] = useState<NavigationStructure[]>(useNavigationStructure());
   //const [selected, setSelected] = useState<string>("home");

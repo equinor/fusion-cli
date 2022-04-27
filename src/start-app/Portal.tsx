@@ -14,6 +14,7 @@ import {
 import { HotAppWrapper } from './HotAppWrapper';
 import createAuthContainer from './create-auth-container';
 import { BrowserRouter } from 'react-router-dom';
+import { createBrowserHistory } from 'react-router/node_modules/history';
 
 const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
   return app?.context?.types.length ? <ContextSelector /> : null;
@@ -53,6 +54,7 @@ export const Portal = () => {
   const headerContent = useRef<HTMLElement | null>(null);
   const headerAppAside = useRef<HTMLElement | null>(null);
 
+  const browserHistory = createBrowserHistory();
   const fusionContext = createFusionContext(
     authContainer,
     serviceResolver,
@@ -67,7 +69,9 @@ export const Portal = () => {
         env: 'dev',
       },
       loadBundlesFromDisk: false,
-    }
+    },
+    //@ts-ignore
+    browserHistory
   );
 
   const { history } = fusionContext;
@@ -75,16 +79,16 @@ export const Portal = () => {
   return (
     <FusionContext.Provider value={fusionContext}>
       {/* <BrowserRouter> */}
-        {/* <Router history={history}> */}
-          <ThemeProvider seed="fusion-dev-app">
-            <FusionRoot rootRef={root} overlayRef={overlay}>
-              {/* <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} /> */}
-              <FusionContent>
-                <HotAppWrapper />
-              </FusionContent>
-            </FusionRoot>
-          </ThemeProvider>
-        {/* </Router>
+      {/* <Router history={history}> */}
+      <ThemeProvider seed="fusion-dev-app">
+        <FusionRoot rootRef={root} overlayRef={overlay}>
+          {/* <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} /> */}
+          <FusionContent>
+            <HotAppWrapper />
+          </FusionContent>
+        </FusionRoot>
+      </ThemeProvider>
+      {/* </Router>
       </BrowserRouter> */}
     </FusionContext.Provider>
   );
