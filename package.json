@@ -42,7 +42,7 @@
         "get-port": "^5.0.0",
         "globby": "^11.0.0",
         "history": "^4.9.0",
-        "inquirer": "^7.0.4",
+        "inquirer": "^8.2.3",
         "less": "^3.9.0",
         "less-loader": "^6.0.0",
         "listr": "^0.14.3",
