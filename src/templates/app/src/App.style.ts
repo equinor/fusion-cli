@@ -14,11 +14,13 @@ export const useAppStyle = makeStyles(
   (theme) =>
     createStyles({
       container: {
-        marginLeft: theme.spacing.comfortable.large.getVariable('padding'),
-        marginRight: theme.spacing.comfortable.large.getVariable('padding'),
-        paddingTop: theme.spacing.comfortable.medium.getVariable('padding'),
-        paddingBottom: theme.spacing.comfortable.medium.getVariable('padding'),
-        maxWidth: 1280,
+        width: '100%',
+        height: '100%',
+        paddingLeft: theme.spacing.comfortable.large.getVariable('padding'),
+        paddingRight: theme.spacing.comfortable.large.getVariable('padding'),
+        display: 'flex',
+        flexDirection: 'column',
+        overflowY: 'scroll',
       },
       button_container: {
         display: 'inline-flex',
@@ -26,7 +28,7 @@ export const useAppStyle = makeStyles(
         gap: 10,
       },
       list: {
-        maxWidth: 200,
+        maxWidth: 260,
       },
       list_link: {
         display: 'flex',

@@ -111,8 +111,10 @@ export const UserPage = (): JSX.Element => {
   return (
     <div className={navStyles.flex}>
       <Navigation selected='user' />
-      <div className={navStyles.flex && styles.container}>
-        <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumb} />
+      <div className={styles.container}>
+        <div className={navStyles.breadcrumbs}>
+          <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumb} />
+        </div>
         <div className={styles.user}>
           <PersonDetail person={person} />
         </div>

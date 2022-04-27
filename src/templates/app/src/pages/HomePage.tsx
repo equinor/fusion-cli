@@ -70,20 +70,43 @@ export const HomePage = (): JSX.Element => {
           </ListItem>
         </List>
         <Divider />
-        <h2 className={styles.main_title}>Components</h2>
-        <p>
-          View few of the fusion components and read more about them
-          <a
-            href="https://equinor.github.io/fusion-react-components/?path=%2Fdocs%2Fintro--page%2F"
-            target="_blank"
-            rel="noreferrer"
-          >
-            here
-          </a>
-        </p>
-        <div>
+        <h2 className={styles.main_title}>Fusion React Components</h2>
+        <div className={styles.ml_20}>
+          <div className={`${styles.button_container} ${styles.mt_20}`}>
+            <Button variant="contained" onClick={() => { window.open("https://github.com/equinor/fusion-react-components", "_blank") }}>
+              <span slot="icon">
+                <Icon icon="github" />
+              </span>
+              <span>Github</span>
+            </Button>
+            <Button variant="contained" onClick={() => { window.open("https://equinor.github.io/fusion-react-components?path=/docs/intro--page/", "_blank") }}>
+              <span slot="icon">
+                <Icon icon="library_books" />
+              </span>
+              <span>Storybook</span>
+            </Button>
+          </div>
+        </div>
+        <h2 className={styles.main_title}>Fusion Components</h2>
+        <div className={styles.ml_20}>
+          <div className={`${styles.button_container} ${styles.mt_20}`}>
+            <Button variant="contained" onClick={() => { window.open("https://github.com/equinor/fusion-components", "_blank") }}>
+              <span slot="icon">
+                <Icon icon="github" />
+              </span>
+              <span>Github</span>
+            </Button>
+            <Button variant="contained" onClick={() => { window.open("https://equinor.github.io/fusion-components", "_blank") }}>
+              <span slot="icon">
+                <Icon icon="library_books" />
+              </span>
+              <span>Storybook</span>
+            </Button>
+          </div>
+        </div>
+        <h2 className={styles.main_title}>Components Examples</h2>
+        <div className={styles.mb_20}>
           <h4>
-            Button - details
             <a
               href="https://equinor.github.io/fusion-react-components/?path=/docs/input-button--page"
               target="_blank"
@@ -120,9 +143,8 @@ export const HomePage = (): JSX.Element => {
             </div>
           </div>
         </div>
-        <div>
+        <div className={styles.mb_20}>
           <h4>
-            Tooltip - details
             <a href="https://equinor.github.io/fusion-react-components/?path=/docs/input-tooltip--page">
               <strong>@equinor/fusion-react-tooltip</strong>
             </a>
@@ -130,7 +152,7 @@ export const HomePage = (): JSX.Element => {
           <div className={styles.ml_20}>
             <p>React component for displaying tooltip</p>
             <Tooltip content="Default Tooltip">
-              <button>Hover Me!</button>
+              <Button color="danger" label="Hover me!" variant="outlined" />
             </Tooltip>
           </div>
         </div>

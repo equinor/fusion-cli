@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 
 export const Layout = (): JSX.Element => (
-  <div>
+  <div style={{ height: '100%' }}>
     <Outlet />
   </div>
 );
