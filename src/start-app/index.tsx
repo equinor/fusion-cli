@@ -4,15 +4,6 @@ import { Suspense } from 'react';
 import Framework from './Framework';
 import Portal from './Portal';
 
-render(
-  <Suspense fallback={<StarProgress text="Loading framework" />}>
-    <Framework>
-      <Portal />
-    </Framework>
-  </Suspense>,
-  document.getElementById('fusion-app')
-);
-
 // TODO: @odinr please fix me
 const _customElementsDefine = window.customElements.define;
 window.customElements.define = (name, cl, conf) => {
@@ -22,3 +13,12 @@ window.customElements.define = (name, cl, conf) => {
     console.debug(`${name} has been defined twice`);
   }
 };
+
+render(
+  <Suspense fallback={<StarProgress text="Loading framework" />}>
+    <Framework>
+      <Portal />
+    </Framework>
+  </Suspense>,
+  document.getElementById('fusion-app')
+);

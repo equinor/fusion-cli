@@ -14,6 +14,12 @@ type AccountInfo = {
   name?: string;
 };
 
+declare global {
+  interface Window {
+    clientId?: string;
+  }
+}
+
 /**
  * THIS IS ONLY TEMPORARY!!!
  * in future this should be deleted, when all apps are over on new framework!
@@ -174,7 +180,7 @@ export default class AppAuthContainer extends AuthContainer {
 
   /** internal registry of 'new' apps registred for msal */
   protected _registeredApps: Record<string, AuthApp> = {};
-  async registerAppAsync(clientId, resources, legacy = true) {
+  async registerAppAsync(clientId: string, resources: string[], legacy = true): Promise<boolean> {
     const isRegistered = !!this._registeredApps[clientId];
     if (!isRegistered && legacy) {
       console.warn(`registering legacy client for [${clientId}]`);
@@ -191,11 +197,11 @@ export default class AppAuthContainer extends AuthContainer {
   /**
    * @deprecated
    */
-  protected async refreshTokenAsync(resource: string) {
+  protected async refreshTokenAsync(resource: string): Promise<string | null> {
     console.trace(`FusionAuthContainer::refreshTokenAsync legacy for resource [${resource}]`);
     const app = this.resolveApp(resource);
 
-    if (app && app.clientId === global.clientId) {
+    if (app && app.clientId === window.clientId) {
       const refreshUrl = `/auth/refresh`;
       try {
         const response = await fetch(refreshUrl, {

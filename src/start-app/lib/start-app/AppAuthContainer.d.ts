@@ -1,7 +1,13 @@
 import { AuthApp, AuthContainer, AuthUser } from '@equinor/fusion';
 import { Fusion } from '@equinor/fusion-framework';
+declare global {
+    interface Window {
+        clientId?: string;
+    }
+}
 export default class AppAuthContainer extends AuthContainer {
-    protected get _auth(): Fusion['modules']['auth'];
+    protected _auth: Fusion['modules']['auth'];
+    constructor(_auth: Fusion['modules']['auth']);
     get account(): import("@equinor/fusion-framework-module-msal/client").AccountInfo | undefined;
     requiresAuth(): Promise<void>;
     loginAsync(clientId: string): Promise<void>;

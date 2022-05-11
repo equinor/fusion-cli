@@ -20,7 +20,12 @@ const serviceResolver: ServiceResolver = {
 };
 
 export const createAuthContainer = (): AppAuthContainer => {
-  const authContainer = new AppAuthContainer();
+  const authClient = window.Fusion.modules.auth;
+  if (!authClient) {
+    throw Error('no auth container found!');
+  }
+
+  const authContainer = new AppAuthContainer(authClient);
 
   const coreAppClientId = '5a842df8-3238-415d-b168-9f16a6a6031b';
   authContainer.registerAppAsync(
