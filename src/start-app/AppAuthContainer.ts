@@ -14,12 +14,6 @@ type AccountInfo = {
   name?: string;
 };
 
-declare global {
-  interface Window {
-    clientId?: string;
-  }
-}
-
 /**
  * THIS IS ONLY TEMPORARY!!!
  * in future this should be deleted, when all apps are over on new framework!
