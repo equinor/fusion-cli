@@ -20,12 +20,12 @@
     }
   },
   "dependencies": {
-    "@equinor/fusion": "^3.3.0",
-    "@equinor/fusion-components": "^2.4.5",
-    "react": "^17.0.2"
+    "@equinor/fusion": "^3.3.7",
+    "@equinor/fusion-components": "^2.5.20",
+    "react": "^17.0.1"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^2.4.0",
+    "@equinor/fusion-cli": "^2.4.10",
     "@types/history": "^4.7.2",
     "@types/react": "^17.0.20",
     "@types/react-router-dom": "^5.1.8",

@@ -16,7 +16,7 @@
     "author": "Fusion Team",
     "version": {
         "Major": 2,
-        "Minor": 1,
+        "Minor": 3,
         "Patch": 0
     },
     "demands": [
@@ -51,9 +51,10 @@
             "defaultValue": "Deploy",
             "options": {
                 "Deploy": "Deploy",
-                "Publish": "Publish"
+                "Publish": "Publish",
+                "Config": "Config"
             },
-            "helpMarkDown": "Action to perform. <br>**Deploy**<br>Upload a bundle<br>**Publish**<br>Publish the current preview framework."
+            "helpMarkDown": "Action to perform. <br>**Deploy**<br>Upload a bundle<br>**Publish**<br>Publish the current preview framework.<br>**Config**<br>Upload config json"
         },
         {
             "name": "bundlePath",
@@ -81,8 +82,7 @@
             "name": "appKey",
             "label": "App key",
             "type": "string",
-            "required": true,
-            "visibleRule": "action = Publish"
+            "required": true
         },
         {
             "name": "tokenResource",
@@ -95,6 +95,18 @@
             "options": {
                 "5a842df8-3238-415d-b168-9f16a6a6031b": "Test"
             }
+        },
+        {
+            "name": "endpointsConfig",
+            "label": "Endpoint config json",
+            "type": "string",
+            "helpMarkDown": "**The config will be merged with existing**<br>Key value dictionary to define relevant endpoints for the app. Available in the `{ 'endpoints': { ... } }` section"
+        },
+        {
+            "name": "environmentConfig",
+            "label": "Environment config json",
+            "type": "string",
+            "helpMarkDown": "**The config will be merged with existing**<br>Key value dictionary to define relevant endpoints for the app. Available in the `{ 'environment': { ... } }` section"
         }
     ],
     "instanceNameFormat": "Fusion App Management",

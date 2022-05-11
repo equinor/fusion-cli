@@ -10,6 +10,8 @@ export default (modulePackage: IPackage, isProduction: boolean) => ({
         extensions: ['.ts', '.js', '.tsx', '.jsx'],
         modules: [
             path.resolve(process.cwd(), 'node_modules'),
+            // mono-repo
+            path.resolve(process.cwd(), '..', '..', 'node_modules'),
             path.dirname(path.resolve(process.cwd(), modulePackage.main)),
             path.resolve(__dirname, '..', '..', '..', 'node_modules'),
         ],
