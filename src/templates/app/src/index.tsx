@@ -1,49 +1,18 @@
-import { FC, useEffect } from 'react';
-import { registerApp, useCurrentUser, useNotificationCenter } from '@equinor/fusion';
-import { Button, usePopoverRef } from '@equinor/fusion-components';
+import { registerApp as registerLegacy } from '@equinor/fusion';
+import { createApp } from '@equinor/fusion-framework-react-app';
 
-import * as styles from './styles.less';
+import { configCallback } from './config';
+import AppComponent from './App';
 
-const App: FC = () => {
-    const currentUser = useCurrentUser();
-    const sendNotification = useNotificationCenter();
+export const render = createApp(AppComponent, configCallback);
 
-    const [popoverRef] = usePopoverRef(
-        <div className={styles.popover}>What a lovely popover 💩</div>,
-        {
-            placement: 'below',
-        }
-    );
-    
-    const sendWelcomeNotification = async () => {
-        await sendNotification({
-            id: 'This is a unique id which means the notification will only be shown once',
-            level: 'medium',
-            title:
-                'Welcome to your new fusion app! Open up src/index.tsx to start building your app!',
-        });
-    };
-
-    useEffect(() => {
-        sendWelcomeNotification();
-    }, []);
-
-    if (!currentUser) {
-        return null;
-    }
-
-    return (
-        <div className={styles.hello}>
-            <h1>Oh hello there, {currentUser.fullName}</h1>
-            <Button ref={popoverRef}>Click me!</Button>
-        </div>
-    );
-};
-
-registerApp('{appKey}', {
-    AppComponent: App,
+registerLegacy('test-app', {
+  render,
+  AppComponent,
 });
 
 if (module.hot) {
-    module.hot.accept();
+  module.hot.accept();
 }
+
+export default render;

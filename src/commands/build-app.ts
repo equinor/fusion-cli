@@ -17,7 +17,9 @@ import typescript from '../build/parts/typescript';
 import output from '../build/parts/output';
 import mode from '../build/parts/mode';
 import env from '../build/parts/env';
-import * as logSymbols from 'log-symbols';
+
+// version ^5 fails to run
+import logSymbols = require('log-symbols');
 
 import IAppManifest from '../build/AppManifest';
 import IAppVersion from '../build/AppVersion';
@@ -27,313 +29,306 @@ import getPackageAsync from '../build/getPackageAsync';
 import getPackageDependencies from '../build/getPackageDependencies';
 
 interface IBuildAppOptions {
-    out: string | undefined;
-    silent: boolean;
-    zip: boolean;
+  out: string | undefined;
+  silent: boolean;
+  zip: boolean;
 }
 
 interface IBuildContext {
-    appOutputDir: string;
-    manifest: IAppManifest;
-    outputDir: string;
-    package: any;
-    buildSucceeded?: boolean;
+  appOutputDir: string;
+  manifest: IAppManifest;
+  outputDir: string;
+  package: any;
+  buildSucceeded?: boolean;
 }
 
 // Promisify
 const rimrafAsync = util.promisify(rimraf);
 const statAsync = util.promisify(fs.stat);
 const existsAsync = async (p: string) => {
-    try {
-        await statAsync(p);
-        return true;
-    } catch (e) {
-        return false;
-    }
+  try {
+    await statAsync(p);
+    return true;
+  } catch (e) {
+    return false;
+  }
 };
 const writeFileAsync = util.promisify(fs.writeFile);
 const copyFileAsync = util.promisify(fs.copyFile);
 const mkdirAsync = util.promisify(fs.mkdir);
 
 class Timer {
-    private readonly start: Date = new Date();
+  private readonly start: Date = new Date();
 
-    public getEllapsedSeconds() {
-        const end = new Date();
-        return ((end.getTime() - this.start.getTime()) / 1000).toFixed(2) + ' seconds';
-    }
+  public getEllapsedSeconds() {
+    const end = new Date();
+    return ((end.getTime() - this.start.getTime()) / 1000).toFixed(2) + ' seconds';
+  }
 }
 
 class CompileError extends Error {
-    public readonly errors: any[];
+  public readonly errors: any[];
 
-    constructor(errors: any[]) {
-        super(errors.map((e) => e.message).join('\n'));
-        this.errors = errors;
-    }
+  constructor(errors: any[]) {
+    super(errors.map((e) => e.message).join('\n'));
+    this.errors = errors;
+  }
 }
 
 export default class BuildApp extends Command {
-    public static description = 'Build the app as a ready-to-deply zip bundle';
+  public static description = 'Build the app as a ready-to-deply zip bundle';
 
-    public static flags = {
-        // help: flags.help({char: 'h'}),
-        out: flags.string({ char: 'o', description: 'Output path', default: './out' }),
-        silent: flags.boolean({ char: 's', description: 'No console output', default: false }),
-        zip: flags.boolean({
-            allowNo: true,
-            char: 'z',
-            default: true,
-            description: 'Generate zip',
-        }),
+  public static flags = {
+    // help: flags.help({char: 'h'}),
+    out: flags.string({ char: 'o', description: 'Output path', default: './out' }),
+    silent: flags.boolean({ char: 's', description: 'No console output', default: false }),
+    zip: flags.boolean({
+      allowNo: true,
+      char: 'z',
+      default: true,
+      description: 'Generate zip',
+    }),
+  };
+
+  public async run() {
+    const parsed = this.parse(BuildApp);
+
+    await this.buildAppAsync(parsed.flags);
+  }
+
+  private async buildAppAsync(options: IBuildAppOptions) {
+    const timer = new Timer();
+
+    const tasks = new Listr(
+      [
+        {
+          task: (ctx, task) => this.clearOutputDirAsync(ctx, task),
+          title: 'Clean output dir',
+        },
+        {
+          task: (ctx, task) => this.runBuildAsync(ctx, task),
+          title: 'Build',
+        },
+        {
+          skip: (ctx) => !ctx.buildSucceeded,
+          task: (ctx, task) => this.writeManifestAsync(ctx, task),
+          title: 'Generate manifest',
+        },
+        {
+          skip: (ctx) => !ctx.buildSucceeded,
+          task: (ctx, task) => this.copyResourcesAsync(ctx, task),
+          title: 'Copy resources',
+        },
+        {
+          enabled: () => options.zip,
+          skip: (ctx) => !ctx.buildSucceeded,
+          task: (ctx, task) => this.generateZipAsync(ctx, task),
+          title: 'Generate zip',
+        },
+      ],
+      {
+        renderer: options.silent ? 'silent' : 'default',
+      }
+    );
+
+    const appPackage = await getPackageAsync(process.cwd());
+    const manifest = await this.generateManifestAsync(appPackage);
+    const outputDir = await this.getOutputDirAsync(options);
+
+    const context: IBuildContext = {
+      appOutputDir: path.resolve(outputDir, appPackage.name),
+      manifest,
+      outputDir,
+      package: appPackage,
     };
 
-    public async run() {
-        const parsed = this.parse(BuildApp);
+    try {
+      await tasks.run(context);
 
-        await this.buildAppAsync(parsed.flags);
+      this.log(`${logSymbols.success} Built the ${manifest.name} app in ${timer.getEllapsedSeconds()}`);
+    } catch (e) {
+      const { errors } = e as { errors: Error[] };
+      if (errors) {
+        errors.forEach((e) => this.error(e.message));
+      }
+
+      this.log(`${logSymbols.error} Build failed after ${timer.getEllapsedSeconds()}`);
+      // this.error(e);
+      this.exit(1);
+    }
+  }
+
+  private async clearOutputDirAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
+    const timer = new Timer();
+
+    task.output = 'Cleaning output dir';
+
+    const outputDirExists = await existsAsync(context.outputDir);
+
+    if (outputDirExists) {
+      await rimrafAsync(context.outputDir);
     }
 
-    private async buildAppAsync(options: IBuildAppOptions) {
-        const timer = new Timer();
+    task.title = 'Output dir cleaned in ' + timer.getEllapsedSeconds();
+  }
 
-        const tasks = new Listr(
-            [
-                {
-                    task: (ctx, task) => this.clearOutputDirAsync(ctx, task),
-                    title: 'Clean output dir',
-                },
-                {
-                    task: (ctx, task) => this.runBuildAsync(ctx, task),
-                    title: 'Build',
-                },
-                {
-                    skip: (ctx) => !ctx.buildSucceeded,
-                    task: (ctx, task) => this.writeManifestAsync(ctx, task),
-                    title: 'Generate manifest',
-                },
-                {
-                    skip: (ctx) => !ctx.buildSucceeded,
-                    task: (ctx, task) => this.copyResourcesAsync(ctx, task),
-                    title: 'Copy resources',
-                },
-                {
-                    enabled: () => options.zip,
-                    skip: (ctx) => !ctx.buildSucceeded,
-                    task: (ctx, task) => this.generateZipAsync(ctx, task),
-                    title: 'Generate zip',
-                },
-            ],
-            {
-                renderer: options.silent ? 'silent' : 'default',
-            }
-        );
+  private runBuildAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
+    return new Promise<void>(async (resolve, reject) => {
+      task.output = 'Configuring';
 
-        const appPackage = await getPackageAsync(process.cwd());
-        const manifest = await this.generateManifestAsync(appPackage);
-        const outputDir = await this.getOutputDirAsync(options);
+      const config = await this.createWebpackConfigAsync(context, task);
+      const compiler = webpack(config);
 
-        const context: IBuildContext = {
-            appOutputDir: path.resolve(outputDir, appPackage.name),
-            manifest,
-            outputDir,
-            package: appPackage,
-        };
+      task.title = 'Building';
+      compiler.run((err, stats) => {
+        context.buildSucceeded = !err && stats && !stats.hasErrors();
 
-        try {
-            await tasks.run(context);
-
-            this.log(
-                `${logSymbols.success} Built the ${
-                    manifest.name
-                } app in ${timer.getEllapsedSeconds()}`
-            );
-        } catch (e) {
-            const { errors } = e as { errors: Error[] };
-            if (errors) {
-                errors.forEach((e) => this.error(e.message));
-            }
-
-            this.log(`${logSymbols.error} Build failed after ${timer.getEllapsedSeconds()}`);
-            // this.error(e);
-            this.exit(1);
-        }
-    }
-
-    private async clearOutputDirAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
-        const timer = new Timer();
-
-        task.output = 'Cleaning output dir';
-
-        const outputDirExists = await existsAsync(context.outputDir);
-
-        if (outputDirExists) {
-            await rimrafAsync(context.outputDir);
+        if (err) {
+          task.title = 'Build failed';
+          return reject(err);
         }
 
-        task.title = 'Output dir cleaned in ' + timer.getEllapsedSeconds();
-    }
-
-    private runBuildAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
-        return new Promise<void>(async (resolve, reject) => {
-            task.output = 'Configuring';
-
-            const config = await this.createWebpackConfigAsync(context, task);
-            const compiler = webpack(config);
-
-            task.title = 'Building';
-            compiler.run((err, stats) => {
-                context.buildSucceeded = !err && stats && !stats.hasErrors();
-
-                if (err) {
-                    task.title = 'Build failed';
-                    return reject(err);
-                }
-
-                if (stats && stats.hasErrors()) {
-                    task.title = 'Build failed';
-                    return reject(new CompileError(stats.compilation.errors));
-                }
-
-                const buildDuration =
-                    ((stats && stats.endTime) || 0) - ((stats && stats.startTime) || 0);
-                task.title = `Build completed in ${(buildDuration / 1000).toFixed(2)} seconds`;
-                resolve();
-            });
-        });
-    }
-
-    private async generateManifestAsync(appPackage: IPackage) {
-        const manifest = appPackage.manifest;
-        manifest.key = appPackage.name;
-        manifest.main = appPackage.main;
-        manifest.version = this.parsePackageVersion(appPackage);
-
-        return manifest;
-    }
-
-    private async writeManifestAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
-        const timer = new Timer();
-
-        await writeFileAsync(
-            path.resolve(context.appOutputDir, 'app-manifest.json'),
-            JSON.stringify(context.manifest, null, 4)
-        );
-
-        task.title = 'Manifest generated in ' + timer.getEllapsedSeconds();
-    }
-
-    private async copyResourcesAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
-        const timer = new Timer();
-
-        try {
-            await this.copyResourceAsync(process.cwd(), context.appOutputDir, 'app-icon.svg', task);
-        } catch (e) {
-            const { message } = e as Error;
-            this.log(`Unable to find SVG icon. [${message}]`);
+        if (stats && stats.hasErrors()) {
+          task.title = 'Build failed';
+          return reject(new CompileError(stats.compilation.errors));
         }
 
-        if (context.manifest.resources) {
-            const copyTasks = context.manifest.resources.map((resource: string) =>
-                this.copyResourceAsync(process.cwd(), context.appOutputDir, resource, task)
-            );
-            await Promise.all(copyTasks);
-        }
+        const buildDuration = ((stats && stats.endTime) || 0) - ((stats && stats.startTime) || 0);
+        task.title = `Build completed in ${(buildDuration / 1000).toFixed(2)} seconds`;
+        resolve();
+      });
+    });
+  }
 
-        task.title = 'Resources copied in ' + timer.getEllapsedSeconds();
+  private async generateManifestAsync(appPackage: IPackage) {
+    const manifest = appPackage.manifest;
+    manifest.key = appPackage.name;
+    manifest.main = appPackage.main;
+    manifest.version = this.parsePackageVersion(appPackage);
+
+    return manifest;
+  }
+
+  private async writeManifestAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
+    const timer = new Timer();
+
+    await writeFileAsync(
+      path.resolve(context.appOutputDir, 'app-manifest.json'),
+      JSON.stringify(context.manifest, null, 4)
+    );
+
+    task.title = 'Manifest generated in ' + timer.getEllapsedSeconds();
+  }
+
+  private async copyResourcesAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
+    const timer = new Timer();
+
+    try {
+      await this.copyResourceAsync(process.cwd(), context.appOutputDir, 'app-icon.svg', task);
+    } catch (e) {
+      const { message } = e as Error;
+      this.log(`Unable to find SVG icon. [${message}]`);
     }
 
-    private async copyResourceAsync(
-        sourcePath: string,
-        destinationPath: string,
-        resourceName: string,
-        task: Listr.ListrTaskWrapper
-    ) {
-        task.output = `Copying ${resourceName}`;
-
-        const from = path.resolve(sourcePath, resourceName);
-
-        const sourceExists = await existsAsync(from);
-        if (!sourceExists) {
-            throw new Error(`Unable to find resource: ${resourceName} in ${from}`);
-        }
-
-        const to = path.resolve(destinationPath, resourceName);
-
-        try {
-            await mkdirAsync(path.dirname(to), { recursive: true });
-        } catch (error) {
-            const { code } = error as { code: string };
-            if (code !== 'EEXIST') {
-                throw error;
-            }
-        }
-
-        await copyFileAsync(from, to);
+    if (context.manifest.resources) {
+      const copyTasks = context.manifest.resources.map((resource: string) =>
+        this.copyResourceAsync(process.cwd(), context.appOutputDir, resource, task)
+      );
+      await Promise.all(copyTasks);
     }
 
-    private async generateZipAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
-        const timer = new Timer();
+    task.title = 'Resources copied in ' + timer.getEllapsedSeconds();
+  }
 
-        const outputStream = fs.createWriteStream(
-            path.join(context.outputDir, context.manifest.key + '.zip')
-        );
+  private async copyResourceAsync(
+    sourcePath: string,
+    destinationPath: string,
+    resourceName: string,
+    task: Listr.ListrTaskWrapper
+  ) {
+    task.output = `Copying ${resourceName}`;
 
-        const archive = archiver('zip', {
-            zlib: { level: 9 },
-        });
+    const from = path.resolve(sourcePath, resourceName);
 
-        archive.directory(context.appOutputDir, false);
-
-        archive.pipe(outputStream);
-
-        await archive.finalize();
-
-        task.title = 'Zip generated in ' + timer.getEllapsedSeconds();
+    const sourceExists = await existsAsync(from);
+    if (!sourceExists) {
+      throw new Error(`Unable to find resource: ${resourceName} in ${from}`);
     }
 
-    private async createWebpackConfigAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
-        const fusionCliPackage = await getPackageAsync(path.resolve(__dirname, '..', '..'));
-        const cliDependencies = await getPackageDependencies(fusionCliPackage);
-        const moduleDependencies = await getPackageDependencies(context.package);
+    const to = path.resolve(destinationPath, resourceName);
 
-        const progressHandler = (percentage: number, msg: string, moduleProgress?: string) => {
-            const percentageString = Math.ceil(percentage * 100).toString();
-            const messages = ['[webpack]', msg, moduleProgress];
-
-            task.output = messages.filter((m) => m).join(' ');
-            task.title = `Building (${percentageString}%)`;
-        };
-
-        const appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
-
-        return merge(
-            babel,
-            mode(true),
-            entry(context.package, true),
-            images(`/bundles/apps/${context.manifest.key}/resources/`),
-            externals(cliDependencies, moduleDependencies),
-            styles,
-            typescript(context.appOutputDir, true),
-            output('app-bundle.js', context.appOutputDir),
-            {
-                plugins: [new webpack.ProgressPlugin(progressHandler)],
-            },
-            env(),
-            appWebpackConfig
-        );
+    try {
+      await mkdirAsync(path.dirname(to), { recursive: true });
+    } catch (e) {
+      const { code } = e as { code: string };
+      if (code !== 'EEXIST') {
+        throw e;
+      }
     }
 
-    private async getOutputDirAsync(options: IBuildAppOptions) {
-        return path.resolve(process.cwd(), options.out || '/out');
-    }
+    await copyFileAsync(from, to);
+  }
 
-    private parsePackageVersion(appPackage: IPackage): IAppVersion {
-        const parts = appPackage.version.split('.');
-        return {
-            major: parts[0],
-            minor: parts[1],
-            patch: parts[2],
-        };
-    }
+  private async generateZipAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
+    const timer = new Timer();
+
+    const outputStream = fs.createWriteStream(path.join(context.outputDir, context.manifest.key + '.zip'));
+
+    const archive = archiver('zip', {
+      zlib: { level: 9 },
+    });
+
+    archive.directory(context.appOutputDir, false);
+
+    archive.pipe(outputStream);
+
+    await archive.finalize();
+
+    task.title = 'Zip generated in ' + timer.getEllapsedSeconds();
+  }
+
+  private async createWebpackConfigAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
+    const fusionCliPackage = await getPackageAsync(path.resolve(__dirname, '..', '..'));
+    const cliDependencies = await getPackageDependencies(fusionCliPackage);
+    const moduleDependencies = await getPackageDependencies(context.package);
+
+    const progressHandler = (percentage: number, msg: string, moduleProgress?: string) => {
+      const percentageString = Math.ceil(percentage * 100).toString();
+      const messages = ['[webpack]', msg, moduleProgress];
+
+      task.output = messages.filter((m) => m).join(' ');
+      task.title = `Building (${percentageString}%)`;
+    };
+
+    const appWebpackConfig = await import(path.resolve(process.cwd(), 'webpack.config.js'));
+
+    return merge(
+      babel,
+      mode(true),
+      entry(context.package, true),
+      images(`/bundles/apps/${context.manifest.key}/resources/`),
+      externals(cliDependencies, moduleDependencies),
+      styles,
+      typescript(context.appOutputDir, true),
+      output('app-bundle.js', context.appOutputDir),
+      {
+        plugins: [new webpack.ProgressPlugin(progressHandler)],
+      },
+      env(),
+      appWebpackConfig
+    );
+  }
+
+  private async getOutputDirAsync(options: IBuildAppOptions) {
+    return path.resolve(process.cwd(), options.out || '/out');
+  }
+
+  private parsePackageVersion(appPackage: IPackage): IAppVersion {
+    const parts = appPackage.version.split('.');
+    return {
+      major: parts[0],
+      minor: parts[1],
+      patch: parts[2],
+    };
+  }
 }

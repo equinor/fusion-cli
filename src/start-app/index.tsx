@@ -1,3 +1,4 @@
+import { StarProgress } from '@equinor/fusion-react-progress-indicator';
 import { render } from '@hot-loader/react-dom';
 import { useRef, FunctionComponent } from 'react';
 import { Router } from 'react-router-dom';
@@ -122,7 +123,3 @@ const start = async () => {
         render(<Root />, document.getElementById('fusion-app'));
     }
 };
-
-start()
-    .then(() => console.log('App started'))
-    .catch((e) => console.error('Unable to start app', e));
