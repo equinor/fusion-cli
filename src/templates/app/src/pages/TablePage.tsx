@@ -13,16 +13,29 @@ import { QueryKeys } from '../api/constants';
 /**
  * additional fuction for formating date
  */
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 const formatDate = (getDate: string) => {
   const date = new Date(getDate);
   return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}.`;
-}
+};
 
 /**
  * Function that maps the values from all apps
- * @returns array of objects with index value and specified values form app object  
+ * @returns array of objects with index value and specified values form app object
  */
 const useRowData = () => {
   const { data, isLoading } = useAllApps();
@@ -34,7 +47,7 @@ const useRowData = () => {
     onSuccess: (results) => {
       queryClient.setQueryData(QueryKeys.GetAllApps, results);
       console.log('update!');
-    }
+    },
   });
 
   useEffect(() => {
@@ -44,24 +57,22 @@ const useRowData = () => {
     return () => {
       clearTimeout(fn);
     };
-  })
+  });
 
   const rowData = useMemo(() => {
-    return Object.values(data ?? {}).map((app, index) => (
-      {
-        no: index + 1,
-        name: app.name,
-        category: app.category.name,
-        published: formatDate(app.publishedDate),
-        version: app.version,
-      }
-    ))
+    return Object.values(data ?? {}).map((app, index) => ({
+      no: index + 1,
+      name: app.name,
+      category: app.category.name,
+      published: formatDate(app.publishedDate),
+      version: app.version,
+    }));
   }, [data]);
   return { rowData, isLoading };
 };
 
 /**
- * 
+ *
  * @returns AG Grid Table page for displaying fusion apps
  */
 export const TablePage = (): JSX.Element => {
@@ -88,12 +99,12 @@ export const TablePage = (): JSX.Element => {
   const [breadcrumb, setBreadcrumb] = useState<BreadcrumbItemProps[]>(breadcrumbs());
 
   const [columnDefs] = useState([
-    { field: 'no', width: 70, headerName: 'No.', },
+    { field: 'no', width: 70, headerName: 'No.' },
     { field: 'name', resizable: true },
     { field: 'category', headerName: 'Category name', resizable: true },
     { field: 'published', headerName: 'Last published' },
-    { field: 'version' }
-  ])
+    { field: 'version' },
+  ]);
 
   /**
    * if the apps are loading
@@ -101,7 +112,6 @@ export const TablePage = (): JSX.Element => {
   if (isLoading) {
     return (
       <div className={navStyles.flex}>
-        <Navigation selected='table' />
         <div className={styles.container}>
           <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumb} />
           <h4 className={styles.main_title}>Loading table...</h4>
@@ -113,16 +123,15 @@ export const TablePage = (): JSX.Element => {
   return (
     <div className={navStyles.flex}>
       <link rel="stylesheet" href="https://unpkg.com/@ag-grid-community/core@27.1.0/dist/styles/ag-grid.css" />
-      <link rel="stylesheet" href="https://unpkg.com/@ag-grid-community/core@27.1.0/dist/styles/ag-theme-material.css" />
-      <Navigation selected='table' />
+      <link
+        rel="stylesheet"
+        href="https://unpkg.com/@ag-grid-community/core@27.1.0/dist/styles/ag-theme-material.css"
+      />
       <div className={styles.container} style={{ height: 'auto' }}>
         <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumb} />
         <h4 className={styles.main_title}>AG Grid Table Example</h4>
         <div className="ag-theme-material" style={{ height: '100%', width: 900 }}>
-          <AgGridReact
-            rowData={rowData}
-            columnDefs={columnDefs}>
-          </AgGridReact>
+          <AgGridReact rowData={rowData} columnDefs={columnDefs}></AgGridReact>
         </div>
       </div>
     </div>

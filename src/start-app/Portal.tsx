@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import { FunctionComponent, useRef } from 'react';
 import { Router } from 'react-router';
 
@@ -78,18 +79,16 @@ export const Portal = () => {
 
   return (
     <FusionContext.Provider value={fusionContext}>
-      {/* <BrowserRouter> */}
-      {/* <Router history={history}> */}
       <ThemeProvider seed="fusion-dev-app">
         <FusionRoot rootRef={root} overlayRef={overlay}>
-          {/* <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} /> */}
+          <BrowserRouter>
+              <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
+          </BrowserRouter>
           <FusionContent>
             <HotAppWrapper />
           </FusionContent>
         </FusionRoot>
       </ThemeProvider>
-      {/* </Router>
-      </BrowserRouter> */}
     </FusionContext.Provider>
   );
 };

@@ -10,14 +10,14 @@ import { Divider } from '@equinor/fusion-react-divider';
 
 /**
  * User page
- * 
+ *
  * @returns Users personal details
  */
 
 export const UserPage = (): JSX.Element => {
   /**
    * User
-   * 
+   *
    * @see (@link https://github.com/equinor/fusion)
    * @constant currentUser calls useCurrentUser
    * @constant sendNotification calls useNotificationCenter
@@ -27,7 +27,7 @@ export const UserPage = (): JSX.Element => {
 
   /**
    * Navigation
-   * 
+   *
    * @constant navigate calls useNavigate from react router
    * @see (@link https://github.com/equinor/fusion)
    */
@@ -35,7 +35,7 @@ export const UserPage = (): JSX.Element => {
 
   /**
    * Styling
-   * 
+   *
    * @constant navStyles calls navigation style from components folder
    * @constant styles calls main app styles
    */
@@ -44,7 +44,7 @@ export const UserPage = (): JSX.Element => {
 
   /**
    * Breadcrumbs
-   * 
+   *
    * @returns current bredcrumbs location with additional properties
    */
   const breadcrumbs = (): BreadcrumbItemProps[] => {
@@ -89,7 +89,7 @@ export const UserPage = (): JSX.Element => {
 
   /**
    * Personal details
-   * 
+   *
    * @returns Personal details object with users inforamtion
    */
   const personDetails = (): PersonDetails => ({
@@ -110,7 +110,6 @@ export const UserPage = (): JSX.Element => {
 
   return (
     <div className={navStyles.flex}>
-      <Navigation selected='user' />
       <div className={styles.container}>
         <div className={navStyles.breadcrumbs}>
           <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumb} />

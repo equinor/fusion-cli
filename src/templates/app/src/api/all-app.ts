@@ -22,19 +22,19 @@ const appSelector = async (x: Response): Promise<Record<string, App>> => {
     return Object.assign(acc, { [current.key]: current });
   }, {});
   console.log(result);
-  
+
   return result;
 };
 
 /**
  * get all registered app from the portal
  */
-export const useAllApps = ():UseQueryResult<Record<string, App>> => {
+export const useAllApps = (): UseQueryResult<Record<string, App>> => {
   /** use the configured HttpClient which is configured by the `portal` key */
   const client = useHttpClient('portal');
   /** memorize the callback function for executing the query  */
   const fn = useMemo(() => getAllApps(client), [client]);
-  return useQuery(QueryKeys.GetAllApps, ({ signal }) => fn({ signal, selector:appSelector }));
+  return useQuery(QueryKeys.GetAllApps, ({ signal }) => fn({ signal, selector: appSelector }));
 };
 
 const getAllApps =
@@ -46,11 +46,11 @@ const getAllApps =
 /**
  * example fuction for updating publish date to todays date
  */
-export const updateApps = async (apps:Record<string, App>):Promise<Record<string, App>> => {
+export const updateApps = async (apps: Record<string, App>): Promise<Record<string, App>> => {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  const result = Object.entries(apps).reduce((obj,[key,value]) => {
-    return Object.assign(obj, {[key]:{...value, publishedDate:Date()}});
-  },{});
+  const result = Object.entries(apps).reduce((obj, [key, value]) => {
+    return Object.assign(obj, { [key]: { ...value, publishedDate: Date() } });
+  }, {});
   return result;
 };
 

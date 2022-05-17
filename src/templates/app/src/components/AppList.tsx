@@ -1,13 +1,12 @@
 import { AppInfo } from './AppInfo';
 import { useAllApps } from '../api';
-import useMySuperFunction from '../api/all-app';
 import useStyles from './AppList.style';
 import useNavStyles from '../components/Navigation.style';
 import { useNavigate } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItemProps } from '@equinor/fusion-react-breadcrumb';
 
 /**
- * 
+ *
  * @returns List of all fusion registered applications from the portal
  */
 export const AppList = (): JSX.Element => {
