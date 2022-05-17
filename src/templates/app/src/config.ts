@@ -7,6 +7,7 @@ export const configCallback: AppConfigurator = async (appModuleConfig, framework
    * this will allow using portal services from the `useHttpClient` with the `portal` key
    */
   await frameworkApi.modules.serviceDiscovery.configureClient('portal', appModuleConfig);
+  await frameworkApi.modules.serviceDiscovery.configureClient('org', appModuleConfig);
 };
 
 export default configCallback;

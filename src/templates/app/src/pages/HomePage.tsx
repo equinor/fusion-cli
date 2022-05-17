@@ -1,4 +1,3 @@
-import { Navigation } from '../components/Navigation';
 import useNavStyles from '../components/Navigation.style';
 import useStyles from '../App.style';
 import { Button } from '@equinor/fusion-react-button';
@@ -9,7 +8,7 @@ import { Divider } from '@equinor/fusion-react-divider';
 
 /**
  * Home Page
- * 
+ *
  * @returns Navigation with few component examples and documentation for React Query
  * React Query @see (@link https://react-query.tanstack.com)
  */
@@ -19,67 +18,36 @@ export const HomePage = (): JSX.Element => {
 
   /**
    * Usage of react components like List, Button, Devider, Tooltip
-   * 
+   *
    * Storybook @see (@link https://equinor.github.io/fusion-react-components/?path=%2Fdocs%2Fintro--page%2F)
    * Git repository @see (@link https://github.com/equinor/fusion-react-components)
    */
   return (
     <div className={navStyles.flex}>
-      <Navigation selected='home' />
       <div className={styles.container}>
         <h1>Welcome to the Fusion CLI</h1>
         <p>Here you can see examples of some of the possibilities that you can use</p>
         <Divider />
-        <h2 className={styles.main_title}>React Query</h2>
-        <p>
-          React Query is often described as the missing data-fetching library for React, but in more technical terms, it
-          makes <strong>fetching, caching, synchronizing and updating server state</strong> in your React applications a
-          breeze.
-        </p>
-        <p>Get yourself familiarized with it:</p>
-        <List className={styles.list}>
-          <ListItem>
-            <a
-              href="https://react-query.tanstack.com/overview"
-              className={styles.list_link}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Overview
-            </a>
-          </ListItem>
-          <ListItem>
-            <a
-              href="https://react-query.tanstack.com/installation"
-              className={styles.list_link}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Installation
-            </a>
-          </ListItem>
-          <ListItem>
-            <a
-              href="https://react-query.tanstack.com/quick-start"
-              className={styles.list_link}
-              target="_blank"
-              rel="noreferrer"
-            >
-              Quick Start
-            </a>
-          </ListItem>
-        </List>
-        <Divider />
         <h2 className={styles.main_title}>Fusion React Components</h2>
         <div className={styles.ml_20}>
           <div className={`${styles.button_container} ${styles.mt_20}`}>
-            <Button variant="contained" onClick={() => { window.open("https://github.com/equinor/fusion-react-components", "_blank") }}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                window.open('https://github.com/equinor/fusion-react-components', '_blank');
+              }}
+            >
               <span slot="icon">
                 <Icon icon="github" />
               </span>
               <span>Github</span>
             </Button>
-            <Button variant="contained" onClick={() => { window.open("https://equinor.github.io/fusion-react-components?path=/docs/intro--page/", "_blank") }}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                window.open('https://equinor.github.io/fusion-react-components?path=/docs/intro--page/', '_blank');
+              }}
+            >
               <span slot="icon">
                 <Icon icon="library_books" />
               </span>
@@ -90,13 +58,23 @@ export const HomePage = (): JSX.Element => {
         <h2 className={styles.main_title}>Fusion Components</h2>
         <div className={styles.ml_20}>
           <div className={`${styles.button_container} ${styles.mt_20}`}>
-            <Button variant="contained" onClick={() => { window.open("https://github.com/equinor/fusion-components", "_blank") }}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                window.open('https://github.com/equinor/fusion-components', '_blank');
+              }}
+            >
               <span slot="icon">
                 <Icon icon="github" />
               </span>
               <span>Github</span>
             </Button>
-            <Button variant="contained" onClick={() => { window.open("https://equinor.github.io/fusion-components", "_blank") }}>
+            <Button
+              variant="contained"
+              onClick={() => {
+                window.open('https://equinor.github.io/fusion-components', '_blank');
+              }}
+            >
               <span slot="icon">
                 <Icon icon="library_books" />
               </span>

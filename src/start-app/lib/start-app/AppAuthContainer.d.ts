@@ -1,10 +1,5 @@
 import { AuthApp, AuthContainer, AuthUser } from '@equinor/fusion';
 import { Fusion } from '@equinor/fusion-framework';
-declare global {
-    interface Window {
-        clientId?: string;
-    }
-}
 export default class AppAuthContainer extends AuthContainer {
     protected _auth: Fusion['modules']['auth'];
     constructor(_auth: Fusion['modules']['auth']);

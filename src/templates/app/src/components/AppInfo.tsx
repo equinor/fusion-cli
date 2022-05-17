@@ -8,13 +8,13 @@ type AppInfoProps = {
 };
 
 /**
- *  
+ *
  * @returns App info element with with default and additional styling, default icon and default title
  */
 export const AppInfo = ({ app }: AppInfoProps): JSX.Element => {
   const { name, category } = app;
   /**
-   * 
+   *
    * @constant styles use styles with category color or if color doesn't exists, use black color
    */
   const styles = useStyles({ color: category?.color || 'black' });
