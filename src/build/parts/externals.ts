@@ -34,12 +34,15 @@ export default (cliDependencies: IDependencyList, moduleDependencies: IDependenc
 
   // enforce externals on React libraries
   externals['react'] = 'FusionReact';
-  // externals['react-dom'] = 'FusionReactDOM';
+  externals['react-dom'] = 'FusionReactDOM';
   // externals['react-router-dom'] = 'FusionReactRouterDOM';
 
     //addIfVersionsMatch('react-dom', 'FusionReactDOM');
     //addIfVersionsMatch('react-router-dom', 'FusionReactRouterDOM');
-    addIfVersionsMatch('@equinor/fusion-components', 'FusionComponents');
+  //  addIfVersionsMatch('@equinor/fusion-components', 'FusionComponents');
+
+  addIfVersionsMatch('@equinor/fusion', 'FusionAPI');
+  addIfVersionsMatch('@equinor/fusion-components', 'FusionComponents');
 
   return {
     externals,
