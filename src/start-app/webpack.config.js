@@ -2,7 +2,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  // mode: 'development',
+  //mode: 'development',
   entry: ['react-hot-loader/patch', './src/start-app/index.tsx'],
   devtool: 'source-map',
   resolve: {
@@ -31,7 +31,7 @@ module.exports = {
         loader: 'source-map-loader',
       },
       // {
-      //   test: require.resolve('react-router-dom/esm/react-router-dom.js'),
+      //   test: require.resolve('react-router-dom'),
       //   loader: 'expose-loader',
       //   options: {
       //     exposes: {
@@ -51,26 +51,26 @@ module.exports = {
         },
       },
 
-      // {
-      //   test: require.resolve('react-dom'),
-      //   loader: 'expose-loader',
-      //   options: {
-      //     exposes: {
-      //       globalName: 'FusionReactDOM',
-      //       override: true,
-      //     },
-      //   },
-      // },
-      // {
-      //   test: require.resolve('@hot-loader/react-dom'),
-      //   loader: 'expose-loader',
-      //   options: {
-      //     exposes: {
-      //       globalName: 'FusionReactDOM',
-      //       override: true,
-      //     },
-      //   },
-      // },
+      {
+        test: require.resolve('react-dom'),
+        loader: 'expose-loader',
+        options: {
+          exposes: {
+            globalName: 'FusionReactDOM',
+            override: true,
+          },
+        },
+      },
+      {
+        test: require.resolve('@hot-loader/react-dom'),
+        loader: 'expose-loader',
+        options: {
+          exposes: {
+            globalName: 'FusionReactDOM',
+            override: true,
+          },
+        },
+      },
       {
         test: require.resolve('@equinor/fusion'),
         loader: 'expose-loader',
