@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import { useCurrentUser, useNotificationCenter, PersonDetails } from '@equinor/fusion';
 import { Breadcrumb, BreadcrumbItemProps } from '@equinor/fusion-react-breadcrumb';
 import { useNavigate } from 'react-router-dom';
-import { Navigation } from '../components/Navigation';
 import useNavStyles from '../components/Navigation.style';
 import useStyles from '../App.style';
-import { PersonDetail } from '@equinor/fusion-components';
+import { PersonDetail, PersonCard } from '@equinor/fusion-components';
 import { Divider } from '@equinor/fusion-react-divider';
 
 /**
@@ -117,6 +116,8 @@ export const UserPage = (): JSX.Element => {
         <div className={styles.user}>
           <PersonDetail person={person} />
         </div>
+        <Divider />
+        <PersonCard person={person} />
         <Divider />
         <p>Here are some information that might be usefull to you:</p>
         <div>
