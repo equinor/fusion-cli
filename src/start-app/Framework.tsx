@@ -24,10 +24,10 @@ export const Framework = createFrameworkProvider(async (config) => {
     console.debug('framework config done');
   });
   // TODO - this is ninja, make a auth provider
-  config.onAfterInit(async (fusion) => {
-    await fusion.auth.handleRedirect();
-    if (!fusion.auth.defaultAccount) {
-      await fusion.auth.login();
+  config.onAfterInit(async ({ auth }) => {
+    await auth.handleRedirect();
+    if (!auth.defaultAccount) {
+      await auth.login();
     }
   });
 
