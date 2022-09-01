@@ -19,13 +19,14 @@ export default (cliDependencies: IDependencyList, moduleDependencies: IDependenc
     externals['@equinor/fusion-react-styles'] = 'FusionReactStyles';
   }
 
-  const addIfVersionsMatch = (key: string, value: string) => {
+  const addIfVersionsMatch = (key: string, value: string, match?: (version?: string) => boolean) => {
     const moduleVersion = parseVersion(moduleDependencies[key]);
     const cliVersion = parseVersion(cliDependencies[key]);
 
     if (!moduleVersion || cliVersion === moduleVersion) {
+      console.info(`Using ${key}@${cliVersion} from cli`);
       externals[key] = value;
-    } else {
+    } else if (moduleVersion) {
       console.warn(
         `Using ${key}@${moduleVersion} instead of the built in version (v${cliVersion})! This will add to the bundle size!`
       );
@@ -37,8 +38,12 @@ export default (cliDependencies: IDependencyList, moduleDependencies: IDependenc
   externals['react-dom'] = 'FusionReactDOM';
   // externals['react-router-dom'] = 'FusionReactRouterDOM';
 
-    //addIfVersionsMatch('react-dom', 'FusionReactDOM');
-    //addIfVersionsMatch('react-router-dom', 'FusionReactRouterDOM');
+  if (parseVersion(moduleDependencies['react-router']).startsWith('5')) {
+    console.info('using legacy routing system (ReactRouter@5)');
+    externals['react-router'] = 'FusionReactRouter';
+    externals['react-router-dom'] = 'FusionReactRouterDOM';
+  }
+  //addIfVersionsMatch('react-router-dom', 'FusionReactRouterDOM');
   //  addIfVersionsMatch('@equinor/fusion-components', 'FusionComponents');
 
   addIfVersionsMatch('@equinor/fusion', 'FusionAPI');

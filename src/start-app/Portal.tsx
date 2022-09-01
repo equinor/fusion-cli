@@ -15,7 +15,7 @@ import {
 import { HotAppWrapper } from './HotAppWrapper';
 import createAuthContainer from './create-auth-container';
 import { BrowserRouter } from 'react-router-dom';
-import { createBrowserHistory } from 'react-router/node_modules/history';
+import { createBrowserHistory } from 'history';
 
 const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
   return app?.context?.types.length ? <ContextSelector /> : null;
@@ -74,8 +74,6 @@ export const Portal = () => {
     //@ts-ignore
     browserHistory
   );
-
-  const { history } = fusionContext;
 
   return (
     <FusionContext.Provider value={fusionContext}>

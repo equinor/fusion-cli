@@ -9,16 +9,28 @@ import { useFramework } from '@equinor/fusion-framework-react/hooks';
 
 import { StarProgress } from '@equinor/fusion-react-progress-indicator';
 
+import { Router, BrowserRouter } from 'react-router-dom';
+
 const AppLoader = ({ app }: { app: AppManifest }) => {
-  console.log(20, 'rendering app');
+  console.log('🥷🏻 rendering app');
   const framework = useFramework();
+  const { history } = useFusionContext();
   const Component = useMemo(() => {
-    console.log(21, 'created app component');
+    console.log('🥷🏻 created app component');
+    const { AppComponent, render } = app;
+    console.log(history);
     // @ts-ignore
-    return app.render ? app.render(framework, app) : app.AppComponent;
+    return render
+      ? render(framework, app)
+      : () => (
+          <BrowserRouter>
+            <Router history={history}>
+              <AppComponent />
+            </Router>
+          </BrowserRouter>
+        );
   }, [app, framework]);
 
-  // const Component = app.render ? app.render(framework, app) : app.AppComponent;
   return (
     <Suspense fallback={<StarProgress>Loading Application</StarProgress>}>
       <Component />
@@ -29,7 +41,7 @@ const AppLoader = ({ app }: { app: AppManifest }) => {
 const getFirstApp = (apps: Record<string, AppManifest>) => Object.keys(apps)[0];
 
 export const HotAppWrapper: FunctionComponent = () => {
-  console.log(10, 'app wrapper start');
+  console.log('🥷🏻  app wrapper start');
   const {
     app: { container: appContainer },
   } = useFusionContext();
@@ -38,16 +50,16 @@ export const HotAppWrapper: FunctionComponent = () => {
   const sendNotification = useNotificationCenter();
 
   useEffect(() => {
-    console.log(11, 'loading script');
+    console.log('🥷🏻  loading script');
     const script = document.createElement('script');
     script.src = '/app.bundle.js';
     script.onload = () => {
-      console.log(12, 'app bundle loaded');
+      console.log('🥷🏻 app bundle loaded');
       appContainer.setCurrentAppAsync(getFirstApp(appContainer.allApps));
     };
     document.head.appendChild(script);
     const unsubscribe = appContainer.on('update', (apps) => {
-      console.log(13, 'app container changed');
+      console.log('🥷🏻 app container changed');
       appContainer.setCurrentAppAsync(getFirstApp(apps));
     });
     return () => {
