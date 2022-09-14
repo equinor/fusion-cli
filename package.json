@@ -61,11 +61,10 @@
         "webpack-merge": "^5.8.0"
     },
     "peerDependencies": {
-        "@equinor/fusion-framework-react-app": "^0.7.0-next.0",
         "@equinor/eslint-config-fusion": "^0.1.2",
         "@equinor/fusion": "^3.3.19",
         "@equinor/fusion-components": "^2.5.28",
-        "@equinor/fusion-framework-react": "^0.1.19",
+        "@equinor/fusion-framework-react": "^1.0.3",
         "@types/react": "^17.0.0 || ^18.0.0",
         "@types/react-dom": "^17.0.0 || ^18.0.0",
         "@types/react-router": "^5.0.0",
@@ -78,9 +77,6 @@
     },
     "peerDependenciesMeta": {
         "@equinor/eslint-config-fusion": {
-            "optional": true
-        },
-        "@equinor/fusion-framework-react-app": {
             "optional": true
         },
         "@equinor/fusion": {
@@ -109,12 +105,11 @@
         }
     },
     "devDependencies": {
-        "@equinor/fusion-framework-react-app": "^0.7.0-next.0",
         "@babel/plugin-transform-runtime": "^7.16.0",
         "@equinor/eslint-config-fusion": "^0.1.2",
         "@equinor/fusion": "^3.3.21",
         "@equinor/fusion-components": "^2.5.28",
-        "@equinor/fusion-framework-react": "^0.2.20-next.0",
+        "@equinor/fusion-framework-react": "^1.0.5",
         "@oclif/dev-cli": "^1.26.0",
         "@oclif/test": "^1.2.8",
         "@oclif/tslint": "^3.1.1",
