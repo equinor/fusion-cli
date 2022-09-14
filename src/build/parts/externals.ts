@@ -15,9 +15,7 @@ const parseVersion = (version?: string | null) =>
 
 export default (cliDependencies: IDependencyList, moduleDependencies: IDependencyList): webpack.Configuration => {
   const externals: Record<string, string> = {};
-  if (!process.env.DEVELOPMENT) {
-    externals['@equinor/fusion-react-styles'] = 'FusionReactStyles';
-  }
+  const isProduction = !process.env.DEVELOPMENT;
 
   const addIfVersionsMatch = (key: string, value: string, match?: (version?: string) => boolean) => {
     const moduleVersion = parseVersion(moduleDependencies[key]);
@@ -36,13 +34,21 @@ export default (cliDependencies: IDependencyList, moduleDependencies: IDependenc
   // enforce externals on React libraries
   externals['react'] = 'FusionReact';
   externals['react-dom'] = 'FusionReactDOM';
-  // externals['react-router-dom'] = 'FusionReactRouterDOM';
 
-  if (parseVersion(moduleDependencies['react-router']).startsWith('5')) {
-    console.info('using legacy routing system (ReactRouter@5)');
-    externals['react-router'] = 'FusionReactRouter';
-    externals['react-router-dom'] = 'FusionReactRouterDOM';
+  if (isProduction) {
+    externals['@equinor/fusion-react-styles'] = 'FusionReactStyles';
+    if (parseVersion(moduleDependencies['react-router']).startsWith('5')) {
+      console.info('using legacy routing system (ReactRouter@5)');
+      externals['react-router'] = 'FusionReactRouter';
+      externals['react-router-dom'] = 'FusionReactRouterDOM';
+    }
   }
+
+  // if (isProduction && parseVersion(moduleDependencies['react-router']).startsWith('5')) {
+  //   console.info('using legacy routing system (ReactRouter@5)');
+  //   externals['react-router'] = 'FusionReactRouter';
+  //   externals['react-router-dom'] = 'FusionReactRouterDOM';
+  // }
   //addIfVersionsMatch('react-router-dom', 'FusionReactRouterDOM');
   //  addIfVersionsMatch('@equinor/fusion-components', 'FusionComponents');
 
