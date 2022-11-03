@@ -24,7 +24,7 @@ export const AppComponent: FC = () => {
             operator: 'In',
             values: [currentContext?.title || 'No context. Show empty report'],
         };
-    }, [currentContext?.id]);
+    }, [currentContext]);
 
     return (
         <ErrorBoundary>
