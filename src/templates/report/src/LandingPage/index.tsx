@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/** @ts-ignore */
 import * as styles from './styles.less';
 
 const LandingPage = (): JSX.Element => {
