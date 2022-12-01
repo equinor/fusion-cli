@@ -109,7 +109,7 @@ const promptForMissingOptions = async (options: ICreateAppOptions): Promise<Reco
     templateQuestion.push({
       default: 'app',
       message: 'Please enter a app template (app | report): ',
-      name: 'template',
+      name: 'templateName',
       type: 'input',
     });
   }
@@ -217,6 +217,12 @@ const updatePackageConfig = async (options: ICreateAppOptions) => {
     ...config.scripts,
   };
 
+  if (options.templateName === 'report' && options.hasContext) {
+    config.manifest.context = {
+      types: ['ProjectMaster'],
+    };
+  }
+
   fs.writeFileSync(configPath, JSON.stringify(config, null, 4));
 };
 
@@ -232,9 +238,18 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
   replaceMap.GLOBALID = options.globalId;
   updatePipelineTemplate(options);
   if (options.templateName === 'report') {
-    updateAppTemplate(path.join(dirPath, 'App.tsx'), replaceMap);
-    updateAppTemplate(path.join(dirPath, 'AppWithContext.tsx'), replaceMap);
-    createAppIndex(dirPath, options.hasContext ? 'AppWithContext' : 'App');
+    if (options.hasContext) {
+      updateAppTemplate(path.join(dirPath, 'AppWithContext.tsx'), replaceMap);
+      createAppIndex(dirPath, 'AppWithContext');
+      // delete Non-context files
+      fs.rm(path.join(dirPath, 'App.tsx'), () => null);
+    } else {
+      updateAppTemplate(path.join(dirPath, 'App.tsx'), replaceMap);
+      createAppIndex(dirPath, 'App');
+      // delete context files
+      fs.rmdir(path.join(dirPath, 'LandingPage'), { recursive: true }, () => null);
+      fs.rm(path.join(dirPath, 'AppWithContext.tsx'), () => null);
+    }
   } else {
     updateAppTemplate(path.join(dirPath, 'index.tsx'), replaceMap);
   }
@@ -243,7 +258,7 @@ const copyTemplateFiles = async (options: ICreateAppOptions): Promise<boolean> =
 };
 
 const createAppIndex = (filePath: string, name = 'App') => {
-  fs.writeFileSync(path.join(filePath, 'index.tsx'), `import './${name}';`);
+  fs.writeFileSync(path.join(filePath, 'index.tsx'), `import './${name}';\r\n`);
 };
 
 const updateAppTemplate = (filePath: string, keys: Record<string, string | undefined>) => {

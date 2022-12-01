@@ -3,11 +3,11 @@ import * as Listr from 'listr';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as util from 'util';
-import * as webpack from 'webpack';
+import webpack from 'webpack';
 import * as rimraf from 'rimraf';
 import * as archiver from 'archiver';
 
-import { merge } from 'webpack-merge';
+import merge from 'webpack-merge';
 import babel from '../build/parts/babel';
 import entry from '../build/parts/entry';
 import images from '../build/parts/images';
