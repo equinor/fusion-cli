@@ -1,6 +1,6 @@
-import * as styles from "./styles.less";
+import * as styles from './styles.less';
 
-const LandingPage = () => {
+const LandingPage = (): JSX.Element => {
     return (
         <h2 className={styles.LandingPage}>
             <br />
