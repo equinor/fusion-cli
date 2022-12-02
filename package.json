@@ -85,6 +85,9 @@
         "@equinor/fusion-components": {
             "optional": true
         },
+        "@equinor/fusion-framework-react": {
+            "optional": true
+        },
         "@types/react": {
             "optional": true
         },
