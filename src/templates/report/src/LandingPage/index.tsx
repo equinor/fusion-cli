@@ -1,6 +1,8 @@
-import * as styles from "./styles.less";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+/** @ts-ignore */
+import * as styles from './styles.less';
 
-const LandingPage = () => {
+const LandingPage = (): JSX.Element => {
     return (
         <h2 className={styles.LandingPage}>
             <br />
