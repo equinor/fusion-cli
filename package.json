@@ -64,7 +64,7 @@
         "@equinor/eslint-config-fusion": "^0.1.2",
         "@equinor/fusion": "^3.3.19",
         "@equinor/fusion-components": "^2.5.28",
-        "@equinor/fusion-framework-react": "^1.0.3",
+        "@equinor/fusion-framework-react": "^1.0.3 | ^2.0.3",
         "@types/react": "^17.0.0 || ^18.0.0",
         "@types/react-dom": "^17.0.0 || ^18.0.0",
         "@types/react-router": "^5.0.0",
