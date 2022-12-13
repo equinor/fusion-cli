@@ -33,9 +33,10 @@ const openBrowser = async (port: number) => {
 export default async (args?: StartOptions) => {
   const appPackage = await getPackageAsync(path.resolve(process.cwd()));
   const cliPackage = await getPackageAsync(path.resolve(__dirname, '..', '..', '..'));
-  const cliDependencies = await getPackageDependencies(cliPackage);
-  const moduleDependencies = await getPackageDependencies(appPackage);
+  const cliDependencies = getPackageDependencies(cliPackage);
+  const moduleDependencies = getPackageDependencies(appPackage);
 
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
   const config = merge(
     babel,

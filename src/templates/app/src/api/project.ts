@@ -1,15 +1,15 @@
 import { useMemo } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, UseQueryResult } from 'react-query';
 
-import { useHttpClient } from '@equinor/fusion-framework-react-app/hooks';
+import { useHttpClient } from '@equinor/fusion-framework-react-app/http';
 
-import type { FetchRequestInit, IHttpClient } from '@equinor/fusion-framework-react-app/hooks/http';
+import type { FetchRequestInit, IHttpClient } from '@equinor/fusion-framework-react-app/http';
 
 import { QueryKeys } from './constants';
 
 const projectSelector = (response: Response) => response.json();
 
-export const useOrgProject = (id?: string) => {
+export const useOrgProject = (id?: string): UseQueryResult => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore - @odinr fix this typing to any-string ;)
   const client = useHttpClient('org');
