@@ -1,9 +1,3 @@
-import { StarProgress } from '@equinor/fusion-react-progress-indicator';
-import { render } from '@hot-loader/react-dom';
-import { Suspense } from 'react';
-import Framework from './Framework';
-import Portal from './Portal';
-
 // TODO: @odinr please fix me
 const _customElementsDefine = window.customElements.define;
 window.customElements.define = (name, cl, conf) => {
@@ -13,6 +7,12 @@ window.customElements.define = (name, cl, conf) => {
     console.debug(`${name} has been defined twice`);
   }
 };
+
+import { StarProgress } from '@equinor/fusion-react-progress-indicator';
+import { render } from '@hot-loader/react-dom';
+import React, { Suspense } from 'react';
+import Framework from './Framework';
+import Portal from './Portal';
 
 render(
   <Suspense fallback={<StarProgress text="Loading framework" />}>

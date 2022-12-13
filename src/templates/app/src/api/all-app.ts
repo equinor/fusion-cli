@@ -1,5 +1,5 @@
-import { useHttpClient } from '@equinor/fusion-framework-react-app/hooks';
-import type { IHttpClient, FetchRequestInit } from '@equinor/fusion-framework-react-app/hooks/http';
+import { useHttpClient } from '@equinor/fusion-framework-react-app/http';
+import type { IHttpClient, FetchRequestInit } from '@equinor/fusion-framework-react-app/http';
 import { useQuery, UseQueryResult } from 'react-query';
 import { App } from '../types';
 import { useMemo } from 'react';

@@ -1,4 +1,7 @@
+/* global module require __dirname */
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
