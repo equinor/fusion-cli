@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 
 import { FusionContext } from '@equinor/fusion';
 import { ThemeProvider } from '@equinor/fusion-react-styles';

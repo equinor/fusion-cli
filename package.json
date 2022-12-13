@@ -111,7 +111,7 @@
         "@babel/plugin-transform-runtime": "^7.16.0",
         "@equinor/eslint-config-fusion": "^0.1.2",
         "@equinor/fusion": "^3.4.4",
-        "@equinor/fusion-components": "^2.5.28",
+        "@equinor/fusion-components": "^2.7.4",
         "@equinor/fusion-framework-app": "^5.0.1",
         "@equinor/fusion-framework-module-app": "^3.1.0",
         "@equinor/fusion-framework-react": "^2.0.24",
@@ -131,7 +131,7 @@
         "@types/log-symbols": "^3.0.0",
         "@types/mocha": "^9.0.0",
         "@types/node": "^16.9.0",
-        "@types/react": "^17.0.20",
+        "@types/react": "^17.0.2",
         "@types/react-dom": "^17.0.9",
         "@types/react-router": "^5.1.18",
         "@types/react-router-dom": "^5.3.3",
@@ -191,5 +191,8 @@
     "types": "lib/index.d.ts",
     "publishConfig": {
         "access": "public"
+    },
+    "resolutions": {
+        "@types/react": "17.0.2"
     }
 }
