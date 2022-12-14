@@ -1,0 +1,176 @@
+import React, { useCallback, useMemo, useState } from 'react';
+import { useFramework } from '@equinor/fusion-framework-react';
+import { useCurrentApp } from '@equinor/fusion-framework-react/app';
+import { ContextItem, ContextModule, IContextProvider } from '@equinor/fusion-framework-module-context';
+import { useObservableState, useObservableSubscription } from '@equinor/fusion-observable/react';
+import '@equinor/fusion-framework-app';
+
+import { EMPTY } from 'rxjs';
+
+import {
+  ContextProvider as ContextProviderComponent,
+  ContextSelector as ContextSelectorComponent,
+  ContextResult,
+  ContextResultItem,
+  ContextResolver,
+  ContextSelectEvent,
+} from '@equinor/fusion-react-context-selector';
+import { AppModulesInstance } from '@equinor/fusion-framework-app';
+
+/**
+ * Map context query result to ContextSelectorResult.
+ * Add any icons to selected types by using the 'graphic' property
+ * @param src context query result
+ * @returns src mapped to ContextResult type
+ */
+const mapper = (src: Array<ContextItem>): ContextResult => {
+  return src.map((i) => {
+    return {
+      id: i.id,
+      title: i.title,
+      subTitle: i.type.id,
+      graphic: i.type.id === 'OrgChart' ? 'list' : undefined,
+    };
+  });
+};
+
+/**
+ * Create a single ContextResultItem
+ * @param props pops for the item to merge with defaults
+ * @returns ContextResultItem
+ */
+const singleItem = (props: Partial<ContextResultItem>): ContextResultItem => {
+  return Object.assign({ id: 'no-such-item', title: 'Change me' }, props);
+};
+
+const noPreselect: ContextResult = [];
+
+/**
+ * Hook for querying context and setting resolver for ContextSelector component
+ * See React Components storybook for info about ContextSelector component and its resolver
+ * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
+ * @return Array<ContextResolver, SetContextCallback>
+ */
+const useQueryContext = (): [ContextResolver, (e: ContextSelectEvent) => void] => {
+  /* Framework modules */
+  const framework = useFramework();
+
+  /* Current context observable */
+  const currentContext = useObservableState(framework.modules.context.currentContext$);
+
+  /* Set currentContext as initialResult in dropdown  */
+  const preselected: ContextResult = useMemo(
+    () => (currentContext ? mapper([currentContext]) : noPreselect),
+    [currentContext]
+  );
+
+  /* context provider state */
+  const [provider, setProvider] = useState<IContextProvider | null>(null);
+
+  const { currentApp } = useCurrentApp();
+
+  console.log('Current App', currentApp);
+
+  /** App module collection instance */
+  const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);
+
+  /** callback function when current app instance changes */
+  const onContextProviderChange = useCallback(
+    (modules: AppModulesInstance) => {
+      /** try to get the context module from the app module instance */
+      const contextProvider = (modules as AppModulesInstance<[ContextModule]>).context;
+      if (contextProvider) {
+        setProvider(contextProvider);
+      }
+    },
+    [setProvider]
+  );
+
+  /** clear the app provider */
+  const clearContextProvider = useCallback(() => setProvider(null), [setProvider]);
+
+  /** observe changes to app modules and  clear / set the context provider on change */
+  useObservableSubscription(instance$, onContextProviderChange, clearContextProvider);
+
+  /**
+   * Set context provider state if this app triggered the event.
+   * and only if the app has a context
+   * */
+
+  /**
+   * set resolver for ContextSelector
+   * @return ContextResolver
+   */
+  const minLength = 3;
+  const resolver = useMemo(
+    (): ContextResolver => ({
+      searchQuery: async (search: string) => {
+        if (!provider) {
+          return [];
+        }
+        if (search.length < minLength) {
+          return [
+            singleItem({
+              id: 'min-length',
+              title: `Type ${minLength - search.length} more chars to search`,
+              isDisabled: true,
+            }),
+          ];
+        }
+        try {
+          const result = await provider.queryContextAsync(search);
+          if (result.length) {
+            return mapper(result);
+          }
+          return [
+            singleItem({
+              id: 'no-results',
+              title: 'No results found',
+              isDisabled: true,
+            }),
+          ];
+        } catch (e) {
+          console.log('ContextResolver query was cancelled');
+          return [];
+        }
+      },
+      initialResult: preselected,
+    }),
+    [provider, preselected]
+  );
+
+  /* Callback for setting current context to selected item id. */
+  const setContext = useCallback(
+    (e: ContextSelectEvent): void => {
+      if (e.nativeEvent.detail?.selected.length) {
+        framework.modules.context.contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
+      }
+    },
+    [framework]
+  );
+
+  return [resolver, setContext];
+};
+
+/**
+ * See fusion-react-component storybook for available attributes
+ * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
+ * @returns JSX element
+ */
+export const ContextSelector = (): JSX.Element => {
+  const [resolver, setContext] = useQueryContext();
+  return (
+    <ContextProviderComponent resolver={resolver}>
+      <ContextSelectorComponent
+        id="context-selector-header"
+        placeholder="Search for context"
+        initialText="Start typing to search"
+        dropdownHeight="300px"
+        variant="header"
+        onSelect={setContext}
+      ></ContextSelectorComponent>
+    </ContextProviderComponent>
+  );
+};
+
+export default ContextSelector;

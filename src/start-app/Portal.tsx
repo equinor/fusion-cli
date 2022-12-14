@@ -1,24 +1,20 @@
 /* eslint-disable react/no-multi-comp */
-import React, { FunctionComponent, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { createFusionContext, FusionContext, ServiceResolver } from '@equinor/fusion';
 import { ThemeProvider } from '@equinor/fusion-react-styles';
-import {
-  FusionRoot,
-  FusionHeader,
-  FusionContent,
-  HeaderContentProps,
-  ContextSelector,
-} from '@equinor/fusion-components';
+import { FusionRoot, FusionHeader, FusionContent, HeaderContentProps } from '@equinor/fusion-components';
 
 import { HotAppWrapper } from './HotAppWrapper';
 import createAuthContainer from './create-auth-container';
 import { BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
-const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
-  return app?.context?.types.length ? <ContextSelector /> : null;
-};
+import { ContextSelector } from './ContextSelector';
+
+// const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
+//   return app?.context?.types.length ? <ContextSelectorComponent /> : null;
+// };
 
 const serviceResolver: ServiceResolver = {
   getContextBaseUrl: () => 'https://pro-s-context-ci.azurewebsites.net',
@@ -78,7 +74,7 @@ export const Portal = (): JSX.Element => {
       <ThemeProvider seed="fusion-dev-app">
         <FusionRoot rootRef={root} overlayRef={overlay}>
           <BrowserRouter>
-            <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
+            <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />
           </BrowserRouter>
           <FusionContent>
             <HotAppWrapper />
