@@ -1,15 +1,9 @@
 /* eslint-disable react/no-multi-comp */
-import React, { FunctionComponent, useRef } from 'react';
+import React, { useRef } from 'react';
 
 import { FusionContext } from '@equinor/fusion';
 import { ThemeProvider } from '@equinor/fusion-react-styles';
-import {
-  FusionRoot,
-  FusionHeader,
-  FusionContent,
-  HeaderContentProps,
-  ContextSelector,
-} from '@equinor/fusion-components';
+import { FusionRoot, FusionHeader, FusionContent, HeaderContentProps } from '@equinor/fusion-components';
 
 import { createFusionContext } from './create-fusion-context';
 
@@ -19,9 +13,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { AppModule } from '@equinor/fusion-framework-module-app';
 
-const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
-  return app?.context?.types.length ? <ContextSelector /> : null;
-};
+import { ContextSelector } from './ContextSelector';
+
+// const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
+//   return app?.context?.types.length ? <ContextSelectorComponent /> : null;
+// };
 
 export const Portal = () => {
   console.log(1, 'rerendering portal');
@@ -53,7 +49,7 @@ export const Portal = () => {
       <ThemeProvider seed="fusion-dev-app">
         <FusionRoot rootRef={root} overlayRef={overlay}>
           <BrowserRouter>
-            <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
+            <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />
           </BrowserRouter>
           <FusionContent>
             <HotAppWrapper />
