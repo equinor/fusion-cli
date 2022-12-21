@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 
 import { createFusionContext, FusionContext, ServiceResolver } from '@equinor/fusion';
 import { ThemeProvider } from '@equinor/fusion-react-styles';
-import { FusionRoot, FusionHeader, FusionContent, HeaderContentProps } from '@equinor/fusion-components';
+import { FusionRoot, FusionHeader, FusionContent } from '@equinor/fusion-components';
 
 import { HotAppWrapper } from './HotAppWrapper';
 import createAuthContainer from './create-auth-container';
@@ -13,7 +13,9 @@ import { createBrowserHistory } from 'history';
 import { ContextSelector } from './ContextSelector';
 
 // const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
-//   return app?.context?.types.length ? <ContextSelectorComponent /> : null;
+//   console.log('HEADECONTEXTSELECTR', app);
+//   return <ContextSelector />;
+//   // return app?.context?.types.length ? <ContextSelector /> : null;
 // };
 
 const serviceResolver: ServiceResolver = {

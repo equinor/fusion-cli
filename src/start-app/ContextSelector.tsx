@@ -69,10 +69,10 @@ const useQueryContext = (): [ContextResolver, (e: ContextSelectEvent) => void] =
 
   const { currentApp } = useCurrentApp();
 
-  console.log('Current App', currentApp);
-
   /** App module collection instance */
   const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);
+
+  console.log('Current App instance', instance$);
 
   /** callback function when current app instance changes */
   const onContextProviderChange = useCallback(
@@ -105,6 +105,8 @@ const useQueryContext = (): [ContextResolver, (e: ContextSelectEvent) => void] =
   const resolver = useMemo(
     (): ContextResolver => ({
       searchQuery: async (search: string) => {
+        console.log('searchQuery = ', `"${search}"`);
+        console.log('Resolver provider = ', provider);
         if (!provider) {
           return [];
         }
