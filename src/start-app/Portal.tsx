@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 
 import { FusionContext } from '@equinor/fusion';
 import { ThemeProvider } from '@equinor/fusion-react-styles';
-import { FusionRoot, FusionHeader, FusionContent, HeaderContentProps } from '@equinor/fusion-components';
+import { FusionRoot, FusionHeader, FusionContent } from '@equinor/fusion-components';
 
 import { createFusionContext } from './create-fusion-context';
 
@@ -16,7 +16,9 @@ import { AppModule } from '@equinor/fusion-framework-module-app';
 import { ContextSelector } from './ContextSelector';
 
 // const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
-//   return app?.context?.types.length ? <ContextSelectorComponent /> : null;
+//   console.log('HEADECONTEXTSELECTR', app);
+//   return <ContextSelector />;
+//   // return app?.context?.types.length ? <ContextSelector /> : null;
 // };
 
 export const Portal = () => {

@@ -19,7 +19,7 @@
   "dependencies": {
     "@equinor/fusion": "^3.3.10",
     "@equinor/fusion-components": "^2.5.28",
-    "@equinor/fusion-framework-react-app": "^2.0.17",
+    "@equinor/fusion-framework-react-app": "^2.0.19",
     "@equinor/fusion-react-avatar": "^0.3.8",
     "@equinor/fusion-react-breadcrumb": "^0.1.1",
     "@equinor/fusion-react-button": "^0.3.8",

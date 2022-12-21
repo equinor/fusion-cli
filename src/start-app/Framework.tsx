@@ -1,3 +1,4 @@
+import { enableAppModule } from '@equinor/fusion-framework-module-app';
 import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 import { enableAppModule } from '@equinor/fusion-framework-module-app';
 
@@ -27,6 +28,8 @@ export const Framework = createFrameworkProvider(async (config) => {
       defaultScopes: ['97978493-9777-4d48-b38a-67b0b9cd88d2/.default'],
     },
   });
+
+  enableAppModule(config);
 
   await new Promise((resolve) => setTimeout(resolve, timestamp - Date.now() + 3000));
 });
