@@ -5,8 +5,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  // TODO - comment out before merge!
-  mode: 'development',
+  // mode: 'development',
   entry: ['react-hot-loader/patch', './src/start-app/index.tsx'],
   devtool: 'source-map',
   resolve: {
