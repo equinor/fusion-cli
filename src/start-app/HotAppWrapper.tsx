@@ -16,17 +16,12 @@ import { Router, BrowserRouter } from 'react-router-dom';
 import { App } from '@equinor/fusion-framework-module-app';
 // import { enableContext } from '@equinor/fusion-framework-react-module-context';
 import { useObservableState } from '@equinor/fusion-observable/react';
-///
 
 const AppLoader = ({ app }: { app: App }) => {
-  console.log('🥷🏻 rendering app', app);
+  console.log('🥷🏻 rendering app');
   const framework = useFramework<[AppModule]>();
-  console.log('FRAMEWORK', framework.modules.app);
-
   const { history } = useFusionContext();
-
   const { manifest, config } = app.state;
-
   const Component = useMemo(() => {
     console.log('🥷🏻 created app component');
     // @ts-ignore
@@ -40,7 +35,7 @@ const AppLoader = ({ app }: { app: App }) => {
             </Router>
           </BrowserRouter>
         );
-  }, [app, framework, history]);
+  }, [framework, history, config, manifest]);
 
   return (
     <Suspense fallback={<StarProgress>Loading Application</StarProgress>}>
@@ -62,8 +57,6 @@ export const HotAppWrapper: FunctionComponent = () => {
 
   const currentApp = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
 
-  // const currentApp = useCurrentApp();
-  console.log('Current App', currentApp);
   const sendNotification = useNotificationCenter();
 
   useEffect(() => {
@@ -105,7 +98,7 @@ export const HotAppWrapper: FunctionComponent = () => {
       script.remove();
       // unsubscribe();
     };
-  }, [appContainer]);
+  }, [appContainer, framework]);
 
   useEffect(() => {
     currentApp &&
