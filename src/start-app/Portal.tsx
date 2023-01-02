@@ -1,22 +1,25 @@
 /* eslint-disable react/no-multi-comp */
-import React, { useRef } from 'react';
+import React, { useRef, FunctionComponent, useEffect } from 'react';
 
 import { createFusionContext, FusionContext, ServiceResolver } from '@equinor/fusion';
 import { ThemeProvider } from '@equinor/fusion-react-styles';
-import { FusionRoot, FusionHeader, FusionContent } from '@equinor/fusion-components';
+import { FusionRoot, FusionHeader, FusionContent, HeaderContentProps } from '@equinor/fusion-components';
 
 import { HotAppWrapper } from './HotAppWrapper';
 import createAuthContainer from './create-auth-container';
 import { BrowserRouter } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
-import { ContextSelector } from './ContextSelector';
+import { useFramework } from '@equinor/fusion-framework-react';
+import { ContextSelector, ContextSelectorProvider } from './components/ContextSelector';
 
-// const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
-//   console.log('HEADECONTEXTSELECTR', app);
-//   return <ContextSelector />;
-//   // return app?.context?.types.length ? <ContextSelector /> : null;
-// };
+const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
+  const framework = useFramework();
+  if (!app?.context && !framework.modules.context) {
+    return null;
+  }
+  return <ContextSelector />;
+};
 
 const serviceResolver: ServiceResolver = {
   getContextBaseUrl: () => 'https://pro-s-context-ci.azurewebsites.net',
@@ -38,6 +41,9 @@ const serviceResolver: ServiceResolver = {
 
 export const Portal = (): JSX.Element => {
   console.log(1, 'rerendering portal');
+
+  const framework = useFramework();
+
   const rootEl = document.createElement('div');
   const overlayEl = document.createElement('div');
 
@@ -53,6 +59,15 @@ export const Portal = (): JSX.Element => {
   const headerAppAside = useRef<HTMLElement | null>(null);
 
   const browserHistory = createBrowserHistory();
+
+  useEffect(() => {
+    return framework.modules.event.addEventListener('onCurrentContextChanged', (e) => {
+      if (e.detail.next?.id) {
+        browserHistory.replace(window.location.pathname.replace(/^\/?.*\/?/, `/${e.detail.next?.id}`));
+      }
+    });
+  }, [browserHistory, framework]);
+
   const fusionContext = createFusionContext(
     authContainer,
     serviceResolver,
@@ -75,12 +90,14 @@ export const Portal = (): JSX.Element => {
     <FusionContext.Provider value={fusionContext}>
       <ThemeProvider seed="fusion-dev-app">
         <FusionRoot rootRef={root} overlayRef={overlay}>
-          <BrowserRouter>
-            <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />
-          </BrowserRouter>
-          <FusionContent>
-            <HotAppWrapper />
-          </FusionContent>
+          <ContextSelectorProvider>
+            <BrowserRouter>
+              <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
+            </BrowserRouter>
+            <FusionContent>
+              <HotAppWrapper />
+            </FusionContent>
+          </ContextSelectorProvider>
         </FusionRoot>
       </ThemeProvider>
     </FusionContext.Provider>
