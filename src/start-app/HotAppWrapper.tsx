@@ -11,8 +11,6 @@ import { StarProgress } from '@equinor/fusion-react-progress-indicator';
 
 import { Router, BrowserRouter } from 'react-router-dom';
 
-///
-
 import { App } from '@equinor/fusion-framework-module-app';
 // import { enableContext } from '@equinor/fusion-framework-react-module-context';
 import { useObservableState } from '@equinor/fusion-observable/react';
@@ -71,6 +69,7 @@ export const HotAppWrapper: FunctionComponent = () => {
       }, 100);
 =======
       const appKey = getFirstApp(appContainer.allApps);
+
       appContainer.setCurrentAppAsync(appKey);
       const manifest = appContainer.allApps[appKey];
       // @ts-ignore

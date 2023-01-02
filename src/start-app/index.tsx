@@ -1,12 +1,12 @@
 import './customElementPolyfill';
-import { StarProgress } from '@equinor/fusion-react-progress-indicator';
 import { render } from '@hot-loader/react-dom';
 import React, { Suspense } from 'react';
 import Framework from './Framework';
 import Portal from './Portal';
+import Loader from './Loader';
 
 render(
-  <Suspense fallback={<StarProgress text="Loading framework" />}>
+  <Suspense fallback={<Loader />}>
     <Framework>
       <Portal />
     </Framework>

@@ -1,9 +1,9 @@
 /* eslint-disable react/no-multi-comp */
-import React, { useRef } from 'react';
+import React, { useRef, FunctionComponent } from 'react';
 
 import { FusionContext } from '@equinor/fusion';
 import { ThemeProvider } from '@equinor/fusion-react-styles';
-import { FusionRoot, FusionHeader, FusionContent } from '@equinor/fusion-components';
+import { FusionRoot, FusionHeader, FusionContent, HeaderContentProps } from '@equinor/fusion-components';
 
 import { createFusionContext } from './create-fusion-context';
 
@@ -13,16 +13,19 @@ import { BrowserRouter } from 'react-router-dom';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { AppModule } from '@equinor/fusion-framework-module-app';
 
-import { ContextSelector } from './ContextSelector';
+import { ContextSelector, ContextSelectorProvider } from './components/ContextSelector';
 
-// const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
-//   console.log('HEADECONTEXTSELECTR', app);
-//   return <ContextSelector />;
-//   // return app?.context?.types.length ? <ContextSelector /> : null;
-// };
+const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
+  const framework = useFramework();
+  if (!app?.context && !framework.modules.context) {
+    return null;
+  }
+  return <ContextSelector />;
+};
 
 export const Portal = () => {
   console.log(1, 'rerendering portal');
+
   const rootEl = document.createElement('div');
   const overlayEl = document.createElement('div');
 
@@ -50,12 +53,14 @@ export const Portal = () => {
     <FusionContext.Provider value={fusionContext}>
       <ThemeProvider seed="fusion-dev-app">
         <FusionRoot rootRef={root} overlayRef={overlay}>
-          <BrowserRouter>
-            <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />
-          </BrowserRouter>
-          <FusionContent>
-            <HotAppWrapper />
-          </FusionContent>
+          <ContextSelectorProvider>
+            <BrowserRouter>
+              <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
+            </BrowserRouter>
+            <FusionContent>
+              <HotAppWrapper />
+            </FusionContent>
+          </ContextSelectorProvider>
         </FusionRoot>
       </ThemeProvider>
     </FusionContext.Provider>
