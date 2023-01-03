@@ -63,7 +63,7 @@ export const Portal = (): JSX.Element => {
   useEffect(() => {
     return framework.modules.event.addEventListener('onCurrentContextChanged', (e) => {
       if (e.detail.next?.id) {
-        browserHistory.replace(window.location.pathname.replace(/^\/?.*\/?/, `/${e.detail.next?.id}`));
+        browserHistory.replace(window.location.pathname.replace(/^\/?.*\/?/, `/${e.detail.next?.id}/`));
       }
     });
   }, [browserHistory, framework]);
