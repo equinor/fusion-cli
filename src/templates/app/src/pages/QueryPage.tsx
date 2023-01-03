@@ -1,5 +1,4 @@
 import { AppList } from '../components/AppList';
-import { Navigation } from '../components/Navigation';
 import useNavStyles from '../components/Navigation.style';
 import useStyles from '../App.style';
 import List, { ListItem } from '@equinor/fusion-react-list';
