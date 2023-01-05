@@ -5,7 +5,7 @@ import { FunctionComponent, Suspense, useEffect, useMemo } from 'react';
 import { useFusionContext, useNotificationCenter } from '@equinor/fusion';
 import { AppManifest, useCurrentApp } from '@equinor/fusion/lib/app/AppContainer';
 
-import { useFramework } from '@equinor/fusion-framework-react/hooks';
+import { useFramework } from '@equinor/fusion-framework-react';
 
 import { StarProgress } from '@equinor/fusion-react-progress-indicator';
 
@@ -55,7 +55,9 @@ export const HotAppWrapper: FunctionComponent = () => {
     script.src = '/app.bundle.js';
     script.onload = () => {
       console.log('🥷🏻 app bundle loaded');
-      appContainer.setCurrentAppAsync(getFirstApp(appContainer.allApps));
+      setTimeout(() => {
+        appContainer.setCurrentAppAsync(getFirstApp(appContainer.allApps));
+      }, 100);
     };
     document.head.appendChild(script);
     const unsubscribe = appContainer.on('update', (apps) => {
