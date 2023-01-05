@@ -3,11 +3,11 @@ import * as Listr from 'listr';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as util from 'util';
-import webpack from 'webpack';
+import * as webpack from 'webpack';
 import * as rimraf from 'rimraf';
 import * as archiver from 'archiver';
 
-import merge from 'webpack-merge';
+import { merge } from 'webpack-merge';
 import babel from '../build/parts/babel';
 import entry from '../build/parts/entry';
 import images from '../build/parts/images';
@@ -17,9 +17,7 @@ import typescript from '../build/parts/typescript';
 import output from '../build/parts/output';
 import mode from '../build/parts/mode';
 import env from '../build/parts/env';
-
-// version ^5 fails to run
-import logSymbols from 'log-symbols';
+import * as logSymbols from 'log-symbols';
 
 import IAppManifest from '../build/AppManifest';
 import IAppVersion from '../build/AppVersion';
@@ -38,7 +36,7 @@ interface IBuildContext {
   appOutputDir: string;
   manifest: IAppManifest;
   outputDir: string;
-  package: IPackage;
+  package: any;
   buildSucceeded?: boolean;
 }
 
@@ -67,9 +65,9 @@ class Timer {
 }
 
 class CompileError extends Error {
-  public readonly errors: webpack.WebpackError[];
+  public readonly errors: any[];
 
-  constructor(errors: webpack.WebpackError[]) {
+  constructor(errors: any[]) {
     super(errors.map((e) => e.message).join('\n'));
     this.errors = errors;
   }
@@ -90,7 +88,7 @@ export default class BuildApp extends Command {
     }),
   };
 
-  public async run(): Promise<void> {
+  public async run() {
     const parsed = this.parse(BuildApp);
 
     await this.buildAppAsync(parsed.flags);
@@ -173,29 +171,29 @@ export default class BuildApp extends Command {
   }
 
   private runBuildAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
-    return new Promise<void>((resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
       task.output = 'Configuring';
 
-      this.createWebpackConfigAsync(context, task).then((config) => {
-        const compiler = webpack(config);
-        task.title = 'Building';
-        compiler.run((err, stats) => {
-          context.buildSucceeded = !err && stats && !stats.hasErrors();
+      const config = await this.createWebpackConfigAsync(context, task);
+      const compiler = webpack(config);
 
-          if (err) {
-            task.title = 'Build failed';
-            return reject(err);
-          }
+      task.title = 'Building';
+      compiler.run((err, stats) => {
+        context.buildSucceeded = !err && stats && !stats.hasErrors();
 
-          if (stats && stats.hasErrors()) {
-            task.title = 'Build failed';
-            return reject(new CompileError(stats.compilation.errors));
-          }
+        if (err) {
+          task.title = 'Build failed';
+          return reject(err);
+        }
 
-          const buildDuration = ((stats && stats.endTime) || 0) - ((stats && stats.startTime) || 0);
-          task.title = `Build completed in ${(buildDuration / 1000).toFixed(2)} seconds`;
-          resolve();
-        });
+        if (stats && stats.hasErrors()) {
+          task.title = 'Build failed';
+          return reject(new CompileError(stats.compilation.errors));
+        }
+
+        const buildDuration = ((stats && stats.endTime) || 0) - ((stats && stats.startTime) || 0);
+        task.title = `Build completed in ${(buildDuration / 1000).toFixed(2)} seconds`;
+        resolve();
       });
     });
   }
@@ -259,10 +257,10 @@ export default class BuildApp extends Command {
 
     try {
       await mkdirAsync(path.dirname(to), { recursive: true });
-    } catch (e) {
-      const { code } = e as { code: string };
+    } catch (error) {
+      const { code } = error as { code: string };
       if (code !== 'EEXIST') {
-        throw e;
+        throw error;
       }
     }
 
@@ -289,8 +287,8 @@ export default class BuildApp extends Command {
 
   private async createWebpackConfigAsync(context: IBuildContext, task: Listr.ListrTaskWrapper) {
     const fusionCliPackage = await getPackageAsync(path.resolve(__dirname, '..', '..'));
-    const cliDependencies = getPackageDependencies(fusionCliPackage);
-    const moduleDependencies = getPackageDependencies(context.package);
+    const cliDependencies = await getPackageDependencies(fusionCliPackage);
+    const moduleDependencies = await getPackageDependencies(context.package);
 
     const progressHandler = (percentage: number, msg: string, moduleProgress?: string) => {
       const percentageString = Math.ceil(percentage * 100).toString();
@@ -300,7 +298,7 @@ export default class BuildApp extends Command {
       task.title = `Building (${percentageString}%)`;
     };
 
-    const appWebpackConfig = await import(path.resolve(process.cwd(), 'webpack.config.js'));
+    const appWebpackConfig = await require(path.resolve(process.cwd(), 'webpack.config.js'));
 
     return merge(
       babel,
