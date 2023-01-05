@@ -1,4 +1,5 @@
 import { createFrameworkProvider } from '@equinor/fusion-framework-react';
+import { enableAppModule } from '@equinor/fusion-framework-module-app';
 
 type ServiceConfig = {
   client_id: string;
@@ -6,6 +7,8 @@ type ServiceConfig = {
 
 export const Framework = createFrameworkProvider(async (config) => {
   const timestamp = Date.now();
+
+  enableAppModule(config);
 
   const serviceConfig: ServiceConfig | undefined = await fetch('/env/portal-client-id').then((x) => x.json());
 
