@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import { FunctionComponent, useRef } from 'react';
-import { Router } from 'react-router';
+import React, { FunctionComponent, useRef } from 'react';
 
 import { createFusionContext, FusionContext, ServiceResolver } from '@equinor/fusion';
 import { ThemeProvider } from '@equinor/fusion-react-styles';
@@ -71,7 +70,6 @@ export const Portal = () => {
       },
       loadBundlesFromDisk: false,
     },
-    //@ts-ignore
     browserHistory
   );
 
@@ -80,7 +78,7 @@ export const Portal = () => {
       <ThemeProvider seed="fusion-dev-app">
         <FusionRoot rootRef={root} overlayRef={overlay}>
           <BrowserRouter>
-              <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
+            <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
           </BrowserRouter>
           <FusionContent>
             <HotAppWrapper />

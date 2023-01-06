@@ -1,11 +1,11 @@
 /* eslint-disable react/display-name */
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { FunctionComponent, Suspense, useEffect, useMemo } from 'react';
+import React, { FunctionComponent, Suspense, useEffect, useMemo } from 'react';
 import { useFusionContext, useNotificationCenter } from '@equinor/fusion';
 import { AppManifest, useCurrentApp } from '@equinor/fusion/lib/app/AppContainer';
 
-import { useFramework } from '@equinor/fusion-framework-react/hooks';
+import { useFramework } from '@equinor/fusion-framework-react';
 
 import { StarProgress } from '@equinor/fusion-react-progress-indicator';
 
@@ -29,7 +29,7 @@ const AppLoader = ({ app }: { app: AppManifest }) => {
             </Router>
           </BrowserRouter>
         );
-  }, [app, framework]);
+  }, [app, framework, history]);
 
   return (
     <Suspense fallback={<StarProgress>Loading Application</StarProgress>}>
