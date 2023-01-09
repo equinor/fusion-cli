@@ -28,6 +28,7 @@ import { AppModule } from '@equinor/fusion-framework-module-app';
 
 import createAuthContainer from './create-auth-container';
 import { CliAppContainer } from './CliAppContainer';
+import CliContextManager from './CliContextManager';
 
 const globalEquinorFusionContextKey = '74b1613f-f22a-451b-a5c3-1c9391e91e68';
 
@@ -97,7 +98,7 @@ export const createFusionContext = (args: {
     telemetryLogger,
   }) as unknown as AppContainer;
 
-  const contextManager = new ContextManager(apiClients, appContainer, featureLogger, telemetryLogger, history);
+  const contextManager = new CliContextManager({ featureLogger, framework, history });
 
   const tasksContainer = new TasksContainer(apiClients, new EventHub());
   const notificationCenter = new NotificationCenter(new EventHub(), apiClients);
