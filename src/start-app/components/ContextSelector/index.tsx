@@ -1,2 +1,1 @@
-export { ContextSelector } from './ContextSelector';
-export { ContextSelectorProvider } from './ContextSelectorProvider';
+export { ContextSelector, ContextSelector as default } from './ContextSelector';
