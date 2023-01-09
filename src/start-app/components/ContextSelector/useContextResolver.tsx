@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useCurrentApp } from '@equinor/fusion-framework-react/app';
-import { configureModules } from '@equinor/fusion-framework-app';
 import type { AppModule } from '@equinor/fusion-framework-module-app';
-import { ContextItem, ContextModule, IContextProvider, enableContext } from '@equinor/fusion-framework-module-context';
+import { ContextItem, ContextModule, IContextProvider } from '@equinor/fusion-framework-module-context';
 import { useObservableState, useObservableSubscription } from '@equinor/fusion-observable/react';
 import '@equinor/fusion-framework-app';
 
@@ -11,13 +10,6 @@ import { EMPTY } from 'rxjs';
 
 import { ContextResult, ContextResultItem, ContextResolver } from '@equinor/fusion-react-context-selector';
 import { AppModulesInstance } from '@equinor/fusion-framework-app';
-
-import { AppManifest } from '@equinor/fusion-framework-module-app';
-import { ContextManifest } from '@equinor/fusion';
-
-type AppManifestWithContext = AppManifest & {
-  context?: ContextManifest;
-};
 
 /**
  * Map context query result to ContextSelectorResult.
@@ -71,45 +63,19 @@ export const useContextResolver = (): ContextResolver => {
 
   const { currentApp } = useCurrentApp();
 
-  useEffect(() => {
-    if (currentApp?.state.manifest && !provider) {
-      const manifest = currentApp?.state.manifest as unknown as AppManifestWithContext;
-      let initModules: any = () => void;
-      if (manifest.context) {
-        console.log('Configuríng context for legacy app');
-        initModules = configureModules((configurator) => {
-          enableContext(configurator, async (builder) => {
-            // TODO - check build url and get context from url
-            manifest.context?.types && builder.setContextType(manifest.context.types);
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            manifest.context?.filterContexts && builder.setContextFilter(manifest.context.filterContexts);
-          });
-        });
-      } else {
-        initModules = configureModules((configurator) => {
-          enableContext(configurator, async (builder) => {
-            builder.setContextType(['orgchart']);
-          });
-        });
-      }
-      const frameworkApp = framework.modules.app.createApp({ appKey: manifest.key, manifest });
-      frameworkApp.getConfigAsync().then((config) => {
-        initModules({ fusion: framework, env: { manifest, config } });
-      });
-    }
-  }, [currentApp?.state.manifest, framework, provider]);
-
   /** App module collection instance */
   const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);
 
   /** callback function when current app instance changes */
   const onContextProviderChange = useCallback(
     (modules: AppModulesInstance) => {
+      console.log('app instance changed', modules);
       /** try to get the context module from the app module instance */
       const contextProvider = (modules as AppModulesInstance<[ContextModule]>).context;
       if (contextProvider) {
         setProvider(contextProvider);
+      } else {
+        setProvider(null);
       }
     },
     [setProvider]
