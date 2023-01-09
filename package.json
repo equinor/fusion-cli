@@ -111,7 +111,7 @@
     "devDependencies": {
         "@babel/plugin-transform-runtime": "^7.16.0",
         "@equinor/eslint-config-fusion": "^0.1.2",
-        "@equinor/fusion": "^3.4.4",
+        "@equinor/fusion": "^3.4.5",
         "@equinor/fusion-components": "^2.7.4",
         "@equinor/fusion-framework-app": "^5.0.1",
         "@equinor/fusion-framework-module-app": "^3.1.0",
