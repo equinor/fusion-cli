@@ -6,6 +6,7 @@ import Icon from '@equinor/fusion-react-icon';
 
 import Layout from './Layout';
 import { ContextPage, HomePage, QueryPage, TablePage, UserPage } from './pages';
+import { Update } from 'history';
 
 type Pages = RouteObject & { name: string; title?: string; icon: JSX.Element };
 
@@ -53,11 +54,11 @@ export const Router = (): JSX.Element | null => {
   useEffect(
     () =>
       fusionHistory.listen((e) => {
+        const { pathname } = e as Update & { pathname?: string };
         /** hack since app is unloaded after navigation outside app */
-        if (isAppPath(e.pathname)) {
+        if (pathname && isAppPath(pathname)) {
           /** hack to remove app prefix from path */
-          e.pathname = e.pathname.replace(basename, '');
-          navigate(e);
+          navigate(pathname.replace(basename, ''));
         }
       }),
     [fusionHistory, navigate, isAppPath, basename]
