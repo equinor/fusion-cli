@@ -1,6 +1,5 @@
 import { enableAppModule } from '@equinor/fusion-framework-module-app';
 import { createFrameworkProvider } from '@equinor/fusion-framework-react';
-import { enableAppModule } from '@equinor/fusion-framework-module-app';
 
 type ServiceConfig = {
   client_id: string;

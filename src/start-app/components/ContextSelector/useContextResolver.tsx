@@ -74,9 +74,10 @@ export const useContextResolver = (): ContextResolver => {
   useEffect(() => {
     if (currentApp?.state.manifest && !provider) {
       const manifest = currentApp?.state.manifest as unknown as AppManifestWithContext;
+      let initModules: any = () => void;
       if (manifest.context) {
         console.log('Configuríng context for legacy app');
-        const initModules = configureModules((configurator) => {
+        initModules = configureModules((configurator) => {
           enableContext(configurator, async (builder) => {
             // TODO - check build url and get context from url
             manifest.context?.types && builder.setContextType(manifest.context.types);
@@ -85,11 +86,17 @@ export const useContextResolver = (): ContextResolver => {
             manifest.context?.filterContexts && builder.setContextFilter(manifest.context.filterContexts);
           });
         });
-        const frameworkApp = framework.modules.app.createApp({ appKey: manifest.appKey, manifest });
-        frameworkApp.getConfigAsync().then((config) => {
-          initModules({ fusion: framework, env: { manifest, config } });
+      } else {
+        initModules = configureModules((configurator) => {
+          enableContext(configurator, async (builder) => {
+            builder.setContextType(['orgchart']);
+          });
         });
       }
+      const frameworkApp = framework.modules.app.createApp({ appKey: manifest.key, manifest });
+      frameworkApp.getConfigAsync().then((config) => {
+        initModules({ fusion: framework, env: { manifest, config } });
+      });
     }
   }, [currentApp?.state.manifest, framework, provider]);
 

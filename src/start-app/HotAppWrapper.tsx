@@ -63,36 +63,9 @@ export const HotAppWrapper: FunctionComponent = () => {
     script.src = '/app.bundle.js';
     script.onload = () => {
       console.log('🥷🏻 app bundle loaded');
-<<<<<<< HEAD
       setTimeout(() => {
         appContainer.setCurrentAppAsync(getFirstApp(appContainer.allApps));
       }, 100);
-=======
-      const appKey = getFirstApp(appContainer.allApps);
-
-      appContainer.setCurrentAppAsync(appKey);
-      const manifest = appContainer.allApps[appKey];
-      // @ts-ignore
-      manifest.appKey ??= manifest.key;
-      if (manifest) {
-        // const initModules = configureModules((configurator) => {
-        //   if (manifest.context) {
-        //     enableContext(configurator, async (builder) => {
-        //       // TODO - check build url and get context from url
-        //       manifest.context?.types && builder.setContextType(manifest.context.types);
-        //       manifest.context?.filterContexts && builder.setContextFilter(manifest.context.filterContexts);
-        //     });
-        //   }
-        // });
-        // @ts-ignore
-        const frameworkApp = framework.modules.app.createApp({ appKey, manifest });
-        // frameworkApp.getConfigAsync().then((config) => {
-        //   // @ts-ignore
-        //   initModules({ fusion: framework, env: { manifest, config } });
-        // });
-        framework.modules.app.setCurrentApp(frameworkApp);
-      }
->>>>>>> 2d4003f (feat(contextselector): functional contextselector)
     };
     document.head.appendChild(script);
     // const unsubscribe = appContainer.on('update', (apps) => {
