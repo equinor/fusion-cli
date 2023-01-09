@@ -20,7 +20,11 @@ const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) =
   if (!app?.context && !framework.modules.context) {
     return null;
   }
-  return <ContextSelector />;
+  return (
+    <ContextSelectorProvider>
+      <ContextSelector />
+    </ContextSelectorProvider>
+  );
 };
 
 export const Portal = () => {
@@ -53,14 +57,12 @@ export const Portal = () => {
     <FusionContext.Provider value={fusionContext}>
       <ThemeProvider seed="fusion-dev-app">
         <FusionRoot rootRef={root} overlayRef={overlay}>
-          <ContextSelectorProvider>
-            <BrowserRouter>
-              <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
-            </BrowserRouter>
-            <FusionContent>
-              <HotAppWrapper />
-            </FusionContent>
-          </ContextSelectorProvider>
+          <BrowserRouter>
+            <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
+          </BrowserRouter>
+          <FusionContent>
+            <HotAppWrapper />
+          </FusionContent>
         </FusionRoot>
       </ThemeProvider>
     </FusionContext.Provider>
