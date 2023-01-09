@@ -59,6 +59,8 @@ export const Router = (): JSX.Element | null => {
         if (pathname && isAppPath(pathname)) {
           /** hack to remove app prefix from path */
           navigate(pathname.replace(basename, ''));
+        } else {
+          navigate(e.location, { replace: e.action === 'REPLACE' });
         }
       }),
     [fusionHistory, navigate, isAppPath, basename]

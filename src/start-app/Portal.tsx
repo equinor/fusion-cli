@@ -1,9 +1,9 @@
 /* eslint-disable react/no-multi-comp */
-import React, { useRef, FunctionComponent } from 'react';
+import React, { useRef } from 'react';
 
 import { FusionContext } from '@equinor/fusion';
 import { ThemeProvider } from '@equinor/fusion-react-styles';
-import { FusionRoot, FusionHeader, FusionContent, HeaderContentProps } from '@equinor/fusion-components';
+import { FusionRoot, FusionHeader, FusionContent } from '@equinor/fusion-components';
 
 import { createFusionContext } from './create-fusion-context';
 
@@ -13,19 +13,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { AppModule } from '@equinor/fusion-framework-module-app';
 
-import { ContextSelector, ContextSelectorProvider } from './components/ContextSelector';
-
-const HeaderContextSelector: FunctionComponent<HeaderContentProps> = ({ app }) => {
-  const framework = useFramework();
-  if (!app?.context && !framework.modules.context) {
-    return null;
-  }
-  return (
-    <ContextSelectorProvider>
-      <ContextSelector />
-    </ContextSelectorProvider>
-  );
-};
+import { ContextSelector } from './components/ContextSelector';
+import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
 export const Portal = () => {
   console.log(1, 'rerendering portal');
@@ -41,7 +30,7 @@ export const Portal = () => {
   const headerContent = useRef<HTMLElement | null>(null);
   const headerAppAside = useRef<HTMLElement | null>(null);
 
-  const framework = useFramework<[AppModule]>();
+  const framework = useFramework<[AppModule, NavigationModule]>();
 
   const fusionContext = createFusionContext({
     framework,
@@ -58,7 +47,7 @@ export const Portal = () => {
       <ThemeProvider seed="fusion-dev-app">
         <FusionRoot rootRef={root} overlayRef={overlay}>
           <BrowserRouter>
-            <FusionHeader aside={null} content={HeaderContextSelector} start={null} settings={null} />
+            <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />
           </BrowserRouter>
           <FusionContent>
             <HotAppWrapper />

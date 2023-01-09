@@ -45,7 +45,7 @@ const noPreselect: ContextResult = [];
  * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
  * @return Array<ContextResolver, SetContextCallback>
  */
-export const useContextResolver = (): ContextResolver => {
+export const useContextResolver = (): ContextResolver | null => {
   /* Framework modules */
   const framework = useFramework<[AppModule]>();
 
@@ -98,39 +98,37 @@ export const useContextResolver = (): ContextResolver => {
    */
   const minLength = 3;
   const resolver = useMemo(
-    (): ContextResolver => ({
-      searchQuery: async (search: string) => {
-        if (!provider) {
-          return [];
-        }
-        if (search.length < minLength) {
-          return [
-            singleItem({
-              id: 'min-length',
-              title: `Type ${minLength - search.length} more chars to search`,
-              isDisabled: true,
-            }),
-          ];
-        }
-        try {
-          const result = await provider.queryContextAsync(search);
-          if (result.length) {
-            return mapper(result);
+    (): ContextResolver | null =>
+      provider && {
+        searchQuery: async (search: string) => {
+          if (search.length < minLength) {
+            return [
+              singleItem({
+                id: 'min-length',
+                title: `Type ${minLength - search.length} more chars to search`,
+                isDisabled: true,
+              }),
+            ];
           }
-          return [
-            singleItem({
-              id: 'no-results',
-              title: 'No results found',
-              isDisabled: true,
-            }),
-          ];
-        } catch (e) {
-          console.log('ContextResolver query was cancelled');
-          return [];
-        }
+          try {
+            const result = await provider.queryContextAsync(search);
+            if (result.length) {
+              return mapper(result);
+            }
+            return [
+              singleItem({
+                id: 'no-results',
+                title: 'No results found',
+                isDisabled: true,
+              }),
+            ];
+          } catch (e) {
+            console.log('ContextResolver query was cancelled');
+            return [];
+          }
+        },
+        initialResult: preselected,
       },
-      initialResult: preselected,
-    }),
     [provider, preselected]
   );
 
