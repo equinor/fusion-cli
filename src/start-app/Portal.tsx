@@ -2,7 +2,7 @@
 import React, { useRef } from 'react';
 
 import { FusionContext } from '@equinor/fusion';
-import { ThemeProvider } from '@equinor/fusion-react-styles';
+import { ThemeProvider, theme } from '@equinor/fusion-react-styles';
 import { FusionRoot, FusionHeader, FusionContent } from '@equinor/fusion-components';
 
 import { createFusionContext } from './create-fusion-context';
@@ -42,7 +42,7 @@ export const Portal = () => {
 
   return (
     <FusionContext.Provider value={fusionContext}>
-      <ThemeProvider seed="fusion-dev-app">
+      <ThemeProvider theme={theme}>
         <FusionRoot rootRef={root} overlayRef={overlay}>
           <BrowserRouter>
             <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />

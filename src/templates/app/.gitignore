@@ -1,6 +1,7 @@
 /dist
 /lib
 /tmp
+/out
 
 node_modules
 
