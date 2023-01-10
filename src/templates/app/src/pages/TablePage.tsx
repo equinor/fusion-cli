@@ -45,18 +45,19 @@ const useRowData = () => {
   const updateAllApps = useMutation(updateApps, {
     onSuccess: (results) => {
       queryClient.setQueryData(QueryKeys.GetAllApps, results);
-      console.log('update!');
     },
   });
 
   useEffect(() => {
     const fn = setTimeout(() => {
-      updateAllApps.mutate(data!);
+      if (data) {
+        updateAllApps.mutate(data);
+      }
     }, 10000);
     return () => {
       clearTimeout(fn);
     };
-  });
+  }, [data, updateAllApps]);
 
   const rowData = useMemo(() => {
     return Object.values(data ?? {}).map((app, index) => ({

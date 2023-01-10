@@ -17,8 +17,6 @@ import { ContextSelector } from './components/ContextSelector';
 import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
 export const Portal = () => {
-  console.log(1, 'rerendering portal');
-
   const rootEl = document.createElement('div');
   const overlayEl = document.createElement('div');
 

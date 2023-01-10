@@ -69,7 +69,6 @@ export const useContextResolver = (): ContextResolver | null => {
   /** callback function when current app instance changes */
   const onContextProviderChange = useCallback(
     (modules: AppModulesInstance) => {
-      console.log('app instance changed', modules);
       /** try to get the context module from the app module instance */
       const contextProvider = (modules as AppModulesInstance<[ContextModule]>).context;
       if (contextProvider) {
@@ -86,11 +85,6 @@ export const useContextResolver = (): ContextResolver | null => {
 
   /** observe changes to app modules and  clear / set the context provider on change */
   useObservableSubscription(instance$, onContextProviderChange, clearContextProvider);
-
-  /**
-   * Set context provider state if this app triggered the event.
-   * and only if the app has a context
-   * */
 
   /**
    * set resolver for ContextSelector
@@ -123,7 +117,7 @@ export const useContextResolver = (): ContextResolver | null => {
               }),
             ];
           } catch (e) {
-            console.log('ContextResolver query was cancelled');
+            console.log('🥩 - ContextResolver query was cancelled');
             return [];
           }
         },

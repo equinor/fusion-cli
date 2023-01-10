@@ -16,12 +16,11 @@ import { App } from '@equinor/fusion-framework-module-app';
 import { useObservableState } from '@equinor/fusion-observable/react';
 
 const AppLoader = ({ app }: { app: App }) => {
-  console.log('🥷🏻 rendering app');
   const framework = useFramework<[AppModule]>();
   const { history } = useFusionContext();
   const { manifest, config } = app.state;
   const Component = useMemo(() => {
-    console.log('🥷🏻 created app component');
+    console.log('🥷🏻 Rendering app component');
     // @ts-ignore
     const { AppComponent, render } = manifest;
     return render
@@ -58,11 +57,11 @@ export const HotAppWrapper: FunctionComponent = () => {
   const sendNotification = useNotificationCenter();
 
   useEffect(() => {
-    console.log('🥷🏻  loading script');
+    console.log('🥷🏻  loading script bundle');
     const script = document.createElement('script');
     script.src = '/app.bundle.js';
     script.onload = () => {
-      console.log('🥷🏻 app bundle loaded');
+      console.log('🥷🏻 script bundle loaded');
       setTimeout(() => {
         appContainer.setCurrentAppAsync(getFirstApp(appContainer.allApps));
       }, 100);
@@ -83,7 +82,7 @@ export const HotAppWrapper: FunctionComponent = () => {
       sendNotification({
         cancelLabel: 'I know',
         level: 'low',
-        title: `app is updated`,
+        title: `${currentApp.appKey} is updated`,
       });
   }, [sendNotification, currentApp]);
 

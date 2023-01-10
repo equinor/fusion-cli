@@ -1,5 +1,5 @@
 import { createStyles, makeStyles } from '@equinor/fusion-react-styles';
-import { useLocation } from 'react-router';
+// import { useLocation } from 'react-router';
 import { Outlet } from 'react-router-dom';
 import Navigation from './components/Navigation';
 
@@ -19,8 +19,7 @@ const useStyle = makeStyles(
 
 export const Layout = (): JSX.Element => {
   const style = useStyle();
-  const { pathname } = useLocation();
-  console.log(pathname);
+  // const { pathname } = useLocation();
   return (
     <div className={style.root}>
       <Navigation />

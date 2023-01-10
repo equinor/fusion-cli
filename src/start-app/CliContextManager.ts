@@ -90,7 +90,6 @@ export default class CliContextManager extends ReliableDictionary<ContextCache> 
   }
 
   public async setCurrentContextAsync(context: string | Context | null): Promise<void> {
-    console.log('elg');
     if (context !== null) {
       this.#framework.modules.context.contextClient.setCurrentContext(context as string | ContextItem);
     } else {
