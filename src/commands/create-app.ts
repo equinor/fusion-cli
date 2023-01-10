@@ -292,7 +292,6 @@ const createProject = async (options: ICreateAppOptions) => {
   const templateDir = path.resolve(__filename, `../../templates/${options.templateName}`);
 
   options.templateDirectory = templateDir;
-  console.log(options.templateDirectory);
   try {
     await access(templateDir, fs.constants.R_OK);
   } catch (err) {

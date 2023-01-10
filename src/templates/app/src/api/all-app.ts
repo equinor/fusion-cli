@@ -21,8 +21,6 @@ const appSelector = async (x: Response): Promise<Record<string, App>> => {
   const result = response.reduce((acc, current) => {
     return Object.assign(acc, { [current.key]: current });
   }, {});
-  console.log(result);
-
   return result;
 };
 
