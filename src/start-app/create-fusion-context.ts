@@ -18,6 +18,7 @@ import {
   UserMenuContainer,
   FusionContextRefs,
   IFusionContext,
+  // appContainerFactory,
 } from '@equinor/fusion';
 
 import { Fusion } from '@equinor/fusion-framework-react';
@@ -29,6 +30,7 @@ import { CliAppContainer } from './CliAppContainer';
 import CliContextManager from './CliContextManager';
 // TODO remove deps of history
 import { Action, Location } from 'history';
+import { appContainerFactory } from '@equinor/fusion/lib/app/AppContainer';
 
 const globalEquinorFusionContextKey = '74b1613f-f22a-451b-a5c3-1c9391e91e68';
 
@@ -129,6 +131,8 @@ export const createFusionContext = (args: {
     featureLogger,
     telemetryLogger,
   }) as unknown as AppContainer;
+
+  appContainerFactory(appContainer);
 
   // @ts-ignore
   const contextManager = new CliContextManager({ featureLogger, framework, history });

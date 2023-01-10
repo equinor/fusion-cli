@@ -125,7 +125,9 @@ export class CliAppContainer extends EventEmitter<AppContainerEvents> {
 
     /** legacy wrapper */
     const apps = new DistributedState<Record<string, AppManifest>>('AppContainer.apps', {}, eventHub);
-    apps.on('change', (apps) => this.#manifests.next(actions.updateManifests(apps)));
+    apps.on('change', (apps) => {
+      return this.#manifests.next(actions.updateManifests(apps));
+    });
     this.#manifests.subscribe((value) => (apps.state = value));
 
     /** legacy wrapper */
