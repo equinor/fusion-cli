@@ -96,7 +96,7 @@ export const createFusionContext = (args: {
    */
   // @ts-ignore
   history.listen = (cb: (eventOrLocation, action?: Action) => void) => {
-    historyListenFn((e: { action: Action; location: Location }) => {
+    return historyListenFn((e: { action: Action; location: Location }) => {
       const event = new Proxy(e, {
         get(target, p) {
           console.log('🚦 history event proxy', p);
