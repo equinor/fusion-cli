@@ -1,7 +1,7 @@
 {
     "name": "@equinor/fusion-cli",
     "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-    "version": "3.0.0-alpha.1",
+    "version": "3.0.0-alpha.2",
     "author": "Fusion Core",
     "bin": {
         "fusion": "bin/run"
@@ -16,9 +16,10 @@
         "@babel/preset-react": "^7.14.5",
         "@babel/preset-typescript": "^7.15.0",
         "@babel/runtime": "^7.15.4",
-        "@equinor/fusion-react-progress-indicator": "0.0.1",
-        "@equinor/fusion-react-styles": "^0.3.0",
-        "@equinor/fusion-react-tooltip": "^1.1.2",
+        "@equinor/fusion-react-context-selector": "^0.2.0",
+        "@equinor/fusion-react-progress-indicator": "0.1.6",
+        "@equinor/fusion-react-styles": "^0.5.5",
+        "@equinor/fusion-react-tooltip": "^1.1.5",
         "@hot-loader/react-dom": "^17.0.1",
         "@oclif/command": "^1.8.0",
         "@oclif/config": "^1.17.0",
@@ -64,7 +65,7 @@
         "@equinor/eslint-config-fusion": "^0.1.2",
         "@equinor/fusion": "^3.3.19",
         "@equinor/fusion-components": "^2.5.28",
-        "@equinor/fusion-framework-react": "^1.0.3 || ^2.0.3",
+        "@equinor/fusion-framework-react": "^1.0.3 || ^2.0.24",
         "@types/react": "^17.0.0 || ^18.0.0",
         "@types/react-dom": "^17.0.0 || ^18.0.0",
         "@types/react-router": "^5.0.0",
@@ -110,11 +111,13 @@
     "devDependencies": {
         "@babel/plugin-transform-runtime": "^7.16.0",
         "@equinor/eslint-config-fusion": "^0.1.2",
-        "@equinor/fusion": "^3.4.4",
-        "@equinor/fusion-components": "^2.5.28",
-        "@equinor/fusion-framework-app": "^5.0.1",
-        "@equinor/fusion-framework-module-app": "^3.1.0",
-        "@equinor/fusion-framework-react": "^2.0.24",
+        "@equinor/fusion": "^3.4.5",
+        "@equinor/fusion-components": "^2.8.0",
+        "@equinor/fusion-framework-app": "^5.0.2",
+        "@equinor/fusion-framework-module-app": "^3.2.0",
+        "@equinor/fusion-framework-module-navigation": "^0.1.5",
+        "@equinor/fusion-framework-react": "^2.1.1",
+        "@equinor/fusion-framework-react-app": "^2.0.31",
         "@equinor/fusion-observable": "^3.0.3",
         "@oclif/dev-cli": "^1.26.0",
         "@oclif/test": "^1.2.8",
@@ -131,7 +134,7 @@
         "@types/log-symbols": "^3.0.0",
         "@types/mocha": "^9.0.0",
         "@types/node": "^16.9.0",
-        "@types/react": "^17.0.20",
+        "@types/react": "^17.0.2",
         "@types/react-dom": "^17.0.9",
         "@types/react-router": "^5.1.18",
         "@types/react-router-dom": "^5.3.3",
@@ -191,5 +194,8 @@
     "types": "lib/index.d.ts",
     "publishConfig": {
         "access": "public"
+    },
+    "resolutions": {
+        "@types/react": "17.0.2"
     }
 }

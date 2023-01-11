@@ -1,5 +1,7 @@
-import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 import { enableAppModule } from '@equinor/fusion-framework-module-app';
+import { enableNavigation } from '@equinor/fusion-framework-module-navigation';
+
+import { createFrameworkProvider } from '@equinor/fusion-framework-react';
 
 type ServiceConfig = {
   client_id: string;
@@ -27,6 +29,12 @@ export const Framework = createFrameworkProvider(async (config) => {
       defaultScopes: ['97978493-9777-4d48-b38a-67b0b9cd88d2/.default'],
     },
   });
+
+  enableAppModule(config);
+
+  // TODO
+  // @ts-ignore
+  enableNavigation(config);
 
   await new Promise((resolve) => setTimeout(resolve, timestamp - Date.now() + 3000));
 });

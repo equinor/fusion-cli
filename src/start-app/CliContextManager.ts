@@ -16,6 +16,7 @@ import { ContextItem } from '@equinor/fusion-framework-module-context';
 
 import { Fusion } from '@equinor/fusion-framework-react';
 import { filter, scan, tap } from 'rxjs';
+import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
 type ContextCache = {
   current: Context | null;
@@ -24,10 +25,10 @@ type ContextCache = {
 };
 
 export default class CliContextManager extends ReliableDictionary<ContextCache> {
-  #framework: Fusion<[AppModule]>;
+  #framework: Fusion<[AppModule, NavigationModule]>;
 
   constructor(args: {
-    framework: Fusion<[AppModule]>;
+    framework: Fusion<[AppModule, NavigationModule]>;
     // TODO - enable module-navigation
     history: History;
     featureLogger: FeatureLogger;
@@ -59,6 +60,7 @@ export default class CliContextManager extends ReliableDictionary<ContextCache> 
             // why do we need and array of all contexts?
             previusContexts: values.map((c) => ({ id: c.id, name: c.title })),
           });
+          this.#framework.modules.navigation.navigator.push(['', currentContext.id].join('/'));
         }
       });
 
@@ -80,7 +82,7 @@ export default class CliContextManager extends ReliableDictionary<ContextCache> 
       }
     });
 
-    args.history.listen(this.ensureCurrentContextExistsInUrl);
+    // args.history.listen(this.ensureCurrentContextExistsInUrl);
   }
 
   public getCurrentContext(): ContextItem | undefined {
@@ -88,7 +90,6 @@ export default class CliContextManager extends ReliableDictionary<ContextCache> 
   }
 
   public async setCurrentContextAsync(context: string | Context | null): Promise<void> {
-    console.log('elg');
     if (context !== null) {
       this.#framework.modules.context.contextClient.setCurrentContext(context as string | ContextItem);
     } else {

@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { createBrowserHistory } from 'history';
-
 import {
   createApiClients,
   ResourceCache,
@@ -12,7 +10,6 @@ import {
   TelemetryLogger,
   FeatureLogger,
   SettingsContainer,
-  ContextManager,
   ComponentDisplayType,
   AppContainer,
   TasksContainer,
@@ -21,14 +18,19 @@ import {
   UserMenuContainer,
   FusionContextRefs,
   IFusionContext,
+  // appContainerFactory,
 } from '@equinor/fusion';
 
 import { Fusion } from '@equinor/fusion-framework-react';
 import { AppModule } from '@equinor/fusion-framework-module-app';
+import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
 import createAuthContainer from './create-auth-container';
 import { CliAppContainer } from './CliAppContainer';
 import CliContextManager from './CliContextManager';
+// TODO remove deps of history
+import { Action, Location } from 'history';
+import { appContainerFactory } from '@equinor/fusion/lib/app/AppContainer';
 
 const globalEquinorFusionContextKey = '74b1613f-f22a-451b-a5c3-1c9391e91e68';
 
@@ -51,7 +53,7 @@ export const serviceResolver: ServiceResolver = {
 };
 
 export const createFusionContext = (args: {
-  framework: Fusion<[AppModule]>;
+  framework: Fusion<[AppModule, NavigationModule]>;
   refs: FusionContextRefs;
 }): IFusionContext => {
   const { framework, refs } = args;
@@ -85,7 +87,38 @@ export const createFusionContext = (args: {
 
   const featureLogger = new FeatureLogger(apiClients, new EventHub());
 
-  const history = createBrowserHistory();
+  const history = framework.modules.navigation.navigator;
+
+  const historyListenFn = history.listen.bind(history);
+
+  /**
+   * TODO - write what this wrapper does!?
+   */
+  // @ts-ignore
+  history.listen = (cb: (eventOrLocation, action?: Action) => void) => {
+    return historyListenFn((e: { action: Action; location: Location }) => {
+      const event = new Proxy(e, {
+        get(target, p) {
+          switch (p) {
+            case 'action':
+              return target.action;
+
+            case 'location':
+              return target.location;
+
+            case 'state':
+            case 'hash':
+            case 'key':
+            case 'search':
+            case 'pathname':
+              // @ts-ignore
+              return target.location[p];
+          }
+        },
+      });
+      cb(event, e.action);
+    });
+  };
 
   const coreSettings = new SettingsContainer('core', authContainer.getCachedUser(), new EventHub(), {
     componentDisplayType: ComponentDisplayType.Comfortable,
@@ -98,6 +131,9 @@ export const createFusionContext = (args: {
     telemetryLogger,
   }) as unknown as AppContainer;
 
+  appContainerFactory(appContainer);
+
+  // @ts-ignore
   const contextManager = new CliContextManager({ featureLogger, framework, history });
 
   const tasksContainer = new TasksContainer(apiClients, new EventHub());

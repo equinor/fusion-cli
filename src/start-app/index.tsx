@@ -1,21 +1,12 @@
-import { StarProgress } from '@equinor/fusion-react-progress-indicator';
+import './customElementPolyfill';
 import { render } from '@hot-loader/react-dom';
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
 import Framework from './Framework';
 import Portal from './Portal';
-
-// TODO: @odinr please fix me
-const _customElementsDefine = window.customElements.define;
-window.customElements.define = (name, cl, conf) => {
-  if (!customElements.get(name)) {
-    _customElementsDefine.call(window.customElements, name, cl, conf);
-  } else {
-    console.debug(`${name} has been defined twice`);
-  }
-};
+import Loader from './Loader';
 
 render(
-  <Suspense fallback={<StarProgress text="Loading framework" />}>
+  <Suspense fallback={<Loader />}>
     <Framework>
       <Portal />
     </Framework>

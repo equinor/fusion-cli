@@ -3,7 +3,6 @@ import { AgGridReact } from 'ag-grid-react';
 import { updateApps, useAllApps } from '../api';
 import { Breadcrumb, BreadcrumbItemProps } from '@equinor/fusion-react-breadcrumb';
 import { useNavigate } from 'react-router-dom';
-import { Navigation } from '../components/Navigation';
 import useNavStyles from '../components/Navigation.style';
 import useStyles from '../App.style';
 import { useEffect } from 'react';
@@ -46,24 +45,25 @@ const useRowData = () => {
   const updateAllApps = useMutation(updateApps, {
     onSuccess: (results) => {
       queryClient.setQueryData(QueryKeys.GetAllApps, results);
-      console.log('update!');
     },
   });
 
   useEffect(() => {
     const fn = setTimeout(() => {
-      updateAllApps.mutate(data!);
+      if (data) {
+        updateAllApps.mutate(data);
+      }
     }, 10000);
     return () => {
       clearTimeout(fn);
     };
-  });
+  }, [data, updateAllApps]);
 
   const rowData = useMemo(() => {
     return Object.values(data ?? {}).map((app, index) => ({
       no: index + 1,
       name: app.name,
-      category: app.category.name,
+      category: app.category?.name,
       published: formatDate(app.publishedDate),
       version: app.version,
     }));
@@ -82,21 +82,19 @@ export const TablePage = (): JSX.Element => {
 
   const { rowData, isLoading } = useRowData();
 
-  const breadcrumbs = (): BreadcrumbItemProps[] => {
-    return [
-      {
-        onClick: () => {
-          navigate('/');
-        },
-        name: 'Home',
+  const breadcrumbs: BreadcrumbItemProps[] = [
+    {
+      onClick: () => {
+        navigate('/');
       },
-      {
-        name: 'Table',
-      },
-    ];
-  };
+      name: 'Home',
+    },
+    {
+      name: 'Table',
+    },
+  ];
 
-  const [breadcrumb, setBreadcrumb] = useState<BreadcrumbItemProps[]>(breadcrumbs());
+  const [breadcrumb] = useState<BreadcrumbItemProps[]>(breadcrumbs);
 
   const [columnDefs] = useState([
     { field: 'no', width: 70, headerName: 'No.' },

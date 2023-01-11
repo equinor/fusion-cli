@@ -4,8 +4,8 @@
     "service": "frontend",
     "shutdownAction": "none",
     "extensions": [
-        "dbaeumer.vscode-eslint",
-        "streetsidesoftware.code-spell-checker",
+        "ms-vscode.vscode-typescript-tslint-plugin",
+        "esbenp.prettier-vscode",
         "christian-kohler.npm-intellisense"
     ],
     "workspaceFolder": "/app"

@@ -17,9 +17,9 @@
     "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^3.3.10",
-    "@equinor/fusion-components": "^2.5.28",
-    "@equinor/fusion-framework-react-app": "0.1.0-beta.15",
+    "@equinor/fusion": "^3.4.5",
+    "@equinor/fusion-components": "^2.7.4",
+    "@equinor/fusion-framework-react-app": "^2.0.26",
     "@equinor/fusion-react-avatar": "^0.3.8",
     "@equinor/fusion-react-breadcrumb": "^0.1.1",
     "@equinor/fusion-react-button": "^0.3.8",
@@ -40,26 +40,26 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-popper": "^2.2.5",
-    "react-query": "^3.34.16",
-    "react-router": "^6.2.2"
+    "react-query": "^3.34.16"
   },
   "devDependencies": {
     "@babel/core": "^7.16.12",
     "@equinor/eslint-config-fusion": "^0.1.2",
-    "@types/history": "^4.7.6",
+    "@equinor/fusion-cli": "^3.0.0-alpha.2",
     "@types/react": "^17.0.20",
-    "@types/react-router-dom": "^5.1.8",
     "@types/webpack-env": "^1.16.2",
     "babel-loader": "^8.2.3",
     "eslint": "^7.32.0",
-    "prettier": "^2.3.2",
+    "history": "^5.3.0",
+    "prettier": "^2.4.0",
     "react-hot-loader": "^4.13.0",
-    "react-router-dom": "^6.2.2",
+    "react-router": "^6.6.2",
+    "react-router-dom": "^6.6.2",
     "rxjs": "^7.5.2",
     "ts-loader": "^9.2.6",
     "tslib": "^2.3.1",
     "typedoc": "^0.22.13",
-    "typescript": "^4.6.2",
+    "typescript": "^4.9.4",
     "webpack": "^5.67.0"
   }
 }

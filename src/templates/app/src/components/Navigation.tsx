@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { NavigationDrawer, NavigationStructure } from '@equinor/fusion-components';
 
 import { pages, useCurrentPage } from '../Router';
@@ -13,8 +13,8 @@ import { pages, useCurrentPage } from '../Router';
  *
  */
 
-const useAppPages = (): NavigationStructure[] => {
-  const navigate = useNavigate();
+const useAppPages = (navRef: RefObject<NavigateFunction>): NavigationStructure[] => {
+  
   return pages.map(
     (page): NavigationStructure => ({
       id: page.name,
@@ -22,7 +22,7 @@ const useAppPages = (): NavigationStructure[] => {
       type: 'grouping',
       icon: page.icon,
       onClick: () => {
-        navigate(page.path ?? '');
+        navRef.current?.(page.path ?? '');
       },
     })
   );
@@ -33,7 +33,12 @@ const useAppPages = (): NavigationStructure[] => {
  * @returns Navigation drawer component
  */
 export const Navigation = (): JSX.Element => {
-  const appPages = useAppPages();
+  const navigate = useNavigate();
+  const navRef = useRef(navigate);
+  useEffect(() => {
+    navRef.current = navigate;
+  }, [navigate])
+  const appPages = useAppPages(navRef);
   const [structure, setStructure] = useState<NavigationStructure[]>(appPages);
   const { name: currentPageName } = useCurrentPage() ?? {};
   return (
