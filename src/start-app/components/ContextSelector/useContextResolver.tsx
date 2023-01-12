@@ -45,7 +45,7 @@ const noPreselect: ContextResult = [];
  * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
  * @return Array<ContextResolver, SetContextCallback>
  */
-export const useContextResolver = (): ContextResolver | null => {
+export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null } => {
   /* Framework modules */
   const framework = useFramework<[AppModule]>();
 
@@ -126,7 +126,7 @@ export const useContextResolver = (): ContextResolver | null => {
     [provider, preselected]
   );
 
-  return resolver;
+  return { resolver, provider };
 };
 
 export default useContextResolver;

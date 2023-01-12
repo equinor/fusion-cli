@@ -5,7 +5,6 @@ import {
   ContextSelectorProps,
   ContextSelectEvent,
 } from '@equinor/fusion-react-context-selector';
-import { useFramework } from '@equinor/fusion-framework-react';
 import { useContextResolver } from './useContextResolver';
 
 /**
@@ -14,17 +13,17 @@ import { useContextResolver } from './useContextResolver';
  * @returns JSX element
  */
 export const ContextSelector = (props: ContextSelectorProps): JSX.Element | null => {
-  const framework = useFramework();
-
-  const resolver = useContextResolver();
+  const { resolver, provider } = useContextResolver();
 
   const updateContext = useCallback(
     (e: ContextSelectEvent) => {
       if (e.nativeEvent.detail.selected.length) {
-        framework.modules.context.contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
+        if (provider) {
+          provider.contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
+        }
       }
     },
-    [framework]
+    [provider]
   );
 
   return (
