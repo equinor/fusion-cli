@@ -192,6 +192,7 @@ export class CliAppContainer extends EventEmitter<AppContainerEvents> {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const app = this.#framework.modules.app.createApp({ appKey, manifest });
+      await app.getConfigAsync();
       this.#framework.modules.app.setCurrentApp(app);
     } else {
       this.#framework.modules.app.clearCurrentApp();
