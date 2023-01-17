@@ -28,8 +28,8 @@ export const ContextSelector = (props: ContextSelectorProps): JSX.Element | null
 
   return (
     resolver && (
-      <ContextProvider resolver={resolver}>
-        <div style={{ display: 'flex' }}>
+      <div style={{ flex: 1, maxWidth: '480px' }}>
+        <ContextProvider resolver={resolver}>
           <ContextSelectorHeader
             id="context-selector-cli-header"
             placeholder={props.placeholder ?? 'Search for context'}
@@ -40,8 +40,8 @@ export const ContextSelector = (props: ContextSelectorProps): JSX.Element | null
             autofocus={true}
             onClearContext={() => console.log('Clearing Context')}
           />
-        </div>
-      </ContextProvider>
+        </ContextProvider>
+      </div>
     )
   );
 };
