@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import {
-  ContextProvider as ContextProviderComponent,
-  ContextSelector as ContextSelectorComponent,
+  ContextProvider,
+  ContextSelectorHeader,
   ContextSelectorProps,
   ContextSelectEvent,
 } from '@equinor/fusion-react-context-selector';
@@ -28,18 +28,20 @@ export const ContextSelector = (props: ContextSelectorProps): JSX.Element | null
 
   return (
     resolver && (
-      <ContextProviderComponent resolver={resolver}>
-        <div style={{ display: 'flex', maxWidth: '480px' }}>
-          <ContextSelectorComponent
+      <ContextProvider resolver={resolver}>
+        <div style={{ display: 'flex' }}>
+          <ContextSelectorHeader
             id="context-selector-cli-header"
             placeholder={props.placeholder ?? 'Search for context'}
             initialText={props.initialText ?? 'Start typing to search'}
             dropdownHeight={props.dropdownHeight ?? '300px'}
             variant={props.variant ?? 'header'}
             onSelect={updateContext}
+            autofocus={true}
+            onClearContext={() => console.log('Clearing Context')}
           />
         </div>
-      </ContextProviderComponent>
+      </ContextProvider>
     )
   );
 };
