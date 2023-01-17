@@ -10,19 +10,19 @@ import { LegacyFusionWrapper } from '@equinor/fusion-framework-legacy-interopt/c
 
 import { ThemeProvider, theme } from '@equinor/fusion-react-styles';
 import { FusionHeader, FusionContent } from '@equinor/fusion-components';
-import { StarProgress } from '@equinor/fusion-react-progress-indicator';
+import { Loader } from './Loader';
 
 import { ContextSelector } from './components/ContextSelector';
 
 import { HotAppWrapper } from './HotAppWrapper';
 
-export const Portal = () => {
+export const Portal = (): JSX.Element => {
   const framework = useFramework<[AppModule, NavigationModule]>();
   return (
     <ThemeProvider theme={theme}>
       <LegacyFusionWrapper
         framework={framework}
-        loader={<StarProgress />}
+        loader={<Loader />}
         options={{ loadBundlesFromDisk: true, environment: { env: 'dev' } }}
       >
         <BrowserRouter>
