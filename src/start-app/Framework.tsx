@@ -36,7 +36,7 @@ export const Framework = createFrameworkProvider(async (config) => {
   // @ts-ignore
   enableNavigation(config);
 
-  await new Promise((resolve) => setTimeout(resolve, timestamp - Date.now() + 3000));
+  await new Promise((resolve) => setTimeout(resolve, timestamp - Date.now() + 300));
 });
 
 export default Framework;
