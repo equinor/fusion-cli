@@ -20,7 +20,11 @@ export const Portal = () => {
   const framework = useFramework<[AppModule, NavigationModule]>();
   return (
     <ThemeProvider theme={theme}>
-      <LegacyFusionWrapper framework={framework} loader={<StarProgress />} options={{ loadBundlesFromDisk: true }}>
+      <LegacyFusionWrapper
+        framework={framework}
+        loader={<StarProgress />}
+        options={{ loadBundlesFromDisk: true, environment: { env: 'dev' } }}
+      >
         <BrowserRouter>
           <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />
         </BrowserRouter>
