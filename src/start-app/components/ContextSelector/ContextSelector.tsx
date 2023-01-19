@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import {
   ContextProvider,
-  ContextSelectorHeader,
-  ContextSelectorProps,
+  ContextSearch,
+  ContextSearchProps,
   ContextSelectEvent,
 } from '@equinor/fusion-react-context-selector';
 import { useContextResolver } from './useContextResolver';
@@ -12,14 +12,17 @@ import { useContextResolver } from './useContextResolver';
  * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
  * @returns JSX element
  */
-export const ContextSelector = (props: ContextSelectorProps): JSX.Element | null => {
+export const ContextSelector = (props: ContextSearchProps): JSX.Element | null => {
   const { resolver, provider } = useContextResolver();
-
   const updateContext = useCallback(
     (e: ContextSelectEvent) => {
-      if (e.nativeEvent.detail.selected.length) {
-        if (provider) {
-          provider.contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
+      if (provider) {
+        if (e.type === 'select') {
+          if (e.nativeEvent.detail.selected.length) {
+            provider.contextClient.setCurrentContext(e.nativeEvent.detail.selected[0].id);
+          }
+        } else {
+          provider.clearCurrentContext();
         }
       }
     },
@@ -30,7 +33,7 @@ export const ContextSelector = (props: ContextSelectorProps): JSX.Element | null
     resolver && (
       <div style={{ flex: 1, maxWidth: '480px' }}>
         <ContextProvider resolver={resolver}>
-          <ContextSelectorHeader
+          <ContextSearch
             id="context-selector-cli-header"
             placeholder={props.placeholder ?? 'Search for context'}
             initialText={props.initialText ?? 'Start typing to search'}
@@ -38,7 +41,7 @@ export const ContextSelector = (props: ContextSelectorProps): JSX.Element | null
             variant={props.variant ?? 'header'}
             onSelect={updateContext}
             autofocus={true}
-            onClearContext={() => console.log('Clearing Context')}
+            onClearContext={(e) => updateContext(e as unknown as ContextSelectEvent)}
           />
         </ContextProvider>
       </div>
