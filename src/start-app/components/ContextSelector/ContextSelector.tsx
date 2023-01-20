@@ -14,6 +14,7 @@ import { useContextResolver } from './useContextResolver';
  */
 export const ContextSelector = (props: ContextSearchProps): JSX.Element | null => {
   const { resolver, provider } = useContextResolver();
+
   const updateContext = useCallback(
     (e: ContextSelectEvent) => {
       if (provider) {
