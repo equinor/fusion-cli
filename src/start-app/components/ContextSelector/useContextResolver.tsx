@@ -10,6 +10,7 @@ import { EMPTY } from 'rxjs';
 
 import { ContextResult, ContextResultItem, ContextResolver } from '@equinor/fusion-react-context-selector';
 import { AppModulesInstance } from '@equinor/fusion-framework-app';
+import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
 
 /**
  * Map context query result to ContextSelectorResult.
@@ -47,21 +48,25 @@ const noPreselect: ContextResult = [];
  */
 export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null } => {
   /* Framework modules */
-  const framework = useFramework<[AppModule]>();
-
+  const framework = useFramework<[AppModule, NavigationModule]>();
   /* Current context observable */
   const currentContext = useObservableState(framework.modules.context.currentContext$);
-
-  /* Set currentContext as initialResult in dropdown  */
-  const preselected: ContextResult = useMemo(
-    () => (currentContext ? mapper([currentContext]) : noPreselect),
-    [currentContext]
-  );
 
   /* context provider state */
   const [provider, setProvider] = useState<IContextProvider | null>(null);
 
   const { currentApp } = useCurrentApp();
+
+  /* Set currentContext as initialResult in dropdown  */
+  const preselected: ContextResult = useMemo(() => {
+    if (!currentContext) {
+      // TODO - fix execution from bad setState
+      requestAnimationFrame(() => {
+        framework.modules.navigation.navigator.push('/');
+      });
+    }
+    return currentContext ? mapper([currentContext]) : noPreselect;
+  }, [currentContext, framework]);
 
   /** App module collection instance */
   const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);
@@ -90,7 +95,7 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
    * set resolver for ContextSelector
    * @return ContextResolver
    */
-  const minLength = 3;
+  const minLength = 2;
   const resolver = useMemo(
     (): ContextResolver | null =>
       provider && {
