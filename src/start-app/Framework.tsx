@@ -33,6 +33,7 @@ export const Framework = createFrameworkProvider(async (config) => {
   enableAppModule(config);
 
   // TODO
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   enableNavigation(config);
 
