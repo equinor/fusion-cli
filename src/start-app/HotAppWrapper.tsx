@@ -7,7 +7,7 @@ import { AppManifest } from '@equinor/fusion/lib/app/AppContainer';
 
 import { useFramework } from '@equinor/fusion-framework-react';
 import type { AppModule } from '@equinor/fusion-framework-module-app';
-import { StarProgress } from '@equinor/fusion-react-progress-indicator';
+import { Loader } from './Loader';
 
 import { Router, BrowserRouter } from 'react-router-dom';
 
@@ -35,7 +35,7 @@ const AppLoader = ({ app }: { app: App }) => {
   }, [framework, history, config, manifest]);
 
   return (
-    <Suspense fallback={<StarProgress>Loading Application</StarProgress>}>
+    <Suspense fallback={<Loader>Loading Application</Loader>}>
       <Component />
     </Suspense>
   );
@@ -53,7 +53,6 @@ export const HotAppWrapper: FunctionComponent = () => {
   } = useFusionContext();
 
   const currentApp = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
-
   const sendNotification = useNotificationCenter();
 
   useEffect(() => {
@@ -80,7 +79,7 @@ export const HotAppWrapper: FunctionComponent = () => {
   useEffect(() => {
     currentApp &&
       sendNotification({
-        cancelLabel: 'I know',
+        cancelLabel: 'Ok',
         level: 'low',
         title: `${currentApp.appKey} is updated`,
       });

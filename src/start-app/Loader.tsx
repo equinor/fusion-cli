@@ -1,7 +1,7 @@
 import React from 'react';
 import { StarProgress } from '@equinor/fusion-react-progress-indicator';
 
-export const Loader = (): JSX.Element => {
+export const Loader = ({ children }: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   return (
     <div
       style={{
@@ -13,7 +13,7 @@ export const Loader = (): JSX.Element => {
         overflow: 'hidden',
       }}
     >
-      <StarProgress text="Loading framework" />
+      <StarProgress text="Loading framework">{children}</StarProgress>
     </div>
   );
 };
