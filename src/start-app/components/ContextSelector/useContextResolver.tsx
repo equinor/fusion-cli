@@ -59,14 +59,8 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
 
   /* Set currentContext as initialResult in dropdown  */
   const preselected: ContextResult = useMemo(() => {
-    if (!currentContext) {
-      // TODO - fix execution from bad setState
-      requestAnimationFrame(() => {
-        framework.modules.navigation.navigator.push('/');
-      });
-    }
     return currentContext ? mapper([currentContext]) : noPreselect;
-  }, [currentContext, framework]);
+  }, [currentContext]);
 
   /** App module collection instance */
   const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);
