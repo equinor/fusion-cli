@@ -50,12 +50,12 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
   /* Framework modules */
   const framework = useFramework<[AppModule, NavigationModule]>();
   /* Current context observable */
-  const currentContext = useObservableState(framework.modules.context.currentContext$);
+  const { next: currentContext } = useObservableState(framework.modules.context.currentContext$);
 
   /* context provider state */
   const [provider, setProvider] = useState<IContextProvider | null>(null);
 
-  const { currentApp } = useCurrentApp();
+  const currentApp = useCurrentApp();
 
   /* Set currentContext as initialResult in dropdown  */
   const preselected: ContextResult = useMemo(() => {
@@ -63,7 +63,7 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
   }, [currentContext]);
 
   /** App module collection instance */
-  const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);
+  const instance$ = useMemo(() => currentApp?.currentApp?.instance$ || EMPTY, [currentApp]);
 
   /** callback function when current app instance changes */
   const onContextProviderChange = useCallback(
