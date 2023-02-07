@@ -54,16 +54,25 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
   /* context provider state */
   const [provider, setProvider] = useState<IContextProvider | null>(null);
 
+<<<<<<< HEAD
   // const {next: currentApp} = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
   const { currentApp } = useCurrentApp();
+=======
+  const currentApp = useCurrentApp();
+>>>>>>> 86d18c8 (fix: updating framework dependencies and observable)
 
   const preselected: ContextResult = useMemo(() => {
     return currentContext ? mapper([currentContext]) : [];
   }, [currentContext]);
 
   /** App module collection instance */
+<<<<<<< HEAD
   const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);
   
+=======
+  const instance$ = useMemo(() => currentApp?.currentApp?.instance$ || EMPTY, [currentApp]);
+
+>>>>>>> 86d18c8 (fix: updating framework dependencies and observable)
   /** callback function when current app instance changes */
   const onContextProviderChange = useCallback(
     (modules: AppModulesInstance) => {
