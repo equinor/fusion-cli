@@ -9,9 +9,12 @@ const useStyle = makeStyles(
       root: {
         display: 'flex',
         height: '100%',
+        width: '100%',
       },
       content: {
-        padding: theme.spacing.comfortable.medium.getVariable('padding'),
+        paddingTop: theme.spacing.comfortable.medium.getVariable('padding'),
+        paddingBottom: theme.spacing.comfortable.medium.getVariable('padding'),
+        flex: '1 1 100%',
       },
     }),
   { name: 'layout' }

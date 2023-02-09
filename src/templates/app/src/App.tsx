@@ -4,6 +4,9 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { BrowserRouter } from 'react-router-dom';
 import { Router } from './Router';
 
+import { PersonProvider } from '@equinor/fusion-react-person';
+import { usePersonResolver } from './api/usePersonResolver';
+
 /**
  * @constant queryClient created new query client
  */
@@ -16,12 +19,16 @@ const queryClient = new QueryClient();
  * React Query @see (@link https://react-query.tanstack.com/quick-start)
  */
 export const AppComponent = (): JSX.Element => {
+  const personResolver = usePersonResolver();
+
   return (
     <BrowserRouter>
-      <QueryClientProvider client={queryClient}>
-        <Router />
-        <ReactQueryDevtools initialIsOpen />
-      </QueryClientProvider>
+      <PersonProvider resolve={personResolver}>
+        <QueryClientProvider client={queryClient}>
+          <Router />
+          <ReactQueryDevtools initialIsOpen />
+        </QueryClientProvider>
+      </PersonProvider>
     </BrowserRouter>
   );
 };

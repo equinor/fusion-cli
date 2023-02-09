@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useCurrentUser, useNotificationCenter, PersonDetails } from '@equinor/fusion';
+import { useCurrentUser, useNotificationCenter } from '@equinor/fusion';
 import { Breadcrumb, BreadcrumbItemProps } from '@equinor/fusion-react-breadcrumb';
 import { useNavigate } from 'react-router-dom';
 import useNavStyles from '../components/Navigation.style';
 import useStyles from '../App.style';
-import { PersonDetail, PersonCard } from '@equinor/fusion-components';
 import { Divider } from '@equinor/fusion-react-divider';
+import { AvatarSize, PersonCard } from '@equinor/fusion-react-person';
 
 /**
  * User page
@@ -86,26 +86,7 @@ export const UserPage = (): JSX.Element => {
     );
   }
 
-  /**
-   * Personal details
-   *
-   * @returns Personal details object with users inforamtion
-   */
-  const personDetails = (): PersonDetails => ({
-    azureUniqueId: currentUser.id,
-    name: currentUser.fullName,
-    mail: currentUser.upn,
-    jobTitle: 'Developer',
-    department: 'Fusion',
-    mobilePhone: '+47987654321',
-    officeLocation: 'Forusbeen 50',
-    upn: currentUser.upn,
-    accountType: 'Consultant',
-    company: { id: '923 609 016', name: 'Equinor ASA' },
-  });
-
-  const [breadcrumb, setBreadcrumb] = useState<BreadcrumbItemProps[]>(breadcrumbs());
-  const [person, setPerson] = useState<PersonDetails>(personDetails());
+  const [breadcrumb] = useState<BreadcrumbItemProps[]>(breadcrumbs());
 
   return (
     <div className={navStyles.flex}>
@@ -113,11 +94,13 @@ export const UserPage = (): JSX.Element => {
         <div className={navStyles.breadcrumbs}>
           <Breadcrumb currentLevel={1} isFetching={false} breadcrumbs={breadcrumb} />
         </div>
+        <h2 className={styles.main_title}>Person Cards</h2>
         <div className={styles.user}>
-          <PersonDetail person={person} />
+          <PersonCard size={AvatarSize.Small} azureId="d8d9fa2f-ecee-4cfb-a371-a39e8c1b76aa" />
         </div>
-        <Divider />
-        <PersonCard person={person} />
+        <div className={styles.user}>
+          <PersonCard size={AvatarSize.Small} azureId="1ea5f203-c1ad-4893-bdea-4fadd95455e4" />
+        </div>
         <Divider />
         <p>Here are some information that might be usefull to you:</p>
         <div>

@@ -2,12 +2,12 @@ import { createStyles, makeStyles } from '@equinor/fusion-react-styles';
 
 /**
  * Custom app styling
- * 
+ *
  * @see (@link https://equinor.github.io/fusion-react-components/?path=/docs/styling--page)
  */
 export const useAppStyle = makeStyles(
   /**
-   * 
+   *
    * @param theme fusion parameter for default theme styling values
    * @returns additional style classes
    */
