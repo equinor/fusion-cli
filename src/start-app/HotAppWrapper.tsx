@@ -9,6 +9,9 @@ import { useFramework } from '@equinor/fusion-framework-react';
 import type { AppModule } from '@equinor/fusion-framework-module-app';
 import { Loader } from './Loader';
 
+import { PersonProvider } from '@equinor/fusion-react-person';
+import { usePersonResolver } from './components/PersonResolver/usePersonResolver';
+
 import { Router, BrowserRouter } from 'react-router-dom';
 
 import { App } from '@equinor/fusion-framework-module-app';
@@ -19,6 +22,8 @@ const AppLoader = ({ app }: { app: App }) => {
   const framework = useFramework<[AppModule]>();
   const { history } = useFusionContext();
   const { manifest, config } = app.state;
+  const personResolver = usePersonResolver();
+
   const Component = useMemo(() => {
     console.log('🥷🏻 Rendering app component');
     // @ts-ignore
@@ -36,7 +41,9 @@ const AppLoader = ({ app }: { app: App }) => {
 
   return (
     <Suspense fallback={<Loader>Loading Application</Loader>}>
-      <Component />
+      <PersonProvider resolve={personResolver}>
+        <Component />
+      </PersonProvider>
     </Suspense>
   );
 };
