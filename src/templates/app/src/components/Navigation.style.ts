@@ -13,6 +13,7 @@ export const useStyles = makeStyles(
         width: '100%',
         backgroundColor: '#fff',
         paddingBottom: theme.spacing.comfortable.medium.getVariable('padding'),
+        zIndex: '99',
       },
     }),
   // name the stylesheet for easy debugging
