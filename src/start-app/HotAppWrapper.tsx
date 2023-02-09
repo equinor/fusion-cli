@@ -9,6 +9,7 @@ import { useFramework } from '@equinor/fusion-framework-react';
 import type { AppModule } from '@equinor/fusion-framework-module-app';
 import { Loader } from './Loader';
 
+import { PersonResolver } from './components/PersonResolver/PersonResolver';
 import { Router, BrowserRouter } from 'react-router-dom';
 
 import { App } from '@equinor/fusion-framework-module-app';
@@ -37,7 +38,9 @@ const AppLoader = ({ app }: { app: App }) => {
 
   return (
     <Suspense fallback={<Loader>Loading Application</Loader>}>
-      <Component />
+      <PersonResolver>
+        <Component />
+      </PersonResolver>
     </Suspense>
   );
 };
