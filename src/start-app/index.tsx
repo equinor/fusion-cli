@@ -8,11 +8,11 @@ import { PersonResolver } from './components/PersonResolver/PersonResolver';
 
 render(
   <Suspense fallback={<Loader />}>
-    <PersonResolver>
-      <Framework>
+    <Framework>
+      <PersonResolver>
         <Portal />
-      </Framework>
-    </PersonResolver>
+      </PersonResolver>
+    </Framework>
   </Suspense>,
   document.getElementById('fusion-app')
 );
