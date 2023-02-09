@@ -15,7 +15,6 @@ const createPersonClient = (client: IHttpClient) => {
     client: {
       fn: async (azureId: string) => {
         const user = await client.json<PersonDetails>(`/persons/${azureId}?api-version=4.0`);
-        console.log(1, 'data', user);
 
         try {
           const image = await client.json<string>(`/persons/${azureId}/photo?api-version=1.0`);
