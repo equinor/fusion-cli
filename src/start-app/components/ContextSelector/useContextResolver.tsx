@@ -45,7 +45,7 @@ const singleItem = (props: Partial<ContextResultItem>): ContextResultItem => {
  * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
  * @return Array<ContextResolver, SetContextCallback>
  */
-export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null; currentContext: ContextResult } => {
+export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null; currentContext: ContextItem | undefined } => {
   /* Framework modules */
   const framework = useFramework<[AppModule, NavigationModule]>();
   
