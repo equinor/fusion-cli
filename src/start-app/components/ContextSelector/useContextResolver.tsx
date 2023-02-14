@@ -18,14 +18,15 @@ import { NavigationModule } from '@equinor/fusion-framework-module-navigation';
  * @param src context query result
  * @returns src mapped to ContextResult type
  */
-const mapper = (src: Array<ContextItem>): ContextResult => {
+export const mapper = (src: Array<ContextItem>): ContextResult => {
   return src.map((i) => {
-    return {
+    const item = {
       id: i.id,
       title: i.title,
       subTitle: i.type.id,
       graphic: i.type.id === 'OrgChart' ? 'list' : undefined,
     };
+    return item;
   });
 };
 
@@ -38,15 +39,13 @@ const singleItem = (props: Partial<ContextResultItem>): ContextResultItem => {
   return Object.assign({ id: 'no-such-item', title: 'Change me' }, props);
 };
 
-const noPreselect: ContextResult = [];
-
 /**
  * Hook for querying context and setting resolver for ContextSelector component
  * See React Components storybook for info about ContextSelector component and its resolver
  * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
  * @return Array<ContextResolver, SetContextCallback>
  */
-export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null } => {
+export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null, currentContext: ContextItem<Record<string, unknown>> | undefined } => {
   /* Framework modules */
   const framework = useFramework<[AppModule, NavigationModule]>();
   /* Current context observable */
@@ -58,9 +57,11 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
   const currentApp = useCurrentApp();
 
   /* Set currentContext as initialResult in dropdown  */
-  const preselected: ContextResult = useMemo(() => {
-    return currentContext ? mapper([currentContext]) : noPreselect;
+  const preselected = useMemo(() => {
+    const ctx = currentContext ? mapper([currentContext]) : [];
+    return ctx;
   }, [currentContext]);
+  
 
   /** App module collection instance */
   const instance$ = useMemo(() => currentApp?.currentApp?.instance$ || EMPTY, [currentApp]);
@@ -125,7 +126,7 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
     [provider, preselected]
   );
 
-  return { resolver, provider };
+  return { resolver, provider, currentContext };
 };
 
 export default useContextResolver;
