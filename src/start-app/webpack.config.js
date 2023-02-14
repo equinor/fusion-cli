@@ -53,7 +53,6 @@ module.exports = {
           },
         },
       },
-
       {
         test: require.resolve('react-dom'),
         loader: 'expose-loader',

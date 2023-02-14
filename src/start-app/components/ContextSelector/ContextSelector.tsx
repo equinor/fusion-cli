@@ -1,17 +1,12 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useCallback, useState } from 'react';
 import {
   ContextProvider,
+  ContextResultItem,
   ContextSearch,
   ContextSearchProps,
   ContextSelectEvent,
 } from '@equinor/fusion-react-context-selector';
-import { useFramework } from '@equinor/fusion-framework-react';
-import { useContextResolver } from './useContextResolver';
-import type { NavigationModule } from '@equinor/fusion-framework-module-navigation';
-import type { AppModule, AppManifest } from '@equinor/fusion-framework-module-app';
-import { useObservableState } from '@equinor/fusion-observable/react';
-import { EMPTY, pairwise } from 'rxjs';
-import { ContextManifest } from '@equinor/fusion';
+import { useContextResolver, mapper } from './useContextResolver';
 
 type AppManifestWithContext = AppManifest & {context: ContextManifest | undefined}
 /**
@@ -20,13 +15,14 @@ type AppManifestWithContext = AppManifest & {context: ContextManifest | undefine
  * @returns JSX element
  */
 export const ContextSelector = (props: ContextSearchProps): JSX.Element | null => {
-  const { resolver, provider, currentContext: [selectedContextItem] } = useContextResolver(); 
-  
-  const framework = useFramework<[AppModule, NavigationModule]>();
-  const {value: currentApp } = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
-  const {value: appManifest} = useObservableState(useMemo(() => currentApp?.getManifest() ?? EMPTY, [currentApp]));
-  const {value: ctx} = useObservableState(useMemo(() => framework.modules.context.currentContext$.pipe(pairwise()), []));
+  const { resolver, provider, currentContext } = useContextResolver();
 
+  const selectedContext = useMemo(() => {{
+    if (currentContext) {
+      return mapper([currentContext])[0];
+    }
+  }}, [currentContext]);
+  
   const updateContext = useCallback(
     (e) => {
       if (provider) {
@@ -83,12 +79,12 @@ export const ContextSelector = (props: ContextSearchProps): JSX.Element | null =
             initialText={props.initialText ?? 'Start typing to search'}
             dropdownHeight={props.dropdownHeight ?? '300px'}
             variant={props.variant ?? 'header'}
-            onSelect={updateContext}
             autofocus={true}
-            previewItem={selectedContextItem}
-            value={selectedContextItem?.title}
-            selectedId={selectedContextItem?.title}
-            onClearContext={updateContext}
+            previewItem={selectedContext}
+            value={selectedContext?.title}
+            selectedId={selectedContext?.id}
+            onSelect={updateContext}
+            onClearContext={(e) => updateContext(e as unknown as ContextSelectEvent)}
           />
         </ContextProvider>
       </div>
