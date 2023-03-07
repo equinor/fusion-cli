@@ -48,6 +48,7 @@ const singleItem = (props: Partial<ContextResultItem>): ContextResultItem => {
 export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null, currentContext: ContextItem<Record<string, unknown>> | undefined } => {
   /* Framework modules */
   const framework = useFramework<[AppModule, NavigationModule]>();
+  
   /* Current context observable */
   const {value: currentContext} = useObservableState(framework.modules.context.currentContext$);
 

@@ -56,7 +56,11 @@ export const HotAppWrapper: FunctionComponent = () => {
     app: { container: appContainer },
   } = useFusionContext();
 
+<<<<<<< HEAD
   const {value: currentApp} = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
+=======
+  const { value: currentApp } = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
+>>>>>>> 047d50f (chore: updating fusion-framework packages)
   const sendNotification = useNotificationCenter();
 
   useEffect(() => {
