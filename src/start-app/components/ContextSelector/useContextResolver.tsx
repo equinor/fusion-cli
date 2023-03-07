@@ -50,7 +50,7 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
   /* Framework modules */
   const framework = useFramework<[AppModule, NavigationModule]>();
   /* Current context observable */
-  const currentContext = useObservableState(framework.modules.context.currentContext$);
+  const {value: currentContext} = useObservableState(framework.modules.context.currentContext$);
 
   /* context provider state */
   const [provider, setProvider] = useState<IContextProvider | null>(null);
