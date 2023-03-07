@@ -30,7 +30,7 @@ jobs:
           git fetch --depth=1 origin +refs/tags/*:refs/tags/*
 
       - name: Bump version
-        run: npm version prerelease --preid beta
+        run: npm version prerelease --preid alpha
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -41,6 +41,6 @@ jobs:
           GH_TOKEN: ${{ github.token }}
 
       - name: Release packages
-        run: npm publish --access public --tag next
+        run: npm publish --access public --tag alpha
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
