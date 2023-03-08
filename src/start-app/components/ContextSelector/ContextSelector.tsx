@@ -6,7 +6,7 @@ import {
   ContextSearchProps,
   ContextSelectEvent,
 } from '@equinor/fusion-react-context-selector';
-import { useContextResolver, mapper } from './useContextResolver';
+import { useContextResolver } from './useContextResolver';
 
 type AppManifestWithContext = AppManifest & {context: ContextManifest | undefined}
 /**
@@ -16,12 +16,6 @@ type AppManifestWithContext = AppManifest & {context: ContextManifest | undefine
  */
 export const ContextSelector = (props: ContextSearchProps): JSX.Element | null => {
   const { resolver, provider, currentContext } = useContextResolver();
-
-  const selectedContext = useMemo(() => {{
-    if (currentContext) {
-      return mapper([currentContext])[0];
-    }
-  }}, [currentContext]);
   
   const updateContext = useCallback(
     (e) => {
@@ -80,9 +74,9 @@ export const ContextSelector = (props: ContextSearchProps): JSX.Element | null =
             dropdownHeight={props.dropdownHeight ?? '300px'}
             variant={props.variant ?? 'header'}
             autofocus={true}
-            previewItem={selectedContext}
-            value={selectedContext?.title}
-            selectedId={selectedContext?.id}
+            previewItem={currentContext.length ? currentContext[0] : undefined}
+            value={currentContext.length ? currentContext[0].title : undefined}
+            selectedId={currentContext.length ? currentContext[0].id : undefined}
             onSelect={updateContext}
             onClearContext={(e) => updateContext(e as unknown as ContextSelectEvent)}
           />
