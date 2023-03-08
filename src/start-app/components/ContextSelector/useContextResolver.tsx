@@ -45,7 +45,7 @@ const singleItem = (props: Partial<ContextResultItem>): ContextResultItem => {
  * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
  * @return Array<ContextResolver, SetContextCallback>
  */
-export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null, currentContext: ContextItem<Record<string, unknown>> | undefined } => {
+export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null, currentContext: ContextResult } => {
   /* Framework modules */
   const framework = useFramework<[AppModule, NavigationModule]>();
   
@@ -59,8 +59,7 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
 
   /* Set currentContext as initialResult in dropdown  */
   const preselected = useMemo(() => {
-    const ctx = currentContext ? mapper([currentContext]) : [];
-    return ctx;
+    return currentContext ? mapper([currentContext]) : [];
   }, [currentContext]);
   
 
@@ -127,7 +126,7 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
     [provider, preselected]
   );
 
-  return { resolver, provider, currentContext };
+  return { resolver, provider, currentContext: preselected };
 };
 
 export default useContextResolver;
