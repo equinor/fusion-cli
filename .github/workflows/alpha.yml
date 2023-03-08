@@ -1,0 +1,46 @@
+name: Release Alpha Version
+
+on:
+  push:
+    branches:
+      - alpha
+
+jobs:
+  release-pkg:
+    name: Create release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          registry-url: https://registry.npmjs.org
+
+      - name: Install Node Dependencies
+        run: |
+          npm ci --legacy-peer-deps
+          npm run build
+
+      - name: Config git user
+        run: |
+          git config --global user.name "${{ github.actor }}"
+          git config --global user.email "${{ github.actor }}@users.noreply.github.com"
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+
+      - name: Bump version
+        run: npm version prerelease --preid alpha
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Push version
+        run: git push --follow-tags
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Release packages
+        run: npm publish --access public --tag alpha
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
