@@ -51,22 +51,18 @@ export const Router = (): JSX.Element | null => {
   const fusionHistory = useHistory();
   const navigate = useNavigate();
   const { basename, isAppPath } = useNavHack();
-  useEffect(
-    () =>
-      {
-        return fusionHistory.listen((e) => {
-          const { pathname } = e as Update & { pathname?: string; };
-          /** hack since app is unloaded after navigation outside app */
-          if (pathname && isAppPath(pathname)) {
-            /** hack to remove app prefix from path */
-            navigate(e.location, { replace: e.action === 'REPLACE' });
-          } else {
-            navigate(e.location, { replace: e.action === 'REPLACE' });
-          }
-        });
-      },
-    [fusionHistory, isAppPath, basename]
-  );
+  useEffect(() => {
+    return fusionHistory.listen((e) => {
+      const { pathname } = e as Update & { pathname?: string };
+      /** hack since app is unloaded after navigation outside app */
+      if (pathname && isAppPath(pathname)) {
+        /** hack to remove app prefix from path */
+        navigate(e.location, { replace: e.action === 'REPLACE' });
+      } else {
+        navigate(e.location, { replace: e.action === 'REPLACE' });
+      }
+    });
+  }, [fusionHistory, isAppPath, basename]);
   return useRoutes([{ path: '/:contextId?/', element: <Layout />, children: pages }]);
 };
 
