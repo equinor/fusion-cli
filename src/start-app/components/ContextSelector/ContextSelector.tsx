@@ -1,12 +1,17 @@
-import React, { useEffect, useMemo, useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {
   ContextProvider,
-  ContextResultItem,
   ContextSearch,
   ContextSearchProps,
   ContextSelectEvent,
 } from '@equinor/fusion-react-context-selector';
+import { useFramework } from '@equinor/fusion-framework-react';
 import { useContextResolver } from './useContextResolver';
+import type { NavigationModule } from '@equinor/fusion-framework-module-navigation';
+import type { AppModule, AppManifest } from '@equinor/fusion-framework-module-app';
+import { useObservableState } from '@equinor/fusion-observable/react';
+import { EMPTY, pairwise } from 'rxjs';
+import { ContextManifest } from '@equinor/fusion';
 
 type AppManifestWithContext = AppManifest & {context: ContextManifest | undefined}
 /**
@@ -15,8 +20,13 @@ type AppManifestWithContext = AppManifest & {context: ContextManifest | undefine
  * @returns JSX element
  */
 export const ContextSelector = (props: ContextSearchProps): JSX.Element | null => {
-  const { resolver, provider, currentContext } = useContextResolver();
-  
+  const { resolver, provider, currentContext: [selectedContextItem] } = useContextResolver(); 
+  const framework = useFramework<[AppModule, NavigationModule]>();
+  const {value: currentApp, complete} = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
+  const {value: appManifest} = useObservableState(useMemo(() => currentApp?.getManifest() ?? EMPTY, [currentApp]));
+
+  const {value: ctx} = useObservableState(useMemo(() => framework.modules.context.currentContext$.pipe(pairwise()), []));
+
   const updateContext = useCallback(
     (e) => {
       if (provider) {
@@ -73,12 +83,12 @@ export const ContextSelector = (props: ContextSearchProps): JSX.Element | null =
             initialText={props.initialText ?? 'Start typing to search'}
             dropdownHeight={props.dropdownHeight ?? '300px'}
             variant={props.variant ?? 'header'}
-            autofocus={true}
-            previewItem={currentContext.length ? currentContext[0] : undefined}
-            value={currentContext.length ? currentContext[0].title : undefined}
-            selectedId={currentContext.length ? currentContext[0].id : undefined}
             onSelect={updateContext}
-            onClearContext={(e) => updateContext(e as unknown as ContextSelectEvent)}
+            autofocus={true}
+            previewItem={selectedContextItem}
+            value={selectedContextItem?.title}
+            selectedId={selectedContextItem?.title}
+            onClearContext={updateContext}
           />
         </ContextProvider>
       </div>
