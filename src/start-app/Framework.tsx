@@ -25,7 +25,7 @@ export const Framework = createFrameworkProvider(async (config) => {
 
   config.configureServiceDiscovery({
     client: {
-      baseUri: 'https://pro-s-portal-ci.azurewebsites.net',
+      baseUri: 'https://fusion-s-portal-ci.azurewebsites.net',
       defaultScopes: ['97978493-9777-4d48-b38a-67b0b9cd88d2/.default'],
     },
   });

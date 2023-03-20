@@ -100,7 +100,7 @@ Required arguments:
 ```
 $env:INPUT_ISDEBUG = "true"
 $env:INPUT_ACTION = "config"
-$env:INPUT_PORTALURL = "https://pro-s-portal-ci.azurewebsites.net"
+$env:INPUT_PORTALURL = "https://fusion-s-portal-ci.azurewebsites.net"
 $env:INPUT_TOKENRESOURCE = "5a842df8-3238-415d-b168-9f16a6a6031b"
 $env:INPUT_APPKEY = "cvppoc"
 $env:INPUT_testCredentials = "./.testCredentials"
