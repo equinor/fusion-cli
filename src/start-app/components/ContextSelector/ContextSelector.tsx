@@ -21,10 +21,10 @@ type AppManifestWithContext = AppManifest & {context: ContextManifest | undefine
  */
 export const ContextSelector = (props: ContextSearchProps): JSX.Element | null => {
   const { resolver, provider, currentContext: [selectedContextItem] } = useContextResolver(); 
+  
   const framework = useFramework<[AppModule, NavigationModule]>();
-  const {value: currentApp, complete} = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
+  const {value: currentApp } = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
   const {value: appManifest} = useObservableState(useMemo(() => currentApp?.getManifest() ?? EMPTY, [currentApp]));
-
   const {value: ctx} = useObservableState(useMemo(() => framework.modules.context.currentContext$.pipe(pairwise()), []));
 
   const updateContext = useCallback(
@@ -44,14 +44,31 @@ export const ContextSelector = (props: ContextSearchProps): JSX.Element | null =
   );
 
   const {navigator} = framework.modules.navigation;
+  
+  /**
+   * Get contextid from url
+   * @return string ContextId if numerical or guid.
+   */
+  const urlContext = (appKey: string): string => {
+    const parts = navigator.location.pathname.split('/').filter((p) => p && ['apps', appKey].indexOf(p) < 0);
+    if (parts?.length && parts[0].length) {
+      const ctx = parts[0];
+      if (ctx.match(/^\d+$/) || ctx.match(/^(?:[a-z0-9]+-){4}[a-z0-9]+$/)) {
+        return ctx;
+      }
+    }
+    return '';
+  };
 
   useEffect(() => {
     if(!ctx) return;
     const [ previousContext, nextContext ] = ctx;
-    if(!nextContext) return;; // TODO
+    if(!nextContext) return; // TODO
+    
     const manifest = appManifest as AppManifestWithContext;
-    const p = previousContext?.id ?? manifest?.context?.getContextFromUrl?.(navigator.location.pathname);
+    const p = previousContext?.id ?? urlContext(manifest.key);
     const url = p ? navigator.location.pathname.replace(p, nextContext?.id) : `/${nextContext?.id}`;
+    
     const reqId = requestAnimationFrame(() => navigator.replace(url));
     return () => cancelAnimationFrame(reqId);
   }, [ctx, navigator]);
