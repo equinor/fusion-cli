@@ -21,10 +21,10 @@ type AppManifestWithContext = AppManifest & {context: ContextManifest | undefine
  */
 export const ContextSelector = (props: ContextSearchProps): JSX.Element | null => {
   const { resolver, provider, currentContext: [selectedContextItem] } = useContextResolver(); 
+  
   const framework = useFramework<[AppModule, NavigationModule]>();
-  const {value: currentApp, complete} = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
+  const {value: currentApp } = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
   const {value: appManifest} = useObservableState(useMemo(() => currentApp?.getManifest() ?? EMPTY, [currentApp]));
-
   const {value: ctx} = useObservableState(useMemo(() => framework.modules.context.currentContext$.pipe(pairwise()), []));
 
   const updateContext = useCallback(
@@ -67,7 +67,7 @@ export const ContextSelector = (props: ContextSearchProps): JSX.Element | null =
     
     const manifest = appManifest as AppManifestWithContext;
     const p = previousContext?.id ?? urlContext(manifest.key);
-    const url = p ? navigator.location.pathname.replace(p, nextContext?.id) : `/apps/${nextContext?.id}`;
+    const url = p ? navigator.location.pathname.replace(p, nextContext?.id) : `/${nextContext?.id}`;
     
     const reqId = requestAnimationFrame(() => navigator.replace(url));
     return () => cancelAnimationFrame(reqId);
