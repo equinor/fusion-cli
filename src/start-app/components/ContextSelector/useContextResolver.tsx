@@ -18,14 +18,15 @@ import { AppModulesInstance } from '@equinor/fusion-framework-app';
  * @param src context query result
  * @returns src mapped to ContextResult type
  */
-const mapper = (src: Array<ContextItem>): ContextResult => {
+export const mapper = (src: Array<ContextItem>): ContextResult => {
   return src.map((i) => {
-    return {
+    const item = {
       id: i.id,
       title: i.title,
       subTitle: i.type.id,
       graphic: i.type.id === 'OrgChart' ? 'list' : undefined,
     };
+    return item;
   });
 };
 
@@ -60,6 +61,7 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
   const preselected: ContextResult = useMemo(() => {
     return currentContext ? mapper([currentContext]) : [];
   }, [currentContext]);
+  
 
   /** App module collection instance */
   const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);

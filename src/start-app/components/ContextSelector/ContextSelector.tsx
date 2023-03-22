@@ -67,7 +67,7 @@ export const ContextSelector = (props: ContextSearchProps): JSX.Element | null =
     
     const manifest = appManifest as AppManifestWithContext;
     const p = previousContext?.id ?? urlContext(manifest.key);
-    const url = p ? navigator.location.pathname.replace(p, nextContext?.id) : `/apps/${nextContext?.id}`;
+    const url = p ? navigator.location.pathname.replace(p, nextContext?.id) : `/${nextContext?.id}`;
     
     const reqId = requestAnimationFrame(() => navigator.replace(url));
     return () => cancelAnimationFrame(reqId);
