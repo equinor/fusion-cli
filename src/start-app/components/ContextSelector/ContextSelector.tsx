@@ -8,19 +8,17 @@ import {
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useContextResolver } from './useContextResolver';
 import type { NavigationModule } from '@equinor/fusion-framework-module-navigation';
-import type { AppModule, AppManifest } from '@equinor/fusion-framework-module-app';
+import type { AppModule } from '@equinor/fusion-framework-module-app';
 import { useObservableState } from '@equinor/fusion-observable/react';
 import { EMPTY, pairwise } from 'rxjs';
-import { ContextManifest } from '@equinor/fusion';
 
-type AppManifestWithContext = AppManifest & {context: ContextManifest | undefined}
 /**
  * See fusion-react-component storybook for available attributes
  * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
  * @returns JSX element
  */
 export const ContextSelector = (props: ContextSearchProps): JSX.Element | null => {
-  const { resolver, provider, currentContext: [selectedContextItem] } = useContextResolver(); 
+  const { resolver, provider, currentContext: [selectedContextItem] } = useContextResolver();
   
   const framework = useFramework<[AppModule, NavigationModule]>();
   const {value: currentApp } = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
@@ -61,17 +59,61 @@ export const ContextSelector = (props: ContextSearchProps): JSX.Element | null =
   };
 
   useEffect(() => {
-    if(!ctx) return;
+    if (!provider) {
+      // app provider required
+      return;
+    }
+    
+    if(!ctx) {
+      if ( provider && appManifest ) {
+        const urlCtx = urlContext(appManifest.key);
+        if ( urlCtx ) {
+          console.log('CONTEXTSELECTOR::Setting context from url:', urlCtx);
+          provider.contextClient.setCurrentContext(urlCtx);
+        }
+      }
+      return
+    };
+
     const [ previousContext, nextContext ] = ctx;
-    if(!nextContext) return; // TODO
     
-    const manifest = appManifest as AppManifestWithContext;
-    const p = previousContext?.id ?? urlContext(manifest.key);
-    const url = p ? navigator.location.pathname.replace(p, nextContext?.id) : `/${nextContext?.id}`;
+    if(!nextContext && !previousContext ) {
+      return;
+    }
     
-    const reqId = requestAnimationFrame(() => navigator.replace(url));
+    const manifest = appManifest;
+    let setUrl = '';
+    if (manifest && nextContext) {
+      // setting context
+      const p = previousContext?.id ?? urlContext(manifest.key);
+      setUrl = p ? navigator.location.pathname.replace(p,nextContext?.id) : `/${nextContext?.id}`;
+    } else if (previousContext) {
+      // clearing context
+      setUrl = navigator.location.pathname.replace(previousContext.id, '');
+      
+      // clear local storage
+      // @TODO - use localstorage provider
+      const storage = window.localStorage.getItem('FUSION_CURRENT_CONTEXT');
+      if (storage) {
+        const storage_obj = JSON.parse(storage);
+        if (storage_obj?.current) {
+          console.log('CONTEXTSELECTOR::Clearing context localStorage');
+          delete storage_obj.current;
+          const setStorage = JSON.stringify(storage_obj);
+          window.localStorage.setItem('FUSION_CURRENT_CONTEXT', setStorage);
+        }
+      }
+    }
+    
+    if (!setUrl) {
+      return;
+    }
+    
+    console.log('CONTEXTSELECTOR::Setting url to: ', setUrl);
+    
+    const reqId = requestAnimationFrame(() => navigator.replace(setUrl));
     return () => cancelAnimationFrame(reqId);
-  }, [ctx, navigator]);
+  }, [ctx, navigator, provider]);
 
   return (
     resolver && (
