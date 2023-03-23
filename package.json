@@ -1,7 +1,7 @@
 {
     "name": "@equinor/fusion-cli",
     "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-    "version": "3.0.0-alpha.22",
+    "version": "3.0.0-beta.38",
     "author": "Fusion Core",
     "bin": {
         "fusion": "bin/run"
