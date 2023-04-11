@@ -64,7 +64,7 @@
         "webpack-merge": "^5.8.0"
     },
     "peerDependencies": {
-        "@equinor/eslint-config-fusion": "^2.1.0",
+        "@equinor/eslint-config-fusion": "^0.1.0 || ^2.0.0",
         "@equinor/fusion": "^3.3.19",
         "@equinor/fusion-components": "^2.5.28",
         "@equinor/fusion-framework-react": ">=4",
