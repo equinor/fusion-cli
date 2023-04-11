@@ -30,11 +30,6 @@ export const Framework = createFrameworkProvider(async (config) => {
     },
   });
 
-  enableAppModule(config);
-
-  // TODO
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   enableNavigation(config);
 
   await new Promise((resolve) => setTimeout(resolve, timestamp - Date.now() + 300));
