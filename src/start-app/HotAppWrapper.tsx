@@ -16,6 +16,8 @@ import { App } from '@equinor/fusion-framework-module-app';
 // import { enableContext } from '@equinor/fusion-framework-react-module-context';
 import { useObservableState } from '@equinor/fusion-observable/react';
 
+// import { AppLoader } from './AppLoader';
+
 const AppLoader = ({ app }: { app: App }) => {
   const framework = useFramework<[AppModule]>();
   const { history } = useFusionContext();
