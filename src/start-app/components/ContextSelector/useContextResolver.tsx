@@ -90,6 +90,7 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
 
   /** observe changes to app modules and  clear / set the context provider on change */
   useObservableSubscription(instance$, onContextProviderChange, clearContextProvider);
+  
   useEffect(() => framework.modules.event.addEventListener('onReactAppLoaded', e => {
     console.debug('useContextResolver::onReactAppLoaded', 'using legacy register hack method');
     return onContextProviderChange(e.detail.modules);
