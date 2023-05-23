@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { useCurrentApp } from '@equinor/fusion-framework-react/app';
 import type { AppModule } from '@equinor/fusion-framework-module-app';
@@ -7,7 +7,7 @@ import { ContextItem, ContextModule, IContextProvider } from '@equinor/fusion-fr
 import { useObservableState, useObservableSubscription } from '@equinor/fusion-observable/react';
 import '@equinor/fusion-framework-app';
 
-import { EMPTY } from 'rxjs';
+import { EMPTY, catchError, lastValueFrom, map , of } from 'rxjs';
 
 import { ContextResult, ContextResultItem, ContextResolver } from '@equinor/fusion-react-context-selector';
 import { AppModulesInstance } from '@equinor/fusion-framework-app';
@@ -18,15 +18,14 @@ import { AppModulesInstance } from '@equinor/fusion-framework-app';
  * @param src context query result
  * @returns src mapped to ContextResult type
  */
-export const mapper = (src: Array<ContextItem>): ContextResult => {
+const mapper = (src: Array<ContextItem>): ContextResult => {
   return src.map((i) => {
-    const item = {
+    return {
       id: i.id,
       title: i.title,
       subTitle: i.type.id,
       graphic: i.type.id === 'OrgChart' ? 'list' : undefined,
     };
-    return item;
   });
 };
 
@@ -48,24 +47,26 @@ const singleItem = (props: Partial<ContextResultItem>): ContextResultItem => {
 export const useContextResolver = (): { resolver: ContextResolver | null; provider: IContextProvider | null; currentContext: ContextResult } => {
   /* Framework modules */
   const framework = useFramework<[AppModule, NavigationModule]>();
+
+  const { currentApp } = useCurrentApp();
   
-  /* Current context observable */
-  const { value: currentContext } = useObservableState(framework.modules.context.currentContext$);
+  /** App module collection instance */
+  const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);
 
   /* context provider state */
   const [provider, setProvider] = useState<IContextProvider | null>(null);
 
+  /* Current context observable */
+  const { value: currentContext } = useObservableState(useMemo(() => provider?.currentContext$ || EMPTY, [provider]));
+
   // const {next: currentApp} = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
-  const { currentApp } = useCurrentApp();
 
   const preselected: ContextResult = useMemo(() => {
     return currentContext ? mapper([currentContext]) : [];
   }, [currentContext]);
+
   
 
-  /** App module collection instance */
-  const instance$ = useMemo(() => currentApp?.instance$ || EMPTY, [currentApp]);
-  
   /** callback function when current app instance changes */
   const onContextProviderChange = useCallback(
     (modules: AppModulesInstance) => {
@@ -82,11 +83,17 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
 
   /** clear the app provider */
   const clearContextProvider = useCallback(() => {
-    setProvider(null);''
+    setProvider(null);
   }, [setProvider]);
+
+  // TODO: change to use a common event when a context module is registered
 
   /** observe changes to app modules and  clear / set the context provider on change */
   useObservableSubscription(instance$, onContextProviderChange, clearContextProvider);
+  useEffect(() => framework.modules.event.addEventListener('onReactAppLoaded', e => {
+    console.debug('useContextResolver::onReactAppLoaded', 'using legacy register hack method');
+    return onContextProviderChange(e.detail.modules);
+  }), [framework]);
 
   /**
    * set resolver for ContextSelector
@@ -96,10 +103,11 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
   const resolver = useMemo(
     (): ContextResolver | null =>
       provider && {
-        searchQuery: async (search: string) => {
+        searchQuery: async (search: string): Promise<ContextResult> => {
           if (search.length < minLength) {
             return [
               singleItem({
+                 // TODO - make as enum if used for checks, or type
                 id: 'min-length',
                 title: `Type ${minLength - search.length} more chars to search`,
                 isDisabled: true,
@@ -107,21 +115,29 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
             ];
           }
           try {
-            const result = await provider.queryContextAsync(search);
-            if (result.length) {
-              return mapper(result);
-            }
-            return [
-              singleItem({
-                id: 'no-results',
-                title: 'No results found',
-                isDisabled: true,
-              }),
-            ];
-          } catch (e) {
-            console.log('🥩 - ContextResolver query was cancelled');
+            return lastValueFrom(provider.queryContext(search).pipe(
+              map(mapper), 
+              map(x => x.length ? x : [
+                singleItem({
+                  // TODO - make as enum if used for checks, or type
+                  id: 'no-results',
+                  title: 'No results found',
+                  isDisabled: true,
+                }),
+              ]),
+              /** handle failures */
+              catchError(err => {
+                console.error('PORTAL::ContextResolver', `failed to resolve context for query ${search}`, err.cause);
+                // TODO - create an item which shows that the context resolver failed to execute query
+                return of([] as ContextResult); 
+              })
+            ));
+          /** this should NEVER happen! */
+          } catch (err) {
+            console.error('PORTAL::ContextResolver', `unhandled error for [${search}]`, err);
             return [];
           }
+          
         },
         initialResult: preselected,
       },

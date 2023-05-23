@@ -7,10 +7,8 @@ import AppComponent from './App';
 export const render = createComponent(AppComponent, configureFramework);
 
 registerApp('test-app', {
-  // TODO
-  // @ts-ignore
-  render,
   AppComponent,
+  render
 });
 
 if (module.hot) {
