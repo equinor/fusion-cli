@@ -1,4 +1,3 @@
-/* eslint-disable react/no-multi-comp */
 import React from 'react';
 
 import { BrowserRouter } from 'react-router-dom';
@@ -10,11 +9,11 @@ import { LegacyFusionWrapper } from '@equinor/fusion-framework-legacy-interopt/c
 
 import { ThemeProvider, theme } from '@equinor/fusion-react-styles';
 import { FusionHeader, FusionContent } from '@equinor/fusion-components';
-import { Loader } from './Loader';
 
+
+import { AppLoader } from './AppLoader';
 import { ContextSelector } from './components/ContextSelector';
-
-import { HotAppWrapper } from './HotAppWrapper';
+import { Loader } from './Loader';
 
 export const Portal = (): JSX.Element => {
   const framework = useFramework<[AppModule, NavigationModule]>();
@@ -29,7 +28,7 @@ export const Portal = (): JSX.Element => {
           <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />
         </BrowserRouter>
         <FusionContent>
-          <HotAppWrapper />
+          <AppLoader />
         </FusionContent>
       </LegacyFusionWrapper>
     </ThemeProvider>
