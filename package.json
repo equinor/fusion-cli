@@ -1,7 +1,7 @@
 {
     "name": "@equinor/fusion-cli",
     "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-    "version": "3.0.0-beta.39",
+    "version": "3.0.0-beta.40",
     "author": "Fusion Core",
     "bin": {
         "fusion": "bin/run"
@@ -16,7 +16,7 @@
         "@babel/preset-react": "^7.14.5",
         "@babel/preset-typescript": "^7.15.0",
         "@babel/runtime": "^7.15.4",
-        "@equinor/fusion-framework-legacy-interopt": "^2.1.18",
+        "@equinor/fusion-framework-legacy-interopt": "^4.0.9",
         "@equinor/fusion-react-context-selector": "^0.4.3",
         "@equinor/fusion-react-person": "^0.2.1",
         "@equinor/fusion-react-progress-indicator": "0.1.6",
@@ -64,7 +64,7 @@
         "webpack-merge": "^5.8.0"
     },
     "peerDependencies": {
-        "@equinor/eslint-config-fusion": "^0.1.0 || ^2.0.0",
+        "@equinor/eslint-config-fusion": "^0.0.0 || ^2.0.0",
         "@equinor/fusion": "^3.3.19",
         "@equinor/fusion-components": "^2.5.28",
         "@equinor/fusion-framework-react": ">=4",
@@ -113,14 +113,14 @@
     "devDependencies": {
         "@babel/plugin-transform-runtime": "^7.16.0",
         "@equinor/eslint-config-fusion": "^2.0.0",
-        "@equinor/fusion": "^3.4.9",
-        "@equinor/fusion-components": "^2.10.5",
-        "@equinor/fusion-framework-app": "^6.0.11",
-        "@equinor/fusion-framework-module-app": "^4.0.8",
-        "@equinor/fusion-framework-module-navigation": "^1.0.8",
-        "@equinor/fusion-framework-react": "^4.0.8",
-        "@equinor/fusion-framework-react-app": "^3.0.21",
-        "@equinor/fusion-observable": "^7.0.3",
+        "@equinor/fusion": "^3.4.10",
+        "@equinor/fusion-components": "^2.10.8",
+        "@equinor/fusion-framework-app": "^7.0.13",
+        "@equinor/fusion-framework-module-app": "^5.1.1",
+        "@equinor/fusion-framework-module-navigation": "^2.1.1",
+        "@equinor/fusion-framework-react": "^5.1.2",
+        "@equinor/fusion-framework-react-app": "^4.0.14",
+        "@equinor/fusion-observable": "^8.0.1",
         "@oclif/dev-cli": "^1.26.0",
         "@oclif/test": "^1.2.8",
         "@types/archiver": "^5.1.1",
