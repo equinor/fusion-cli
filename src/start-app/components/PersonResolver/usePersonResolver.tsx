@@ -9,8 +9,7 @@ const createPersonClient = (client: IHttpClient) => {
   const expire = 3 * 60 * 1000;
   const queryDetails = new Query({
     expire,
-    // TODO - remove comment for queueOperator when Query fix is pushed
-    // queueOperator: 'merge',
+    queueOperator: 'merge',
     key: (azureId) => azureId,
     client: {
       fn: async (azureId: string) => {
@@ -30,7 +29,7 @@ const createPersonClient = (client: IHttpClient) => {
 
   const queryPresence = new Query({
     expire,
-    // queueOperator: 'merge',
+    queueOperator: 'merge',
     key: (azureId) => azureId,
     client: {
       fn: (azureId: string) => client.json<PersonPresence>(`/persons/${azureId}/presence?api-version=1.0`),
