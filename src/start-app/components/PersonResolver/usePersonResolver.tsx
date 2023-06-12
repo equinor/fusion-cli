@@ -13,7 +13,7 @@ const createPersonClient = (client: IHttpClient) => {
     key: (azureId) => azureId,
     client: {
       fn: async (azureId: string) => {
-        const user = await client.json<PersonDetails>(`/persons/${azureId}?api-version=4.0`);
+        const user = await client.json<PersonDetails>(`/persons/${azureId}?api-version=4.0&$expand=positions,manager`);
 
         try {
           const image = await client.json<string>(`/persons/${azureId}/photo?api-version=1.0`);
