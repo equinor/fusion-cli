@@ -19,7 +19,8 @@ const createPersonClient = (client: IHttpClient) => {
           const image = await client.json<string>(`/persons/${azureId}/photo?api-version=1.0`);
           user.pictureSrc = image;
         } catch (error) {
-          user.pictureSrc = '/images/profiles/';
+          // for default image (user.pictureSrc = '/images/profiles/');
+          console.error(error);
         }
 
         return user;
