@@ -1,3 +1,4 @@
+import React from 'react';
 import { PersonProvider } from '@equinor/fusion-react-person';
 import { PropsWithChildren } from 'react';
 import { usePersonResolver } from './usePersonResolver';
