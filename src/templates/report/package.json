@@ -12,28 +12,22 @@
   "license": "ISC",
   "manifest": {
     "name": "",
-    "shortName": "",
-    "context": {
-      "types": [
-        "ProjectMaster"
-      ]
-    }
+    "shortName": ""
   },
   "dependencies": {
-    "@equinor/fusion": "^3.3.7",
-    "@equinor/fusion-components": "^2.5.25",
-    "react": "^17.0.1"
+    "@equinor/fusion": "^3.4.5",
+    "@equinor/fusion-components": "^2.7.4",
+    "react": "^17.0.2"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^2.4.10",
+    "@equinor/fusion-cli": "^3.0.0-alpha.2",
     "@types/history": "^4.7.2",
-    "@types/react": "^17.0.0",
-    "@types/react-router-dom": "^5.1.7",
-    "@types/webpack-env": "^1.13.9",
-    "history": "^4.9.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/webpack-env": "^1.16.2",
+    "history": "^4.10.1",
     "react-hot-loader": "^4.13.0",
-    "react-router-dom": "^5.2.0",
-    "tslib": "^2.0.1",
+    "react-router-dom": "^5.3.3",
+    "tslib": "^2.3.1",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^4.5.4"

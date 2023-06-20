@@ -3,7 +3,7 @@ name: Beta publish
 on:
   release:
     types: 
-        - prereleased
+      - prereleased
       
 jobs:
   build:
@@ -21,7 +21,7 @@ jobs:
 
     - name: npm install, update version.ts, run tsc
       run: |
-        npm ci
+        npm ci --legacy-peer-deps
         npm run update-templates
         npm run build
 

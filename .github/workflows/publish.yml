@@ -21,7 +21,7 @@ jobs:
         registry-url: https://registry.npmjs.org
     - name: npm build and publish
       run: | 
-        npm ci
+        npm ci --legacy-peer-deps
         npm run update-templates
         npm run build
         npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN

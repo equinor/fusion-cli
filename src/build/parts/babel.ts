@@ -5,7 +5,7 @@ export default {
         rules: [
             {
                 exclude: /node_modules/,
-                test: /\.jsx?$/,
+                test: /\.tsx?$/,
                 use: [babelLoader],
             },
         ],
