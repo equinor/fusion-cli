@@ -25,7 +25,7 @@
         "@hot-loader/react-dom": "^17.0.1",
         "@oclif/command": "^1.8.0",
         "@oclif/config": "^1.17.0",
-        "@oclif/plugin-autocomplete": "^0.3.0",
+        "@oclif/plugin-autocomplete": "^2.3.1",
         "@oclif/plugin-help": "^3.2.3",
         "@oclif/plugin-not-found": "^1.2.4",
         "archiver": "^5.3.0",
