@@ -9,18 +9,18 @@ const createPersonClient = (client: IHttpClient) => {
   const expire = 3 * 60 * 1000;
   const queryDetails = new Query({
     expire,
-    // TODO - remove comment for queueOperator when Query fix is pushed
-    // queueOperator: 'merge',
+    queueOperator: 'merge',
     key: (azureId) => azureId,
     client: {
       fn: async (azureId: string) => {
-        const user = await client.json<PersonDetails>(`/persons/${azureId}?api-version=4.0`);
+        const user = await client.json<PersonDetails>(`/persons/${azureId}?api-version=4.0&$expand=positions,manager`);
 
         try {
           const image = await client.json<string>(`/persons/${azureId}/photo?api-version=1.0`);
           user.pictureSrc = image;
         } catch (error) {
-          user.pictureSrc = '/images/profiles/';
+          // for default image (user.pictureSrc = '/images/profiles/');
+          console.error(error);
         }
 
         return user;
@@ -30,7 +30,7 @@ const createPersonClient = (client: IHttpClient) => {
 
   const queryPresence = new Query({
     expire,
-    // queueOperator: 'merge',
+    queueOperator: 'merge',
     key: (azureId) => azureId,
     client: {
       fn: (azureId: string) => client.json<PersonPresence>(`/persons/${azureId}/presence?api-version=1.0`),

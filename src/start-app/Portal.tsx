@@ -13,24 +13,27 @@ import { FusionHeader, FusionContent } from '@equinor/fusion-components';
 
 import { AppLoader } from './AppLoader';
 import { ContextSelector } from './components/ContextSelector';
+import { PersonResolver } from './components/PersonResolver/PersonResolver';
 import { Loader } from './Loader';
 
 export const Portal = (): JSX.Element => {
   const framework = useFramework<[AppModule, NavigationModule]>();
   return (
     <ThemeProvider theme={theme}>
-      <LegacyFusionWrapper
-        framework={framework}
-        loader={<Loader />}
-        options={{ loadBundlesFromDisk: true, environment: { env: 'dev' } }}
-      >
-        <BrowserRouter>
-          <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />
-        </BrowserRouter>
-        <FusionContent>
-          <AppLoader />
-        </FusionContent>
-      </LegacyFusionWrapper>
+      <PersonResolver>
+        <LegacyFusionWrapper
+          framework={framework}
+          loader={<Loader />}
+          options={{ loadBundlesFromDisk: true, environment: { env: 'dev' } }}
+        >
+          <BrowserRouter>
+            <FusionHeader aside={null} content={ContextSelector} start={null} settings={null} />
+          </BrowserRouter>
+          <FusionContent>
+            <AppLoader />
+          </FusionContent>
+        </LegacyFusionWrapper>
+      </PersonResolver>
     </ThemeProvider>
   );
 };
