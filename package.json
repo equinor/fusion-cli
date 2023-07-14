@@ -1,7 +1,7 @@
 {
     "name": "@equinor/fusion-cli",
     "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "author": "Fusion Core",
     "bin": {
         "fusion": "bin/run"
@@ -20,7 +20,7 @@
         "@equinor/fusion-react-context-selector": "^0.4.3",
         "@equinor/fusion-react-person": "^0.2.1",
         "@equinor/fusion-react-progress-indicator": "0.1.6",
-        "@equinor/fusion-react-styles": "^0.5.6",
+        "@equinor/fusion-react-styles": "^0.5.7",
         "@equinor/fusion-react-tooltip": "^1.1.5",
         "@hot-loader/react-dom": "^17.0.1",
         "@oclif/command": "^1.8.0",
@@ -65,8 +65,8 @@
     },
     "peerDependencies": {
         "@equinor/eslint-config-fusion": "^0.0.0 || ^2.0.0",
-        "@equinor/fusion": "^3.3.19",
-        "@equinor/fusion-components": "^2.5.28",
+        "@equinor/fusion": "^3.4.10",
+        "@equinor/fusion-components": "^2.11.7",
         "@equinor/fusion-framework-react": ">=4",
         "@types/react": "^17.0.0 || ^18.0.0",
         "@types/react-dom": "^17.0.0 || ^18.0.0",
@@ -114,7 +114,7 @@
         "@babel/plugin-transform-runtime": "^7.16.0",
         "@equinor/eslint-config-fusion": "^2.0.0",
         "@equinor/fusion": "^3.4.10",
-        "@equinor/fusion-components": "^2.10.8",
+        "@equinor/fusion-components": "^2.11.7",
         "@equinor/fusion-framework-app": "^7.0.13",
         "@equinor/fusion-framework-module-app": "^5.1.1",
         "@equinor/fusion-framework-module-navigation": "^2.1.1",
