@@ -37,7 +37,13 @@ export default async (args?: StartOptions) => {
   const moduleDependencies = getPackageDependencies(appPackage);
 
   // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
+  let appWebpackConfig = {};
+  try {
+    appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
+    console.log('using local webpack.config.js')
+  } catch(_){
+    console.log('no local webpack.config.js')
+  }
   const config = merge(
     babel,
     mode(false),
