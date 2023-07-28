@@ -298,7 +298,13 @@ export default class BuildApp extends Command {
       task.title = `Building (${percentageString}%)`;
     };
 
-    const appWebpackConfig = await require(path.resolve(process.cwd(), 'webpack.config.js'));
+    let appWebpackConfig = {};
+    try {
+      appWebpackConfig = require(path.resolve(process.cwd(), 'webpack.config.js'));
+      console.log('using local webpack.config.js');
+    } catch (_) {
+      console.log('no local webpack.config.js');
+    }
 
     return merge(
       babel,
