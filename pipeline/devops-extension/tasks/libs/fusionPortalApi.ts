@@ -194,6 +194,7 @@ export default class PortalApi {
     }
 
     private debugErrorResponse(error: any) {
+        console.log(error);
         console.log(`Request failed with code ${error.statusCode} - ${error.response?.statusMessage}`);
         console.log('-- BODY --');
         console.log(error.response?.body);
