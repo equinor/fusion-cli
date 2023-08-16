@@ -1,7 +1,7 @@
 import { IHttpClient } from '@equinor/fusion-framework-module-http';
 import { useFramework } from '@equinor/fusion-framework-react';
 import { Query } from '@equinor/fusion-query';
-import { PersonDetails, PersonPresence, PersonResolver } from '@equinor/fusion-wc-person';
+import { PersonDetails, PersonPresence, PersonResolver } from '@equinor/fusion-react-person';
 import { useMemo, useState } from 'react';
 
 const createPersonClient = (client: IHttpClient) => {
@@ -13,14 +13,40 @@ const createPersonClient = (client: IHttpClient) => {
     key: (azureId) => azureId,
     client: {
       fn: async (azureId: string) => {
-        const user = await client.json<PersonDetails>(`/persons/${azureId}?api-version=4.0&$expand=positions,manager`);
+        const user = await client.json<PersonDetails>(
+          `/persons/${azureId}?api-version=4.0&$expand=positions,manager`
+        );
 
-        try {
-          const image = await client.json<string>(`/persons/${azureId}/photo?api-version=1.0`);
-          user.pictureSrc = image;
-        } catch (error) {
-          // for default image (user.pictureSrc = '/images/profiles/');
-          console.error(error);
+        // Profile image
+        await client
+          .fetch(`/persons/${azureId}/photo?api-version=2.0`)
+          .then(async (response) => {
+            if (response.ok) {
+              const data = await response.blob();
+              const result = URL.createObjectURL(data);
+              user.pictureSrc = result;
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+
+        // Manager profile image
+        if (user.managerAzureUniqueId) {
+          await client
+            .fetch(`/persons/${user.managerAzureUniqueId}/photo?api-version=2.0`)
+            .then(async (response) => {
+              if (response.ok) {
+                const data = await response.blob();
+                const result = URL.createObjectURL(data);
+                if (user.manager) {
+                  user.manager.pictureSrc = result;
+                }
+              }
+            })
+            .catch((err) => {
+              console.error(err);
+            });
         }
 
         return user;
