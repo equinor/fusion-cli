@@ -2,18 +2,18 @@ import { registerApp } from '@equinor/fusion';
 import { ErrorBoundary, PowerBIReport } from '@equinor/fusion-components';
 
 export const AppComponent = (): JSX.Element => {
-    const globalId = '{GLOBALID}';
+  const globalId = '{GLOBALID}';
 
-    return (
-        <ErrorBoundary>
-            <PowerBIReport reportId={globalId} />
-        </ErrorBoundary>
-    );
+  return (
+    <ErrorBoundary>
+      <PowerBIReport reportId={globalId} />
+    </ErrorBoundary>
+  );
 };
 registerApp('{appKey}', {
-    AppComponent,
+  AppComponent,
 });
 
 if (module.hot) {
-    module.hot.accept();
+  module.hot.accept();
 }

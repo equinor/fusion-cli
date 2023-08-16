@@ -20,7 +20,7 @@
     "react": "^17.0.2"
   },
   "devDependencies": {
-    "@equinor/fusion-cli": "^3.0.0-alpha.2",
+    "@equinor/fusion-cli": "^3.0.3",
     "@types/history": "^4.7.2",
     "@types/react-router-dom": "^5.3.3",
     "@types/webpack-env": "^1.16.2",
