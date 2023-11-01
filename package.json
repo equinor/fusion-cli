@@ -65,8 +65,8 @@
     },
     "peerDependencies": {
         "@equinor/eslint-config-fusion": "^0.0.0 || ^2.0.0",
-        "@equinor/fusion": "^3.3.19",
-        "@equinor/fusion-components": "^2.5.28",
+        "@equinor/fusion": "^3.4.11",
+        "@equinor/fusion-components": "^2.12.1",
         "@equinor/fusion-framework-react": ">=4",
         "@types/react": "^17.0.0 || ^18.0.0",
         "@types/react-dom": "^17.0.0 || ^18.0.0",
