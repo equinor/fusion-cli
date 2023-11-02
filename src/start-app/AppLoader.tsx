@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import { useFusionContext, AppManifest, Context } from '@equinor/fusion';
 
-import { ErrorMessage, ErrorBoundary } from '@equinor/fusion-components';
+import { ErrorBoundary } from '@equinor/fusion-components';
 import { Loader } from './Loader';
 
 import { useFramework } from '@equinor/fusion-framework-react';
@@ -56,6 +56,7 @@ export const AppLoader = (): JSX.Element => {
          * in the future there should be a semver of the modules and do check by satisfaction
          */
         const navigation = new NavigationProvider({
+          version: '0.0.1',
           config: {
             basename: '/',
             history: modules.navigation.navigator
@@ -165,8 +166,7 @@ export const AppLoader = (): JSX.Element => {
     const render =
       appManifest.render ??
       createLegacyRender(
-        appManifest.key,
-        (appManifest.AppComponent as unknown) as React.FunctionComponent,
+        appManifest,
         fusionLegacyContext
       );
     // @ts-ignore
