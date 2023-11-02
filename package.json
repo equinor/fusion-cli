@@ -17,6 +17,7 @@
         "@babel/preset-typescript": "^7.15.0",
         "@babel/runtime": "^7.15.4",
         "@equinor/fusion-framework-legacy-interopt": "^7.0.2",
+        "@equinor/fusion-framework-react-components-people-provider": "^1.1.2",
         "@equinor/fusion-react-context-selector": "^0.5.1",
         "@equinor/fusion-react-person": "^0.6.0",
         "@equinor/fusion-react-progress-indicator": "0.2.0",
