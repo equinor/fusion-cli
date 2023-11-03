@@ -13,14 +13,15 @@ import { FusionHeader, FusionContent } from '@equinor/fusion-components';
 
 import { AppLoader } from './AppLoader';
 import { ContextSelector } from './components/ContextSelector';
-import { PersonResolver } from './components/PersonResolver/PersonResolver';
 import { Loader } from './Loader';
+
+import { PeopleResolverProvider } from '@equinor/fusion-framework-react-components-people-provider';
 
 export const Portal = (): JSX.Element => {
   const framework = useFramework<[AppModule, NavigationModule]>();
   return (
     <ThemeProvider theme={theme}>
-      <PersonResolver>
+      <PeopleResolverProvider>
         <LegacyFusionWrapper
           framework={framework}
           loader={<Loader />}
@@ -33,7 +34,7 @@ export const Portal = (): JSX.Element => {
             <AppLoader />
           </FusionContent>
         </LegacyFusionWrapper>
-      </PersonResolver>
+      </PeopleResolverProvider>
     </ThemeProvider>
   );
 };

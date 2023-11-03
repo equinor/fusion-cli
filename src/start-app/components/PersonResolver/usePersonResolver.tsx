@@ -8,49 +8,40 @@ const createPersonClient = (client: IHttpClient) => {
   // TODO - good cache amount? 3min?
   const expire = 3 * 60 * 1000;
   const queryDetails = new Query({
-    expire,
-    queueOperator: 'merge',
-    key: (azureId) => azureId,
-    client: {
-      fn: async (azureId: string) => {
-        const user = await client.json<PersonDetails>(`/persons/${azureId}?api-version=4.0&$expand=positions,manager`);
-
-        try {
-          const image = await client.json<string>(`/persons/${azureId}/photo?api-version=1.0`);
-          user.pictureSrc = image;
-        } catch (error) {
-          // for default image (user.pictureSrc = '/images/profiles/');
-          console.error(error);
-        }
-
-        return user;
+      expire,
+      queueOperator: 'merge',
+      key: (azureId) => azureId,
+      client: {
+          fn: (azureId: string) => {
+              return client.json<PersonDetails>(`/persons/${azureId}?api-version=4.0`);
+          },
       },
-    },
   });
 
   const queryPresence = new Query({
-    expire,
-    queueOperator: 'merge',
-    key: (azureId) => azureId,
-    client: {
-      fn: (azureId: string) => client.json<PersonPresence>(`/persons/${azureId}/presence?api-version=1.0`),
-    },
+      expire,
+      queueOperator: 'merge',
+      key: (azureId) => azureId,
+      client: {
+          fn: (azureId: string) =>
+              client.json<PersonPresence>(`/persons/${azureId}/presence?api-version=1.0`),
+      },
   });
 
   return {
-    getDetails: (azureId: string) => queryDetails.queryAsync(azureId).then((x) => x.value),
-    getPresence: (azureId: string) => queryPresence.queryAsync(azureId).then((x) => x.value),
+      getDetails: (azureId: string) => queryDetails.queryAsync(azureId).then((x) => x.value),
+      getPresence: (azureId: string) => queryPresence.queryAsync(azureId).then((x) => x.value),
   };
 };
 
-export const usePersonResolver = (): PersonResolver => {
-  const [resolver, setResolver] = useState<PersonResolver | undefined>(undefined);
+export const usePersonResolver = () => {
+  const [resolver, setResolver] = useState<any | undefined>(undefined);
   const framework = useFramework();
   useMemo(() => {
-    framework.modules.serviceDiscovery
-      .createClient('people')
-      .then((httpClient) => createPersonClient(httpClient))
-      .then(setResolver);
+      framework.modules.serviceDiscovery
+          .createClient('people')
+          .then((httpClient) => createPersonClient(httpClient))
+          .then(setResolver);
   }, [framework]);
-  return resolver as PersonResolver;
+  return resolver;
 };
