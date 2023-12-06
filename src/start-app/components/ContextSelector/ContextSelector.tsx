@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
 import {
   ContextProvider,
   ContextSearch,
@@ -6,13 +6,15 @@ import {
   ContextSelectEvent
 } from '@equinor/fusion-react-context-selector';
 import { useContextResolver } from './useContextResolver';
+import { AppManifest } from '@equinor/fusion';
+import { HeaderContentProps } from '@equinor/fusion-components';
 
 /**
  * See fusion-react-component storybook for available attributes
  * @link https://equinor.github.io/fusion-react-components/?path=/docs/data-contextselector--component
  * @returns JSX element
  */
-export const ContextSelector = (props: ContextSearchProps): JSX.Element | null => {
+export const ContextSelector = (props: ContextSearchProps & Partial<HeaderContentProps>): React.JSX.Element | null => {
   const {
     resolver,
     provider,
@@ -21,10 +23,10 @@ export const ContextSelector = (props: ContextSearchProps): JSX.Element | null =
 
   /** callback handler for context selector, when context is changed or cleared */
   const onContextSelect = useCallback(
-    e => {
+    (event: any) => {
       if (provider) {
-        if (e.type === 'select') {
-          const ev = (e as unknown) as ContextSelectEvent;
+        if (event.type === 'select') {
+          const ev = event as ContextSelectEvent;
           if (ev.nativeEvent.detail.selected.length) {
             provider.contextClient.setCurrentContext(ev.nativeEvent.detail.selected[0].id);
           }
@@ -43,10 +45,10 @@ export const ContextSelector = (props: ContextSearchProps): JSX.Element | null =
       <ContextProvider resolver={resolver}>
         <ContextSearch
           id="context-selector-cli-header"
-          placeholder={props.placeholder ?? 'Search for context'}
-          initialText={props.initialText ?? 'Start typing to search'}
-          dropdownHeight={props.dropdownHeight ?? '300px'}
-          variant={props.variant ?? 'header'}
+          placeholder={'Search for context'}
+          initialText={'Start typing to search'}
+          dropdownHeight={'300px'}
+          variant={'header'}
           onSelect={onContextSelect}
           autofocus={true}
           previewItem={selectedContextItem}

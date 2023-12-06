@@ -1,7 +1,7 @@
 import React from 'react';
 import { StarProgress } from '@equinor/fusion-react-progress-indicator';
 
-export const Loader = ({ children }: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
+export const Loader = ({ children }: React.PropsWithChildren<{ text: string; }>) => {
   return (
     <div
       style={{

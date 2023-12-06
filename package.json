@@ -1,7 +1,7 @@
 {
     "name": "@equinor/fusion-cli",
     "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-    "version": "3.1.1",
+    "version": "3.1.2",
     "author": "Fusion Core",
     "bin": {
         "fusion": "bin/run"
@@ -16,12 +16,13 @@
         "@babel/preset-react": "^7.14.5",
         "@babel/preset-typescript": "^7.15.0",
         "@babel/runtime": "^7.15.4",
-        "@equinor/fusion-framework-legacy-interopt": "^7.0.2",
-        "@equinor/fusion-framework-react-components-people-provider": "^1.1.2",
+        "@equinor/fusion-framework-legacy-interopt": "^7.0.4",
+        "@equinor/fusion-framework-react-components-people-provider": "^1.1.4",
         "@equinor/fusion-react-context-selector": "^0.5.1",
-        "@equinor/fusion-react-person": "^0.6.0",
+        "@equinor/fusion-react-errorboundary": "^1.0.0",
+        "@equinor/fusion-react-person": "^0.6.2",
         "@equinor/fusion-react-progress-indicator": "0.2.0",
-        "@equinor/fusion-react-styles": "^0.6.0",
+        "@equinor/fusion-react-styles": "^0.6.1",
         "@equinor/fusion-react-tooltip": "^1.1.5",
         "@hot-loader/react-dom": "^17.0.1",
         "@oclif/command": "^1.8.0",
@@ -41,7 +42,7 @@
         "express": "^4.17.1",
         "figlet": "^1.5.2",
         "file-loader": "^6.2.0",
-        "fork-ts-checker-webpack-plugin": "^6.3.3",
+        "fork-ts-checker-webpack-plugin": "^9.0.2",
         "get-port": "^5.1.1",
         "inquirer": "^8.1.2",
         "less": "^3.9.0",
@@ -77,7 +78,7 @@
         "react-dom": "^17.0.0 || ^18.0.0",
         "react-router": "^5.0.0 ||^6.0.0",
         "react-router-dom": "^5.0.0 ||^6.0.0",
-        "typescript": "^4.5.4"
+        "typescript": "^4.0.0 || ^5.0.0"
     },
     "peerDependenciesMeta": {
         "@equinor/eslint-config-fusion": {
@@ -113,14 +114,16 @@
     },
     "devDependencies": {
         "@babel/plugin-transform-runtime": "^7.16.0",
+        "@equinor/eds-core-react": "^0.34.0",
+        "@equinor/eds-icons": "^0.19.3",
         "@equinor/eslint-config-fusion": "^2.1.5",
         "@equinor/fusion": "^3.4.11",
         "@equinor/fusion-components": "^2.12.1",
-        "@equinor/fusion-framework-app": "^7.1.8",
-        "@equinor/fusion-framework-module-app": "^5.2.8",
+        "@equinor/fusion-framework-app": "^7.1.10",
+        "@equinor/fusion-framework-module-app": "^5.2.10",
         "@equinor/fusion-framework-module-navigation": "^3.1.2",
         "@equinor/fusion-framework-react": "^5.3.3",
-        "@equinor/fusion-framework-react-app": "^4.1.13",
+        "@equinor/fusion-framework-react-app": "^4.1.15",
         "@equinor/fusion-observable": "^8.1.2",
         "@oclif/dev-cli": "^1.26.0",
         "@oclif/test": "^1.2.8",
@@ -133,7 +136,7 @@
         "@types/listr": "^0.14.4",
         "@types/mocha": "^9.0.0",
         "@types/node": "^16.9.0",
-        "@types/react": "^17.0.2",
+        "@types/react": "^17.0.71",
         "@types/react-dom": "^17.0.9",
         "@types/react-router": "^5.1.18",
         "@types/react-router-dom": "^5.3.3",
@@ -152,11 +155,12 @@
         "react-router": "^5.3.3",
         "react-router-dom": "^5.3.3",
         "source-map-loader": "^3.0.0",
+        "styled-components": "^6.1.1",
         "ts-node": "^10.2.1",
-        "typescript": "^4.5.4"
+        "typescript": "^5.3.2"
     },
     "engines": {
-        "node": ">=8.0.0"
+        "node": ">=18"
     },
     "files": [
         "/bin",
@@ -194,6 +198,7 @@
         "access": "public"
     },
     "resolutions": {
-        "@types/react": "17.0.2"
+        "@types/react": "^17.0.71",
+        "@types/react-dom": "^17.0.9"
     }
 }

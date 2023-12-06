@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useMemo, useCallback, Suspense } from 'react';
 import { useFusionContext, AppManifest, Context } from '@equinor/fusion';
 
-import { ErrorBoundary } from '@equinor/fusion-components';
+import { ErrorBoundary } from '@equinor/fusion-react-errorboundary/legacy';
 import { Loader } from './Loader';
 
 import { useFramework } from '@equinor/fusion-framework-react';
@@ -28,9 +28,13 @@ export const AppLoader = (): JSX.Element => {
   const { value: currentApp } = useObservableState(useMemo(() => framework.modules.app.current$, [framework]));
 
   useEffect(() => {
-    if (!appContainer) return;
+    if (!appContainer || appContainer.currentApp) return;
+
+    const scriptId = `app-script-loader-${appKey}`;
+    if(document.getElementById(scriptId)) return;
     const script = document.createElement('script');
     script.src = '/app.bundle.js';
+    script.id = scriptId;
     script.onload = () => {
       console.log('🥷🏻 script bundle loaded');
       setAppKey(Object.keys(appContainer.allApps)[0]);
@@ -38,9 +42,9 @@ export const AppLoader = (): JSX.Element => {
 
     document.head.appendChild(script);
     return () => {
-      script.remove();
+      //script.remove();
     }
-  }, [appContainer]);
+  }, [appContainer, appKey]);
 
   const modules$ = useMemo(() => {
     if (!currentApp) {
