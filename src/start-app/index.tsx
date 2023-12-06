@@ -6,7 +6,7 @@ import Portal from './Portal';
 import Loader from './Loader';
 
 render(
-  <Suspense fallback={<Loader />}>
+  <Suspense fallback={<Loader text="Loading framework" />}>
     <Framework>
       <Portal />
     </Framework>
