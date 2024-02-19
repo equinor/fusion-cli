@@ -1,8 +1,9 @@
 name: Setup Node
 description: General setup of node
 inputs:
-  node-version:  
-    default: 18
+  node-version:
+    default: '18'
+    description: Node version for environment
 
 runs:
   using: composite

@@ -16,6 +16,6 @@ jobs:
       - name: Setup node and install deps
         uses: ./.github/workflows/actions/node-setup
       
-      - name: Build projecy
+      - name: Build project
         run:
           pnpm run build
