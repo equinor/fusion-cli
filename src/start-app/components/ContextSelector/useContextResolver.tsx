@@ -118,7 +118,7 @@ export const useContextResolver = (): { resolver: ContextResolver | null; provid
           try {
             return lastValueFrom(provider.queryContext(search).pipe(
               map(mapper), 
-              map(x => x.length ? x : [
+              map((x: ContextResult) => x.length ? x : [
                 singleItem({
                   // TODO - make as enum if used for checks, or type
                   id: 'no-results',

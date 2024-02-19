@@ -8,25 +8,20 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v2
-      with:
-        registry-url: https://registry.npmjs.org
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup node and install deps
+        uses: ./.github/workflows/actions/node-setup
 
-    - name: npm install, update version.ts, run tsc
-      run: |
-        npm ci --legacy-peer-deps
-        npm run update-templates
-        npm run build
+      - name: pnpm build
+        run:
+          pnpm run build
 
-    - name: npm publish
-      run: npm publish --access public --tag next
-      env:
-        CI: true
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      - name: pnpm publish
+        run: pnpm publish --access public --tag next
+        env:
+          CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

@@ -1,0 +1,21 @@
+name: Setup Node
+description: General setup of node
+inputs:
+  node-version:
+    default: '18'
+    description: Node version for environment
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v2
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: 'pnpm'
+        registry-url: "https://registry.npmjs.org"
+
+    - name: Install Node Dependencies
+      shell: bash
+      run: pnpm install
