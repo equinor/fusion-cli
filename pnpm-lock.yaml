@@ -36,6 +36,9 @@ dependencies:
   '@equinor/fusion-framework-legacy-interopt':
     specifier: ^7.0.4
     version: 7.0.8(@equinor/fusion-components@2.12.4)(@equinor/fusion-framework-app@7.1.15)(@equinor/fusion-framework-module-app@5.2.13)(@equinor/fusion-framework-module-http@5.1.6)(@equinor/fusion-framework-module-msal@3.0.10)(@equinor/fusion-framework-module-navigation@3.1.4)(@equinor/fusion-framework-module-service-discovery@7.0.20)(@equinor/fusion-framework-react-app@4.3.5)(@equinor/fusion-framework@7.0.30)(@equinor/fusion@3.4.15)(@types/react@17.0.75)(react-dom@17.0.2)(react@17.0.2)(rxjs@7.8.1)
+  '@equinor/fusion-framework-module-context':
+    specifier: ^4.0.21
+    version: 4.0.21(@equinor/fusion-framework-module@4.2.7)(@types/node@16.18.82)(@types/react@17.0.75)(less@3.13.1)(react@17.0.2)(rxjs@7.8.1)
   '@equinor/fusion-framework-react-components-people-provider':
     specifier: ^1.1.4
     version: 1.2.1(@equinor/fusion-framework-module-http@5.1.6)(@equinor/fusion-framework-module@4.2.7)(@types/node@16.18.82)(@types/react@17.0.75)(less@3.13.1)(odata-query@7.0.4)(react-dom@17.0.2)(react@17.0.2)
@@ -299,6 +302,9 @@ devDependencies:
   react-router-dom:
     specifier: ^5.3.3
     version: 5.3.4(react@17.0.2)
+  rxjs:
+    specifier: ^7.8.1
+    version: 7.8.1
   source-map-loader:
     specifier: ^3.0.0
     version: 3.0.2(webpack@5.90.2)

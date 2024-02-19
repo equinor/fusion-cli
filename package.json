@@ -17,6 +17,7 @@
         "@babel/preset-typescript": "^7.15.0",
         "@babel/runtime": "^7.15.4",
         "@equinor/fusion-framework-legacy-interopt": "^7.0.4",
+        "@equinor/fusion-framework-module-context": "^4.0.21",
         "@equinor/fusion-framework-react-components-people-provider": "^1.1.4",
         "@equinor/fusion-react-context-selector": "^0.5.3",
         "@equinor/fusion-react-errorboundary": "^1.0.0",
@@ -78,6 +79,7 @@
         "react-dom": "^17.0.0 || ^18.0.0",
         "react-router": "^5.0.0 ||^6.0.0",
         "react-router-dom": "^5.0.0 ||^6.0.0",
+        "rxjs": "^7",
         "typescript": "^4.0.0 || ^5.0.0"
     },
     "peerDependenciesMeta": {
@@ -154,6 +156,7 @@
         "react-hot-loader": "^4.13.0",
         "react-router": "^5.3.3",
         "react-router-dom": "^5.3.3",
+        "rxjs": "^7.8.1",
         "source-map-loader": "^3.0.0",
         "styled-components": "^6.1.1",
         "ts-node": "^10.2.1",
