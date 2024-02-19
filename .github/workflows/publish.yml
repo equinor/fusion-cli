@@ -9,20 +9,23 @@ jobs:
   build:
     if: "!github.event.release.prerelease"
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      
-      - name: Setup node and install deps
-        uses: ./.github/workflows/actions/node-setup
-      
-      - name: pnpm build and publish
-        run: | 
-          pnpm run update-templates
-          pnpm run build
-          pnpm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-          pnpm publish --access public
-        env:
-          CI: true
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+    - uses: actions/checkout@v2
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v2
+      with:
+        registry-url: https://registry.npmjs.org
+    - name: npm build and publish
+      run: | 
+        npm ci --legacy-peer-deps
+        npm run update-templates
+        npm run build
+        npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+        npm publish --access public
+      env:
+        CI: true
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
