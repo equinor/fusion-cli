@@ -1,7 +1,7 @@
 {
     "name": "@equinor/fusion-cli",
     "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-    "version": "3.1.4",
+    "version": "3.1.5",
     "author": "Fusion Core",
     "bin": {
         "fusion": "bin/run"
@@ -21,7 +21,7 @@
         "@equinor/fusion-framework-react-components-people-provider": "^1.1.4",
         "@equinor/fusion-react-context-selector": "^0.5.3",
         "@equinor/fusion-react-errorboundary": "^1.0.0",
-        "@equinor/fusion-react-person": "^0.6.6",
+        "@equinor/fusion-react-person": "^0.8.0",
         "@equinor/fusion-react-progress-indicator": "0.2.0",
         "@equinor/fusion-react-styles": "^0.6.1",
         "@equinor/fusion-react-tooltip": "^1.1.5",
