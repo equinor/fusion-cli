@@ -1,4 +1,5 @@
-import { Command, flags } from '@oclif/command';
+import { Command } from '@oclif/command';
+import { flags } from '@oclif/parser';
 import * as Listr from 'listr';
 import * as path from 'path';
 import * as fs from 'fs';
