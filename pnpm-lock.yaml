@@ -49,8 +49,8 @@ dependencies:
     specifier: ^1.0.0
     version: 1.0.2(@equinor/eds-core-react@0.34.0)(@equinor/eds-icons@0.19.3)(@types/react@17.0.75)(react-dom@17.0.2)(react@17.0.2)(styled-components@6.1.8)
   '@equinor/fusion-react-person':
-    specifier: ^0.6.6
-    version: 0.6.6(react@17.0.2)
+    specifier: ^0.8.0
+    version: 0.8.0(react@17.0.2)
   '@equinor/fusion-react-progress-indicator':
     specifier: 0.2.0
     version: 0.2.0(react@17.0.2)
@@ -2469,8 +2469,8 @@ packages:
       '@equinor/fusion-wc-icon': 2.3.0
       react: 17.0.2
 
-  /@equinor/fusion-react-person@0.6.6(react@17.0.2):
-    resolution: {integrity: sha512-Y0Xo7JiPlrQkOexFAvKItPVTxoF//U66GrttPAvEEblwWi9IyE+9PIDKQqGBJjCEMBevGMkdKH4UYGSIRe8eOQ==}
+  /@equinor/fusion-react-person@0.8.0(react@17.0.2):
+    resolution: {integrity: sha512-zvuWewbqro3nth7EsByarYpzGAbswU57FU1i9xZHwQOkhH69GqiWkaLVO2+kUehDMEbNVMTTXAgjCnD2CFXQog==}
     dependencies:
       '@equinor/fusion-react-utils': 2.1.1(react@17.0.2)
       '@equinor/fusion-wc-person': 2.5.1
