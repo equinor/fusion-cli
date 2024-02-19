@@ -22,7 +22,7 @@ jobs:
           pnpm run update-templates
           pnpm run build
           pnpm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-          pnpm publish --access public
+          pnpm publish --access public --no-git-checks
         env:
           CI: true
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
