@@ -1,7 +1,7 @@
 {
     "name": "@equinor/fusion-cli",
     "description": "A cli for creating, starting, building, deploying and publishing Fusion apps and tiles",
-    "version": "3.1.5",
+    "version": "3.1.8",
     "author": "Fusion Core",
     "bin": {
         "fusion": "bin/run"
@@ -163,12 +163,8 @@
         "typescript": "^5.3.2"
     },
     "engines": {
-        "node": "^18 || ^20",
-        "npm": "please-use-pnpm",
-        "yarn": "please-use-pnpm",
-        "pnpm": ">=4"
+        "node": "^18 || ^20"
     },
-    "packageManager": "pnpm@8.7.4",
     "files": [
         "/bin",
         "/lib",
