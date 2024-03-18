@@ -186,7 +186,10 @@
             "@oclif/plugin-autocomplete"
         ]
     },
-    "repository": "equinor/fusion-cli",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/equinor/fusion-cli.git"
+    },
     "scripts": {
         "copy": "cp -r src/templates/ lib/ && cp -r src/start-app/dist lib/start-app/",
         "postpack": "rm oclif.manifest.json",
