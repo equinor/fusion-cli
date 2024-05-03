@@ -4,7 +4,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
-const webpack = require('webpack');
+const { EnvironmentPlugin } = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -108,9 +108,9 @@ module.exports = {
         '!unknown-profile-128.png',
       ],
     }),
-    new webpack.EnvironmentPlugin({
+    new EnvironmentPlugin({
       NODE_ENV: 'development',
-      FUSION_LOG_LEVEL: 1,
+      FUSION_LOG_LEVEL: 3,
     }),
   ],
 };
