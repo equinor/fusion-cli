@@ -4,6 +4,8 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const webpack = require('webpack');
+
 module.exports = {
   mode: 'development',
   entry: ['react-hot-loader/patch', './src/start-app/index.tsx'],
@@ -105,6 +107,10 @@ module.exports = {
         '!index.html',
         '!unknown-profile-128.png',
       ],
+    }),
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development',
+      FUSION_LOG_LEVEL: 1,
     }),
   ],
 };
